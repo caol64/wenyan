@@ -1,0 +1,9 @@
+.preview {
+    position: relative;
+    margin: auto;
+    width: 375px;
+    outline: none;
+    box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
+    overflow: auto;
+    padding: 20px;
+}

@@ -1,0 +1,650 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		AB9DBBD12C74222500557CEF /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9DBBD02C74222500557CEF /* Commons.swift */; };
+		AB9DBBD32C74281600557CEF /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9DBBD22C74281600557CEF /* AppState.swift */; };
+		ABA1CDE22C7320A9009101DB /* HtmlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1CDE12C7320A9009101DB /* HtmlView.swift */; };
+		ABB7F82E2C72EB290029E73E /* WenYanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F82D2C72EB290029E73E /* WenYanApp.swift */; };
+		ABB7F8302C72EB290029E73E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F82F2C72EB290029E73E /* ContentView.swift */; };
+		ABB7F8342C72EB2A0029E73E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB7F8332C72EB2A0029E73E /* Assets.xcassets */; };
+		ABB7F8382C72EB2A0029E73E /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB7F8372C72EB2A0029E73E /* Preview Assets.xcassets */; };
+		ABB7F8422C72EB2A0029E73E /* WenYanTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F8412C72EB2A0029E73E /* WenYanTests.swift */; };
+		ABB7F84C2C72EB2A0029E73E /* WenYanUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F84B2C72EB2A0029E73E /* WenYanUITests.swift */; };
+		ABB7F84E2C72EB2A0029E73E /* WenYanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F84D2C72EB2A0029E73E /* WenYanUITestsLaunchTests.swift */; };
+		ABB7F85F2C731B180029E73E /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F85E2C731B180029E73E /* MarkdownView.swift */; };
+		ABB7F86B2C731FF60029E73E /* Resources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ABB7F86A2C731FF60029E73E /* Resources.bundle */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		ABB7F83E2C72EB2A0029E73E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABB7F8222C72EB290029E73E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ABB7F8292C72EB290029E73E;
+			remoteInfo = WenYan;
+		};
+		ABB7F8482C72EB2A0029E73E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = ABB7F8222C72EB290029E73E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = ABB7F8292C72EB290029E73E;
+			remoteInfo = WenYan;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		AB9DBBD02C74222500557CEF /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
+		AB9DBBD22C74281600557CEF /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		ABA1CDE12C7320A9009101DB /* HtmlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlView.swift; sourceTree = "<group>"; };
+		ABB7F82A2C72EB290029E73E /* WenYan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WenYan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABB7F82D2C72EB290029E73E /* WenYanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WenYanApp.swift; sourceTree = "<group>"; };
+		ABB7F82F2C72EB290029E73E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		ABB7F8332C72EB2A0029E73E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		ABB7F8352C72EB2A0029E73E /* WenYan.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = WenYan.entitlements; sourceTree = "<group>"; };
+		ABB7F8372C72EB2A0029E73E /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		ABB7F83D2C72EB2A0029E73E /* WenYanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WenYanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABB7F8412C72EB2A0029E73E /* WenYanTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WenYanTests.swift; sourceTree = "<group>"; };
+		ABB7F8472C72EB2A0029E73E /* WenYanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WenYanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABB7F84B2C72EB2A0029E73E /* WenYanUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WenYanUITests.swift; sourceTree = "<group>"; };
+		ABB7F84D2C72EB2A0029E73E /* WenYanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WenYanUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		ABB7F85E2C731B180029E73E /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
+		ABB7F86A2C731FF60029E73E /* Resources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Resources.bundle; sourceTree = "<group>"; };
+		ABE070B72C772B6A002A94AA /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		ABE070B82C772B6A002A94AA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		ABE070B92C772B6A002A94AA /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		ABB7F8272C72EB290029E73E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABB7F83A2C72EB2A0029E73E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABB7F8442C72EB2A0029E73E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ABB7F8212C72EB290029E73E = {
+			isa = PBXGroup;
+			children = (
+				ABB7F82C2C72EB290029E73E /* WenYan */,
+				ABB7F8402C72EB2A0029E73E /* WenYanTests */,
+				ABB7F84A2C72EB2A0029E73E /* WenYanUITests */,
+				ABE070B82C772B6A002A94AA /* README.md */,
+				ABE070B72C772B6A002A94AA /* LICENSE */,
+				ABE070B92C772B6A002A94AA /* .gitignore */,
+				ABB7F82B2C72EB290029E73E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		ABB7F82B2C72EB290029E73E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				ABB7F82A2C72EB290029E73E /* WenYan.app */,
+				ABB7F83D2C72EB2A0029E73E /* WenYanTests.xctest */,
+				ABB7F8472C72EB2A0029E73E /* WenYanUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		ABB7F82C2C72EB290029E73E /* WenYan */ = {
+			isa = PBXGroup;
+			children = (
+				ABB7F82D2C72EB290029E73E /* WenYanApp.swift */,
+				ABB7F82F2C72EB290029E73E /* ContentView.swift */,
+				ABB7F85E2C731B180029E73E /* MarkdownView.swift */,
+				ABA1CDE12C7320A9009101DB /* HtmlView.swift */,
+				AB9DBBD02C74222500557CEF /* Commons.swift */,
+				AB9DBBD22C74281600557CEF /* AppState.swift */,
+				ABB7F8332C72EB2A0029E73E /* Assets.xcassets */,
+				ABB7F8352C72EB2A0029E73E /* WenYan.entitlements */,
+				ABB7F8362C72EB2A0029E73E /* Preview Content */,
+				ABB7F86A2C731FF60029E73E /* Resources.bundle */,
+			);
+			path = WenYan;
+			sourceTree = "<group>";
+		};
+		ABB7F8362C72EB2A0029E73E /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				ABB7F8372C72EB2A0029E73E /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		ABB7F8402C72EB2A0029E73E /* WenYanTests */ = {
+			isa = PBXGroup;
+			children = (
+				ABB7F8412C72EB2A0029E73E /* WenYanTests.swift */,
+			);
+			path = WenYanTests;
+			sourceTree = "<group>";
+		};
+		ABB7F84A2C72EB2A0029E73E /* WenYanUITests */ = {
+			isa = PBXGroup;
+			children = (
+				ABB7F84B2C72EB2A0029E73E /* WenYanUITests.swift */,
+				ABB7F84D2C72EB2A0029E73E /* WenYanUITestsLaunchTests.swift */,
+			);
+			path = WenYanUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ABB7F8292C72EB290029E73E /* WenYan */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ABB7F8512C72EB2A0029E73E /* Build configuration list for PBXNativeTarget "WenYan" */;
+			buildPhases = (
+				ABB7F8262C72EB290029E73E /* Sources */,
+				ABB7F8272C72EB290029E73E /* Frameworks */,
+				ABB7F8282C72EB290029E73E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WenYan;
+			productName = WenYan;
+			productReference = ABB7F82A2C72EB290029E73E /* WenYan.app */;
+			productType = "com.apple.product-type.application";
+		};
+		ABB7F83C2C72EB2A0029E73E /* WenYanTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ABB7F8542C72EB2A0029E73E /* Build configuration list for PBXNativeTarget "WenYanTests" */;
+			buildPhases = (
+				ABB7F8392C72EB2A0029E73E /* Sources */,
+				ABB7F83A2C72EB2A0029E73E /* Frameworks */,
+				ABB7F83B2C72EB2A0029E73E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ABB7F83F2C72EB2A0029E73E /* PBXTargetDependency */,
+			);
+			name = WenYanTests;
+			productName = WenYanTests;
+			productReference = ABB7F83D2C72EB2A0029E73E /* WenYanTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		ABB7F8462C72EB2A0029E73E /* WenYanUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ABB7F8572C72EB2A0029E73E /* Build configuration list for PBXNativeTarget "WenYanUITests" */;
+			buildPhases = (
+				ABB7F8432C72EB2A0029E73E /* Sources */,
+				ABB7F8442C72EB2A0029E73E /* Frameworks */,
+				ABB7F8452C72EB2A0029E73E /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				ABB7F8492C72EB2A0029E73E /* PBXTargetDependency */,
+			);
+			name = WenYanUITests;
+			productName = WenYanUITests;
+			productReference = ABB7F8472C72EB2A0029E73E /* WenYanUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ABB7F8222C72EB290029E73E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					ABB7F8292C72EB290029E73E = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					ABB7F83C2C72EB2A0029E73E = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = ABB7F8292C72EB290029E73E;
+					};
+					ABB7F8462C72EB2A0029E73E = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = ABB7F8292C72EB290029E73E;
+					};
+				};
+			};
+			buildConfigurationList = ABB7F8252C72EB290029E73E /* Build configuration list for PBXProject "WenYan" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = ABB7F8212C72EB290029E73E;
+			productRefGroup = ABB7F82B2C72EB290029E73E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ABB7F8292C72EB290029E73E /* WenYan */,
+				ABB7F83C2C72EB2A0029E73E /* WenYanTests */,
+				ABB7F8462C72EB2A0029E73E /* WenYanUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ABB7F8282C72EB290029E73E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABB7F8382C72EB2A0029E73E /* Preview Assets.xcassets in Resources */,
+				ABB7F86B2C731FF60029E73E /* Resources.bundle in Resources */,
+				ABB7F8342C72EB2A0029E73E /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABB7F83B2C72EB2A0029E73E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABB7F8452C72EB2A0029E73E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ABB7F8262C72EB290029E73E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AB9DBBD12C74222500557CEF /* Commons.swift in Sources */,
+				ABB7F85F2C731B180029E73E /* MarkdownView.swift in Sources */,
+				AB9DBBD32C74281600557CEF /* AppState.swift in Sources */,
+				ABB7F8302C72EB290029E73E /* ContentView.swift in Sources */,
+				ABA1CDE22C7320A9009101DB /* HtmlView.swift in Sources */,
+				ABB7F82E2C72EB290029E73E /* WenYanApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABB7F8392C72EB2A0029E73E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABB7F8422C72EB2A0029E73E /* WenYanTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		ABB7F8432C72EB2A0029E73E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ABB7F84E2C72EB2A0029E73E /* WenYanUITestsLaunchTests.swift in Sources */,
+				ABB7F84C2C72EB2A0029E73E /* WenYanUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		ABB7F83F2C72EB2A0029E73E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ABB7F8292C72EB290029E73E /* WenYan */;
+			targetProxy = ABB7F83E2C72EB2A0029E73E /* PBXContainerItemProxy */;
+		};
+		ABB7F8492C72EB2A0029E73E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = ABB7F8292C72EB290029E73E /* WenYan */;
+			targetProxy = ABB7F8482C72EB2A0029E73E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		ABB7F84F2C72EB2A0029E73E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		ABB7F8502C72EB2A0029E73E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
+			};
+			name = Release;
+		};
+		ABB7F8522C72EB2A0029E73E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WenYan/WenYan.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"WenYan/Preview Content\"";
+				DEVELOPMENT_TEAM = NNQB2TH9QC;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYan;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		ABB7F8532C72EB2A0029E73E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = WenYan/WenYan.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"WenYan/Preview Content\"";
+				DEVELOPMENT_TEAM = NNQB2TH9QC;
+				ENABLE_HARDENED_RUNTIME = YES;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSceneManifest_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphoneos*]" = YES;
+				"INFOPLIST_KEY_UILaunchScreen_Generation[sdk=iphonesimulator*]" = YES;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphoneos*]" = UIStatusBarStyleDefault;
+				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
+				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYan;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		ABB7F8552C72EB2A0029E73E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NNQB2TH9QC;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYanTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WenYan.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WenYan";
+			};
+			name = Debug;
+		};
+		ABB7F8562C72EB2A0029E73E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NNQB2TH9QC;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYanTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/WenYan.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/WenYan";
+			};
+			name = Release;
+		};
+		ABB7F8582C72EB2A0029E73E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NNQB2TH9QC;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYanUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WenYan;
+			};
+			name = Debug;
+		};
+		ABB7F8592C72EB2A0029E73E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NNQB2TH9QC;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MACOSX_DEPLOYMENT_TARGET = 14.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYanUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = auto;
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = WenYan;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ABB7F8252C72EB290029E73E /* Build configuration list for PBXProject "WenYan" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABB7F84F2C72EB2A0029E73E /* Debug */,
+				ABB7F8502C72EB2A0029E73E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ABB7F8512C72EB2A0029E73E /* Build configuration list for PBXNativeTarget "WenYan" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABB7F8522C72EB2A0029E73E /* Debug */,
+				ABB7F8532C72EB2A0029E73E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ABB7F8542C72EB2A0029E73E /* Build configuration list for PBXNativeTarget "WenYanTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABB7F8552C72EB2A0029E73E /* Debug */,
+				ABB7F8562C72EB2A0029E73E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ABB7F8572C72EB2A0029E73E /* Build configuration list for PBXNativeTarget "WenYanUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ABB7F8582C72EB2A0029E73E /* Debug */,
+				ABB7F8592C72EB2A0029E73E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ABB7F8222C72EB290029E73E /* Project object */;
+}

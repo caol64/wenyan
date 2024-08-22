@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
+    <script src="codemirror/lib/codemirror.js"></script>
+
+    <link rel="stylesheet" href="codemirror/theme/base16-light.css"/>
+     
+    <script src="codemirror/modes/apl/apl.js"></script>
+    <script src="codemirror/modes/asciiarmor/asciiarmor.js"></script>
+    <script src="codemirror/modes/asn.1/asn.1.js"></script>
+    <script src="codemirror/modes/asterisk/asterisk.js"></script>
+    <script src="codemirror/modes/brainfuck/brainfuck.js"></script>
+    <script src="codemirror/modes/clike/clike.js"></script>
+    <script src="codemirror/modes/clojure/clojure.js"></script>
+    <script src="codemirror/modes/cmake/cmake.js"></script>
+    <script src="codemirror/modes/cobol/cobol.js"></script>
+    <script src="codemirror/modes/coffeescript/coffeescript.js"></script>
+    <script src="codemirror/modes/commonlisp/commonlisp.js"></script>
+    <script src="codemirror/modes/crystal/crystal.js"></script>
+    <script src="codemirror/modes/css/css.js"></script>
+    <script src="codemirror/modes/cypher/cypher.js"></script>
+    <script src="codemirror/modes/d/d.js"></script>
+    <script src="codemirror/modes/dart/dart.js"></script>
+    <script src="codemirror/modes/diff/diff.js"></script>
+    <script src="codemirror/modes/django/django.js"></script>
+    <script src="codemirror/modes/dockerfile/dockerfile.js"></script>
+    <script src="codemirror/modes/dtd/dtd.js"></script>
+    <script src="codemirror/modes/dylan/dylan.js"></script>
+    <script src="codemirror/modes/ebnf/ebnf.js"></script>
+    <script src="codemirror/modes/ecl/ecl.js"></script>
+    <script src="codemirror/modes/eiffel/eiffel.js"></script>
+    <script src="codemirror/modes/elm/elm.js"></script>
+    <script src="codemirror/modes/erlang/erlang.js"></script>
+    <script src="codemirror/modes/factor/factor.js"></script>
+    <script src="codemirror/modes/fcl/fcl.js"></script>
+    <script src="codemirror/modes/forth/forth.js"></script>
+    <script src="codemirror/modes/fortran/fortran.js"></script>
+    <script src="codemirror/modes/gas/gas.js"></script>
+    <script src="codemirror/modes/gfm/gfm.js"></script>
+    <script src="codemirror/modes/gherkin/gherkin.js"></script>
+    <script src="codemirror/modes/go/go.js"></script>
+    <script src="codemirror/modes/groovy/groovy.js"></script>
+    <script src="codemirror/modes/haml/haml.js"></script>
+    <script src="codemirror/modes/handlebars/handlebars.js"></script>
+    <script src="codemirror/modes/haskell/haskell.js"></script>
+    <script src="codemirror/modes/haskell-literate/haskell-literate.js"></script>
+    <script src="codemirror/modes/haxe/haxe.js"></script>
+    <script src="codemirror/modes/htmlembedded/htmlembedded.js"></script>
+    <script src="codemirror/modes/htmlmixed/htmlmixed.js"></script>
+    <script src="codemirror/modes/http/http.js"></script>
+    <script src="codemirror/modes/idl/idl.js"></script>
+    <script src="codemirror/modes/javascript/javascript.js"></script>
+    <script src="codemirror/modes/jinja2/jinja2.js"></script>
+    <script src="codemirror/modes/jsx/jsx.js"></script>
+    <script src="codemirror/modes/julia/julia.js"></script>
+    <script src="codemirror/modes/livescript/livescript.js"></script>
+    <script src="codemirror/modes/lua/lua.js"></script>
+    <script src="codemirror/modes/markdown/markdown.js"></script>
+    <script src="codemirror/modes/mathematica/mathematica.js"></script>
+    <script src="codemirror/modes/mbox/mbox.js"></script>
+    <script src="codemirror/modes/mirc/mirc.js"></script>
+    <script src="codemirror/modes/mllike/mllike.js"></script>
+    <script src="codemirror/modes/modelica/modelica.js"></script>
+    <script src="codemirror/modes/mscgen/mscgen.js"></script>
+    <script src="codemirror/modes/mumps/mumps.js"></script>
+    <script src="codemirror/modes/nginx/nginx.js"></script>
+    <script src="codemirror/modes/nsis/nsis.js"></script>
+    <script src="codemirror/modes/ntriples/ntriples.js"></script>
+    <script src="codemirror/modes/octave/octave.js"></script>
+    <script src="codemirror/modes/oz/oz.js"></script>
+    <script src="codemirror/modes/pascalpascal.js"></script>
+    <script src="codemirror/modes/pegjs/pegjs.js"></script>
+    <script src="codemirror/modes/perl/perl.js"></script>
+    <script src="codemirror/modes/php/php.js"></script>
+    <script src="codemirror/modes/pig/pig.js"></script>
+    <script src="codemirror/modes/powershell/powershell.js"></script>
+    <script src="codemirror/modes/properties/properties.js"></script>
+    <script src="codemirror/modes/protobuf/protobuf.js"></script>
+    <script src="codemirror/modes/pug/pug.js"></script>
+    <script src="codemirror/modes/puppet/puppet.js"></script>
+    <script src="codemirror/modes/python/python.js"></script>
+    <script src="codemirror/modes/q/q.js"></script>
+    <script src="codemirror/modes/r/r.js"></script>
+    <script src="codemirror/modes/rpm/rpm.js"></script>
+    <script src="codemirror/modes/rst/rst.js"></script>
+    <script src="codemirror/modes/ruby/ruby.js"></script>
+    <script src="codemirror/modes/rust/rust.js"></script>
+    <script src="codemirror/modes/sas/sas.js"></script>
+    <script src="codemirror/modes/sass/sass.js"></script>
+    <script src="codemirror/modes/scheme/scheme.js"></script>
+    <script src="codemirror/modes/shell/shell.js"></script>
+    <script src="codemirror/modes/sieve/sieve.js"></script>
+    <script src="codemirror/modes/slim/slim.js"></script>
+    <script src="codemirror/modes/smalltalk/smalltalk.js"></script>
+    <script src="codemirror/modes/smarty/smarty.js"></script>
+    <script src="codemirror/modes/solr/solr.js"></script>
+    <script src="codemirror/modes/soy/soy.js"></script>
+    <script src="codemirror/modes/sparql/sparql.js"></script>
+    <script src="codemirror/modes/spreadsheet/spreadsheet.js"></script>
+    <script src="codemirror/modes/sql/sql.js"></script>
+    <script src="codemirror/modes/stex/stex.js"></script>
+    <script src="codemirror/modes/stylus/stylus.js"></script>
+    <script src="codemirror/modes/swift/swift.js"></script>
+    <script src="codemirror/modes/tcl/tcl.js"></script>
+    <script src="codemirror/modes/textile/textile.js"></script>
+    <script src="codemirror/modes/tiddlywiki/tiddlywiki.js"></script>
+    <script src="codemirror/modes/tiki/tiki.js"></script>
+    <script src="codemirror/modes/toml/toml.js"></script>
+    <script src="codemirror/modes/tornado/tornado.js"></script>
+    <script src="codemirror/modes/troff/troff.js"></script>
+    <script src="codemirror/modes/ttcn/ttcn.js"></script>
+    <script src="codemirror/modes/ttcn-cfg/ttcn-cfg.js"></script>
+    <script src="codemirror/modes/turtle/turtle.js"></script>
+    <script src="codemirror/modes/twig/twig.js"></script>
+    <script src="codemirror/modes/vb/vb.js"></script>
+    <script src="codemirror/modes/vbscript/vbscript.js"></script>
+    <script src="codemirror/modes/velocity/velocity.js"></script>
+    <script src="codemirror/modes/verilog/verilog.js"></script>
+    <script src="codemirror/modes/vhdl/vhdl.js"></script>
+    <script src="codemirror/modes/vue/vue.js"></script>
+    <script src="codemirror/modes/webidl/webidl.js"></script>
+    <script src="codemirror/modes/xml/xml.js"></script>
+    <script src="codemirror/modes/xquery/xquery.js"></script>
+    <script src="codemirror/modes/yacas/yacas.js"></script>
+    <script src="codemirror/modes/yaml/yaml.js"></script>
+    <script src="codemirror/modes/yaml-frontmatter/yaml-frontmatter.js"></script>
+    <script src="codemirror/modes/z80/z80.js"></script>
+
+  </head>
+  <body>
+    <script>
+      
+      CodeMirror.keyMap["default"]["Cmd-/"] = "toggleComment";  // Add-on
+      
+      var editor = CodeMirror(document.body, {
+        lineNumbers: false,
+        autofocus: true,
+        mode: "text/html",
+        theme: "base16-light",
+        showInvisibles: false,
+        maxInvisibles: 16,
+        autoCloseTags: true,
+        smartIndent: true,
+        tabSize: 2,
+        indentUnit: 2,
+        lineWrapping: true,
+        readOnly: false,
+        autoCloseBrackets: true,
+        selectionPointer: true,
+        extraKeys: {
+          "Cmd-F": "findPersistent",
+          "Ctrl-Space": "autocomplete",
+          "Ctrl-I": "indentAuto"
+        },
+        styleActiveLine: true
+      });
+      editor.on("change", function(instance, change) {
+          var content = GetContent();
+          window.webkit.messageHandlers.textContentDidChange.postMessage(content);
+      });
+    
+      function getStringFromHex(content) {
+        return decodeURIComponent(content.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&'));
+      }
+
+      function SupportedMimeTypes() {
+        return Object.keys(CodeMirror.mimeModes).join(",");
+      }
+
+      function SetMimeType(type) {
+        editor.setOption("mode", type);
+      }
+
+      function GetMimeType() {
+        return editor.getOption("mode");
+      }
+
+      function SetLineWrapping(wrapping) {
+        editor.setOption("lineWrapping", wrapping);
+      }
+
+      function SetReadOnly(readOnly) {
+          editor.setOption("readOnly", readOnly);
+      }
+
+      function GetLineWrapping() {
+        return editor.getOption("lineWrapping");
+      }
+
+      function SetIndentUnit(unit) {
+        editor.setOption("indentUnit", unit);
+      }
+
+      function SetTheme(text) {
+        editor.setOption("theme", text);
+      }
+
+      function GetIndentUnit() {
+        return editor.getOption("indentUnit");
+      }
+
+      function GetReadOnly() {
+          return editor.getOption("readOnly");
+      }
+    
+      function ToggleInvisible(toggle) {
+        editor.setOption("showInvisibles", toggle);
+        editor.refresh();
+      }
+
+      function SetTabSize(size) {
+        editor.setOption("tabSize", size);
+      }
+
+      function GetTabSize() {
+        return editor.getOption("tabSize");
+      }
+
+      function SetTabInsertSpaces(flag) {
+        // See http://codemirror.net/doc/manual.html#keymaps
+        if (flag) {
+          CodeMirror.keyMap["basic"]["Tab"] = function(cm) {
+            var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+            cm.replaceSelection(spaces, "end", "+input");
+          };
+        } else {
+          CodeMirror.keyMap["basic"]["Tab"] = "defaultTab";
+        }
+      }
+
+      function GetTabInsertSpaces() {
+        return CodeMirror.keyMap["basic"]["Tab"] == "defaultTab";
+      }
+
+      function SetContent(content) {
+        editor.doc.setValue(content);
+        editor.doc.clearHistory();
+        editor.doc.markClean();
+      }
+
+      function GetContent() {
+        return editor.doc.getValue();
+      }
+
+      function ClearHistory() {
+        editor.doc.clearHistory();
+        editor.doc.markClean();
+      }
+
+      function IsClean() {
+        return editor.doc.isClean();
+      }
+
+      function GetTextSelection() {
+        return editor.getSelection();
+      }
+
+      function SetFontSize(size) {
+        editor.getWrapperElement().style["font-size"] = size+"px";
+        editor.refresh();
+      }
+
+      window.webkit.messageHandlers.isReady.postMessage(null); // Need at lead 1 arg
+
+    </script>
+  </body>
+</html>

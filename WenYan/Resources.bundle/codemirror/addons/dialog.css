@@ -1,0 +1,99 @@
+.CodeMirror-find-and-replace-dialog {
+  display: flex;
+  /* flex-wrap: wrap; */
+  align-items: center;
+  justify-content: space-between;
+  background-color: #191919;
+  padding: 8px;
+  overflow: hidden;
+  color: inherit;
+  /* border: 1px solid #eee; */
+  position: relative;
+  z-index: 10;
+  border-bottom: 1px solid #737370;
+}
+.CodeMirror-find-and-replace-dialog--replace-container {
+  width: 100%;
+}
+
+.CodeMirror-find-and-replace-dialog input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  color: #e8eaed;
+  font-size: 14px;
+}
+.CodeMirror-find-and-replace-dialog input::placeholder {
+  /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: rgba(232, 234, 237, 0.7);
+}
+.CodeMirror-find-and-replace-dialog input:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: rgba(232, 234, 237, 0.7);
+}
+
+.CodeMirror-find-and-replace-dialog input::-ms-input-placeholder {
+  /* Microsoft Edge */
+  color: rgba(232, 234, 237, 0.7);
+}
+.CodeMirror-find-and-replace-dialog--search-count {
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: normal;
+  letter-spacing: normal;
+  color: #e8eaed;
+  width: 100%;
+  max-width: 140px;
+  text-align: right;
+  border-right: 1px solid #404244;
+  padding-right: 5px;
+  margin-right: 5px;
+  height: 32px;
+  line-height: 32px;
+}
+
+.CodeMirror-find-and-replace-dialog--buttons {
+  display: flex;
+  align-items: center;
+}
+.CodeMirror-find-and-replace-dialog--buttons button {
+  appearance: none;
+  border: none;
+  outline: none;
+  box-shadow: none;
+  cursor: pointer;
+  background: transparent;
+  width: 32px;
+  height: 32px;
+  margin: 0 5px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.CodeMirror-find-and-replace-dialog--buttons button svg path {
+  fill: #e8eaed;
+}
+.CodeMirror-find-and-replace-dialog--buttons button:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+}
+.CodeMirror-find-and-replace-dialog--buttons button:active {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 50%;
+}
+.CodeMirror-find-and-replace-dialog--buttons button:disabled {
+  background-color: transparent;
+  cursor: default;
+}
+.CodeMirror-find-and-replace-dialog--buttons button:disabled svg path {
+  fill: #86888a;
+}
+
+.CodeMirror-find-and-replace-dialog--row {
+  display: flex;
+  width: 100%;
+  align-items: center;
+}
