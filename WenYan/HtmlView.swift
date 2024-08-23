@@ -15,6 +15,8 @@ struct HtmlView: NSViewRepresentable {
         let userController = WKUserContentController()
         let configuration = WKWebViewConfiguration()
         configuration.userContentController = userController
+        configuration.preferences.setValue(true, forKey: "allowFileAccessFromFileURLs")
+        configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
         
         let webView = WKWebView(frame: .zero, configuration: configuration)
         viewModel.setupWebView(webView)
@@ -32,7 +34,7 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     var content: String = ""
     weak var webView: WKWebView?
     var previewMode: PreviewMode = .mobile
-    var themeStyle: ThemeStyle = .default
+    var platform: Platform = .gzh
     var highlightStyle: HighlightStyle = .github
     
     init(appState: AppState) {
@@ -101,11 +103,15 @@ extension HtmlViewModel {
     }
     
     func setTheme() {
-        callJavascript(javascriptString: "setTheme(\"\(themeStyle.rawValue)\");")
+        callJavascript(javascriptString: "setTheme(\"\(platform.themes[0].rawValue)\");")
     }
     
     func setHighlight() {
         callJavascript(javascriptString: "setHighlight(\"\(highlightStyle.rawValue)\");")
+    }
+    
+    func removeHighlight() {
+        callJavascript(javascriptString: "setHighlight(null);")
     }
     
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {
@@ -120,9 +126,11 @@ extension HtmlViewModel {
         getContent() {result in
             do {
                 var content = try result.get() as! String
-                let theme = try loadFileFromResource(path: self.themeStyle.rawValue)
-                let highlight = try loadFileFromResource(path: self.highlightStyle.rawValue)
-                content = "\(content)<style>\(theme)\(highlight)</style>"
+                if self.platform == .gzh {
+                    let theme = try loadFileFromResource(path: self.platform.themes[0].rawValue)
+                    let highlight = try loadFileFromResource(path: self.highlightStyle.rawValue)
+                    content = "\(content)<style>\(theme)\(highlight)</style>"
+                }
                 print(content)
                 let pasteBoard = NSPasteboard.general
                 pasteBoard.clearContents()
@@ -137,4 +145,15 @@ extension HtmlViewModel {
         previewMode = (previewMode == .mobile) ? .desktop : .mobile
         setPreviewMode()
     }
+    
+    func changePlatform(_ platform: Platform) {
+        self.platform = platform
+        setTheme()
+        if (platform == .zhihu) {
+            removeHighlight()
+        } else {
+            setHighlight()
+        }
+    }
+
 }

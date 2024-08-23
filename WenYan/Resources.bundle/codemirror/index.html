@@ -4,11 +4,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-    <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
     <script src="codemirror/lib/codemirror.js"></script>
 
-    <link rel="stylesheet" href="codemirror/theme/base16-light.css"/>
-     
+    <link rel="stylesheet" href="codemirror/theme/base16-light.css">
+
     <script src="codemirror/modes/apl/apl.js"></script>
     <script src="codemirror/modes/asciiarmor/asciiarmor.js"></script>
     <script src="codemirror/modes/asn.1/asn.1.js"></script>
@@ -139,7 +139,7 @@
       var editor = CodeMirror(document.body, {
         lineNumbers: false,
         autofocus: true,
-        mode: "text/html",
+        mode: "text/markdown",
         theme: "base16-light",
         showInvisibles: false,
         maxInvisibles: 16,
@@ -159,68 +159,11 @@
         styleActiveLine: true
       });
       editor.on("change", function(instance, change) {
-          var content = GetContent();
+          var content = getContent();
           window.webkit.messageHandlers.textContentDidChange.postMessage(content);
       });
-    
-      function getStringFromHex(content) {
-        return decodeURIComponent(content.replace(/\s+/g, '').replace(/[0-9a-f]{2}/g, '%$&'));
-      }
 
-      function SupportedMimeTypes() {
-        return Object.keys(CodeMirror.mimeModes).join(",");
-      }
-
-      function SetMimeType(type) {
-        editor.setOption("mode", type);
-      }
-
-      function GetMimeType() {
-        return editor.getOption("mode");
-      }
-
-      function SetLineWrapping(wrapping) {
-        editor.setOption("lineWrapping", wrapping);
-      }
-
-      function SetReadOnly(readOnly) {
-          editor.setOption("readOnly", readOnly);
-      }
-
-      function GetLineWrapping() {
-        return editor.getOption("lineWrapping");
-      }
-
-      function SetIndentUnit(unit) {
-        editor.setOption("indentUnit", unit);
-      }
-
-      function SetTheme(text) {
-        editor.setOption("theme", text);
-      }
-
-      function GetIndentUnit() {
-        return editor.getOption("indentUnit");
-      }
-
-      function GetReadOnly() {
-          return editor.getOption("readOnly");
-      }
-    
-      function ToggleInvisible(toggle) {
-        editor.setOption("showInvisibles", toggle);
-        editor.refresh();
-      }
-
-      function SetTabSize(size) {
-        editor.setOption("tabSize", size);
-      }
-
-      function GetTabSize() {
-        return editor.getOption("tabSize");
-      }
-
-      function SetTabInsertSpaces(flag) {
+      function setTabInsertSpaces(flag) {
         // See http://codemirror.net/doc/manual.html#keymaps
         if (flag) {
           CodeMirror.keyMap["basic"]["Tab"] = function(cm) {
@@ -232,39 +175,19 @@
         }
       }
 
-      function GetTabInsertSpaces() {
-        return CodeMirror.keyMap["basic"]["Tab"] == "defaultTab";
-      }
-
-      function SetContent(content) {
+      function setContent(content) {
         editor.doc.setValue(content);
         editor.doc.clearHistory();
         editor.doc.markClean();
       }
 
-      function GetContent() {
+      function getContent() {
         return editor.doc.getValue();
       }
 
-      function ClearHistory() {
-        editor.doc.clearHistory();
-        editor.doc.markClean();
-      }
+      setTabInsertSpaces(true);
 
-      function IsClean() {
-        return editor.doc.isClean();
-      }
-
-      function GetTextSelection() {
-        return editor.getSelection();
-      }
-
-      function SetFontSize(size) {
-        editor.getWrapperElement().style["font-size"] = size+"px";
-        editor.refresh();
-      }
-
-      window.webkit.messageHandlers.isReady.postMessage(null); // Need at lead 1 arg
+      window.webkit.messageHandlers.isReady.postMessage(null);
 
     </script>
   </body>

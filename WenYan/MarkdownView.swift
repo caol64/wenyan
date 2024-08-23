@@ -76,9 +76,6 @@ class MarkdownViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler 
 
 extension MarkdownViewModel {
     func configWebView() {
-        setDefaultTheme()
-        setTabInsertsSpaces(true)
-        setFontSize(14)
         setContent()
     }
     
@@ -91,52 +88,12 @@ extension MarkdownViewModel {
         }
     }
     
-    func setTabInsertsSpaces(_ value: Bool) {
-        callJavascript(javascriptString: "SetTabInsertSpaces(\(value));")
-    }
-    
     func setContent() {
-        callJavascript(javascriptString: "SetContent(\(content.toJavaScriptString()));")
+        callJavascript(javascriptString: "setContent(\(content.toJavaScriptString()));")
     }
     
     func getContent(_ block: JavascriptCallback?) {
-        callJavascript(javascriptString: "GetContent();", callback: block)
-    }
-    
-    func setMimeType(_ value: String) {
-        callJavascript(javascriptString: "SetMimeType(\(value.toJavaScriptString()));")
-    }
-    
-    func getMimeType(_ block: JavascriptCallback?) {
-        callJavascript(javascriptString: "GetMimeType();", callback: block)
-    }
-    
-    func setThemeName(_ value: String) {
-        callJavascript(javascriptString: "SetTheme(\(value.toJavaScriptString()));")
-    }
-    
-    func setLineWrapping(_ value: Bool) {
-        callJavascript(javascriptString: "SetLineWrapping(\(value));")
-    }
-    
-    func setFontSize(_ value: Int) {
-        callJavascript(javascriptString: "SetFontSize(\(value));")
-    }
-    
-    func setShowInvisibleCharacters(_ show: Bool) {
-        callJavascript(javascriptString: "ToggleInvisible(\(show));")
-    }
-    
-    func setDefaultTheme() {
-        setMimeType("text/markdown")
-    }
-    
-    func setReadonly(_ value: Bool) {
-        callJavascript(javascriptString: "SetReadOnly(\(value));")
-    }
-    
-    func getTextSelection(_ block: JavascriptCallback?) {
-        callJavascript(javascriptString: "GetTextSelection();", callback: block)
+        callJavascript(javascriptString: "getContent();", callback: block)
     }
     
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {

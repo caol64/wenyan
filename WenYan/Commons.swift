@@ -68,7 +68,10 @@ func callJavascript(webView: WKWebView?, javascriptString: String, callback: Jav
 }
 
 enum ThemeStyle: String {
-    case `default` = "themes/default.css"
+    case gzhDefault = "themes/gzh_default.css"
+    case toutiaoDefault = "themes/toutiao_default.css"
+    case zhihuDefault = "themes/zhihu_default.css"
+    case juejinDefault = "themes/juejin_default.css"
 }
 
 enum HighlightStyle: String {
@@ -80,4 +83,26 @@ enum HighlightStyle: String {
 enum PreviewMode: String {
     case mobile = "style.css"
     case desktop = "desktop_style.css"
+}
+
+enum Platform: String, CaseIterable, Identifiable {
+    case gzh
+    case toutiao
+    case zhihu
+    case juejin
+    
+    var id: Self { self }
+    
+    var themes: [ThemeStyle] {
+        switch self {
+        case .gzh:
+            return [.gzhDefault]
+        case .zhihu:
+            return [.zhihuDefault]
+        case .toutiao:
+            return [.toutiaoDefault]
+        case .juejin:
+            return [.juejinDefault]
+        }
+    }
 }

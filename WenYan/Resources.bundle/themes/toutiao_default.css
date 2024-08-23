@@ -1,0 +1,105 @@
+#wenyan {
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    line-height: 1.75;
+}
+#wenyan * {
+    margin: 1em 0;
+    box-sizing: border-box;
+}
+#wenyan pre code::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #fff
+}
+
+#wenyan pre code::-webkit-scrollbar-track {
+    border-radius: 6px;
+    background-color: #c8c8c84d
+}
+
+#wenyan pre code::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #90929880
+}
+#wenyan h1, h2, h3, h4, h5, h6 {
+    font-size: 18px;
+    line-height: 30px;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    font-weight: 700;
+    position: relative;
+}
+#wenyan h1:before, h2:before, h3:before, h4:before, h5:before, h6:before {
+    content: "";
+    display: inline-block;
+    vertical-align: 1px;
+    width: 16px;
+    height: 20px;
+    margin-right: 6px;
+    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDYwLjEgKDg4MTMzKSAtIGh0dHBzOi8vc2tldGNoLmNvbSAtLT4KICAgIDx0aXRsZT7kuInop5LlvaI8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZyBpZD0i5LiJ6KeS5b2iIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8cGF0aCBkPSJNNi4zNTc0OTI5Myw0LjQyOTE1NDg4IEwxMC41OTEzMDI1LDExLjQ4NTUwNDIgQzEwLjg3NTQ1MDcsMTEuOTU5MDg0NSAxMC43MjE4ODU2LDEyLjU3MzM0NDggMTAuMjQ4MzA1NCwxMi44NTc0OTI5IEMxMC4wOTI4OSwxMi45NTA3NDIyIDkuOTE1MDUzNTcsMTMgOS43MzM4MDk2MiwxMyBMMS4yNjYxOTAzOCwxMyBDMC43MTM5MDU2MjksMTMgMC4yNjYxOTAzNzksMTIuNTUyMjg0NyAwLjI2NjE5MDM3OSwxMiBDMC4yNjYxOTAzNzksMTEuODE4NzU2MSAwLjMxNTQ0ODIxMiwxMS42NDA5MTk2IDAuNDA4Njk3NDUzLDExLjQ4NTUwNDIgTDQuNjQyNTA3MDcsNC40MjkxNTQ4OCBDNC45MjY2NTUyMywzLjk1NTU3NDYxIDUuNTQwOTE1NDksMy44MDIwMDk1NSA2LjAxNDQ5NTc2LDQuMDg2MTU3NzEgQzYuMTU1MjQ1MzYsNC4xNzA2MDc0NyA2LjI3MzA0MzE2LDQuMjg4NDA1MjcgNi4zNTc0OTI5Myw0LjQyOTE1NDg4IFoiIGZpbGw9IiNGRjVFNUUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUuNTAwMDAwLCA4LjAwMDAwMCkgcm90YXRlKC0yNzAuMDAwMDAwKSB0cmFuc2xhdGUoLTUuNTAwMDAwLCAtOC4wMDAwMDApICI+PC9wYXRoPgogICAgPC9nPgo8L3N2Zz4=);
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    background-position-y: 6px;
+}
+#wenyan p {
+
+}
+#wenyan li {
+    margin: 0.5em 0 0.5em 1em;
+}
+#wenyan img {
+    max-width: 100%;
+    height: auto;
+    margin:0 auto;
+}
+#wenyan table {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+    table-layout: fixed;
+    overflow: hidden;
+    border-spacing: 0;
+}
+#wenyan table td, table th {
+    height: 40px;
+    padding: 9px 12px;
+    font-size: 16px;
+    line-height: 22px;
+    color: #222;
+    min-width: 88px;
+    border: 1px solid #d8d8d8;
+    vertical-align: top;
+}
+#wenyan blockquote {
+    margin-bottom: 20px;
+    padding: 0 16px;
+    position: relative;
+    color: #999;
+    text-align: justify;
+}
+#wenyan blockquote:before {
+    content: " ";
+    left: 0;
+    position: absolute;
+    width: 2px;
+    height: 100%;
+    background: #f2f2f2;
+}
+#wenyan p code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+    color: #ff502c;
+}
+#wenyan pre {
+    border-radius: 3px;
+/*    background: #fafafa;*/
+    border: 1px solid #e8e8e8;
+    line-height: 1.5;
+    margin: 1em 0.5em;
+    padding: 1em;
+}
+#wenyan pre code {
+    display: block;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
+}

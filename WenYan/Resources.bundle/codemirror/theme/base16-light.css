@@ -11,8 +11,8 @@
 .cm-s-base16-light.CodeMirror {
    background: #ffffff;
    color: #202020;
-   font-size: 12px;
-   line-height: 1.3em;
+   font-size: 14px;
+   line-height: 1.5em;
 }
 .cm-s-base16-light div.CodeMirror-selected { background: rgb(247, 247, 247); }
 .cm-s-base16-light .CodeMirror-line::selection, .cm-s-base16-light .CodeMirror-line > span::selection, .cm-s-base16-light .CodeMirror-line > span > span::selection { background: rgb(247, 247, 247); }

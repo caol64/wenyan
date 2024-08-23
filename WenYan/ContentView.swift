@@ -48,15 +48,12 @@ struct ContentView: View {
         }
         .toolbar() {
             ToolbarItemGroup {
-                Button {
-                    htmlViewModel.onCopy()
-                } label: {
-                    Image("gzh")
-                }
-                Button {
-                    htmlViewModel.onCopy()
-                } label: {
-                    Image("zhihu")
+                ForEach(Platform.allCases) { platform in
+                    Button {
+                        htmlViewModel.changePlatform(platform)
+                    } label: {
+                        Image(platform.rawValue)
+                    }
                 }
             }
         }

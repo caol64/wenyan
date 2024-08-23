@@ -1,0 +1,115 @@
+#wenyan {
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    line-height: 1.75;
+}
+#wenyan * {
+    margin: 1em 0;
+    box-sizing: border-box;
+}
+#wenyan pre code::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #fff
+}
+
+#wenyan pre code::-webkit-scrollbar-track {
+    border-radius: 6px;
+    background-color: #c8c8c84d
+}
+
+#wenyan pre code::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #90929880
+}
+#wenyan h1 {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    padding-bottom: 1em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+#wenyan h2 {
+    display: inline-block;
+    height: 40px;
+    background: #212122;
+    color: #ffffff;
+    border-bottom-right-radius: 100px;
+    padding-right: 30px;
+    padding-left: 20px;
+    line-height: 40px;
+    font-size: 1.2em;
+}
+#wenyan h3 {
+    text-align: center;
+    border-bottom: 1px dashed #212122;
+    font-size: 1.2em;
+    font-weight: bold;
+    padding-bottom: 0.5em;
+}
+#wenyan h4 {
+    display: inline-block;
+    border-bottom: 1px dashed #212122;
+    font-weight: bold;
+}
+#wenyan h5, h6 {
+    font-weight: bold;
+}
+#wenyan p {
+
+}
+#wenyan li {
+    margin: 0.5em 0 0.5em 1em;
+}
+#wenyan img {
+    max-width: 100%;
+    height: auto;
+    margin:0 auto;
+}
+#wenyan table {
+    border-collapse: collapse;
+    margin: 1.4em auto;
+    max-width: 100%;
+    table-layout: fixed;
+    text-align: left;
+    width: 100%;
+}
+#wenyan table th {
+    background: #ebeced;
+    color: #191b1f;
+    font-weight: 500;
+}
+#wenyan table td, table th {
+    border: 1px solid #c4c7ce;
+    height: 24px;
+    line-height: 24px;
+    padding: 3px 12px;
+}
+#wenyan blockquote {
+    background: #f9f9f9;
+    border-left: 0.5em solid #ccc;
+    margin: 1.5em 0;
+    padding: 0.5em 10px;
+    font-style: italic;
+    font-size: .85em;
+}
+#wenyan p code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+    background: #fff5f5;
+    color: #ff502c;
+    padding: 4px 6px;
+    font-size: .78em;
+}
+#wenyan pre {
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.55) 0px 0px 10px;
+    font-size: .8em;
+    line-height: 1.5;
+    margin: 1em 0.5em;
+    padding: 1em;
+}
+#wenyan pre code {
+    display: block;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
+}
