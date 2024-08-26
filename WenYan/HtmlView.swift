@@ -36,6 +36,8 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     var previewMode: PreviewMode = .mobile
     var platform: Platform = .gzh
     var highlightStyle: HighlightStyle = .github
+    var scrollFactor: CGFloat = 0
+    var isCopied = false
     
     init(appState: AppState) {
         self.appState = appState
@@ -45,7 +47,8 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     func setupWebView(_ webView: WKWebView) {
         webView.navigationDelegate = self
         let contentController = webView.configuration.userContentController
-        contentController.add(self, name: WebkitStatus.isReady)
+        contentController.add(self, name: WebkitStatus.loadHandler)
+        contentController.add(self, name: WebkitStatus.scrollHandler)
         webView.setValue(true, forKey: "drawsTransparentBackground")
         webView.allowsMagnification = false
         self.webView = webView
@@ -67,8 +70,11 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     // WKScriptMessageHandler 方法
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         // 处理来自 JavaScript 的消息
-        if message.name == WebkitStatus.isReady {
+        if message.name == WebkitStatus.loadHandler {
             configWebView()
+        } else if message.name == WebkitStatus.scrollHandler {
+            guard let body = message.body as? [String: CGFloat], let y = body["y0"] else { return }
+            scrollFactor = y
         }
     }
 }
@@ -118,6 +124,10 @@ extension HtmlViewModel {
         callJavascript(javascriptString: "setHighlight(null);")
     }
     
+    func scroll(scrollFactor: CGFloat) {
+        callJavascript(javascriptString: "scroll(\(scrollFactor));")
+    }
+    
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {
         WenYan.callJavascript(webView: webView, javascriptString: javascriptString, callback: callback)
     }
@@ -149,6 +159,13 @@ extension HtmlViewModel {
                 pasteBoard.setString(content, forType: .html)
             } catch {
                 self.appState.appError = AppError.bizError(description: error.localizedDescription)
+            }
+        }
+        isCopied = true
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            withAnimation {
+                self.isCopied = false
             }
         }
     }

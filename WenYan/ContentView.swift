@@ -22,6 +22,9 @@ struct ContentView: View {
             HStack {
                 MarkdownView(viewModel: markdownViewModel)
                     .frame(minWidth: 400, minHeight: 580)
+                    .onChange(of: htmlViewModel.scrollFactor) {
+                        markdownViewModel.scroll(scrollFactor: htmlViewModel.scrollFactor)
+                    }
                 HtmlView(viewModel: htmlViewModel)
                     .frame(minWidth: 400, minHeight: 580)
                     .overlay(alignment: .topTrailing) {
@@ -29,13 +32,16 @@ struct ContentView: View {
                             Button("预览", systemImage: htmlViewModel.previewMode == .mobile ? "iphone.gen1" : "desktopcomputer") {
                                 htmlViewModel.changePreviewMode()
                             }
-                            Button("复制", systemImage: "clipboard") {
+                            Button("复制", systemImage: htmlViewModel.isCopied ? "checkmark" : "clipboard") {
                                 htmlViewModel.onCopy()
                             }
                         }
                         .padding(.trailing, 32)
                         .padding(.top, 16)
                         .environment(\.colorScheme, .light)
+                    }
+                    .onChange(of: markdownViewModel.scrollFactor) {
+                        htmlViewModel.scroll(scrollFactor: markdownViewModel.scrollFactor)
                     }
             }
             .background(.white)

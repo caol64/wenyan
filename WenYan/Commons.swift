@@ -9,8 +9,9 @@ import Foundation
 import WebKit
 
 struct WebkitStatus {
-    static let isReady = "isReady"
-    static let textContentDidChange = "textContentDidChange"
+    static let loadHandler = "loadHandler"
+    static let contentChangeHandler = "contentChangeHandler"
+    static let scrollHandler = "scrollHandler"
 }
 
 // Helper to convert Swift string to JavaScript string literal

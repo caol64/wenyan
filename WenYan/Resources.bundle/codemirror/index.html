@@ -135,7 +135,7 @@
     <script>
       
       CodeMirror.keyMap["default"]["Cmd-/"] = "toggleComment";  // Add-on
-      
+      let isScrollingFromScript = false;
       var editor = CodeMirror(document.body, {
         lineNumbers: false,
         autofocus: true,
@@ -160,7 +160,7 @@
       });
       editor.on("change", function(instance, change) {
           var content = getContent();
-          window.webkit.messageHandlers.textContentDidChange.postMessage(content);
+          window.webkit.messageHandlers.contentChangeHandler.postMessage(content);
       });
 
       function setTabInsertSpaces(flag) {
@@ -184,10 +184,22 @@
       function getContent() {
         return editor.doc.getValue();
       }
+        
+        function scroll(scrollFactor) {
+            isScrollingFromScript = true;
+            window.scrollTo(0, document.body.scrollHeight * scrollFactor);
+            requestAnimationFrame(() => isScrollingFromScript = false);
+        }
+        
+        window.onscroll = function() {
+            if (!isScrollingFromScript) {
+                window.webkit.messageHandlers.scrollHandler.postMessage({ y0: window.scrollY / document.body.scrollHeight });
+            }
+        };
 
       setTabInsertSpaces(true);
 
-      window.webkit.messageHandlers.isReady.postMessage(null);
+      window.webkit.messageHandlers.loadHandler.postMessage(null);
 
     </script>
   </body>

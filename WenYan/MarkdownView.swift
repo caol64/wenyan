@@ -33,6 +33,7 @@ class MarkdownViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler 
     var appState: AppState
     var content: String = "# Marked in the browser\n\nRendered by **marked**."
     weak var webView: WKWebView?
+    var scrollFactor: CGFloat = 0
     
     init(appState: AppState) {
         self.appState = appState
@@ -42,8 +43,9 @@ class MarkdownViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler 
     func setupWebView(_ webView: WKWebView) {
         webView.navigationDelegate = self
         let contentController = webView.configuration.userContentController
-        contentController.add(self, name: WebkitStatus.isReady)
-        contentController.add(self, name: WebkitStatus.textContentDidChange)
+        contentController.add(self, name: WebkitStatus.loadHandler)
+        contentController.add(self, name: WebkitStatus.contentChangeHandler)
+        contentController.add(self, name: WebkitStatus.scrollHandler)
         webView.setValue(true, forKey: "drawsTransparentBackground")
         webView.allowsMagnification = false
         self.webView = webView
@@ -65,11 +67,14 @@ class MarkdownViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler 
     // WKScriptMessageHandler 方法
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         // 处理来自 JavaScript 的消息
-        if message.name == WebkitStatus.isReady {
+        if message.name == WebkitStatus.loadHandler {
             configWebView()
-        } else if message.name == WebkitStatus.textContentDidChange {
+        } else if message.name == WebkitStatus.contentChangeHandler {
             let content = (message.body as? String) ?? ""
             self.content = content
+        } else if message.name == WebkitStatus.scrollHandler {
+            guard let body = message.body as? [String: CGFloat], let y = body["y0"] else { return }
+            scrollFactor = y
         }
     }
 }
@@ -94,6 +99,10 @@ extension MarkdownViewModel {
     
     func getContent(_ block: JavascriptCallback?) {
         callJavascript(javascriptString: "getContent();", callback: block)
+    }
+    
+    func scroll(scrollFactor: CGFloat) {
+        callJavascript(javascriptString: "scroll(\(scrollFactor));")
     }
     
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {

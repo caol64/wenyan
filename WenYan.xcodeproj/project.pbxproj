@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		AB9DBBD12C74222500557CEF /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9DBBD02C74222500557CEF /* Commons.swift */; };
 		AB9DBBD32C74281600557CEF /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9DBBD22C74281600557CEF /* AppState.swift */; };
+		AB9FDB062C7C7BDE0063B0CE /* 256-mac.png in Resources */ = {isa = PBXBuildFile; fileRef = AB9FDB052C7C7BDE0063B0CE /* 256-mac.png */; };
 		ABA1CDE22C7320A9009101DB /* HtmlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1CDE12C7320A9009101DB /* HtmlView.swift */; };
 		ABB7F82E2C72EB290029E73E /* WenYanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F82D2C72EB290029E73E /* WenYanApp.swift */; };
 		ABB7F8302C72EB290029E73E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F82F2C72EB290029E73E /* ContentView.swift */; };
@@ -41,6 +42,7 @@
 /* Begin PBXFileReference section */
 		AB9DBBD02C74222500557CEF /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
 		AB9DBBD22C74281600557CEF /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		AB9FDB052C7C7BDE0063B0CE /* 256-mac.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "256-mac.png"; sourceTree = "<group>"; };
 		ABA1CDE12C7320A9009101DB /* HtmlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlView.swift; sourceTree = "<group>"; };
 		ABB7F82A2C72EB290029E73E /* WenYan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WenYan.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB7F82D2C72EB290029E73E /* WenYanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WenYanApp.swift; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 		AB0817BA2C7C763200AAA574 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				AB9FDB052C7C7BDE0063B0CE /* 256-mac.png */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -263,6 +266,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABB7F8382C72EB2A0029E73E /* Preview Assets.xcassets in Resources */,
+				AB9FDB062C7C7BDE0063B0CE /* 256-mac.png in Resources */,
 				ABB7F86B2C731FF60029E73E /* Resources.bundle in Resources */,
 				ABB7F8342C72EB2A0029E73E /* Assets.xcassets in Resources */,
 			);
@@ -450,6 +454,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WenYan/WenYan.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -489,6 +494,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WenYan/WenYan.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

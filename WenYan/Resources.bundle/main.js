@@ -1,5 +1,6 @@
 const {markedHighlight} = globalThis.markedHighlight;
 let postprocessMarkdown = "";
+let isScrollingFromScript = false;
 function preprocess(markdown) {
     const { attributes, body } = window.frontMatter(markdown);
     let head = "";
@@ -46,7 +47,7 @@ function setTheme(theme) {
 function setHighlight(highlight) {
     document.getElementById("hljs")?.remove();
     if (highlight) {
-        setStylesheet("hljs", highlight)
+        setStylesheet("hljs", highlight);
     }
 }
 function getContent() {
@@ -64,4 +65,14 @@ function getContent() {
 function getPostprocessMarkdown() {
     return postprocessMarkdown;
 }
-window.webkit.messageHandlers.isReady.postMessage(null);
+function scroll(scrollFactor) {
+    isScrollingFromScript = true;
+    window.scrollTo(0, document.body.scrollHeight * scrollFactor);
+    requestAnimationFrame(() => isScrollingFromScript = false);
+}
+window.onscroll = function() {
+    if (!isScrollingFromScript) {
+        window.webkit.messageHandlers.scrollHandler.postMessage({ y0: window.scrollY / document.body.scrollHeight });
+    }
+};
+window.webkit.messageHandlers.loadHandler.postMessage(null);
