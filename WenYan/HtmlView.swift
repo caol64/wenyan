@@ -98,6 +98,10 @@ extension HtmlViewModel {
         callJavascript(javascriptString: "getContent();", callback: block)
     }
     
+    func getPostprocessMarkdown(_ block: JavascriptCallback?) {
+        callJavascript(javascriptString: "getPostprocessMarkdown();", callback: block)
+    }
+    
     func setPreviewMode() {
         callJavascript(javascriptString: "setPreviewMode(\"\(previewMode.rawValue)\");")
     }
@@ -123,7 +127,14 @@ extension HtmlViewModel {
     }
     
     func onCopy() {
-        getContent() {result in
+        let fetchContent: (@escaping JavascriptCallback) -> Void
+        if self.platform == .juejin {
+            fetchContent = getPostprocessMarkdown
+        } else {
+            fetchContent = getContent
+        }
+
+        fetchContent { result in
             do {
                 var content = try result.get() as! String
                 if self.platform == .gzh {
@@ -131,6 +142,7 @@ extension HtmlViewModel {
                     let highlight = try loadFileFromResource(path: self.highlightStyle.rawValue)
                     content = "\(content)<style>\(theme)\(highlight)</style>"
                 }
+
                 print(content)
                 let pasteBoard = NSPasteboard.general
                 pasteBoard.clearContents()

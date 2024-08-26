@@ -1,5 +1,5 @@
-//const macCodeStyle = "display: block;background: url(\"https://mmbiz.qlogo.cn/mmbiz_svg/k0Ue4mIpaV9uX9bYibq05cX900RxJLXGlWmX9iaPRtstUkk54mbJyITaDM2Btic1vCiaAqfaCGEknNLSDwrVrM0a9X0Qe8ichLKcx/0?wx_fmt=svg&from=appmsg\");height: 30px;width: 100%;background-size: 40px;background-repeat: no-repeat;background-color: #fafafa;border-radius: 5px;background-position: 10px 10px;margin: 0;"
 const {markedHighlight} = globalThis.markedHighlight;
+let postprocessMarkdown = "";
 function preprocess(markdown) {
     const { attributes, body } = window.frontMatter(markdown);
     let head = "";
@@ -9,7 +9,8 @@ function preprocess(markdown) {
     if (attributes['description']) {
         head += "> " + attributes['description'] + "\n\n";
     }
-    return head + body;
+    postprocessMarkdown = head + body;
+    return postprocessMarkdown;
 }
 marked.use({ hooks: { preprocess } });
 marked.use(markedHighlight({
@@ -59,5 +60,8 @@ function getContent() {
 //    });
 //    return clonedWenyan.outerHTML;
     return document.getElementById("wenyan")?.outerHTML;
+}
+function getPostprocessMarkdown() {
+    return postprocessMarkdown;
 }
 window.webkit.messageHandlers.isReady.postMessage(null);

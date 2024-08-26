@@ -29,29 +29,15 @@
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 #wenyan h2 {
-    display: inline-block;
-    height: 40px;
-    background: #212122;
-    color: #ffffff;
-    border-bottom-right-radius: 100px;
-    padding-right: 30px;
-    padding-left: 20px;
-    line-height: 40px;
-    font-size: 1.2em;
-}
-#wenyan h3 {
     text-align: center;
-    border-bottom: 1px dashed #212122;
     font-size: 1.2em;
+    border-bottom: 1px solid #f7f7f7;
     font-weight: bold;
-    padding-bottom: 0.5em;
+    padding-bottom: 1em 0;
+    line-height: 2.5;
 }
-#wenyan h4 {
-    display: inline-block;
-    border-bottom: 1px dashed #212122;
-    font-weight: bold;
-}
-#wenyan h5, h6 {
+#wenyan h3, h4, h5, h6 {
+    font-size: 1em;
     font-weight: bold;
 }
 #wenyan p {
@@ -71,45 +57,51 @@
     max-width: 100%;
     table-layout: fixed;
     text-align: left;
-    width: 100%;
+    overflow: auto;
+    border: 1px solid #f6f6f6;
+    display: inline-block;
+    font-size: .75em;
 }
-#wenyan table th {
-    background: #ebeced;
-    color: #191b1f;
-    font-weight: 500;
+#wenyan table thead {
+    background: #f6f6f6;
+    color: #000;
+    text-align: left;
 }
 #wenyan table td, table th {
-    border: 1px solid #c4c7ce;
-    height: 24px;
+    padding: 12px 7px;
     line-height: 24px;
-    padding: 3px 12px;
 }
 #wenyan blockquote {
-    background: #f9f9f9;
+    background: #afb8c133;
     border-left: 0.5em solid #ccc;
     margin: 1.5em 0;
     padding: 0.5em 10px;
     font-style: italic;
-    font-size: .85em;
+    font-size: .9em;
 }
 #wenyan p code {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
-    background: #fff5f5;
     color: #ff502c;
     padding: 4px 6px;
     font-size: .78em;
 }
 #wenyan pre {
     border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.55) 0px 0px 10px;
-    font-size: .8em;
+    font-size: .9em;
     line-height: 1.5;
     margin: 1em 0.5em;
     padding: 1em;
+    background-color: #afb8c133;
 }
 #wenyan pre code {
     display: block;
     overflow-x: auto;
     margin: 0;
     padding: 0;
+}
+#wenyan hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin-top: 2em;
+    margin-bottom: 2em;
 }

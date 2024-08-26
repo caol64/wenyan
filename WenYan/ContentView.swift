@@ -35,6 +35,7 @@ struct ContentView: View {
                         }
                         .padding(.trailing, 32)
                         .padding(.top, 16)
+                        .environment(\.colorScheme, .light)
                     }
             }
             .background(.white)
@@ -57,6 +58,7 @@ struct ContentView: View {
                 }
             }
         }
+        .navigationTitle("文颜")
     }
 
 }

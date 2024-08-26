@@ -87,7 +87,7 @@
 }
 #wenyan p code {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
-    color: #ff502c;
+    color: #1E6BB8;
 }
 #wenyan pre {
     border-radius: 3px;
@@ -102,4 +102,11 @@
     overflow-x: auto;
     margin: 0;
     padding: 0;
+}
+#wenyan hr {
+    width: 100%;
+    height: 1px;
+    background-color: #e8e8e8;
+    border: none;
+    margin: 20px 0;
 }
