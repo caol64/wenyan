@@ -41,11 +41,11 @@
     background-size: 16px 16px;
     background-position-y: 6px;
 }
-#wenyan p {
-
+#wenyan ul, ol {
+    padding-left: 1.2em;
 }
 #wenyan li {
-    margin: 0.5em 0 0.5em 1em;
+    margin-left: 1.2em;
 }
 #wenyan img {
     max-width: 100%;
@@ -109,4 +109,15 @@
     background-color: #e8e8e8;
     border: none;
     margin: 20px 0;
+}
+#wenyan #footnotes ul {
+    font-size: 0.9em;
+    margin: 0;
+    padding-left: 1.2em;
+}
+#wenyan #footnotes li {
+    margin: 0 0 0 1.2em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
 }

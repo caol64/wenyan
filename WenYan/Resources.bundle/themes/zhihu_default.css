@@ -38,11 +38,11 @@
     margin-bottom: 1.27273em;
     margin-top: 1.90909em;
 }
-#wenyan p {
-
+#wenyan ul, ol {
+    padding-left: 1.2em;
 }
 #wenyan li {
-    margin: 0.5em 0 0.5em 1em;
+    margin-left: 1.2em;
 }
 #wenyan img {
     max-width: 100%;
@@ -105,4 +105,15 @@
     margin: 2em auto;
     max-width: 100%;
     width: 240px;
+}
+#wenyan #footnotes ul {
+    font-size: 0.9em;
+    margin: 0;
+    padding-left: 1.2em;
+}
+#wenyan #footnotes li {
+    margin: 0 0 0 1.2em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
 }

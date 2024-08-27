@@ -38,6 +38,7 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     var highlightStyle: HighlightStyle = .github
     var scrollFactor: CGFloat = 0
     var isCopied = false
+    var isFootnotes = false
     
     init(appState: AppState) {
         self.appState = appState
@@ -56,15 +57,15 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     
     // WKNavigationDelegate 方法
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-        print("didFinish")
+//        print("didFinish")
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-        print("didFail")
+//        print("didFail")
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-        print("didFailProvisionalNavigation")
+//        print("didFailProvisionalNavigation")
     }
     
     // WKScriptMessageHandler 方法
@@ -128,22 +129,28 @@ extension HtmlViewModel {
         callJavascript(javascriptString: "scroll(\(scrollFactor));")
     }
     
+    func addFootnotes() {
+        if (isFootnotes) {
+            callJavascript(javascriptString: "addFootnotes();")
+        } else {
+            setContent()
+        }
+    }
+    
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {
         WenYan.callJavascript(webView: webView, javascriptString: javascriptString, callback: callback)
     }
     
     func onUpdate() {
         setContent()
+        if (isFootnotes) {
+            addFootnotes()
+        }
     }
     
     func onCopy() {
         let fetchContent: (@escaping JavascriptCallback) -> Void
-        if self.platform == .juejin {
-            fetchContent = getPostprocessMarkdown
-        } else {
-            fetchContent = getContent
-        }
-
+        fetchContent = getContent
         fetchContent { result in
             do {
                 var content = try result.get() as! String

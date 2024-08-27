@@ -29,12 +29,47 @@ struct ContentView: View {
                     .frame(minWidth: 400, minHeight: 580)
                     .overlay(alignment: .topTrailing) {
                         VStack {
-                            Button("预览", systemImage: htmlViewModel.previewMode == .mobile ? "iphone.gen1" : "desktopcomputer") {
+                            Button(action: {
                                 htmlViewModel.changePreviewMode()
+                            }) {
+                                HStack {
+                                    Image(systemName: htmlViewModel.previewMode == .mobile ? "iphone.gen1" : "desktopcomputer")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 16, height: 16)
+                                    Text("预览")
+                                        .font(.system(size: 14))
+                                }
+                                .frame(height: 24)
                             }
-                            Button("复制", systemImage: htmlViewModel.isCopied ? "checkmark" : "clipboard") {
+                            Button(action: {
+                                htmlViewModel.isFootnotes.toggle()
+                                htmlViewModel.addFootnotes()
+                            }) {
+                                HStack {
+                                    Image(systemName: htmlViewModel.isFootnotes ? "link.circle.fill" : "link.circle")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 16, height: 16)
+                                    Text("脚注")
+                                        .font(.system(size: 14))
+                                }
+                                .frame(height: 24)
+                            }
+                            Button(action: {
                                 htmlViewModel.onCopy()
+                            }) {
+                                HStack {
+                                    Image(systemName: htmlViewModel.isCopied ? "checkmark" : "clipboard")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 16, height: 16)
+                                    Text("复制")
+                                        .font(.system(size: 14))
+                                }
+                                .frame(height: 24)
                             }
+                            
                         }
                         .padding(.trailing, 32)
                         .padding(.top, 16)
@@ -47,6 +82,7 @@ struct ContentView: View {
             .background(.white)
         }
         .onAppear() {
+            markdownViewModel.loadExampleArticle()
             htmlViewModel.content = markdownViewModel.content
         }
         .onChange(of: markdownViewModel.content) {

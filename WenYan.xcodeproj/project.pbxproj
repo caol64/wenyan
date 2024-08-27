@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		AB9DBBD12C74222500557CEF /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9DBBD02C74222500557CEF /* Commons.swift */; };
 		AB9DBBD32C74281600557CEF /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9DBBD22C74281600557CEF /* AppState.swift */; };
-		AB9FDB062C7C7BDE0063B0CE /* 256-mac.png in Resources */ = {isa = PBXBuildFile; fileRef = AB9FDB052C7C7BDE0063B0CE /* 256-mac.png */; };
 		ABA1CDE22C7320A9009101DB /* HtmlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1CDE12C7320A9009101DB /* HtmlView.swift */; };
 		ABB7F82E2C72EB290029E73E /* WenYanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F82D2C72EB290029E73E /* WenYanApp.swift */; };
 		ABB7F8302C72EB290029E73E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F82F2C72EB290029E73E /* ContentView.swift */; };
@@ -266,7 +265,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				ABB7F8382C72EB2A0029E73E /* Preview Assets.xcassets in Resources */,
-				AB9FDB062C7C7BDE0063B0CE /* 256-mac.png in Resources */,
 				ABB7F86B2C731FF60029E73E /* Resources.bundle in Resources */,
 				ABB7F8342C72EB2A0029E73E /* Assets.xcassets in Resources */,
 			);
