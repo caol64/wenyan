@@ -82,12 +82,15 @@ struct ContentView: View {
             .background(.white)
         }
         .onAppear() {
-            markdownViewModel.loadExampleArticle()
+            markdownViewModel.loadArticle()
             htmlViewModel.content = markdownViewModel.content
         }
         .onChange(of: markdownViewModel.content) {
             htmlViewModel.content = markdownViewModel.content
             htmlViewModel.onUpdate()
+            Task {
+                UserDefaults.standard.set(markdownViewModel.content, forKey: "lastArticle")
+            }
         }
         .toolbar() {
             ToolbarItemGroup {

@@ -35,6 +35,7 @@ function setContent(content) {
     container.setAttribute("id", "wenyan");
     container.setAttribute("class", "preview");
     document.body.appendChild(container);
+    MathJax.typeset();
 }
 function setPreviewMode(mode) {
     document.getElementById("style")?.remove();
@@ -51,16 +52,44 @@ function setHighlight(highlight) {
     }
 }
 function getContent() {
-//    const wenyan = document.getElementById("wenyan");
-//    const clonedWenyan = wenyan.cloneNode(true);
-//    const elements = clonedWenyan.querySelectorAll("#wenyan pre");
-//    elements.forEach(element => {
-//        const span = document.createElement("span");
-//        span.setAttribute("style", macCodeStyle);
-//        element.insertBefore(span, element.firstChild);
-//    });
-//    return clonedWenyan.outerHTML;
-    return document.getElementById("wenyan")?.outerHTML;
+    const wenyan = document.getElementById("wenyan");
+    const clonedWenyan = wenyan.cloneNode(true);
+    const elements = clonedWenyan.querySelectorAll("mjx-container");
+    elements.forEach(element => {
+        const math = element.getAttribute("math");
+        const parent = element.parentElement;
+        element.remove();
+        parent.innerHTML = math;
+    });
+    return clonedWenyan.outerHTML;
+}
+function getContentWithMathImg() {
+    const wenyan = document.getElementById("wenyan");
+    const clonedWenyan = wenyan.cloneNode(true);
+    const elements = clonedWenyan.querySelectorAll("mjx-container");
+    elements.forEach(element => {
+        const math = element.getAttribute("math");
+        const parent = element.parentElement;
+        element.remove();
+        let img = document.createElement("img");
+        img.setAttribute("alt", math);
+        img.setAttribute("data-eeimg", "true");
+        img.setAttribute("style", "margin: 0 auto; width: auto; max-width: 100%;");
+        parent.appendChild(img);
+    });
+    return clonedWenyan.outerHTML;
+}
+function getContentWithMathSvg() {
+    const wenyan = document.getElementById("wenyan");
+    const clonedWenyan = wenyan.cloneNode(true);
+    const elements = clonedWenyan.querySelectorAll("mjx-container");
+    elements.forEach(element => {
+        const svg = element.querySelector('svg');
+        const parent = element.parentElement;
+        element.remove();
+        parent.appendChild(svg);
+    });
+    return clonedWenyan.outerHTML;
 }
 function getPostprocessMarkdown() {
     return postprocessMarkdown;

@@ -109,6 +109,14 @@ extension HtmlViewModel {
         callJavascript(javascriptString: "getPostprocessMarkdown();", callback: block)
     }
     
+    func getContentWithMathImg(_ block: JavascriptCallback?) {
+        callJavascript(javascriptString: "getContentWithMathImg();", callback: block)
+    }
+    
+    func getContentWithMathSvg(_ block: JavascriptCallback?) {
+        callJavascript(javascriptString: "getContentWithMathSvg();", callback: block)
+    }
+    
     func setPreviewMode() {
         callJavascript(javascriptString: "setPreviewMode(\"\(previewMode.rawValue)\");")
     }
@@ -150,7 +158,16 @@ extension HtmlViewModel {
     
     func onCopy() {
         let fetchContent: (@escaping JavascriptCallback) -> Void
-        fetchContent = getContent
+        switch self.platform {
+        case .gzh:
+            fetchContent = getContentWithMathSvg
+        case .zhihu:
+            fetchContent = getContentWithMathImg
+        case .juejin:
+            fetchContent = getPostprocessMarkdown
+        default:
+            fetchContent = getContent
+        }
         fetchContent { result in
             do {
                 var content = try result.get() as! String
@@ -160,10 +177,14 @@ extension HtmlViewModel {
                     content = "\(content)<style>\(theme)\(highlight)</style>"
                 }
 
-                print(content)
+//                print(content)
                 let pasteBoard = NSPasteboard.general
                 pasteBoard.clearContents()
-                pasteBoard.setString(content, forType: .html)
+                if self.platform == .juejin {
+                    pasteBoard.setString(content, forType: .string)
+                } else {
+                    pasteBoard.setString(content, forType: .html)
+                }
             } catch {
                 self.appState.appError = AppError.bizError(description: error.localizedDescription)
             }

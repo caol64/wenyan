@@ -3,8 +3,10 @@
     line-height: 1.75;
 }
 #wenyan * {
-    margin: 1em 0;
     box-sizing: border-box;
+}
+#wenyan h1, h2, h3, h4, h5, h6, p, pre {
+    margin: 1em 0;
 }
 #wenyan pre code::-webkit-scrollbar {
     width: 6px;
@@ -50,7 +52,7 @@
 #wenyan img {
     max-width: 100%;
     height: auto;
-    margin:0 auto;
+    margin: 0 auto;
 }
 #wenyan table {
     margin-left: auto;

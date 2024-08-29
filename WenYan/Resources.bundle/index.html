@@ -11,6 +11,22 @@
         </script>
         <script src="highlight/highlight.min.js"></script>
         <script src="marked/marked_hljs.umd.min.js"></script>
+        <script>
+            function addContainer(math, doc) {
+                const tag = math.display ? 'section' : 'span';
+                const cls = math.display ? 'block-equation' : 'inline-equation';
+                math.typesetRoot.setAttribute("math", math.math);
+                math.typesetRoot = doc.adaptor.node(tag, {class: cls}, [math.typesetRoot]);
+            }
+            MathJax = {
+                options: {
+                    renderActions: {
+                        addContainer: [190, (doc) => {for (const math of doc.math) {addContainer(math, doc)}}, addContainer]
+                    }
+                }
+            };
+        </script>
+        <script src="mathjax/tex-svg.min.js"></script>
         <script src="main.js" defer></script>
     </head>
     <body>

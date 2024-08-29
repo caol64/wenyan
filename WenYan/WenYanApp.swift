@@ -12,11 +12,45 @@ import SwiftData
 struct WenYanApp: App {
     
     @State private var appState = AppState()
-
+    
     var body: some Scene {
         WindowGroup {
             ContentView(appState: appState)
                 .alert(isPresented: appState.showError, error: appState.appError) {}
         }
+        .commands {
+            CommandGroup(replacing: .appInfo) {
+                Button("About 文颜") {
+                    NSApplication.shared.orderFrontStandardAboutPanel(
+                        options: [
+                            NSApplication.AboutPanelOptionKey.credits: str(),
+                            NSApplication.AboutPanelOptionKey(
+                                rawValue: "Copyright"
+                            ): "© 2024 Lei Cao. All rights reserved."
+                        ]
+                    )
+                }
+            }
+        }
+    }
+    
+    func str() -> NSMutableAttributedString {
+        let contactInfo = "问题反馈：caol64@gmail.com"
+        let email = "caol64@gmail.com"
+
+        // 创建一个可变的富文本字符串
+        let attributedString = NSMutableAttributedString(
+            string: contactInfo,
+            attributes: [
+                .font: NSFont.systemFont(ofSize: NSFont.smallSystemFontSize)
+            ]
+        )
+
+        // 获取 email 在字符串中的范围
+        let emailRange = (contactInfo as NSString).range(of: email)
+
+        // 设置 email 为可点击链接
+        attributedString.addAttribute(.link, value: "mailto:\(email)", range: emailRange)
+        return attributedString
     }
 }

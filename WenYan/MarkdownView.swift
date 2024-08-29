@@ -109,13 +109,16 @@ extension MarkdownViewModel {
         WenYan.callJavascript(webView: webView, javascriptString: javascriptString, callback: callback)
     }
     
-    func loadExampleArticle() {
-        do {
-            content = try loadFileFromResource(forResource: "example", withExtension: "md")
-        } catch {
-            self.appState.appError = AppError.bizError(description: error.localizedDescription)
+    func loadArticle() {
+        if let lastArticle = UserDefaults.standard.string(forKey: "lastArticle") {
+            content = lastArticle
+        } else {
+            do {
+                content = try loadFileFromResource(forResource: "example", withExtension: "md")
+            } catch {
+                self.appState.appError = AppError.bizError(description: error.localizedDescription)
+            }
         }
-        
     }
 
 }

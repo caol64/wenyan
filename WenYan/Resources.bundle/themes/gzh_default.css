@@ -3,8 +3,10 @@
     line-height: 1.75;
 }
 #wenyan * {
-    margin: 1em 0;
     box-sizing: border-box;
+}
+#wenyan h1, h2, h3, h4, h5, h6, p, pre {
+    margin: 1em 0;
 }
 #wenyan pre code::-webkit-scrollbar {
     width: 6px;
@@ -25,7 +27,6 @@
     text-align: center;
     font-size: 1.5em;
     font-weight: bold;
-    padding-bottom: 1em;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 #wenyan h2 {
@@ -33,8 +34,6 @@
     font-size: 1.2em;
     border-bottom: 1px solid #f7f7f7;
     font-weight: bold;
-    padding-bottom: 1em 0;
-    line-height: 2.5;
 }
 #wenyan h3, h4, h5, h6 {
     font-size: 1em;
@@ -49,7 +48,7 @@
 #wenyan img {
     max-width: 100%;
     height: auto;
-    margin:0 auto;
+    margin: 0 auto;
 }
 #wenyan table {
     border-collapse: collapse;
