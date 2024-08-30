@@ -39,6 +39,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		AB5842E62C8163970033F82C /* black.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = black.svg; sourceTree = "<group>"; };
+		AB5842E92C816AD40033F82C /* 1.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.webp; sourceTree = "<group>"; };
 		AB9DBBD02C74222500557CEF /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
 		AB9DBBD22C74281600557CEF /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		AB9FDB052C7C7BDE0063B0CE /* 256-mac.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "256-mac.png"; sourceTree = "<group>"; };
@@ -90,6 +92,8 @@
 			isa = PBXGroup;
 			children = (
 				AB9FDB052C7C7BDE0063B0CE /* 256-mac.png */,
+				AB5842E92C816AD40033F82C /* 1.webp */,
+				AB5842E62C8163970033F82C /* black.svg */,
 			);
 			path = Data;
 			sourceTree = "<group>";
