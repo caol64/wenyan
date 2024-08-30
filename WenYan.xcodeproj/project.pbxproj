@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		AB62C8F62C7DD9190077A46A /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = AB62C8F52C7DD9190077A46A /* Info.plist */; };
 		AB9DBBD12C74222500557CEF /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9DBBD02C74222500557CEF /* Commons.swift */; };
 		AB9DBBD32C74281600557CEF /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9DBBD22C74281600557CEF /* AppState.swift */; };
 		ABA1CDE22C7320A9009101DB /* HtmlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1CDE12C7320A9009101DB /* HtmlView.swift */; };
@@ -40,12 +39,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		AB62C8F52C7DD9190077A46A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AB9DBBD02C74222500557CEF /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
 		AB9DBBD22C74281600557CEF /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		AB9FDB052C7C7BDE0063B0CE /* 256-mac.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "256-mac.png"; sourceTree = "<group>"; };
 		ABA1CDE12C7320A9009101DB /* HtmlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlView.swift; sourceTree = "<group>"; };
-		ABB7F82A2C72EB290029E73E /* WenYan.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WenYan.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABB7F82A2C72EB290029E73E /* 文颜.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "文颜.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB7F82D2C72EB290029E73E /* WenYanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WenYanApp.swift; sourceTree = "<group>"; };
 		ABB7F82F2C72EB290029E73E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		ABB7F8332C72EB2A0029E73E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -113,7 +111,7 @@
 		ABB7F82B2C72EB290029E73E /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				ABB7F82A2C72EB290029E73E /* WenYan.app */,
+				ABB7F82A2C72EB290029E73E /* 文颜.app */,
 				ABB7F83D2C72EB2A0029E73E /* WenYanTests.xctest */,
 				ABB7F8472C72EB2A0029E73E /* WenYanUITests.xctest */,
 			);
@@ -133,7 +131,6 @@
 				ABB7F8352C72EB2A0029E73E /* WenYan.entitlements */,
 				ABB7F8362C72EB2A0029E73E /* Preview Content */,
 				ABB7F86A2C731FF60029E73E /* Resources.bundle */,
-				AB62C8F52C7DD9190077A46A /* Info.plist */,
 			);
 			path = WenYan;
 			sourceTree = "<group>";
@@ -180,7 +177,7 @@
 			);
 			name = WenYan;
 			productName = WenYan;
-			productReference = ABB7F82A2C72EB290029E73E /* WenYan.app */;
+			productReference = ABB7F82A2C72EB290029E73E /* 文颜.app */;
 			productType = "com.apple.product-type.application";
 		};
 		ABB7F83C2C72EB2A0029E73E /* WenYanTests */ = {
@@ -244,11 +241,11 @@
 			};
 			buildConfigurationList = ABB7F8252C72EB290029E73E /* Build configuration list for PBXProject "WenYan" */;
 			compatibilityVersion = "Xcode 14.0";
-			developmentRegion = en;
+			developmentRegion = "zh-Hans";
 			hasScannedForEncodings = 0;
 			knownRegions = (
-				en,
 				Base,
+				"zh-Hans",
 			);
 			mainGroup = ABB7F8212C72EB290029E73E;
 			productRefGroup = ABB7F82B2C72EB290029E73E /* Products */;
@@ -267,7 +264,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AB62C8F62C7DD9190077A46A /* Info.plist in Resources */,
 				ABB7F8382C72EB2A0029E73E /* Preview Assets.xcassets in Resources */,
 				ABB7F86B2C731FF60029E73E /* Resources.bundle in Resources */,
 				ABB7F8342C72EB2A0029E73E /* Assets.xcassets in Resources */,
@@ -389,6 +385,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "文颜";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -444,6 +441,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "文颜";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -459,7 +457,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WenYan/WenYan.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"WenYan/Preview Content\"";
 				DEVELOPMENT_TEAM = NNQB2TH9QC;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -481,9 +479,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYan;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = WenYan;
+				PRODUCT_NAME = "文颜";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = macosx;
 				SUPPORTS_MACCATALYST = NO;
@@ -500,7 +499,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WenYan/WenYan.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"WenYan/Preview Content\"";
 				DEVELOPMENT_TEAM = NNQB2TH9QC;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -522,9 +521,10 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.1;
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYan;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_MODULE_NAME = WenYan;
+				PRODUCT_NAME = "文颜";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = macosx;
 				SUPPORTS_MACCATALYST = NO;
