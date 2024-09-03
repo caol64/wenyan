@@ -117,15 +117,15 @@ function addFootnotes() {
 
         // 在链接后插入脚注标记
         const footnoteMarker = document.createElement('sup');
-        footnoteMarker.innerHTML = `<a href="#footnote-${footnoteIndex}" style="text-decoration: none;">[${footnoteIndex}]</a>`;
+        footnoteMarker.innerHTML = `[${footnoteIndex}]`;
         linkElement.after(footnoteMarker);
     });
     if (footnoteIndex > 0) {
         let footnoteArray = footnotes.map((x) => {
             if (x[1] === x[2]) {
-                return `<li id="#footnote-${x[0]}">[${x[0]}]: <i><a href="${x[1]}">${x[1]}</a></i></li>`;
+                return `<li id="#footnote-${x[0]}">[${x[0]}]: <i>${x[1]}</i></li>`;
             }
-            return `<li id="#footnote-${x[0]}">[${x[0]}] ${x[1]}: <i><a href="${x[2]}">${x[2]}</a></i></li>`;
+            return `<li id="#footnote-${x[0]}">[${x[0]}] ${x[1]}: <i>${x[2]}</i></li>`;
         });
         const footnotesHtml = `<h3>引用链接</h3><div id="footnotes"><ul>${footnoteArray.join("")}</ul></div>`;
         document.getElementById("wenyan").innerHTML += footnotesHtml;

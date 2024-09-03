@@ -16,7 +16,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "ABB7F8292C72EB290029E73E"
-               BuildableName = "WenYan.app"
+               BuildableName = "&#x6587;&#x989c;.app"
                BlueprintName = "WenYan"
                ReferencedContainer = "container:WenYan.xcodeproj">
             </BuildableReference>
@@ -69,7 +69,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "ABB7F8292C72EB290029E73E"
-            BuildableName = "WenYan.app"
+            BuildableName = "&#x6587;&#x989c;.app"
             BlueprintName = "WenYan"
             ReferencedContainer = "container:WenYan.xcodeproj">
          </BuildableReference>
@@ -86,7 +86,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "ABB7F8292C72EB290029E73E"
-            BuildableName = "WenYan.app"
+            BuildableName = "&#x6587;&#x989c;.app"
             BlueprintName = "WenYan"
             ReferencedContainer = "container:WenYan.xcodeproj">
          </BuildableReference>
