@@ -50,6 +50,7 @@
     max-width: 100%;
     height: auto;
     margin: 0 auto;
+    display: block;
 }
 #wenyan table {
     border-collapse: collapse;
