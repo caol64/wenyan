@@ -31,3 +31,7 @@
 本项目已上架`App Store`，你可以直接点击下方链接或搜索“文颜”下载：
 
 <a href="https://apps.apple.com/cn/app/%E6%96%87%E9%A2%9C/id6670157335?mt=12&amp;itsct=apps_box_badge&amp;itscg=30200" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 250px; height: 83px;"><img src="Data/black.svg" alt="Download on the Mac App Store" style="border-radius: 13px; width: 250px; height: 83px;"></a>
+
+`Windows`版下载：
+
+[文颜](https://yuzhi.tech/wenyan)
