@@ -46,6 +46,7 @@ class MarkdownViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler 
         contentController.add(self, name: WebkitStatus.loadHandler)
         contentController.add(self, name: WebkitStatus.contentChangeHandler)
         contentController.add(self, name: WebkitStatus.scrollHandler)
+        contentController.add(self, name: WebkitStatus.clickHandler)
         webView.setValue(true, forKey: "drawsTransparentBackground")
         webView.allowsMagnification = false
         self.webView = webView
@@ -72,9 +73,16 @@ class MarkdownViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler 
         } else if message.name == WebkitStatus.contentChangeHandler {
             let content = (message.body as? String) ?? ""
             self.content = content
+            Task {
+                UserDefaults.standard.set(content, forKey: "lastArticle")
+            }
         } else if message.name == WebkitStatus.scrollHandler {
             guard let body = message.body as? [String: CGFloat], let y = body["y0"] else { return }
             scrollFactor = y
+        } else if message.name == WebkitStatus.clickHandler {
+            if appState.showThemeList {
+                appState.showThemeList = false
+            }
         }
     }
 }

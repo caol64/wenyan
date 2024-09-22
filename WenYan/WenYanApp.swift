@@ -35,8 +35,8 @@ struct WenYanApp: App {
     }
     
     func str() -> NSMutableAttributedString {
-        let contactInfo = "问题反馈：caol64@gmail.com"
-        let email = "caol64@gmail.com"
+        let contactInfo = "问题反馈：support@yuzhi.tech"
+        let email = "support@yuzhi.tech"
 
         // 创建一个可变的富文本字符串
         let attributedString = NSMutableAttributedString(

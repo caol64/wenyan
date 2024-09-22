@@ -1,338 +1,318 @@
-/* https://github.com/sylviaxgj/typora-forest-theme */
+/* https://github.com/kevinzhao2233/typora-theme-pie */
 
-/** color vars **/
 :root {
-  /* system vars*/
-  --primary-color: #f0f0f0; /* color of primary buttons */
-  --side-bar-bg-color: #003444;
-  --active-file-bg-color: #004144; /* sidebar active & hover */
-  --active-file-text-color: #ffffff;
-  --active-file-border-color: #757575;
-  --item-hover-text-color: #fff;
-  --item-hover-bg-color: #005C44;  /* sidebar footer item hover*/
-  --control-text-color: #ddd;
-  --control-text-hover-color: #fff;
-  --monospace: 'SourceHanSansSC','JetBrains Mono', -apple-system, sans-serif;
-
-  /* custom vars */
-  --theme-primary-color: #00997B; /* rgb(0, 153, 123) */
-  --white-color: #fff;
-
-  /* head */
-  --head-text-color: #333444;
-  --h1-text-color: rgba(0, 52, 68, 0.9);
-  --h5-text-color: var(--theme-primary-color);
-  --h6-text-color: rgba(0, 153, 123, 0.838);
-  --head-prefix-color: #D0D0D0;
-
-  /* text */
-  --text-color: #363C42;
-  --text-search-hit-color: rosybrown;
-
-  /* highlight */
-  --highlight-bg-color: #FFF3F3;
-  --highlight-text-color: #FF2F2F;
-
-  /* a link */
-  --a-text-color: var(--theme-primary-color);
-
-  /* annotate */
-  --annotate-text-color: #8CAA16;
-
-  /* inline code */
-  --inline-code-bg-color: #f3f3f3;
-  --inline-code-text-color: #00769A;
-
-  /* selection */
-  --selection-text-color: rgba(0, 153, 123, 0.2);
-
-  /* check-box */
-  --checked-text-color: #ADB5BD;
-  --line-through-color: #CFD4DA;
-  --border-color: #868E96;
-
-  /* table */
-  --table-border-color: #DADCDE;
-  --table-cell-bg-color:rgba(0, 153, 123, 0.03);
-
-  /* quote */
-  --quote-bg-color: rgba(0, 153, 123, 0.05);
-  --quote-text-color: #81888D ;
-
-  /* sidebar */
-  --sidebar-footer-dropdown-menu-border-color: #212529;
-  --sidebar-footer-dropdown-menu-item-border-color: #ADB5BD;
-  --sidebar-footer-item-hover-bg-color: #004544;
-  --siderbar-dropdown-menu-text-color: #fff;
-
-  /* sidebar resizer */
-  --sidebar-resizer: #6eace2;
-
-  /*--window-border: #e5e5e5;*/
-  --window-border: #1F6F57; /*sidebar layout border*/
+    --primary-color: #f22f27;
+    
+    /* 中性色 */
+    --mid-1: #ffffff;
+    --mid-2: #fafafa;
+    --mid-3: #f5f5f5;
+    --mid-4: #f0f0f0;
+    --mid-5: #d9d9d9;
+    --mid-6: #bfbfbf;
+    --mid-7: #8c8c8c;
+    --mid-8: #595959;
+    --mid-9: #434343;
+    --mid-10: #262626;
+    --mid-11: #1f1f1f;
+    --mid-12: #141414;
+    --mid-13: #000000;
+    
+    /* 主题色 */
+    --main-1: #fff2f0;
+    --main-2: #ffd6d1;
+    --main-3: #ffb0a8;
+    --main-4: #f27f79;
+    --main-5: #e6514e;
+    --main-6: #da282a;
+    --main-7: #b3171f;
+    --main-8: #893128;
+    --main-9: #66030f;
+    --main-10: #40010b;
+    
+    /* 字体 */
+    --font-normal: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-code: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
 }
 
 
-/* global && write area */
 #wenyan {
-  line-height: 1.6;
-  background: var(--white-color);
-  font-family: 'SourceHanSansSC','JetBrains Mono', -apple-system, sans-serif;
+    font-family: var(--font-normal);
+    line-height: 1.75;
+    color: var(--mid-10);
+    letter-spacing: 0;
 }
-#wenyan h1, #wenyan h2, #wenyan h3, #wenyan h4, #wenyan h5, #wenyan h6, #wenyan p {
-  width: auto;
+#wenyan * {
+    box-sizing: border-box;
 }
-p {
-  font-size: 1em;
-  font-family: 'SourceHanSansSC', 'JetBrains Mono', -apple-system, sans-serif;
-  line-height: 1.6;
-  color: var(--text-color);
+#wenyan p, pre {
+    margin: 1em .8em;
+}
+#wenyan p {
+    word-spacing: 0.05rem;
+    text-align: justify;
 }
 
-/* heading */
-#wenyan h1, h2, h3, h4, h5, h6 {
-  width: auto;
-  line-height: 2;
-  font-style: normal;
-  margin-top: 14px;
-  margin-bottom: 14px;
+/* 链接 */
+#wenyan a {
+    color: var(--main-6);
+    text-decoration: none;
+    border-bottom: 1px solid var(--main-6);
+    transition: border-bottom 0.2s;
+    padding: 0 2px;
+    font-weight: 500;
+    text-decoration: none;
 }
-#wenyan h2, h3, h4 {
-  color: var(--head-text-color);
+
+/* 链接内容为空时直接啥也不显示，比如锚点的地方 */
+#wenyan a:empty {
+    font-size: 0;
+    border: none;
 }
-#wenyan h2::before, h3::before, h4::before, h5::before, h6::before,
-h2.md-focus::before, h3.md-focus::before, h4.md-focus::before, h5.md-focus::before, h6.md-focus::before {
-  position: absolute;
-  right: calc(100% + 10px);
-  top: 50%;
-  transform: translateY(-50%);
-  color: var(--head-prefix-color);
-  font-size: 0.8rem;
-  font-weight: bold;
-  font-variant: 'small-caps';
-  line-height: 2;
-  padding: 0;
-  border: 0;
+
+#wenyan h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    position: relative;
+    margin: 1.2em 0 1em;
+    padding: 0px;
+    font-weight: bold;
+    cursor: text;
+}
+
+#wenyan h2 a,
+h3 a {
+    color: var(--mid-9);
 }
 
 #wenyan h1 {
-  font-size: 2.1rem;
-  font-weight: 900;
-  text-align: center;
-  color: var(--h1-text-color);
+    font-size: 1.5em;
+    text-align: center;
 }
-#wenyan h1>span{
-  position: relative;
-  display: inline-block;
-}
-#wenyan h1>span:after{
-  content: '';
-  display: block;
-  position: absolute;
-  border-top: 3px double var(--h1-text-color);
-  height: 3px;
-  width: 15rem;
-  max-width: 80%;
-  left: 50%;
-  transform: translateX(-50%);
+
+#wenyan h1::after {
+    display: block;
+    width: 100px;
+    height: 2px;
+    margin: 0.2em auto 0;
+    content: '';
+    border-bottom: 2px dashed var(--main-6);
 }
 
 #wenyan h2 {
-  font-size: 1.7rem;
-  font-weight: 800;
-}
-#wenyan>h2::before {
-  content: 'H2';
+    padding-left: 6px;
+    margin: 2em auto 1.4em;
+    font-size: 1.3em;
+    border-left: 6px solid var(--main-6);
 }
 
 #wenyan h3 {
-  font-size: 1.4rem;
-  font-weight: 800;
-}
-#wenyan>h3::before {
-  content: 'H3';
+    font-size: 1.2em;
 }
 
-#wenyan h4, #wenyan h5, #wenyan h5 {
-  font-size: 1.2rem;
-  font-weight: bold;
+/* --- 三级标题左边的小圆点 --- */
+#wenyan h3::before {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    margin-right: 6px;
+    margin-bottom: 0.18em;
+    line-height: 1.43;
+    vertical-align: middle;
+    content: '';
+    background-color: var(--main-5);
+    border-radius: 50%;
 }
+
+#wenyan h4 {
+    font-size: 1.2em;
+}
+
+/* --- 四级标题左边的小短线 --- */
+#wenyan h4::before {
+    display: inline-block;
+    width: 6px;
+    height: 2px;
+    margin-right: 8px;
+    margin-bottom: 0.18em;
+    vertical-align: middle;
+    content: '';
+    background-color: var(--main-4);
+}
+
 #wenyan h5 {
-  color: var(--h5-text-color);
+    font-size: 1.2em;
 }
+
 #wenyan h6 {
-  color: var(--h6-text-color);
-}
-#wenyan>h4::before {
-  content: 'H4';
-}
-#wenyan>h5::before {
-  content: 'H5';
-}
-#wenyan>h6::before {
-  content: 'H6';
+    font-size: 1.2em;
+    color: var(--mid-7);
 }
 
-
-/* inline element */
-#wenyan a {
-  color: var(--a-text-color);
-  cursor: pointer;
-  padding: 0 3px 0 3px;
-  text-decoration: none;
+#wenyan li > ol,
+li > ul {
+    margin: 0;
 }
-#wenyan a:hover {
-  text-decoration: none;
-  border-bottom: 1px solid;
+
+#wenyan hr {
+    box-sizing: content-box;
+    width: 100%;
+    height: 1px;
+    padding: 0;
+    margin: 46px auto 64px;
+    overflow: hidden;
+    background-color: var(--main-4);
+    border: 0;
+}
+
+/* --- 引用块 --- */
+#wenyan blockquote {
+    position: relative;
+    padding: 24px 16px 12px;
+    margin: 24px 0 36px;
+    font-size: 1em;
+    font-style: normal;
+    line-height: 1.6;
+    color: var(--mid-7);
+    text-indent: 0;
+    border: none;
+    border-left: 2px solid var(--main-6);
+}
+
+#wenyan blockquote blockquote {
+    padding-right: 0;
+}
+
+#wenyan blockquote a {
+    color: var(--mid-7);
+}
+
+/* “ 装饰 */
+#wenyan blockquote::before {
+    position: absolute;
+    top: 0;
+    left: 12px;
+    font-family: Arial, serif;
+    font-size: 2em;
+    font-weight: 700;
+    line-height: 1em;
+    color: var(--main-6);
+    content: '“';
+}
+
+/* 表格 */
+#wenyan table {
+    border-collapse: collapse;
+    margin: 1.4em auto;
+    max-width: 100%;
+    table-layout: fixed;
+    text-align: left;
+    overflow: auto;
+    border: 1px solid #f6f6f6;
+    display: inline-block;
+    font-size: .75em;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+#wenyan table td, table th {
+    height: 40px;
+    padding: 9px 12px;
+    line-height: 22px;
+    min-width: 60px;
+    vertical-align: top;
+    color: #222;
+    border: 1px solid #d8d8d8;
+}
+#wenyan table th {
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+#wenyan table tr:nth-child(2n) {
+    background-color: #F8F8F8;
 }
 
 #wenyan strong {
-  font-weight: 700;
+    padding: 0 1px;
 }
 
-#wenyan mark {
-  background: var(--highlight-bg-color);
-  color: var(--highlight-text-color);
-  font-weight: 500;
-  padding: 0 2px 0 2px;
-  margin: 0 2px 0 2px;
-  border-radius: 2px;
+#wenyan em {
+    padding: 0 5px 0 2px;
 }
 
-/* inline code */
-#wenyan code{
-  margin: 0 2px;
-  padding: 0px 4px;
-  font-size: 0.95rem;
-  background: var(--inline-code-bg-color);
-  display: inline;
-  vertical-align: top;
-  line-height: 1.6;
-  border-radius: 6px;
-  font-weight: 700;
-  color: var(--inline-code-text-color);
+#wenyan p code,
+tt {
+    padding: 2px 4px 1px;
+    margin: 0 2px;
+    font-family: var(--font-code) !important;
+    font-size: 0.92rem;
+    color: var(--main-5);
+    background-color: var(--main-1);
+    border-radius: 3px;
 }
 
+#wenyan p code {
+    vertical-align: 0.5px;
+}
+
+#wenyan .footnote {
+    color: var(--main-5);
+    background-color: var(--main-1);
+}
+
+/* --- 图片 --- */
 #wenyan img {
-  margin-top: 0.2rem;
-  margin-bottom: 0.2rem;
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    border-radius: 4px;
 }
 
-
-/* underline */
-#wenyan u {
-  text-decoration: none;
+/* 代码块 */
+#wenyan pre {
+    border-radius: 5px;
+    font-size: .8em;
+    line-height: 2;
+    margin: 1em 0.5em;
+    padding: 1em;
+    background-color: #fafafa;
+    box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;
 }
-#wenyan u>span {
-  border-bottom: 1px solid;
+#wenyan pre code {
+    display: block;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
+    font-family: var(--font-code);
 }
-
-/* quote */
-#wenyan blockquote {
-  position: relative;
-  padding: 1rem;
-  background-color: var(--quote-bg-color);
-  border-radius: 6px;
-  line-height: 1;
+#wenyan pre code::-webkit-scrollbar-track {
+    border-radius: 6px;
+    background-color: #c8c8c84d
 }
-#wenyan blockquote p {
-  color: var(--quote-text-color);
-  margin: 0 ;
+#wenyan pre code::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #90929880
 }
-#wenyan blockquote::before {
-  content: '';
-  position: absolute;
-  top: 0rem;
-  left: 0rem;
-  height: 100%;
-  width: .30rem;
-  background: var(--theme-primary-color);
-  border-top-left-radius: 6px;
-  border-bottom-left-radius: 6px;
+#wenyan pre code::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #fff
 }
-
-/* hr */
-#wenyan hr {
-  border-top: 1px dashed var(--theme-primary-color);
-  transform: scaleY(0.5);
-  width: 90%;
+/* 脚注 */
+#wenyan #footnotes p {
+    margin: 0;
+    font-size: 0.9em;
+    padding-left: 1.2em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    line-height: 2;
 }
-
-/* ul, ol */
-#wenyan ul>li>ul>li {
-  list-style-type: circle;
+#wenyan #footnotes p span {
+    margin-left: 1.2em;
 }
-#wenyan ul>li>ul>li>ul>li {
-  list-style-type: disc;
+#wenyan .footnote {
+    color: rgb(239, 112, 96);
 }
-#wenyan ul>li>ul>li>ul>li>ul>li {
-  list-style-type: circle;
-}
-#wenyan ul>li>ul>li>ul>li>ul>li>ul>li {
-  list-style-type: disc;
-}
-#wenyan ul>li>ul>li>ul>li>ul>li>ul>li>ul>li {
-  list-style-type: circle;
-}
-
-#wenyan ol ul li {
-  list-style-type: circle;
-}
-#wenyan ol ul>li>ul>li {
-  list-style-type: disc;
-}
-#wenyan ol ul>li>ul>li>ul>li {
-  list-style-type: circle;
-}
-#wenyan ol ul>li>ul>li>ul>li>ul>li {
-  list-style-type: disc;
-}
-#wenyan ol ul>li>ul>li>ul>li>ul>li>ul>li {
-  list-style-type: circle;
-}
-#wenyan ol ul>li>ul>li>ul>li>ul>li>ul>li>ul>li {
-  list-style-type: circle;
-}
-
-#wenyan ol>li>ol>li {
-  list-style-type: lower-alpha;
-}
-#wenyan ol>li>ol>li>ol>li {
-  list-style-type: decimal;
-}
-#wenyan ol>li>ol>li>ol>li>ol>li {
-  list-style-type: lower-alpha;
-}
-#wenyan ol>li>ol>li>ol>li>ol>li>ol>li {
-  list-style-type: decimal;
-}
-#wenyan ol>li>ol>li>ol>li>ol>li>ol>li>ol>li {
-  list-style-type: lower-alpha;
-}
-#wenyan ol>li>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li {
-  list-style-type: decimal;
-}
-
-
-/* table */
-#wenyan table tr:nth-child(2n), table thead  {
-  background-color: var(--table-cell-bg-color);
-}
-#wenyan table thead {
-  font-weight: 900;
-}
-
-#wenyan table tbody tr {
-  border-bottom: 1px solid var(--table-border-color);
-}
-#wenyan table tr:first-of-type {
-  border-top: 1px solid var(--table-border-color);
-}
-#wenyan table tr th, table tr td {
-  border-left: 1px solid var(--table-border-color);
-  padding: 6px 13px;
-}
-#wenyan table tr th:last-of-type, table tr td:last-of-type {
-  border-right: 1px solid var(--table-border-color);
-}
-

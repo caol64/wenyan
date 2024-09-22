@@ -1,18 +1,37 @@
-/* https://github.com/evgo2017/typora-theme-orange-heart */
+/* https://github.com/thezbm/typora-theme-rainbow */
+/*
+root variables including colors, font-familys and a shadow style
+*/
+:root {
+    --h-border-color: rgb(255, 191, 191);
+    --h-bg-color: rgb(255, 232, 232);
+    --table-border-color: rgb(255, 235, 211);
+    --th-bg-color: rgb(255, 243, 228);
+    --tr-bg-color: rgb(255, 249, 242);
+    --tr-hover-bg-color: rgb(254, 255, 230);
+    --code-bg-color: rgb(247, 247, 247);
+    --del-color: rgb(151, 151, 151);
+    --selection-bg-color: rgb(235, 227, 255);
+    --block-shadow: 0.15em 0.15em 0.5em rgb(150, 150, 150);
+    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+}
 
-/* 全局属性 */
+
 #wenyan {
-    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: var(--sans-serif-font);
     line-height: 1.75;
 }
 #wenyan * {
   box-sizing: border-box;
 }
 #wenyan p, pre {
-    margin: 1em 0;
+    margin: 1em .8em;
 }
 
-/*标题*/
+/*
+headers settings
+*/
 #wenyan h1,
 #wenyan h2,
 #wenyan h3,
@@ -24,145 +43,162 @@
   font-weight: bold;
 }
 #wenyan h1 {
-  font-size: 1.5rem;
+    font-size: 1.5em;
+    text-align: center;
+    text-shadow: 0.15em 0.15em 0.3em rgb(187, 187, 187);
 }
 #wenyan h2 {
-  font-size: 1.3rem;
-  border-bottom: 2px solid rgb(239, 112, 96);
+    font-size: 1.3em;
+    background-color: var(--h-bg-color);
+    padding-left: 1em;
+    padding-right: 1em;
+    border-left: 0.5em solid var(--h-border-color);
+    border-radius: 0.4em;
 }
-#wenyan .h2-span {
-  display: inline-block;
-  font-weight: bold;
-  background: rgb(239, 112, 96);
-  color: #ffffff;
-  padding: 3px 10px 1px;
-  border-top-right-radius: 3px;
-  border-top-left-radius: 3px;
-  margin-right: 3px;
-}
-#wenyan h2:after {
-  display: inline-block;
-  content: "";
-  vertical-align: bottom;
-  border-bottom: 36px solid #efebe9;
-  border-right: 20px solid transparent;
-}
-
 #wenyan h3 {
-  font-size: 1.3rem;
+    font-size: 1.3em;
+    text-decoration: underline double var(--h-border-color);
+    -webkit-text-decoration: underline double var(--h-border-color);
+    text-decoration-thickness: 0.15em;
 }
 #wenyan h4 {
-  font-size: 1.2rem;
+    font-size: 1.2em;
+    text-decoration: underline dotted var(--h-border-color);
+    -webkit-text-decoration: underline dotted var(--h-border-color);
+    text-decoration-thickness: 0.2em;
 }
-#wenyan h5 {
-  font-size: 1.1rem;
+
+/*
+tables settings
+*/
+#wenyan table {
+    border-collapse: collapse;
+    border: 0.25em solid var(--table-border-color);
+    margin: 1.4em auto;
+    max-width: 100%;
+    table-layout: fixed;
+    text-align: left;
+    overflow: auto;
+    display: inline-block;
+    font-size: .75em;
+    word-wrap: break-word;
+    word-break: break-all;
 }
-#wenyan h6 {
-  font-size: 1rem;
+#wenyan table th {
+    background-color: var(--th-bg-color);
 }
-/* 列表 */
-#wenyan ul,
-#wenyan ol {
-  margin-top: 8px;
-  margin-bottom: 8px;
-  padding-left: 25px;
-  color: black;
+#wenyan table th, td {
+    text-align: center;
+    border: 0.13em dashed var(--table-border-color);
+    padding: 0.5em;
+    height: 40px;
+    padding: 9px 12px;
+    line-height: 22px;
+    min-width: 60px;
+    vertical-align: top;
 }
-#wenyan ul {
-  list-style-type: disc;
+#wenyan table tr:nth-child(even) {
+    background-color: var(--tr-bg-color);
 }
-#wenyan ul ul {
-  list-style-type: square;
+#wenyan table tr:hover {
+    background-color: var(--tr-hover-bg-color);
 }
-#wenyan ol {
-  list-style-type: decimal;
-}
-/* 引用块 */
+
+/*
+blockquotes settings
+*/
 #wenyan blockquote {
-  margin: 0;
-  display: block;
-  font-size: .9em;
-  overflow: auto;
-  border-left: 3px solid rgb(239, 112, 96);
-  color: #6a737d;
-  padding: 10px 10px 10px 20px;
-  margin-bottom: 20px;
-  margin-top: 20px;
-  background: #fff9f9;
+    font-size: .9em;
+    margin: 0 1em;
+    color:rgb(102, 102, 102);
+    border-left: 0.25em solid rgb(169, 202, 255);
+    padding: 0.5em 1em 0.6em 1em;
+}
+#wenyan blockquote::before {
+    display: block;
+    height: 2em;
+    width: 1.5em;
+    content: "🌈";
+    font-size: 1.2em;
+}
+#wenyan blockquote p {
+    margin: 0;
+}
+/*
+horizontal rules settings
+*/
+#wenyan hr {
+    margin-top: 2em;
+    margin-bottom: 2em;
+    background-color: rgb(226, 226, 226);
+    height: 0.13em;
+    border: 0;
 }
 
-/* 链接 */
+/*
+code blocks settings
+*/
+#wenyan pre {
+    font-size: .8em;
+    line-height: 2;
+    padding: 0.6em;
+    background-color: var(--code-bg-color);
+    border-radius: 0.4em;
+    box-shadow: var(--block-shadow);
+}
+#wenyan pre code {
+    display: block;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
+    font-family: var(--monospace-font);
+}
+#wenyan pre code::-webkit-scrollbar-track {
+    border-radius: 6px;
+    background-color: #c8c8c84d
+}
+#wenyan pre code::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #90929880
+}
+#wenyan pre code::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #fff
+}
+/*
+inline codes settings
+*/
+#wenyan p code {
+    font-family: var(--monospace-font);
+    margin-left: 0.25em;
+    margin-right: 0.25em;
+    padding: 0.05em 0.3em;
+    background-color: var(--code-bg-color);
+    border-radius: 0.4em;
+    box-shadow: 0.13em 0.13em 0.26em rgb(197, 197, 197);
+    font-size: .9em;
+}
+
+/*
+urls settings
+*/
 #wenyan a {
-  text-decoration: none;
-  word-wrap: break-word;
-  font-weight: bold;
-  color: rgb(239, 112, 96);
-  border-bottom: 1px solid rgb(239, 112, 96);
+    color: rgb(31, 117, 255);
 }
 
-/* 行内代码 */
-#wenyan p code,
-#wenyan li code {
-  font-size: .9rem;
-  word-wrap: break-word;
-  padding: 2px 4px;
-  border-radius: 4px;
-  margin: 0 2px;
-  color:  rgb(239, 112, 96);;
-  background-color: rgba(27,31,35,.05);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
-  word-break: break-all;
-}
-
-/* 图片 */
+/*
+images settings
+*/
 #wenyan img {
     max-width: 100%;
     height: auto;
     margin: 0 auto;
     display: block;
+    border-radius: 5px;
+    box-shadow: var(--block-shadow);
 }
 
-#wenyan span img {
-  display: inline-block;
-  border-right: 0px;
-  border-left: 0px;
-}
-
-/* 表格 */
-#wenyan table {
-  border-collapse: collapse;
-  margin: 1.4em auto;
-  max-width: 100%;
-  table-layout: fixed;
-  text-align: left;
-  overflow: auto;
-  border: 1px solid #f6f6f6;
-  display: inline-block;
-  font-size: .75em;
-  word-wrap: break-word;
-  word-break: break-all;
-}
-#wenyan table td, table th {
-  height: 40px;
-  padding: 9px 12px;
-  line-height: 22px;
-  color: #222;
-  min-width: 60px;
-  border: 1px solid #d8d8d8;
-  vertical-align: top;
-}
-#wenyan table th {
-  font-weight: bold;
-  background-color: #f0f0f0;
-}
-#wenyan table tr:nth-child(2n) {
-  background-color: #F8F8F8;
-}
-
-/* 行内代码 */
-#wenyan span code, #wenyan li code {
-  color: rgb(239, 112, 96);
-}
 /* 脚注 */
 #wenyan #footnotes p {
   margin: 0;
@@ -177,35 +213,5 @@
   margin-left: 1.2em;
 }
 #wenyan .footnote {
-  color: rgb(239, 112, 96);
-}
-
-/* 代码块 */
-#wenyan pre {
-  border-radius: 5px;
-  font-size: .9em;
-  line-height: 1.5;
-  margin: 1em 0.5em;
-  padding: 1em;
-  background-color: #fafafa;
-  box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;
-}
-#wenyan pre code {
-  display: block;
-  overflow-x: auto;
-  margin: 0;
-  padding: 0;
-}
-#wenyan pre code::-webkit-scrollbar-track {
-  border-radius: 6px;
-  background-color: #c8c8c84d
-}
-#wenyan pre code::-webkit-scrollbar-thumb {
-  border-radius: 6px;
-  background-color: #90929880
-}
-#wenyan pre code::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-  background-color: #fff
+  color: rgb(31, 117, 255);
 }

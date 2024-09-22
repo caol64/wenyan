@@ -12,6 +12,7 @@ struct WebkitStatus {
     static let loadHandler = "loadHandler"
     static let contentChangeHandler = "contentChangeHandler"
     static let scrollHandler = "scrollHandler"
+    static let clickHandler = "clickHandler"
 }
 
 // Helper to convert Swift string to JavaScript string literal
@@ -68,11 +69,95 @@ func callJavascript(webView: WKWebView?, javascriptString: String, callback: Jav
     }
 }
 
+// 函数用于解析 CSS 并替换 `var()` 引用
+func replaceCSSVariables(css: String) -> String {
+    // 正则表达式用于匹配变量定义，例如 --sans-serif-font: ...
+    let variablePattern = #"--([a-zA-Z0-9\-]+):\s*([^;]+);"#
+    // 正则表达式用于匹配使用 var() 的地方
+    let varPattern = #"var\(--([a-zA-Z0-9\-]+)\)"#
+
+    var cssVariables = [String: String]()
+    
+    // 1. 提取变量定义并存入字典
+    if let regex = try? NSRegularExpression(pattern: variablePattern, options: []) {
+        let matches = regex.matches(in: css, options: [], range: NSRange(css.startIndex..., in: css))
+        
+        for match in matches {
+            if let variableRange = Range(match.range(at: 1), in: css),
+               let valueRange = Range(match.range(at: 2), in: css) {
+                let variableName = String(css[variableRange])
+                let variableValue = String(css[valueRange]).trimmingCharacters(in: .whitespacesAndNewlines)
+                
+                // 将变量存入字典
+                cssVariables[variableName] = variableValue
+            }
+        }
+    }
+
+    // 2. 替换 var() 引用为字典中对应的值
+    if let regex = try? NSRegularExpression(pattern: varPattern, options: []) {
+        var modifiedCSS = css
+        
+        let matches = regex.matches(in: css, options: [], range: NSRange(css.startIndex..., in: css))
+        for match in matches.reversed() {
+            if let varNameRange = Range(match.range(at: 1), in: css) {
+                let varName = String(css[varNameRange])
+                
+                // 查找对应的变量值
+                if let value = cssVariables[varName] {
+                    let fullMatchRange = Range(match.range, in: css)!
+                    modifiedCSS.replaceSubrange(fullMatchRange, with: value)
+                }
+            }
+        }
+        
+        return modifiedCSS
+    }
+
+    return css
+}
+
 enum ThemeStyle: String {
     case gzhDefault = "themes/gzh_default.css"
     case toutiaoDefault = "themes/toutiao_default.css"
     case zhihuDefault = "themes/zhihu_default.css"
     case juejinDefault = "themes/juejin_default.css"
+    case orangeHeart = "themes/orangeheart.css"
+    case rainbow = "themes/rainbow.css"
+    case lapis = "themes/lapis.css"
+    case pie = "themes/pie.css"
+    case maize = "themes/maize.css"
+    case purple = "themes/purple.css"
+    
+    var name: String {
+        switch self {
+        case .gzhDefault: "默认"
+        case .toutiaoDefault: "默认"
+        case .zhihuDefault: "默认"
+        case .juejinDefault: "默认"
+        case .orangeHeart: "Orange Heart"
+        case .rainbow: "Rainbow"
+        case .lapis: "Lapis"
+        case .pie: "Pie"
+        case .maize: "Maize"
+        case .purple: "Purple"
+        }
+    }
+    
+    var author: String {
+        switch self {
+        case .gzhDefault: ""
+        case .toutiaoDefault: ""
+        case .zhihuDefault: ""
+        case .juejinDefault: ""
+        case .orangeHeart: "evgo2017"
+        case .rainbow: "thezbm"
+        case .lapis: "YiNN"
+        case .pie: "kevinzhao2233"
+        case .maize: "BEATREE"
+        case .purple: "hliu202"
+        }
+    }
 }
 
 enum HighlightStyle: String {
@@ -97,7 +182,7 @@ enum Platform: String, CaseIterable, Identifiable {
     var themes: [ThemeStyle] {
         switch self {
         case .gzh:
-            return [.gzhDefault]
+            return [.gzhDefault, .orangeHeart, .rainbow, .lapis, .pie, .maize, .purple]
         case .zhihu:
             return [.zhihuDefault]
         case .toutiao:

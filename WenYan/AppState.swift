@@ -19,6 +19,7 @@ class AppState {
             }
         }
     }
+    var showThemeList: Bool = false
 }
 
 

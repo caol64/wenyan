@@ -39,6 +39,7 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     var scrollFactor: CGFloat = 0
     var isCopied = false
     var isFootnotes = false
+    var gzhTheme: ThemeStyle = Platform.gzh.themes[0]
     
     init(appState: AppState) {
         self.appState = appState
@@ -50,6 +51,7 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
         let contentController = webView.configuration.userContentController
         contentController.add(self, name: WebkitStatus.loadHandler)
         contentController.add(self, name: WebkitStatus.scrollHandler)
+        contentController.add(self, name: WebkitStatus.clickHandler)
         webView.setValue(true, forKey: "drawsTransparentBackground")
         webView.allowsMagnification = false
         self.webView = webView
@@ -76,6 +78,10 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
         } else if message.name == WebkitStatus.scrollHandler {
             guard let body = message.body as? [String: CGFloat], let y = body["y0"] else { return }
             scrollFactor = y
+        } else if message.name == WebkitStatus.clickHandler {
+            if appState.showThemeList {
+                appState.showThemeList = false
+            }
         }
     }
 }
@@ -83,6 +89,11 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
 extension HtmlViewModel {
     func configWebView() {
         setPreviewMode()
+        if platform == .gzh {
+            if let theme = UserDefaults.standard.string(forKey: "gzhTheme") {
+                gzhTheme = ThemeStyle(rawValue: theme) ?? platform.themes[0]
+            }
+        }
         setTheme()
         setHighlight()
         setContent()
@@ -117,12 +128,20 @@ extension HtmlViewModel {
         callJavascript(javascriptString: "getContentWithMathSvg();", callback: block)
     }
     
+    func getContentForGzh(_ block: JavascriptCallback?) {
+        callJavascript(javascriptString: "getContentForGzh();", callback: block)
+    }
+    
     func setPreviewMode() {
         callJavascript(javascriptString: "setPreviewMode(\"\(previewMode.rawValue)\");")
     }
     
     func setTheme() {
-        callJavascript(javascriptString: "setTheme(\"\(platform.themes[0].rawValue)\");")
+        if platform == .gzh {
+            callJavascript(javascriptString: "setTheme(\"\(gzhTheme.rawValue)\");")
+        } else {
+            callJavascript(javascriptString: "setTheme(\"\(platform.themes[0].rawValue)\");")
+        }
     }
     
     func setHighlight() {
@@ -139,7 +158,11 @@ extension HtmlViewModel {
     
     func addFootnotes() {
         if (isFootnotes) {
-            callJavascript(javascriptString: "addFootnotes();")
+            if platform == .gzh {
+                callJavascript(javascriptString: "addFootnotes(false);")
+            } else {
+                callJavascript(javascriptString: "addFootnotes(true);")
+            }
         } else {
             setContent()
         }
@@ -160,7 +183,7 @@ extension HtmlViewModel {
         let fetchContent: (@escaping JavascriptCallback) -> Void
         switch self.platform {
         case .gzh:
-            fetchContent = getContentWithMathSvg
+            fetchContent = getContentForGzh
         case .zhihu:
             fetchContent = getContentWithMathImg
         case .juejin:
@@ -172,9 +195,10 @@ extension HtmlViewModel {
             do {
                 var content = try result.get() as! String
                 if self.platform == .gzh {
-                    let theme = try loadFileFromResource(path: self.platform.themes[0].rawValue)
+                    let theme = try loadFileFromResource(path: self.gzhTheme.rawValue)
+                    let handledTheme = replaceCSSVariables(css: theme)
                     let highlight = try loadFileFromResource(path: self.highlightStyle.rawValue)
-                    content = "\(content)<style>\(theme)\(highlight)</style>"
+                    content = "\(content)<style>\(handledTheme)\(highlight)</style>"
                 }
 
 //                print(content)
@@ -204,12 +228,26 @@ extension HtmlViewModel {
     }
     
     func changePlatform(_ platform: Platform) {
+        if appState.showThemeList {
+            appState.showThemeList = false
+        }
         self.platform = platform
+        if (isFootnotes) {
+            setContent()
+            addFootnotes()
+        }
         setTheme()
         if (platform == .zhihu) {
             removeHighlight()
         } else {
             setHighlight()
+        }
+    }
+    
+    func changeTheme() {
+        setTheme()
+        Task {
+            UserDefaults.standard.set(gzhTheme.rawValue, forKey: "gzhTheme")
         }
     }
 

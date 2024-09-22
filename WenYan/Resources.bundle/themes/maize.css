@@ -1,462 +1,233 @@
 /* https://github.com/BEATREE/typora-maize-theme */
 
-:root {
-  --primary-color: #f22f27;
-  --side-bar-bg-color: #ffffff;
-  --control-text-color: #777777;
-  --select-text-bg-color: #faa295;
-  --active-file-text-color: #262626;
-  --active-file-border-color: #f22f27;
-  --search-select-bg-color: #ff5d52;
-  --search-select-text-color: #ffffff;
-
-  --search-hit-bg-color: #ffafa3;
-  --search-hit-text-color: #262626;
-
-  /* 中性色 */
-  --mid-1: #ffffff;
-  --mid-2: #fafafa;
-  --mid-3: #f5f5f5;
-  --mid-4: #f0f0f0;
-  --mid-5: #d9d9d9;
-  --mid-6: #bfbfbf;
-  --mid-7: #8c8c8c;
-  --mid-8: #595959;
-  --mid-9: #434343;
-  --mid-10: #262626;
-  --mid-11: #1f1f1f;
-  --mid-12: #141414;
-  --mid-13: #000000;
-
-  /* 主题色 */
-  --main-1: #fff2f0;
-  --main-2: #ffd6d1;
-  --main-3: #ffb0a8;
-  --main-4: #f27f79;
-  --main-5: #e6514e;
-  --main-6: #da282a;
-  --main-7: #b3171f;
-  --main-8: #893128;
-  --main-9: #66030f;
-  --main-10: #40010b;
-
-  /* 字体 */
-  --font-normal: 'Source Sans Pro', 'MiSans', '等距更纱黑体 SC', 'Microsoft YaHei', 'Helvetica Neue', Arial, sans-serif;
-  --font-code: 'Fira Code', Monaco, Consolas, 'MiSans', '等距更纱黑体 SC', 'Microsoft YaHei', sans-serif;
+/* 全局属性 */
+:root{
+    --bg-color:  #fafafa;                   /*change background*/
+    --text-color: #333333;                  /*change text color*/
+    
+    --primary-color: #428bca;               /* color of primary buttons */
+    --monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;                   /*monospace font for codes, fences*/
 }
-
 
 #wenyan {
-    font-size: 14px;
-  padding: 20px 30px 160px;
-  margin: 0 auto;
-  line-height: 1.8rem;
-  color: var(--mid-10);
-  letter-spacing: 0;
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    line-height: 1.75;
 }
 
-#wenyan p {
-  word-spacing: 0.05rem;
-  text-align: justify;
+/*段落*/
+#wenyan p, pre {
+    margin: 1em 0;
 }
 
-#wenyan ol li {
-  margin-left: -4px;
-}
-
-#wenyan ol li p {
-  margin-left: 4px;
-}
-
-#wenyan ul {
-  line-height: 2rem;
-}
-
-#wenyan > ul:first-child,
-#wenyan > ol:first-child {
-  margin-top: 30px;
-}
-
-#wenyan  > *:first-child {
-  margin-top: 0 !important;
-}
-
-#wenyan  > *:last-child {
-  margin-bottom: 0 !important;
-}
-
-a {
-  padding: 0 2px;
-  font-weight: 500;
-  color: var(--mid-10);
-  text-decoration: none;
-}
-
-/* 链接 */
-#wenyan a {
-  color: var(--mid-10);
-  text-decoration: none;
-  border-bottom: 1px solid var(--main-6);
-  transition: border-bottom 0.2s;
-}
-
-/* 链接内容为空时直接啥也不显示，比如锚点的地方 */
-#wenyan a:empty {
-  font-size: 0;
-  border: none;
-}
-
-/* 目录 */
-#wenyan a.md-toc-inner {
-  line-height: 1.6;
-  white-space: pre-line;
-  border-bottom: none;
-}
-
-#wenyan a:hover {
-  border-bottom: 2px solid var(--main-6);
-}
-
+/*标题*/
 #wenyan h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  position: relative;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-  font-weight: bold;
-  line-height: 1.4;
-  cursor: text;
+#wenyan h2,
+#wenyan h3,
+#wenyan h4,
+#wenyan h5,
+#wenyan h6 {
+    margin: 1.2em 0 1em;
+    padding: 0px;
+    font-weight: bold;
 }
-
-#wenyan h2 a,
-h3 a {
-  color: var(--mid-9);
-}
-
 #wenyan h1 {
-  padding-bottom: 0.3em;
-  margin: 2.4em auto 1.2em;
-  font-size: 2em;
-  line-height: 1.2;
-  text-align: center;
+    font-size: 1.5em;
+    /* text-align: center; */
 }
-
-#wenyan h1::after {
-  display: block;
-  width: 100px;
-  height: 2px;
-  margin: 0.2em auto 0;
-  content: '';
-  border-bottom: 2px dashed var(--main-6);
+#wenyan h2::before{
+    content: "✔";
+    font-weight: bold;
+    color: #ffb11b;
+    margin-right: 4px
 }
-
 #wenyan h2 {
-  padding-left: 6px;
-  margin: 2em auto 1.4em;
-  font-size: 1.6em;
-  line-height: 1.4;
-  border-left: 6px solid var(--main-6);
+    font-size: 1.3em;
+}
+#wenyan h2 span {
+    font-weight: bold;
+    color: #333;
+    padding: 3px 10px 1px;
 }
 
 #wenyan h3 {
-  margin: 1.6em auto 1.2em;
-  font-size: 1.35em;
-  line-height: 1.43;
+    font-size: 1.3em;
 }
-
-/* --- 三级标题左边的小圆点 --- */
-#wenyan h3::before {
-  display: inline-block;
-  width: 6px;
-  height: 6px;
-  margin-right: 6px;
-  margin-bottom: 0.18em;
-  line-height: 1.43;
-  vertical-align: middle;
-  content: '';
-  background-color: var(--main-5);
-  border-radius: 50%;
-}
-
-/* 三级四级标题点击后左边的提示图标 */
-#wenyan > h3.md-focus::before,
-#wenyan > h4.md-focus::before {
-  width: auto;
-  height: auto;
-  color: var(--mid-1);
-  background-color: var(--main-5);
-}
-
 #wenyan h4 {
-  margin-top: 1.4em;
-  font-size: 1.2em;
+    font-size: 1.2em;
 }
-
-/* --- 四级标题左边的小短线 --- */
-#wenyan h4::before {
-  display: inline-block;
-  width: 6px;
-  height: 2px;
-  margin-right: 8px;
-  margin-bottom: 0.18em;
-  vertical-align: middle;
-  content: '';
-  background-color: var(--main-4);
-}
-
 #wenyan h5 {
-  font-size: 1em;
+    font-size: 1.2em;
 }
-
 #wenyan h6 {
-  font-size: 1em;
-  color: var(--mid-7);
+    font-size: 1.2em;
 }
 
-#wenyan p,
-blockquote,
-ul,
-ol,
-dl,
-table {
-  margin: 0.8em 0;
-}
-
-#wenyan li > ol,
-li > ul {
-  margin: 0;
-}
-
-#wenyan hr {
-  box-sizing: content-box;
-  width: 100%;
-  height: 1px;
-  padding: 0;
-  margin: 46px auto 64px;
-  overflow: hidden;
-  background-color: var(--main-4);
-  border: 0;
-}
-
-#wenyan > h2:first-child {
-  padding-top: 0;
-  margin-top: 0;
-}
-
-#wenyan > h1:first-child {
-  padding-top: 0;
-  margin-top: 0;
-}
-
-#wenyan > h1:first-child + h2 {
-  padding-top: 0;
-  margin-top: 0;
-}
-
-#wenyan > h3:first-child,
-#wenyan > h4:first-child,
-#wenyan > h5:first-child,
-#wenyan > h6:first-child {
-  padding-top: 0;
-  margin-top: 0;
-}
-
-#wenyan a:first-child h1,
-a:first-child h2,
-a:first-child h3,
-a:first-child h4,
-a:first-child h5,
-a:first-child h6 {
-  padding-top: 0;
-  margin-top: 0;
-}
-
-#wenyan h1 p,
-h2 p,
-h3 p,
-h4 p,
-h5 p,
-h6 p {
-  margin-top: 0;
-}
-
-#wenyan li p.first {
-  display: inline-block;
-}
-
+/* 列表 */
 #wenyan ul,
-ol {
-  padding-left: 30px;
+#wenyan ol {
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding-left: 40px;
+    color: black;
+}
+#wenyan ul {
+    list-style-type: disc;
+}
+#wenyan ul ul {
+    list-style-type: square;
+}
+#wenyan ol {
+    list-style-type: decimal;
+}
+/* 列表内容 */
+#wenyan li section {
+    font-size:15px;
 }
 
-#wenyan ul:first-child,
-ol:first-child {
-  margin-top: 0;
-}
-
-#wenyan ul:last-child,
-ol:last-child {
-  margin-bottom: 0;
-}
-
-/* --- 引用块 --- */
-#wenyan blockquote {
-  position: relative;
-  padding: 24px 16px 12px;
-  margin: 24px 0 36px;
-  font-size: 1em;
-  font-style: normal;
-  line-height: 1.6;
-  color: var(--mid-7);
-  text-indent: 0;
-  border: none;
-  border-left: 2px solid var(--main-6);
-}
-
-#wenyan blockquote blockquote {
-  padding-right: 0;
-}
-
-#wenyan blockquote a {
-  color: var(--mid-7);
-}
-
-/* “ 装饰 */
-#wenyan blockquote::before {
-  position: absolute;
-  top: 0;
-  left: 12px;
-  font-family: Arial, serif;
-  font-size: 2em;
-  font-weight: 700;
-  line-height: 1em;
-  color: var(--main-6);
-  content: '“';
-}
-
-#wenyan table {
-  padding: 0;
-  margin: 36px auto;
-  word-break: initial;
-}
-
-#wenyan table tr {
-  padding: 0;
-  margin: 0;
-  border-top: 1px solid #dfe2e5;
-}
-
-#wenyan table tr:nth-child(2n),
-thead {
-  background-color: var(--mid-3);
-}
-
-#wenyan table tr th {
-  padding: 6px 13px;
-  margin: 0;
-  font-weight: bold;
-  text-align: left;
-  border: 1px solid #dfe2e5;
-  border-bottom: 0;
-}
-
-#wenyan table tr td {
-  padding: 6px 13px;
-  margin: 0;
-  text-align: left;
-  border: 1px solid #dfe2e5;
-}
-
-#wenyan table tr th:first-child,
-table tr td:first-child {
-  margin-top: 0;
-}
-
-#wenyan table tr th:last-child,
-table tr td:last-child {
-  margin-bottom: 0;
-}
-
-#wenyan table thead th {
-  text-align: center;
-  background-color: #f2f2f2;
-}
+/* 字体加粗 */
+/* #wenyan strong::before {
+ content: '「';
+ } */
 
 #wenyan strong {
-  padding: 0 1px;
+    color: #E49123;
+    font-weight: bold;
 }
 
-#wenyan em {
-  padding: 0 5px 0 2px;
+/* #wenyan strong::after {
+ content: '」';
+ } */
+
+/*引用*/
+#wenyan blockquote {
+    margin: 0;
+    padding: 10px 10px 10px 20px;
+    font-size: 0.9em;
+    background: #fff9f9;
+    border-left: 3px solid #ffb11b;
+    color: #6a737d;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
-#wenyan code,
-tt {
-  padding: 2px 4px 1px;
-  margin: 0 2px;
-  font-family: var(--font-code) !important;
-  font-size: 0.92rem;
-  color: var(--main-5);
-  background-color: var(--main-1);
-  border-radius: 3px;
+/* 超链接 */
+#wenyan a {
+    text-decoration: none;
+    font-weight: bold;
+    color: #E49123;
+    border-bottom: 1px solid #E49123;
 }
 
-#wenyan code {
-  vertical-align: 0.5px;
+/* 分割线 */
+#wenyan hr {
+    height: 1px;
+    padding: 0;
+    border: none;
+    text-align: center;
+    background-image: linear-gradient(to right,rgba(231, 93, 109,0.3),rgba(255, 159, 150,0.75),rgba(255, 216, 181,0.3));
 }
 
+/* 行内代码 */
+#wenyan p code,
+#wenyan span code,
+#wenyan li code {
+    word-wrap: break-word;
+    padding: 2px 4px;
+    border-radius: 4px;
+    margin: 0 2px;
+    word-break: break-all;
+    color:  rgb(235, 76, 55);
+    background-color: #f0f0f0;
+}
+
+/* 文章插图 */
+#wenyan img {
+    display: block;
+    margin: 0 auto;
+    width: 85%;
+    max-width: 100%;
+    border-radius: 5px;
+    box-shadow:0px 4px 12px #84A1A8;
+    border: 0px;
+}
+
+/* 表格 */
+#wenyan table {
+    border-collapse: collapse;
+    margin: 1.4em auto;
+    max-width: 100%;
+    table-layout: fixed;
+    text-align: left;
+    overflow: auto;
+    border: 1px solid #f6f6f6;
+    display: inline-block;
+    font-size: .75em;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+#wenyan table td, table th {
+    height: 40px;
+    padding: 9px 12px;
+    line-height: 22px;
+    color: #222;
+    min-width: 60px;
+    border: 1px solid #d8d8d8;
+    vertical-align: top;
+}
+#wenyan table th {
+    font-weight: bold;
+    background-color: #f0f0f0;
+}
+#wenyan table tr:nth-child(2n) {
+    background-color: #F8F8F8;
+}
+
+
+/* 上角标 */
 #wenyan .footnote {
-  color: var(--main-5);
-  background-color: var(--main-1);
+    font-weight: bold;
+    color: #E49123;
 }
 
-
-/* heighlight. */
-#wenyan mark {
-  padding: 2px 4px;
-  margin: 0 2px;
-  font-weight: 500;
-  color: #222222;
-  background-color: var(--main-4);
-  border-radius: 2px;
-  border-radius: 4px;
+/* 代码块主题 */
+#wenyan pre {
+    border-radius: 5px;
+    line-height: 2;
+    margin: 1em 0.5em;
+    padding: 1em;
+    background-color: #fafafa;
+    box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;
+    font-size: .8em;
 }
-
-#wenyan del {
-  padding: 1px 2px;
+#wenyan pre code {
+    display: block;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
+    font-family: var(--monospace);
 }
-
-
-.mathjax-block > .code-tooltip {
-  bottom: 0.375rem;
+#wenyan pre code::-webkit-scrollbar-track {
+    border-radius: 6px;
+    background-color: #c8c8c84d
 }
-
-#wenyan > h3.md-focus::before {
-  top: 0.375rem;
-  left: -1.5625rem;
+#wenyan pre code::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #90929880
 }
-
-#wenyan > h4.md-focus::before {
-  top: 0.285714286rem;
-  left: -1.5625rem;
+#wenyan pre code::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #fff
 }
-
-#wenyan > h5.md-focus::before {
-  top: 0.285714286rem;
-  left: -1.5625rem;
+/* 脚注 */
+#wenyan #footnotes p {
+    margin: 0;
+    font-size: 0.9em;
+    padding-left: 1.2em;
+    word-wrap: break-word;
+    word-break: break-all;
+    line-height: 2;
 }
-
-#wenyan > h6.md-focus::before {
-  top: 0.285714286rem;
-  left: -1.5625rem;
-}
-
-/* --- 图片 --- */
-#wenyan  img {
-    margin: 24px auto;
-  border: none;
-  border-radius: 4px;
+#wenyan #footnotes p span {
+    margin-left: 1.2em;
 }

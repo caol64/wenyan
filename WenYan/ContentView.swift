@@ -11,10 +11,12 @@ struct ContentView: View {
     
     @State private var markdownViewModel: MarkdownViewModel
     @State private var htmlViewModel: HtmlViewModel
+    @State private var appState: AppState
     
     init(appState: AppState) {
         _markdownViewModel = State(initialValue: MarkdownViewModel(appState: appState))
         _htmlViewModel = State(initialValue: HtmlViewModel(appState: appState))
+        self.appState = appState
     }
 
     var body: some View {
@@ -29,6 +31,22 @@ struct ContentView: View {
                     .frame(minWidth: 400, minHeight: 580)
                     .overlay(alignment: .topTrailing) {
                         VStack {
+                            if htmlViewModel.platform == .gzh {
+                                Button(action: {
+                                    appState.showThemeList = true
+                                }) {
+                                    HStack {
+                                        Image(systemName: "tshirt")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 16, height: 16)
+                                        Text("主题")
+                                            .font(.system(size: 14))
+                                    }
+                                    .frame(height: 24)
+                                }
+                                
+                            }
                             Button(action: {
                                 htmlViewModel.changePreviewMode()
                             }) {
@@ -75,6 +93,14 @@ struct ContentView: View {
                         .padding(.top, 16)
                         .environment(\.colorScheme, .light)
                     }
+                    .overlay(alignment: .topTrailing) {
+                        if appState.showThemeList {
+                            ThemeListPopup(htmlViewModel: htmlViewModel)
+                                .padding(.trailing, 24)
+                                .padding(.top, 8)
+                                .environment(\.colorScheme, .light)
+                        }
+                    }
                     .onChange(of: markdownViewModel.scrollFactor) {
                         htmlViewModel.scroll(scrollFactor: markdownViewModel.scrollFactor)
                     }
@@ -82,15 +108,14 @@ struct ContentView: View {
             .background(.white)
         }
         .onAppear() {
-            markdownViewModel.loadArticle()
-            htmlViewModel.content = markdownViewModel.content
+            Task {
+                markdownViewModel.loadArticle()
+                htmlViewModel.content = markdownViewModel.content
+            }
         }
         .onChange(of: markdownViewModel.content) {
             htmlViewModel.content = markdownViewModel.content
             htmlViewModel.onUpdate()
-            Task {
-                UserDefaults.standard.set(markdownViewModel.content, forKey: "lastArticle")
-            }
         }
         .toolbar() {
             ToolbarItemGroup {
@@ -104,6 +129,39 @@ struct ContentView: View {
             }
         }
         .navigationTitle("文颜")
+    }
+    
+    struct ThemeListPopup: View {
+        @State private var menuWidth: CGFloat = 200
+        @State private var menuHeight: CGFloat = 250
+        @State var htmlViewModel: HtmlViewModel
+        
+        var body: some View {
+            VStack {
+                List(selection: $htmlViewModel.gzhTheme) {
+                    ForEach(Platform.gzh.themes, id: \.self) { theme in
+                        HStack {
+                            Text(theme.name)
+                            Spacer()
+                            Text(theme.author)
+                        }
+                    }
+                }
+                .listStyle(PlainListStyle())
+                .frame(width: menuWidth, height: menuHeight)
+                .onChange(of: htmlViewModel.gzhTheme) {
+                    htmlViewModel.changeTheme()
+                }
+            }
+            .frame(width: menuWidth, height: menuHeight)
+            .background(
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(Color.white)
+                    .shadow(radius: 5)
+            )
+            .padding(8)
+        }
+        
     }
 
 }

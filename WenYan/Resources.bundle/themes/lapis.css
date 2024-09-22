@@ -1,290 +1,284 @@
-/* https://github.com/thezbm/typora-theme-rainbow */
 /*
-root variables including colors, font-familys and a shadow style
-*/
+ *     Typora Theme - Lapis    /    Author - YiNN
+ *     https://github.com/YiNNx/typora-theme-lapis
+ */
+
 :root {
-    --h-border-color: rgb(255, 191, 191);
-    --h-bg-color: rgb(255, 232, 232);
-    --table-border-color: rgb(255, 235, 211);
-    --th-bg-color: rgb(255, 243, 228);
-    --tr-bg-color: rgb(255, 249, 242);
-    --tr-hover-bg-color: rgb(254, 255, 230);
-    --code-bg-color: rgb(247, 247, 247);
-    --del-color: rgb(151, 151, 151);
-    --selection-bg-color: rgb(235, 227, 255);
-    --block-shadow: 0.15rem 0.15rem 0.5rem rgb(150, 150, 150);
-    --sans-serif-font: "Noto Sans SC Medium", "Noto Sans SC", sans-serif;
-    --monospace-font: "Source Code Pro Regular", "Source Code Pro", monospace;
+    --text-color: #40464f;
+    /* Text */
+    --primary-color: #4870ac;
+    /* Primary Color */
+    --bg-color: #ffffff;
+    /* Background */
+    
+    --marker-color: #a2b6d4;
+    /* List Marker */
+    --source-color: #a8a8a9;
+    /* Highlight */
+    --header-span-color: var(--primary-color);
+    /* h2 Span Color */
+    --block-bg-color: #f6f8fa;
 }
 
-
+/*
+ * Basic Style
+ */
 #wenyan {
-    font-family: var(--sans-serif-font);
-    max-width: 60rem;
-    padding-left: 2rem;
-    padding-right: 2rem;
-    font-size: 16px;
+    color: var(--text-color);
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    line-height: 1.75;
+}
+#wenyan * {
+    box-sizing: border-box;
+}
+#wenyan p, pre {
+    margin: 1em .8em;
+}
+/* Strong */
+#wenyan strong {
+    color: var(--primary-color);
+}
+
+/* Link */
+#wenyan a {
+    color: var(--primary-color);
 }
 
 /*
-yaml header settings
-*/
-#wenyan pre.md-meta-block {
-    font-family: var(--monospace-font);
-    font-size: 1rem;
-    text-align: left;
-    padding: 0.6rem;
-    color: rgb(134, 134, 134);
-    background-color: var(--code-bg-color);
-    border-radius: 0.4rem;
-}
-
-/*
-headers settings
-*/
-#wenyan h1 {
-    font-size: 2.2rem;
-    text-align: center;
-    text-shadow: 0.15rem 0.15rem 0.3rem rgb(187, 187, 187);
-}
-#wenyan h2 {
-    font-size: 1.8rem;
-    margin-top: 1.8rem;
-    margin-left: -1.5rem;
-    margin-right: -1.5rem;
-    background-color: var(--h-bg-color);
-    padding-left: 1rem;
-    padding-right: 1rem;
-    border-left: 0.5rem solid var(--h-border-color);
-    border-radius: 0.4rem;
-}
-#wenyan h3 {
-    font-size: 1.6rem;
-    text-decoration: underline double var(--h-border-color) 0.15rem;
-}
-#wenyan h4 {
-    text-decoration: underline dotted var(--h-border-color) 0.2rem;
-}
-
-/*
-tables settings
-*/
-#wenyan table {
-    border-collapse: collapse;
-    border: 0.25rem solid var(--table-border-color);
-}
-#wenyan table th {
-    background-color: var(--th-bg-color);
-}
-#wenyan table th, td {
-    text-align: center;
-    border: 0.13rem dashed var(--table-border-color);
-    padding: 0.5rem;
-}
-#wenyan table tr:nth-child(even) {
-    background-color: var(--tr-bg-color);
-}
-#wenyan table tr:hover {
-    background-color: var(--tr-hover-bg-color);
-}
-
-/*
-checkboxes settings
-*/
-#wenyan .task-list-item input[type = "checkbox"] {
-    width: 0;
-    height: 0;
-}
-#wenyan .task-list-item input[type = "checkbox"]::before, #wenyan input[type = "checkbox"]:checked::before {
-    content: "";
-    display: inline-block;
-    vertical-align: middle;
-    position: relative;
-    left: -0.15rem;
-    top: -0.41rem;
-    width: 0.8rem;
-    height: 0.8rem;
-    border: 0.08rem solid var(--del-color);
-    border-radius: 50%;
-    transition: all 0.2s;
-}
-#wenyan .task-list-item input[type = "checkbox"]:checked::before {
-    padding: 0.12rem;
-    background-clip: content-box;
-    background-color: black;
-}
-#wenyan .task-list-item input[type = "checkbox"]:checked + p {
-    text-decoration: line-through;
-    color: var(--del-color);
-}
-#wenyan input[type='checkbox']:hover::before {
-    transition: all 0.2s;
-    background-color: rgb(228, 228, 228);
-}
-
-/*
-blockquotes settings
-*/
-#wenyan blockquote {
-    color:rgb(102, 102, 102);
-    border-left: 0.25rem solid rgb(169, 202, 255);
-    padding: 0.5rem 1rem 0.6rem 1rem;
-}
-#wenyan blockquote::before {
-    display: block;
-    height: 2rem;
-    width: 1.5rem;
-    content: "🌈";
-    font-size: 1.2rem;
-}
-
-/*
-horizontal rules settings
-*/
-#wenyan hr {
-    margin-top: 2rem;
-    margin-bottom: 2rem;
-    background-color: rgb(226, 226, 226);
-    height: 0.13rem;
-    border: 0;
-}
+ * Paragraph
+ */
 
 #wenyan p {
-    font-size: 1rem;
-    line-height: 1.6rem;
+    color: var(--text-color);
 }
 
 /*
-code blocks settings
-*/
-#wenyan .md-fences {
-    font-family: var(--monospace-font);
-    font-size: 1rem;
-    padding: 0.6rem;
-    background-color: var(--code-bg-color);
-    border-radius: 0.4rem;
-    box-shadow: var(--block-shadow);
+ * Header
+ */
+
+#wenyan h4,
+#wenyan h5,
+#wenyan h6 {
+    font-weight: normal;
 }
-#wenyan .cm-s-inner .CodeMirror-gutters {
-    border: none;
+
+#wenyan h1,
+#wenyan h2,
+#wenyan h3,
+#wenyan h4,
+#wenyan h5,
+#wenyan h6 {
+    padding: 0px;
+    color: var(--primary-color);
+    margin: 1.2em 0 1em;
 }
-#wenyan .cm-s-inner .CodeMirror-linenumber {
-    color: rgb(212, 212, 212);
+
+#wenyan h1 {
+    text-align: center;
 }
-#wenyan .cm-s-inner .cm-keyword {
-    color: rgb(204, 35, 35);
+
+#wenyan h2 {
+    padding: 1px 12.5px;
+    border-radius: 4px;
+    display: inline-block;
 }
-#wenyan .cm-s-inner .cm-number {
-    color: rgb(27, 57, 226);
+
+#wenyan h2,
+#wenyan h2 code {
+    background-color: var(--header-span-color);
 }
-#wenyan .cm-s-inner .cm-def {
-    color: rgb(146, 50, 255);
+
+#wenyan h2,
+#wenyan h2 a,
+#wenyan h2 code,
+#wenyan h2 strong,
+#wenyan h2 script {
+    color: var(--bg-color);
 }
-#wenyan .cm-s-inner .cm-operator {
-    color: rgb(204, 35, 35);
+
+#wenyan h1 {
+    font-size: 1.5em;
 }
-#wenyan .cm-s-inner .cm-variable2 {
-    color: rgb(38, 129, 219);
+
+#wenyan h2 {
+    font-size: 1.3em;
 }
-#wenyan .cm-s-inner .cm-variable3 {
-    color: rgb(204, 35, 35);
+
+#wenyan h3 {
+    font-size: 1.3em;
 }
-#wenyan .cm-s-inner .cm-comment {
-    color: rgb(18, 129, 18);
+
+#wenyan h4 {
+    font-size: 1.2em;
 }
-#wenyan .cm-s-inner .cm-string {
-    color: rgb(18, 129, 18);
+
+#wenyan h5 {
+    font-size: 1.1em;
 }
-#wenyan .cm-s-inner .cm-builtin {
-    color: rgb(218, 135, 12);
+
+#wenyan h6 {
+    font-size: 1.1em;
 }
-#wenyan .cm-tag {
-    color: rgb(139, 10, 10);
+
+#wenyan ul {
+    list-style-type: disc;
+}
+
+#wenyan em {
+    padding: 0 3px 0 0;
+}
+
+#wenyan ul ul {
+    list-style-type: square;
+}
+
+#wenyan ol {
+    list-style-type: decimal;
 }
 
 /*
-formulas settings
-*/
-#wenyan mjx-container {
-    font-size: 1.1rem;
-}
+ * Quote
+ */
 
-/*
-tooltips settings
-*/
-#wenyan .code-tooltip {
-    box-shadow: 0.1rem 0.1rem 0.2rem rgb(150, 150, 150);
-    border-radius: 0.2rem;
-    margin-top: 0.3rem;
-}
-
-/*
-selected texts in code blocks settings
-*/
-#wenyan .CodeMirror-selected, #wenyan .CodeMirror-selectedtext, #wenyan .in-text-selection {
-    background-color: var(--selection-bg-color) !important;
-}
-
-/*
-diagrams settings
-*/
-#wenyan pre[lang=’sequence’], #wenyan pre[lang=’flow’], #wenyan pre[lang=’mermaid’] {
-    background-color: var(--code-bg-color);
-    border-radius: 0.4rem;
-    box-shadow: var(--block-shadow);
-}
-
-/*
-inline codes settings
-*/
-#wenyan code {
-    font-family: var(--monospace-font);
-    margin-left: 0.25rem;
-    margin-right: 0.25rem;
-    padding: 0.05rem 0.3rem;
-    background-color: var(--code-bg-color);
-    border-radius: 0.4rem;
-    box-shadow: 0.13rem 0.13rem 0.26rem rgb(197, 197, 197);
-}
-
-/*
-urls settings
-*/
-#wenyan a {
-    color: rgb(31, 117, 255);
-}
-#wenyan a:hover {
-    color: rgb(108, 164, 255);
-}
-
-/*
-images settings
-*/
-#wenyan img {
+#wenyan blockquote {
     display: block;
+    font-size: .9em;
+    border-left: 3px solid var(--primary-color);
+    padding: .5em 1em;
+    margin: 0;
+    background: var(--block-bg-color);
+}
+
+/*
+ * Inline code
+ */
+
+#wenyan p code {
+    color: var(--primary-color);
+    font-size: .9em;
+    font-weight: normal;
+    word-wrap: break-word;
+    padding: 2px 4px 2px;
+    border-radius: 3px;
+    margin: 2px;
+    background-color: var(--block-bg-color);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+    word-break: break-all;
+}
+
+/*
+ * Img
+ */
+
+#wenyan img {
+    max-width: 100%;
+    height: auto;
     margin: 0 auto;
+    display: block;
+}
+
+
+/*
+ * Table
+ */
+#wenyan table {
+    display: table;
+    text-align: justify;
+    overflow-x: auto;
+    border-collapse: collapse;
+    max-width: 100%;
+    table-layout: fixed;
+    text-align: left;
+    overflow: auto;
+    display: inline-block;
+    font-size: .75em;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+
+#wenyan tbody {
     border: 0;
+}
+
+#wenyan table tr {
+    border: 0;
+    border-top: 1px solid #ccc;
+}
+
+#wenyan table tr th,
+#wenyan table tr td {
+    border: 1px solid #d9dfe4;
+    height: 40px;
+    padding: 9px 12px;
+    line-height: 22px;
+    min-width: 60px;
+    vertical-align: top;
+}
+
+#wenyan table tr th {
+    text-align: center;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+#wenyan table tr td:hover,
+#wenyan table tr th:hover {
+    background-color: var(--block-bg-color);
+}
+
+/*
+ * Dividing line
+ */
+#wenyan hr {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    border: 0;
+    border-top: 2px solid #eef2f5;
+    border-radius: 2px;
+}
+/* 脚注 */
+#wenyan #footnotes p {
+    margin: 0;
+    font-size: 0.9em;
+    padding-left: 1.2em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+    line-height: 2;
+}
+#wenyan #footnotes p span {
+    margin-left: 1.2em;
+}
+#wenyan .footnote {
+    color: var(--primary-color);
+}
+
+/* 代码块 */
+#wenyan pre {
     border-radius: 5px;
-    box-shadow: var(--block-shadow);
+    font-size: .8em;
+    line-height: 2;
+    margin: 1em 0.5em;
+    padding: 1em;
+    background-color: var(--block-bg-color);
 }
-
-/*
-highlights settings
-*/
-#wenyan mark {
-    background-color: rgb(252, 255, 200);
+#wenyan pre code {
+    display: block;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
 }
-
-/*
-deletes settings
-*/
-#wenyan del {
-    color: var(--del-color);
+#wenyan pre code::-webkit-scrollbar-track {
+    border-radius: 6px;
+    background-color: #c8c8c84d
 }
-
-/*
-selected texts settings
-*/
-#wenyan ::selection {
-    background-color: var(--selection-bg-color);
+#wenyan pre code::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #90929880
+}
+#wenyan pre code::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #fff
 }

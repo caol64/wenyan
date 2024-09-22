@@ -9,21 +9,6 @@
 #wenyan h1, h2, h3, h4, h5, h6, p, pre {
     margin: 1em 0;
 }
-#wenyan pre code::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    background-color: #fff
-}
-
-#wenyan pre code::-webkit-scrollbar-track {
-    border-radius: 6px;
-    background-color: #c8c8c84d
-}
-
-#wenyan pre code::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background-color: #90929880
-}
 #wenyan h1, h2 {
     clear: left;
     font-size: 1.2em;
@@ -60,6 +45,8 @@
     table-layout: fixed;
     text-align: left;
     width: 100%;
+    word-wrap: break-word;
+    word-break: break-all;
 }
 #wenyan table th {
     background: #ebeced;
@@ -102,6 +89,19 @@
     margin: 0;
     padding: 0;
 }
+#wenyan pre code::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #fff
+}
+#wenyan pre code::-webkit-scrollbar-track {
+    border-radius: 6px;
+    background-color: #c8c8c84d
+}
+#wenyan pre code::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #90929880
+}
 #wenyan hr {
     border: none;
     border-top: 1px solid #c4c7ce;
@@ -109,6 +109,12 @@
     max-width: 100%;
     width: 240px;
 }
+/* 链接 */
+#wenyan a {
+    word-wrap: break-word;
+    color: #0069c2;
+}
+/* 脚注 */
 #wenyan #footnotes ul {
     font-size: 0.9em;
     margin: 0;
@@ -116,7 +122,9 @@
 }
 #wenyan #footnotes li {
     margin: 0 0 0 1.2em;
-    overflow-wrap: break-word;
     word-wrap: break-word;
     word-break: break-all;
+}
+#wenyan .footnote {
+    color: #0069c2;
 }
