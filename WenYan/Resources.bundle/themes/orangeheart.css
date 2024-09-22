@@ -1,0 +1,118 @@
+#wenyan {
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    line-height: 1.75;
+}
+#wenyan * {
+    box-sizing: border-box;
+}
+#wenyan h1, h2, h3, h4, h5, h6, p, pre {
+    margin: 1em 0;
+}
+#wenyan pre code::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+    background-color: #fff
+}
+
+#wenyan pre code::-webkit-scrollbar-track {
+    border-radius: 6px;
+    background-color: #c8c8c84d
+}
+
+#wenyan pre code::-webkit-scrollbar-thumb {
+    border-radius: 6px;
+    background-color: #90929880
+}
+#wenyan h1 {
+    text-align: center;
+    font-size: 1.5em;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+#wenyan h2 {
+    text-align: center;
+    font-size: 1.2em;
+    border-bottom: 1px solid #f7f7f7;
+    font-weight: bold;
+}
+#wenyan h3, h4, h5, h6 {
+    font-size: 1em;
+    font-weight: bold;
+}
+#wenyan ul, ol {
+    padding-left: 1.2em;
+}
+#wenyan li {
+    margin-left: 1.2em;
+}
+#wenyan img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+#wenyan table {
+    border-collapse: collapse;
+    margin: 1.4em auto;
+    max-width: 100%;
+    table-layout: fixed;
+    text-align: left;
+    overflow: auto;
+    border: 1px solid #f6f6f6;
+    display: inline-block;
+    font-size: .75em;
+}
+#wenyan table thead {
+    background: #f6f6f6;
+    color: #000;
+    text-align: left;
+}
+#wenyan table td, table th {
+    padding: 12px 7px;
+    line-height: 24px;
+}
+#wenyan blockquote {
+    background: #afb8c133;
+    border-left: 0.5em solid #ccc;
+    margin: 1.5em 0;
+    padding: 0.5em 10px;
+    font-style: italic;
+    font-size: .9em;
+}
+#wenyan p code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+    color: #ff502c;
+    padding: 4px 6px;
+    font-size: .78em;
+}
+#wenyan pre {
+    border-radius: 5px;
+    font-size: .9em;
+    line-height: 1.5;
+    margin: 1em 0.5em;
+    padding: 1em;
+    background-color: #afb8c133;
+}
+#wenyan pre code {
+    display: block;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
+}
+#wenyan hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin-top: 2em;
+    margin-bottom: 2em;
+}
+#wenyan #footnotes ul {
+    font-size: 0.9em;
+    margin: 0;
+    padding-left: 1.2em;
+}
+#wenyan #footnotes li {
+    margin: 0 0 0 1.2em;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    word-break: break-all;
+}

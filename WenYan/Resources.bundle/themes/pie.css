@@ -1,0 +1,338 @@
+/* https://github.com/sylviaxgj/typora-forest-theme */
+
+/** color vars **/
+:root {
+  /* system vars*/
+  --primary-color: #f0f0f0; /* color of primary buttons */
+  --side-bar-bg-color: #003444;
+  --active-file-bg-color: #004144; /* sidebar active & hover */
+  --active-file-text-color: #ffffff;
+  --active-file-border-color: #757575;
+  --item-hover-text-color: #fff;
+  --item-hover-bg-color: #005C44;  /* sidebar footer item hover*/
+  --control-text-color: #ddd;
+  --control-text-hover-color: #fff;
+  --monospace: 'SourceHanSansSC','JetBrains Mono', -apple-system, sans-serif;
+
+  /* custom vars */
+  --theme-primary-color: #00997B; /* rgb(0, 153, 123) */
+  --white-color: #fff;
+
+  /* head */
+  --head-text-color: #333444;
+  --h1-text-color: rgba(0, 52, 68, 0.9);
+  --h5-text-color: var(--theme-primary-color);
+  --h6-text-color: rgba(0, 153, 123, 0.838);
+  --head-prefix-color: #D0D0D0;
+
+  /* text */
+  --text-color: #363C42;
+  --text-search-hit-color: rosybrown;
+
+  /* highlight */
+  --highlight-bg-color: #FFF3F3;
+  --highlight-text-color: #FF2F2F;
+
+  /* a link */
+  --a-text-color: var(--theme-primary-color);
+
+  /* annotate */
+  --annotate-text-color: #8CAA16;
+
+  /* inline code */
+  --inline-code-bg-color: #f3f3f3;
+  --inline-code-text-color: #00769A;
+
+  /* selection */
+  --selection-text-color: rgba(0, 153, 123, 0.2);
+
+  /* check-box */
+  --checked-text-color: #ADB5BD;
+  --line-through-color: #CFD4DA;
+  --border-color: #868E96;
+
+  /* table */
+  --table-border-color: #DADCDE;
+  --table-cell-bg-color:rgba(0, 153, 123, 0.03);
+
+  /* quote */
+  --quote-bg-color: rgba(0, 153, 123, 0.05);
+  --quote-text-color: #81888D ;
+
+  /* sidebar */
+  --sidebar-footer-dropdown-menu-border-color: #212529;
+  --sidebar-footer-dropdown-menu-item-border-color: #ADB5BD;
+  --sidebar-footer-item-hover-bg-color: #004544;
+  --siderbar-dropdown-menu-text-color: #fff;
+
+  /* sidebar resizer */
+  --sidebar-resizer: #6eace2;
+
+  /*--window-border: #e5e5e5;*/
+  --window-border: #1F6F57; /*sidebar layout border*/
+}
+
+
+/* global && write area */
+#wenyan {
+  line-height: 1.6;
+  background: var(--white-color);
+  font-family: 'SourceHanSansSC','JetBrains Mono', -apple-system, sans-serif;
+}
+#wenyan h1, #wenyan h2, #wenyan h3, #wenyan h4, #wenyan h5, #wenyan h6, #wenyan p {
+  width: auto;
+}
+p {
+  font-size: 1em;
+  font-family: 'SourceHanSansSC', 'JetBrains Mono', -apple-system, sans-serif;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+/* heading */
+#wenyan h1, h2, h3, h4, h5, h6 {
+  width: auto;
+  line-height: 2;
+  font-style: normal;
+  margin-top: 14px;
+  margin-bottom: 14px;
+}
+#wenyan h2, h3, h4 {
+  color: var(--head-text-color);
+}
+#wenyan h2::before, h3::before, h4::before, h5::before, h6::before,
+h2.md-focus::before, h3.md-focus::before, h4.md-focus::before, h5.md-focus::before, h6.md-focus::before {
+  position: absolute;
+  right: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--head-prefix-color);
+  font-size: 0.8rem;
+  font-weight: bold;
+  font-variant: 'small-caps';
+  line-height: 2;
+  padding: 0;
+  border: 0;
+}
+
+#wenyan h1 {
+  font-size: 2.1rem;
+  font-weight: 900;
+  text-align: center;
+  color: var(--h1-text-color);
+}
+#wenyan h1>span{
+  position: relative;
+  display: inline-block;
+}
+#wenyan h1>span:after{
+  content: '';
+  display: block;
+  position: absolute;
+  border-top: 3px double var(--h1-text-color);
+  height: 3px;
+  width: 15rem;
+  max-width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+#wenyan h2 {
+  font-size: 1.7rem;
+  font-weight: 800;
+}
+#wenyan>h2::before {
+  content: 'H2';
+}
+
+#wenyan h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+#wenyan>h3::before {
+  content: 'H3';
+}
+
+#wenyan h4, #wenyan h5, #wenyan h5 {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+#wenyan h5 {
+  color: var(--h5-text-color);
+}
+#wenyan h6 {
+  color: var(--h6-text-color);
+}
+#wenyan>h4::before {
+  content: 'H4';
+}
+#wenyan>h5::before {
+  content: 'H5';
+}
+#wenyan>h6::before {
+  content: 'H6';
+}
+
+
+/* inline element */
+#wenyan a {
+  color: var(--a-text-color);
+  cursor: pointer;
+  padding: 0 3px 0 3px;
+  text-decoration: none;
+}
+#wenyan a:hover {
+  text-decoration: none;
+  border-bottom: 1px solid;
+}
+
+#wenyan strong {
+  font-weight: 700;
+}
+
+#wenyan mark {
+  background: var(--highlight-bg-color);
+  color: var(--highlight-text-color);
+  font-weight: 500;
+  padding: 0 2px 0 2px;
+  margin: 0 2px 0 2px;
+  border-radius: 2px;
+}
+
+/* inline code */
+#wenyan code{
+  margin: 0 2px;
+  padding: 0px 4px;
+  font-size: 0.95rem;
+  background: var(--inline-code-bg-color);
+  display: inline;
+  vertical-align: top;
+  line-height: 1.6;
+  border-radius: 6px;
+  font-weight: 700;
+  color: var(--inline-code-text-color);
+}
+
+#wenyan img {
+  margin-top: 0.2rem;
+  margin-bottom: 0.2rem;
+}
+
+
+/* underline */
+#wenyan u {
+  text-decoration: none;
+}
+#wenyan u>span {
+  border-bottom: 1px solid;
+}
+
+/* quote */
+#wenyan blockquote {
+  position: relative;
+  padding: 1rem;
+  background-color: var(--quote-bg-color);
+  border-radius: 6px;
+  line-height: 1;
+}
+#wenyan blockquote p {
+  color: var(--quote-text-color);
+  margin: 0 ;
+}
+#wenyan blockquote::before {
+  content: '';
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  height: 100%;
+  width: .30rem;
+  background: var(--theme-primary-color);
+  border-top-left-radius: 6px;
+  border-bottom-left-radius: 6px;
+}
+
+/* hr */
+#wenyan hr {
+  border-top: 1px dashed var(--theme-primary-color);
+  transform: scaleY(0.5);
+  width: 90%;
+}
+
+/* ul, ol */
+#wenyan ul>li>ul>li {
+  list-style-type: circle;
+}
+#wenyan ul>li>ul>li>ul>li {
+  list-style-type: disc;
+}
+#wenyan ul>li>ul>li>ul>li>ul>li {
+  list-style-type: circle;
+}
+#wenyan ul>li>ul>li>ul>li>ul>li>ul>li {
+  list-style-type: disc;
+}
+#wenyan ul>li>ul>li>ul>li>ul>li>ul>li>ul>li {
+  list-style-type: circle;
+}
+
+#wenyan ol ul li {
+  list-style-type: circle;
+}
+#wenyan ol ul>li>ul>li {
+  list-style-type: disc;
+}
+#wenyan ol ul>li>ul>li>ul>li {
+  list-style-type: circle;
+}
+#wenyan ol ul>li>ul>li>ul>li>ul>li {
+  list-style-type: disc;
+}
+#wenyan ol ul>li>ul>li>ul>li>ul>li>ul>li {
+  list-style-type: circle;
+}
+#wenyan ol ul>li>ul>li>ul>li>ul>li>ul>li>ul>li {
+  list-style-type: circle;
+}
+
+#wenyan ol>li>ol>li {
+  list-style-type: lower-alpha;
+}
+#wenyan ol>li>ol>li>ol>li {
+  list-style-type: decimal;
+}
+#wenyan ol>li>ol>li>ol>li>ol>li {
+  list-style-type: lower-alpha;
+}
+#wenyan ol>li>ol>li>ol>li>ol>li>ol>li {
+  list-style-type: decimal;
+}
+#wenyan ol>li>ol>li>ol>li>ol>li>ol>li>ol>li {
+  list-style-type: lower-alpha;
+}
+#wenyan ol>li>ol>li>ol>li>ol>li>ol>li>ol>li>ol>li {
+  list-style-type: decimal;
+}
+
+
+/* table */
+#wenyan table tr:nth-child(2n), table thead  {
+  background-color: var(--table-cell-bg-color);
+}
+#wenyan table thead {
+  font-weight: 900;
+}
+
+#wenyan table tbody tr {
+  border-bottom: 1px solid var(--table-border-color);
+}
+#wenyan table tr:first-of-type {
+  border-top: 1px solid var(--table-border-color);
+}
+#wenyan table tr th, table tr td {
+  border-left: 1px solid var(--table-border-color);
+  padding: 6px 13px;
+}
+#wenyan table tr th:last-of-type, table tr td:last-of-type {
+  border-right: 1px solid var(--table-border-color);
+}
+

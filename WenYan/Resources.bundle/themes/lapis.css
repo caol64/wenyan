@@ -1,0 +1,290 @@
+/* https://github.com/thezbm/typora-theme-rainbow */
+/*
+root variables including colors, font-familys and a shadow style
+*/
+:root {
+    --h-border-color: rgb(255, 191, 191);
+    --h-bg-color: rgb(255, 232, 232);
+    --table-border-color: rgb(255, 235, 211);
+    --th-bg-color: rgb(255, 243, 228);
+    --tr-bg-color: rgb(255, 249, 242);
+    --tr-hover-bg-color: rgb(254, 255, 230);
+    --code-bg-color: rgb(247, 247, 247);
+    --del-color: rgb(151, 151, 151);
+    --selection-bg-color: rgb(235, 227, 255);
+    --block-shadow: 0.15rem 0.15rem 0.5rem rgb(150, 150, 150);
+    --sans-serif-font: "Noto Sans SC Medium", "Noto Sans SC", sans-serif;
+    --monospace-font: "Source Code Pro Regular", "Source Code Pro", monospace;
+}
+
+
+#wenyan {
+    font-family: var(--sans-serif-font);
+    max-width: 60rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    font-size: 16px;
+}
+
+/*
+yaml header settings
+*/
+#wenyan pre.md-meta-block {
+    font-family: var(--monospace-font);
+    font-size: 1rem;
+    text-align: left;
+    padding: 0.6rem;
+    color: rgb(134, 134, 134);
+    background-color: var(--code-bg-color);
+    border-radius: 0.4rem;
+}
+
+/*
+headers settings
+*/
+#wenyan h1 {
+    font-size: 2.2rem;
+    text-align: center;
+    text-shadow: 0.15rem 0.15rem 0.3rem rgb(187, 187, 187);
+}
+#wenyan h2 {
+    font-size: 1.8rem;
+    margin-top: 1.8rem;
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+    background-color: var(--h-bg-color);
+    padding-left: 1rem;
+    padding-right: 1rem;
+    border-left: 0.5rem solid var(--h-border-color);
+    border-radius: 0.4rem;
+}
+#wenyan h3 {
+    font-size: 1.6rem;
+    text-decoration: underline double var(--h-border-color) 0.15rem;
+}
+#wenyan h4 {
+    text-decoration: underline dotted var(--h-border-color) 0.2rem;
+}
+
+/*
+tables settings
+*/
+#wenyan table {
+    border-collapse: collapse;
+    border: 0.25rem solid var(--table-border-color);
+}
+#wenyan table th {
+    background-color: var(--th-bg-color);
+}
+#wenyan table th, td {
+    text-align: center;
+    border: 0.13rem dashed var(--table-border-color);
+    padding: 0.5rem;
+}
+#wenyan table tr:nth-child(even) {
+    background-color: var(--tr-bg-color);
+}
+#wenyan table tr:hover {
+    background-color: var(--tr-hover-bg-color);
+}
+
+/*
+checkboxes settings
+*/
+#wenyan .task-list-item input[type = "checkbox"] {
+    width: 0;
+    height: 0;
+}
+#wenyan .task-list-item input[type = "checkbox"]::before, #wenyan input[type = "checkbox"]:checked::before {
+    content: "";
+    display: inline-block;
+    vertical-align: middle;
+    position: relative;
+    left: -0.15rem;
+    top: -0.41rem;
+    width: 0.8rem;
+    height: 0.8rem;
+    border: 0.08rem solid var(--del-color);
+    border-radius: 50%;
+    transition: all 0.2s;
+}
+#wenyan .task-list-item input[type = "checkbox"]:checked::before {
+    padding: 0.12rem;
+    background-clip: content-box;
+    background-color: black;
+}
+#wenyan .task-list-item input[type = "checkbox"]:checked + p {
+    text-decoration: line-through;
+    color: var(--del-color);
+}
+#wenyan input[type='checkbox']:hover::before {
+    transition: all 0.2s;
+    background-color: rgb(228, 228, 228);
+}
+
+/*
+blockquotes settings
+*/
+#wenyan blockquote {
+    color:rgb(102, 102, 102);
+    border-left: 0.25rem solid rgb(169, 202, 255);
+    padding: 0.5rem 1rem 0.6rem 1rem;
+}
+#wenyan blockquote::before {
+    display: block;
+    height: 2rem;
+    width: 1.5rem;
+    content: "🌈";
+    font-size: 1.2rem;
+}
+
+/*
+horizontal rules settings
+*/
+#wenyan hr {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    background-color: rgb(226, 226, 226);
+    height: 0.13rem;
+    border: 0;
+}
+
+#wenyan p {
+    font-size: 1rem;
+    line-height: 1.6rem;
+}
+
+/*
+code blocks settings
+*/
+#wenyan .md-fences {
+    font-family: var(--monospace-font);
+    font-size: 1rem;
+    padding: 0.6rem;
+    background-color: var(--code-bg-color);
+    border-radius: 0.4rem;
+    box-shadow: var(--block-shadow);
+}
+#wenyan .cm-s-inner .CodeMirror-gutters {
+    border: none;
+}
+#wenyan .cm-s-inner .CodeMirror-linenumber {
+    color: rgb(212, 212, 212);
+}
+#wenyan .cm-s-inner .cm-keyword {
+    color: rgb(204, 35, 35);
+}
+#wenyan .cm-s-inner .cm-number {
+    color: rgb(27, 57, 226);
+}
+#wenyan .cm-s-inner .cm-def {
+    color: rgb(146, 50, 255);
+}
+#wenyan .cm-s-inner .cm-operator {
+    color: rgb(204, 35, 35);
+}
+#wenyan .cm-s-inner .cm-variable2 {
+    color: rgb(38, 129, 219);
+}
+#wenyan .cm-s-inner .cm-variable3 {
+    color: rgb(204, 35, 35);
+}
+#wenyan .cm-s-inner .cm-comment {
+    color: rgb(18, 129, 18);
+}
+#wenyan .cm-s-inner .cm-string {
+    color: rgb(18, 129, 18);
+}
+#wenyan .cm-s-inner .cm-builtin {
+    color: rgb(218, 135, 12);
+}
+#wenyan .cm-tag {
+    color: rgb(139, 10, 10);
+}
+
+/*
+formulas settings
+*/
+#wenyan mjx-container {
+    font-size: 1.1rem;
+}
+
+/*
+tooltips settings
+*/
+#wenyan .code-tooltip {
+    box-shadow: 0.1rem 0.1rem 0.2rem rgb(150, 150, 150);
+    border-radius: 0.2rem;
+    margin-top: 0.3rem;
+}
+
+/*
+selected texts in code blocks settings
+*/
+#wenyan .CodeMirror-selected, #wenyan .CodeMirror-selectedtext, #wenyan .in-text-selection {
+    background-color: var(--selection-bg-color) !important;
+}
+
+/*
+diagrams settings
+*/
+#wenyan pre[lang=’sequence’], #wenyan pre[lang=’flow’], #wenyan pre[lang=’mermaid’] {
+    background-color: var(--code-bg-color);
+    border-radius: 0.4rem;
+    box-shadow: var(--block-shadow);
+}
+
+/*
+inline codes settings
+*/
+#wenyan code {
+    font-family: var(--monospace-font);
+    margin-left: 0.25rem;
+    margin-right: 0.25rem;
+    padding: 0.05rem 0.3rem;
+    background-color: var(--code-bg-color);
+    border-radius: 0.4rem;
+    box-shadow: 0.13rem 0.13rem 0.26rem rgb(197, 197, 197);
+}
+
+/*
+urls settings
+*/
+#wenyan a {
+    color: rgb(31, 117, 255);
+}
+#wenyan a:hover {
+    color: rgb(108, 164, 255);
+}
+
+/*
+images settings
+*/
+#wenyan img {
+    display: block;
+    margin: 0 auto;
+    border: 0;
+    border-radius: 5px;
+    box-shadow: var(--block-shadow);
+}
+
+/*
+highlights settings
+*/
+#wenyan mark {
+    background-color: rgb(252, 255, 200);
+}
+
+/*
+deletes settings
+*/
+#wenyan del {
+    color: var(--del-color);
+}
+
+/*
+selected texts settings
+*/
+#wenyan ::selection {
+    background-color: var(--selection-bg-color);
+}

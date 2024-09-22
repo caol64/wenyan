@@ -1,0 +1,211 @@
+/* https://github.com/evgo2017/typora-theme-orange-heart */
+
+/* 全局属性 */
+#wenyan {
+    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    line-height: 1.75;
+}
+#wenyan * {
+  box-sizing: border-box;
+}
+#wenyan p, pre {
+    margin: 1em 0;
+}
+
+/*标题*/
+#wenyan h1,
+#wenyan h2,
+#wenyan h3,
+#wenyan h4,
+#wenyan h5,
+#wenyan h6 {
+  margin: 1.2em 0 1em;
+  padding: 0px;
+  font-weight: bold;
+}
+#wenyan h1 {
+  font-size: 1.5rem;
+}
+#wenyan h2 {
+  font-size: 1.3rem;
+  border-bottom: 2px solid rgb(239, 112, 96);
+}
+#wenyan .h2-span {
+  display: inline-block;
+  font-weight: bold;
+  background: rgb(239, 112, 96);
+  color: #ffffff;
+  padding: 3px 10px 1px;
+  border-top-right-radius: 3px;
+  border-top-left-radius: 3px;
+  margin-right: 3px;
+}
+#wenyan h2:after {
+  display: inline-block;
+  content: "";
+  vertical-align: bottom;
+  border-bottom: 36px solid #efebe9;
+  border-right: 20px solid transparent;
+}
+
+#wenyan h3 {
+  font-size: 1.3rem;
+}
+#wenyan h4 {
+  font-size: 1.2rem;
+}
+#wenyan h5 {
+  font-size: 1.1rem;
+}
+#wenyan h6 {
+  font-size: 1rem;
+}
+/* 列表 */
+#wenyan ul,
+#wenyan ol {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding-left: 25px;
+  color: black;
+}
+#wenyan ul {
+  list-style-type: disc;
+}
+#wenyan ul ul {
+  list-style-type: square;
+}
+#wenyan ol {
+  list-style-type: decimal;
+}
+/* 引用块 */
+#wenyan blockquote {
+  margin: 0;
+  display: block;
+  font-size: .9em;
+  overflow: auto;
+  border-left: 3px solid rgb(239, 112, 96);
+  color: #6a737d;
+  padding: 10px 10px 10px 20px;
+  margin-bottom: 20px;
+  margin-top: 20px;
+  background: #fff9f9;
+}
+
+/* 链接 */
+#wenyan a {
+  text-decoration: none;
+  word-wrap: break-word;
+  font-weight: bold;
+  color: rgb(239, 112, 96);
+  border-bottom: 1px solid rgb(239, 112, 96);
+}
+
+/* 行内代码 */
+#wenyan p code,
+#wenyan li code {
+  font-size: .9rem;
+  word-wrap: break-word;
+  padding: 2px 4px;
+  border-radius: 4px;
+  margin: 0 2px;
+  color:  rgb(239, 112, 96);;
+  background-color: rgba(27,31,35,.05);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+  word-break: break-all;
+}
+
+/* 图片 */
+#wenyan img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+
+#wenyan span img {
+  display: inline-block;
+  border-right: 0px;
+  border-left: 0px;
+}
+
+/* 表格 */
+#wenyan table {
+  border-collapse: collapse;
+  margin: 1.4em auto;
+  max-width: 100%;
+  table-layout: fixed;
+  text-align: left;
+  overflow: auto;
+  border: 1px solid #f6f6f6;
+  display: inline-block;
+  font-size: .75em;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+#wenyan table td, table th {
+  height: 40px;
+  padding: 9px 12px;
+  line-height: 22px;
+  color: #222;
+  min-width: 60px;
+  border: 1px solid #d8d8d8;
+  vertical-align: top;
+}
+#wenyan table th {
+  font-weight: bold;
+  background-color: #f0f0f0;
+}
+#wenyan table tr:nth-child(2n) {
+  background-color: #F8F8F8;
+}
+
+/* 行内代码 */
+#wenyan span code, #wenyan li code {
+  color: rgb(239, 112, 96);
+}
+/* 脚注 */
+#wenyan #footnotes p {
+  margin: 0;
+  font-size: 0.9em;
+  padding-left: 1.2em;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-all;
+  line-height: 2;
+}
+#wenyan #footnotes p span {
+  margin-left: 1.2em;
+}
+#wenyan .footnote {
+  color: rgb(239, 112, 96);
+}
+
+/* 代码块 */
+#wenyan pre {
+  border-radius: 5px;
+  font-size: .9em;
+  line-height: 1.5;
+  margin: 1em 0.5em;
+  padding: 1em;
+  background-color: #fafafa;
+  box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;
+}
+#wenyan pre code {
+  display: block;
+  overflow-x: auto;
+  margin: 0;
+  padding: 0;
+}
+#wenyan pre code::-webkit-scrollbar-track {
+  border-radius: 6px;
+  background-color: #c8c8c84d
+}
+#wenyan pre code::-webkit-scrollbar-thumb {
+  border-radius: 6px;
+  background-color: #90929880
+}
+#wenyan pre code::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: #fff
+}
