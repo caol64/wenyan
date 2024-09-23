@@ -1,4 +1,7 @@
-/* https://github.com/BEATREE/typora-maize-theme */
+/*
+ *     Typora Theme - Maize    /    Author - BEATREE
+ *     https://github.com/BEATREE/typora-maize-theme
+ */
 
 /* 全局属性 */
 :root{
@@ -13,7 +16,9 @@
     font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
     line-height: 1.75;
 }
-
+#wenyan * {
+    box-sizing: border-box;
+}
 /*段落*/
 #wenyan p, pre {
     margin: 1em 0;
@@ -38,7 +43,8 @@
     content: "✔";
     font-weight: bold;
     color: #ffb11b;
-    margin-right: 4px
+    margin-right: 4px;
+    font-family: 'Segoe UI Symbol', Arial, sans-serif;
 }
 #wenyan h2 {
     font-size: 1.3em;
@@ -161,11 +167,11 @@
     overflow: auto;
     border: 1px solid #f6f6f6;
     display: inline-block;
-    font-size: .75em;
     word-wrap: break-word;
     word-break: break-all;
 }
 #wenyan table td, table th {
+    font-size: .75em;
     height: 40px;
     padding: 9px 12px;
     line-height: 22px;

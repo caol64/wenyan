@@ -1,4 +1,7 @@
-/* https://github.com/kevinzhao2233/typora-theme-pie */
+/*
+ *     Typora Theme - Pie    /    Author - kevinzhao2233
+ *     https://github.com/kevinzhao2233/typora-theme-pie
+ */
 
 :root {
     --primary-color: #f22f27;
@@ -213,11 +216,11 @@ li > ul {
     overflow: auto;
     border: 1px solid #f6f6f6;
     display: inline-block;
-    font-size: .75em;
     word-wrap: break-word;
     word-break: break-all;
 }
 #wenyan table td, table th {
+    font-size: .75em;
     height: 40px;
     padding: 9px 12px;
     line-height: 22px;

@@ -133,7 +133,7 @@ struct ContentView: View {
     
     struct ThemeListPopup: View {
         @State private var menuWidth: CGFloat = 200
-        @State private var menuHeight: CGFloat = 250
+        @State private var menuHeight: CGFloat = 200
         @State var htmlViewModel: HtmlViewModel
         
         var body: some View {
@@ -147,7 +147,9 @@ struct ContentView: View {
                         }
                     }
                 }
+                .padding(5)
                 .listStyle(PlainListStyle())
+                .background(Color.clear)
                 .frame(width: menuWidth, height: menuHeight)
                 .onChange(of: htmlViewModel.gzhTheme) {
                     htmlViewModel.changeTheme()

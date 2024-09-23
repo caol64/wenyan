@@ -1,4 +1,8 @@
-/* https://github.com/thezbm/typora-theme-rainbow */
+/*
+ *     Typora Theme - Rainbow    /    Author - thezbm
+ *     https://github.com/thezbm/typora-theme-rainbow
+ */
+
 /*
 root variables including colors, font-familys and a shadow style
 */
@@ -80,7 +84,6 @@ tables settings
     text-align: left;
     overflow: auto;
     display: inline-block;
-    font-size: .75em;
     word-wrap: break-word;
     word-break: break-all;
 }
@@ -88,6 +91,7 @@ tables settings
     background-color: var(--th-bg-color);
 }
 #wenyan table th, td {
+    font-size: .75em;
     text-align: center;
     border: 0.13em dashed var(--table-border-color);
     padding: 0.5em;

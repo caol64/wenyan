@@ -1,4 +1,7 @@
-/* https://github.com/hliu202/typora-purple-theme */
+/*
+ *     Typora Theme - Purple    /    Author - hliu202
+ *     https://github.com/hliu202/typora-purple-theme
+ */
 
 :root {
     --title-color: #8064a9;
@@ -22,29 +25,19 @@
 
 /* 页边距 和 页面大小 */
 #wenyan {
-    -webkit-text-size-adjust: 100%;
-    -ms-text-size-adjust: 100%;
-    text-rendering: optimizelegibility;
-    -webkit-font-smoothing: initial;
     font-family: var(--base-font);
     color: var(--text-color);
-    -webkit-font-smoothing: antialiased;
-    letter-spacing: 0;
     line-height: 1.75;
 }
-
-#wenyan p {
-    word-spacing: 0.05em;
+#wenyan * {
+    box-sizing: border-box;
 }
-
 /* Link 链接 */
-
 #wenyan a {
     border-bottom: 1px solid var(--link-bottom);
     color: var(--link-color);
     text-decoration: none;
 }
-
 
 #wenyan h1,
 h2,
@@ -55,7 +48,6 @@ h6 {
     margin: 1.2em 0 1em;
     padding: 0px;
     font-weight: var(--header-weight);
-    cursor: text;
     color: var(--title-color);
     font-family: var(--title-font);
 }
@@ -79,51 +71,39 @@ h6 {
     border-bottom: 1px solid var(--title-color);
 }
 
-#wenyan h1 tt,
-h1 code {
+#wenyan h1 {
     font-size: 1.5em;
 }
-#wenyan h2 tt,
-h2 code {
+#wenyan h2 {
     font-size: 1.3em;
 }
-#wenyan h3 tt,
-h3 code {
+#wenyan h3 {
     font-size: 1.2em;
 }
-#wenyan h4 tt,
-h4 code {
+#wenyan h4 {
     font-size: 1.2em;
 }
-#wenyan h5 tt,
-h5 code {
+#wenyan h5  {
     font-size: 1.2em;
 }
-#wenyan h6 tt,
-h6 code {
+#wenyan h6 {
     font-size: 1.2em;
 }
 
 #wenyan p,
-blockquote,
 ul,
 ol,
-dl,
-table {
-    margin: 0.8em 0;
+dl {
+    margin: 1em .8em;
 }
 
-
 /* horizontal rule */
-
 #wenyan hr {
     margin: 1.5em auto;
     border-top: 1px solid var(--border);
 }
 
-
 /* 列表 */
-
 #wenyan li>ol,
 li>ul {
     margin: 0 0;
@@ -155,8 +135,8 @@ ul li {
 
 
 /* 引用 */
-
 #wenyan blockquote {
+    margin: 0;
     border-left: 0.3em solid var(--border-quote);
     padding-left: 1em;
     font-family: var(--base-font);
@@ -173,11 +153,11 @@ ul li {
     overflow: auto;
     border: 1px solid #f6f6f6;
     display: inline-block;
-    font-size: .75em;
     word-wrap: break-word;
     word-break: break-all;
 }
 #wenyan table td, table th {
+    font-size: .75em;
     height: 40px;
     padding: 9px 12px;
     line-height: 22px;
@@ -195,12 +175,10 @@ ul li {
 }
 
 /* 粗体 */
-
 #wenyan strong {
     padding: 0 2px;
     font-weight: bold;
 }
-
 
 /* inline code */
 #wenyan p code,

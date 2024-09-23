@@ -113,11 +113,11 @@
 }
 
 #wenyan h5 {
-    font-size: 1.1em;
+    font-size: 1.2em;
 }
 
 #wenyan h6 {
-    font-size: 1.1em;
+    font-size: 1.2em;
 }
 
 #wenyan ul {
@@ -191,7 +191,6 @@
     text-align: left;
     overflow: auto;
     display: inline-block;
-    font-size: .75em;
     word-wrap: break-word;
     word-break: break-all;
 }
@@ -210,6 +209,7 @@
     border: 1px solid #d9dfe4;
     height: 40px;
     padding: 9px 12px;
+    font-size: .75em;
     line-height: 22px;
     min-width: 60px;
     vertical-align: top;
