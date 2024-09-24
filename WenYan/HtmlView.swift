@@ -216,7 +216,7 @@ extension HtmlViewModel {
                     content = "\(content)<style>\(handledTheme)\(highlight)</style>"
                 }
 
-                print(content)
+//                print(content)
                 let pasteBoard = NSPasteboard.general
                 pasteBoard.clearContents()
                 if self.platform == .juejin {
