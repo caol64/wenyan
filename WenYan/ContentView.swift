@@ -61,8 +61,7 @@ struct ContentView: View {
                                 .frame(height: 24)
                             }
                             Button(action: {
-                                htmlViewModel.isFootnotes.toggle()
-                                htmlViewModel.addFootnotes()
+                                htmlViewModel.changeFootnotes()
                             }) {
                                 HStack {
                                     Image(systemName: htmlViewModel.isFootnotes ? "link.circle.fill" : "link.circle")

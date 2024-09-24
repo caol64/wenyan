@@ -150,6 +150,7 @@ enum ThemeStyle: String {
     case toutiaoDefault = "themes/toutiao_default.css"
     case zhihuDefault = "themes/zhihu_default.css"
     case juejinDefault = "themes/juejin_default.css"
+    case mediumDefault = "themes/medium_default.css"
     case orangeHeart = "themes/orangeheart.css"
     case rainbow = "themes/rainbow.css"
     case lapis = "themes/lapis.css"
@@ -163,6 +164,7 @@ enum ThemeStyle: String {
         case .toutiaoDefault: "默认"
         case .zhihuDefault: "默认"
         case .juejinDefault: "默认"
+        case .mediumDefault: "默认"
         case .orangeHeart: "Orange Heart"
         case .rainbow: "Rainbow"
         case .lapis: "Lapis"
@@ -178,6 +180,7 @@ enum ThemeStyle: String {
         case .toutiaoDefault: ""
         case .zhihuDefault: ""
         case .juejinDefault: ""
+        case .mediumDefault: ""
         case .orangeHeart: "evgo2017"
         case .rainbow: "thezbm"
         case .lapis: "YiNN"
@@ -204,6 +207,7 @@ enum Platform: String, CaseIterable, Identifiable {
     case toutiao
     case zhihu
     case juejin
+    case medium
     
     var id: Self { self }
     
@@ -217,6 +221,8 @@ enum Platform: String, CaseIterable, Identifiable {
             return [.toutiaoDefault]
         case .juejin:
             return [.juejinDefault]
+        case .medium:
+            return [.mediumDefault]
         }
     }
 }

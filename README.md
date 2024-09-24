@@ -26,7 +26,9 @@
   - [Purple](https://github.com/hliu202/typora-purple-theme)
 - 即将支持：公众号自定义样式
 
-题外话：在目前已支持的平台中，实际上只有“公众号”可以支持自定义样式，其它平台都只能使用平台预定义的样式。
+## 使用手册
+
+[https://yuzhi.tech/docs/wenyan](https://yuzhi.tech/docs/wenyan)
 
 ## 应用截图
 

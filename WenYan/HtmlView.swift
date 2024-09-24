@@ -132,6 +132,10 @@ extension HtmlViewModel {
         callJavascript(javascriptString: "getContentForGzh();", callback: block)
     }
     
+    func getContentForMedium(_ block: JavascriptCallback?) {
+        callJavascript(javascriptString: "getContentForMedium();", callback: block)
+    }
+    
     func setPreviewMode() {
         callJavascript(javascriptString: "setPreviewMode(\"\(previewMode.rawValue)\");")
     }
@@ -156,16 +160,25 @@ extension HtmlViewModel {
         callJavascript(javascriptString: "scroll(\(scrollFactor));")
     }
     
-    func addFootnotes() {
-        if (isFootnotes) {
-            if platform == .gzh {
-                callJavascript(javascriptString: "addFootnotes(false);")
-            } else {
-                callJavascript(javascriptString: "addFootnotes(true);")
-            }
+    func changeFootnotes() {
+        isFootnotes.toggle()
+        if isFootnotes {
+            addFootnotes()
         } else {
-            setContent()
+            removeFootnotes()
         }
+    }
+    
+    func addFootnotes() {
+        if platform == .gzh {
+            callJavascript(javascriptString: "addFootnotes(false);")
+        } else {
+            callJavascript(javascriptString: "addFootnotes(true);")
+        }
+    }
+    
+    func removeFootnotes() {
+        setContent()
     }
     
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {
@@ -188,6 +201,8 @@ extension HtmlViewModel {
             fetchContent = getContentWithMathImg
         case .juejin:
             fetchContent = getPostprocessMarkdown
+        case .medium:
+            fetchContent = getContentForMedium
         default:
             fetchContent = getContent
         }
@@ -201,7 +216,7 @@ extension HtmlViewModel {
                     content = "\(content)<style>\(handledTheme)\(highlight)</style>"
                 }
 
-//                print(content)
+                print(content)
                 let pasteBoard = NSPasteboard.general
                 pasteBoard.clearContents()
                 if self.platform == .juejin {
@@ -232,10 +247,7 @@ extension HtmlViewModel {
             appState.showThemeList = false
         }
         self.platform = platform
-        if (isFootnotes) {
-            setContent()
-            addFootnotes()
-        }
+        onUpdate()
         setTheme()
         if (platform == .zhihu) {
             removeHighlight()
