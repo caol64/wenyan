@@ -12,7 +12,12 @@
 
 本项目的核心功能是将编辑好的`markdown`文章转换成适配各个发布平台的格式，通过一键复制，可以直接粘贴到平台的文本编辑器，无需再做额外调整。
 
-- 支持发布到多平台：公众号、知乎、今日头条、掘金等
+- 支持发布到多平台：
+  - 公众号
+  - 知乎
+  - 今日头条
+  - 掘金、CSDN等
+  - Medium
 - 支持代码高亮
 - 支持公式
 - 支持链接转脚注
@@ -26,13 +31,13 @@
   - [Purple](https://github.com/hliu202/typora-purple-theme)
 - 即将支持：公众号自定义样式
 
-## 使用手册
-
-[https://yuzhi.tech/docs/wenyan](https://yuzhi.tech/docs/wenyan)
-
 ## 应用截图
 
 ![](Data/1.webp)
+
+## 更多功能介绍
+
+[https://yuzhi.tech/docs/wenyan](https://yuzhi.tech/docs/wenyan)
 
 ## 下载
 
@@ -43,3 +48,11 @@
 `Windows`版下载：
 
 [文颜](https://yuzhi.tech/docs/wenyan/windows)
+
+## 支持
+
+如果您觉得不错，可以给我家猫咪买点罐头吃。[喂猫❤️](https://yuzhi.tech/sponsor)
+
+## License
+
+Apache License Version 2.0
