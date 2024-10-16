@@ -40,6 +40,8 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
     var isCopied = false
     var isFootnotes = false
     var gzhTheme: ThemeStyle = Platform.gzh.themes[0]
+    var showFileExporter: Bool = false
+    var longImageData: DataFile?
     
     init(appState: AppState) {
         self.appState = appState
@@ -134,6 +136,10 @@ extension HtmlViewModel {
     
     func getContentForMedium(_ block: JavascriptCallback?) {
         callJavascript(javascriptString: "getContentForMedium();", callback: block)
+    }
+    
+    func getScrollFrame(_ block: JavascriptCallback?) {
+        callJavascript(javascriptString: "getScrollFrame();", callback: block)
     }
     
     func setPreviewMode() {
@@ -260,6 +266,58 @@ extension HtmlViewModel {
         setTheme()
         Task {
             UserDefaults.standard.set(gzhTheme.rawValue, forKey: "gzhTheme")
+        }
+    }
+    
+    func exportLongImage() {
+        if !showFileExporter {
+            return
+        }
+        guard let webView = self.webView else {
+            return
+        }
+        getScrollFrame { result in
+            do {
+                print(try result.get())
+                guard let body = try result.get() as? [String: CGFloat],
+                      let x = body["x"],
+                      let y = body["y"],
+                      let width = body["width"],
+                      let height = body["height"]
+                else {
+                    return
+                }
+                print(body)
+//                let fullHeight = try result.get() as! CGFloat
+                let originalFrame = webView.frame
+                let newFrame = NSRect(x: x, y: y, width: width, height: height)
+//                guard let bitmapRep = webView.bitmapImageRepForCachingDisplay(in: newFrame) else {
+//                    return
+//                }
+//                webView.cacheDisplay(in: webView.bounds, to: bitmapRep)
+//                let jpegData = bitmapRep.representation(using: .jpeg, properties: [.compressionFactor: 0.9]) // 设置压缩系数为 0.9
+//                if let data = jpegData {
+//                    self.longImageData = DataFile(data: data)
+//                }
+                webView.frame = newFrame
+                let configuration = WKSnapshotConfiguration()
+                webView.takeSnapshot(with: configuration) { image, error in
+                    if let image = image {
+                        guard let tiffData = image.tiffRepresentation,
+                              let bitmapRep = NSBitmapImageRep(data: tiffData) else {
+                            return
+                        }
+                        let jpegData = bitmapRep.representation(using: .jpeg, properties: [.compressionFactor: 0.9]) // 设置压缩系数为 0.9
+                        if let data = jpegData {
+                            self.longImageData = DataFile(data: data)
+                        }
+                    }
+                }
+                
+                webView.frame = originalFrame
+            } catch {
+                self.appState.appError = AppError.bizError(description: error.localizedDescription)
+            }
         }
     }
 

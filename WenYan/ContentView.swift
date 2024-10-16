@@ -74,6 +74,34 @@ struct ContentView: View {
                                 .frame(height: 24)
                             }
                             Button(action: {
+                                htmlViewModel.showFileExporter = true
+                                htmlViewModel.exportLongImage()
+                            }) {
+                                HStack {
+                                    Image(systemName: "photo")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 16, height: 16)
+                                    Text("长图")
+                                        .font(.system(size: 14))
+                                }
+                                .frame(height: 24)
+                            }
+                            .fileExporter(
+                                isPresented: $htmlViewModel.showFileExporter,
+                                document: htmlViewModel.longImageData,
+                                contentType: .jpeg,
+                                defaultFilename: "out"
+                            ) { result in
+                                switch result {
+                                case .success(let url):
+                                    print("File saved to \(url)")
+                                case .failure(let error):
+                                    appState.appError = AppError.bizError(description: error.localizedDescription)
+                                }
+                                htmlViewModel.longImageData = nil
+                            }
+                            Button(action: {
                                 htmlViewModel.onCopy()
                             }) {
                                 HStack {
@@ -86,7 +114,6 @@ struct ContentView: View {
                                 }
                                 .frame(height: 24)
                             }
-                            
                         }
                         .padding(.trailing, 32)
                         .padding(.top, 16)
