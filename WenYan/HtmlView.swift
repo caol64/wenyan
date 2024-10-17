@@ -278,29 +278,20 @@ extension HtmlViewModel {
         }
         getScrollFrame { result in
             do {
-                print(try result.get())
                 guard let body = try result.get() as? [String: CGFloat],
-                      let x = body["x"],
-                      let y = body["y"],
                       let width = body["width"],
                       let height = body["height"]
                 else {
                     return
                 }
-                print(body)
-//                let fullHeight = try result.get() as! CGFloat
+                
                 let originalFrame = webView.frame
-                let newFrame = NSRect(x: x, y: y, width: width, height: height)
-//                guard let bitmapRep = webView.bitmapImageRepForCachingDisplay(in: newFrame) else {
-//                    return
-//                }
-//                webView.cacheDisplay(in: webView.bounds, to: bitmapRep)
-//                let jpegData = bitmapRep.representation(using: .jpeg, properties: [.compressionFactor: 0.9]) // 设置压缩系数为 0.9
-//                if let data = jpegData {
-//                    self.longImageData = DataFile(data: data)
-//                }
+                let frameWidth = originalFrame.width - 30
+                let clipWidth = width + 15
+                let newFrame = NSRect(x: 0, y: 0, width: originalFrame.width, height: height)
                 webView.frame = newFrame
                 let configuration = WKSnapshotConfiguration()
+                configuration.rect = NSRect(x: (frameWidth - width) / 2.0, y: 0, width: clipWidth, height: height)
                 webView.takeSnapshot(with: configuration) { image, error in
                     if let image = image {
                         guard let tiffData = image.tiffRepresentation,

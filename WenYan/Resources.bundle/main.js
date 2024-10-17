@@ -44,9 +44,7 @@ function getScrollFrame() {
     const height = document.body.scrollHeight;
     const width = document.getElementById("wenyan").offsetWidth;
     const fullWidth = document.body.scrollWidth;
-    const x = (fullWidth - width) / 2;
-    const y = 0;
-    return { x: x, y: y, width: width, height, height }
+    return { width, height, fullWidth }
 }
 function setStylesheet(id, href) {
     const style = document.createElement("link");

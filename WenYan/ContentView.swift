@@ -23,12 +23,12 @@ struct ContentView: View {
         VStack {
             HStack {
                 MarkdownView(viewModel: markdownViewModel)
-                    .frame(minWidth: 400, minHeight: 580)
+                    .frame(minWidth: 500, minHeight: 580)
                     .onChange(of: htmlViewModel.scrollFactor) {
                         markdownViewModel.scroll(scrollFactor: htmlViewModel.scrollFactor)
                     }
                 HtmlView(viewModel: htmlViewModel)
-                    .frame(minWidth: 400, minHeight: 580)
+                    .frame(minWidth: 500, minHeight: 580)
                     .overlay(alignment: .topTrailing) {
                         VStack {
                             if htmlViewModel.platform == .gzh {
@@ -73,33 +73,35 @@ struct ContentView: View {
                                 }
                                 .frame(height: 24)
                             }
-                            Button(action: {
-                                htmlViewModel.showFileExporter = true
-                                htmlViewModel.exportLongImage()
-                            }) {
-                                HStack {
-                                    Image(systemName: "photo")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 16, height: 16)
-                                    Text("长图")
-                                        .font(.system(size: 14))
+                            if htmlViewModel.platform == .gzh {
+                                Button(action: {
+                                    htmlViewModel.showFileExporter = true
+                                    htmlViewModel.exportLongImage()
+                                }) {
+                                    HStack {
+                                        Image(systemName: "photo")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 16, height: 16)
+                                        Text("长图")
+                                            .font(.system(size: 14))
+                                    }
+                                    .frame(height: 24)
                                 }
-                                .frame(height: 24)
-                            }
-                            .fileExporter(
-                                isPresented: $htmlViewModel.showFileExporter,
-                                document: htmlViewModel.longImageData,
-                                contentType: .jpeg,
-                                defaultFilename: "out"
-                            ) { result in
-                                switch result {
-                                case .success(let url):
-                                    print("File saved to \(url)")
-                                case .failure(let error):
-                                    appState.appError = AppError.bizError(description: error.localizedDescription)
+                                .fileExporter(
+                                    isPresented: $htmlViewModel.showFileExporter,
+                                    document: htmlViewModel.longImageData,
+                                    contentType: .jpeg,
+                                    defaultFilename: "out"
+                                ) { result in
+                                    switch result {
+                                    case .success(let url):
+                                        print("File saved to \(url)")
+                                    case .failure(let error):
+                                        appState.appError = AppError.bizError(description: error.localizedDescription)
+                                    }
+                                    htmlViewModel.longImageData = nil
                                 }
-                                htmlViewModel.longImageData = nil
                             }
                             Button(action: {
                                 htmlViewModel.onCopy()
