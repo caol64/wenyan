@@ -34,6 +34,15 @@ renderer.heading = function(heading) {
     // 返回带有 span 包裹的自定义标题
     return `<h${level}><span class="h${level}-span">${text}</span></h${level}>\n`;
 };
+// 重写渲染paragraph的方法以更好的显示行间公式
+renderer.paragraph = function(paragraph) {
+    const text = parser.parseInline(paragraph.tokens);
+    if (text.length > 4 && /^(\$\$)(?!\$)/.test(text)) {
+        return `${text}\n`;
+    } else {
+        return `<p>${text}</p>\n`;
+    }
+};
 
 // 配置 marked.js 使用自定义的 Renderer
 marked.use({
@@ -104,20 +113,6 @@ function getContentWithMathImg() {
     });
     return clonedWenyan.outerHTML;
 }
-function getContentWithMathSvg() {
-    const wenyan = document.getElementById("wenyan");
-    const clonedWenyan = wenyan.cloneNode(true);
-    const elements = clonedWenyan.querySelectorAll("mjx-container");
-    elements.forEach(element => {
-        const svg = element.querySelector('svg');
-        svg.style.width = svg.getAttribute("width");
-        svg.style.height = svg.getAttribute("height");
-        const parent = element.parentElement;
-        element.remove();
-        parent.appendChild(svg);
-    });
-    return clonedWenyan.outerHTML;
-}
 function getContentForGzh() {
     const wenyan = document.getElementById("wenyan");
     const clonedWenyan = wenyan.cloneNode(true);
@@ -132,6 +127,9 @@ function getContentForGzh() {
         const parent = element.parentElement;
         element.remove();
         parent.appendChild(svg);
+        if (parent.classList.contains('block-equation')) {
+            parent.setAttribute("style", "text-align: center;");
+        }
     });
     // 读取主题css样式
     const stylesheets = document.styleSheets;

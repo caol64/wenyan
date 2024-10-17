@@ -126,10 +126,6 @@ extension HtmlViewModel {
         callJavascript(javascriptString: "getContentWithMathImg();", callback: block)
     }
     
-    func getContentWithMathSvg(_ block: JavascriptCallback?) {
-        callJavascript(javascriptString: "getContentWithMathSvg();", callback: block)
-    }
-    
     func getContentForGzh(_ block: JavascriptCallback?) {
         callJavascript(javascriptString: "getContentForGzh();", callback: block)
     }
