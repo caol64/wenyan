@@ -28,20 +28,19 @@ struct HtmlView: NSViewRepresentable {
     }
 }
 
-@Observable
-class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
-    var appState: AppState
-    var content: String = ""
+class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, ObservableObject {
+    @Published var appState: AppState
+    @Published var content: String = ""
     weak var webView: WKWebView?
-    var previewMode: PreviewMode = .mobile
-    var platform: Platform = .gzh
-    var highlightStyle: HighlightStyle = .github
-    var scrollFactor: CGFloat = 0
-    var isCopied = false
-    var isFootnotes = false
-    var gzhTheme: ThemeStyle = Platform.gzh.themes[0]
-    var showFileExporter: Bool = false
-    var longImageData: DataFile?
+    @Published var previewMode: PreviewMode = .mobile
+    @Published var platform: Platform = .gzh
+    @Published var highlightStyle: HighlightStyle = .github
+    @Published var scrollFactor: CGFloat = 0
+    @Published var isCopied = false
+    @Published var isFootnotes = false
+    @Published var gzhTheme: ThemeStyle = Platform.gzh.themes[0]
+    @Published var showFileExporter: Bool = false
+    @Published var longImageData: DataFile?
     
     init(appState: AppState) {
         self.appState = appState

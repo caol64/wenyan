@@ -24,8 +24,8 @@ struct ContentView: View {
             HStack {
                 MarkdownView(viewModel: markdownViewModel)
                     .frame(minWidth: 500, minHeight: 580)
-                    .onChange(of: htmlViewModel.scrollFactor) {
-                        markdownViewModel.scroll(scrollFactor: htmlViewModel.scrollFactor)
+                    .onReceive(htmlViewModel.$scrollFactor) { newScrollFactor in
+                        markdownViewModel.scroll(scrollFactor: newScrollFactor)
                     }
                 HtmlView(viewModel: htmlViewModel)
                     .frame(minWidth: 500, minHeight: 580)

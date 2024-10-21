@@ -7,9 +7,10 @@
 
 import SwiftUI
 
-@Observable
-class AppState {
-    var appError: AppError?
+class AppState: ObservableObject {
+    @Published var appError: AppError?
+    @Published var showThemeList: Bool = false
+
     var showError: Binding<Bool> {
         Binding {
             return self.appError != nil
@@ -19,7 +20,6 @@ class AppState {
             }
         }
     }
-    var showThemeList: Bool = false
 }
 
 
