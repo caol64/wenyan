@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject private var markdownViewModel: MarkdownViewModel
-    @ObservedObject private var htmlViewModel: HtmlViewModel
+    @StateObject private var markdownViewModel: MarkdownViewModel
+    @StateObject private var htmlViewModel: HtmlViewModel
     @ObservedObject private var appState: AppState
     
     init(appState: AppState) {
-        _markdownViewModel = ObservedObject(initialValue: MarkdownViewModel(appState: appState))
-        _htmlViewModel = ObservedObject(initialValue: HtmlViewModel(appState: appState))
+        _markdownViewModel = StateObject(wrappedValue: MarkdownViewModel(appState: appState))
+        _htmlViewModel = StateObject(wrappedValue: HtmlViewModel(appState: appState))
         self.appState = appState
     }
 
@@ -160,23 +160,26 @@ struct ContentView: View {
     }
     
     struct ThemeListPopup: View {
-        @State private var menuWidth: CGFloat = 200
-        @State private var menuHeight: CGFloat = 200
-        @State var htmlViewModel: HtmlViewModel
+        var menuWidth: CGFloat = 200
+        var menuHeight: CGFloat = 200
+        @ObservedObject var htmlViewModel: HtmlViewModel
         
         var body: some View {
             VStack {
                 List {
                     ForEach(Platform.gzh.themes, id: \.self) { theme in
-                        HStack {
-                            Text(theme.name)
-                            Spacer()
-                            Text(theme.author)
-                        }
-                        .background(htmlViewModel.gzhTheme == theme ? Color.gray.opacity(0.3) : Color.clear)
-                        .onTapGesture {
+                        Button(action: {
                             htmlViewModel.gzhTheme = theme
+                        }) {
+                            HStack {
+                                Text(theme.name)
+                                Spacer()
+                                Text(theme.author)
+                            }
+                            .background(htmlViewModel.gzhTheme == theme ? Color.gray.opacity(0.3) : Color.clear)
+                            .contentShape(Rectangle())
                         }
+                        .buttonStyle(PlainButtonStyle())
                     }
                 }
                 .padding(5)
