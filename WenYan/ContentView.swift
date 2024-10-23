@@ -160,8 +160,8 @@ struct ContentView: View {
     }
     
     struct ThemeListPopup: View {
-        var menuWidth: CGFloat = 200
-        var menuHeight: CGFloat = 200
+        var menuWidth: CGFloat = 220
+        var menuHeight: CGFloat = 220
         @ObservedObject var htmlViewModel: HtmlViewModel
         
         var body: some View {
@@ -176,14 +176,17 @@ struct ContentView: View {
                                 Spacer()
                                 Text(theme.author)
                             }
-                            .background(htmlViewModel.gzhTheme == theme ? Color.gray.opacity(0.3) : Color.clear)
+                            .foregroundColor(htmlViewModel.gzhTheme == theme ? Color.white : Color.primary)
                             .contentShape(Rectangle())
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 2)
                         }
-                        .buttonStyle(PlainButtonStyle())
+                        .buttonStyle(.borderless)
+                        .background(htmlViewModel.gzhTheme == theme ? Color.accentColor : Color.clear)
                     }
                 }
                 .padding(5)
-                .listStyle(PlainListStyle())
+                .listStyle(.plain)
                 .background(Color.clear)
                 .frame(width: menuWidth, height: menuHeight)
                 .onReceive(htmlViewModel.$gzhTheme) { _ in
