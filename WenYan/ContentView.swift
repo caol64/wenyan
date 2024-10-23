@@ -9,13 +9,13 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @State private var markdownViewModel: MarkdownViewModel
-    @State private var htmlViewModel: HtmlViewModel
-    @State private var appState: AppState
+    @StateObject private var markdownViewModel: MarkdownViewModel
+    @StateObject private var htmlViewModel: HtmlViewModel
+    @ObservedObject private var appState: AppState
     
     init(appState: AppState) {
-        _markdownViewModel = State(initialValue: MarkdownViewModel(appState: appState))
-        _htmlViewModel = State(initialValue: HtmlViewModel(appState: appState))
+        _markdownViewModel = StateObject(wrappedValue: MarkdownViewModel(appState: appState))
+        _htmlViewModel = StateObject(wrappedValue: HtmlViewModel(appState: appState))
         self.appState = appState
     }
 
@@ -24,8 +24,8 @@ struct ContentView: View {
             HStack {
                 MarkdownView(viewModel: markdownViewModel)
                     .frame(minWidth: 500, minHeight: 580)
-                    .onChange(of: htmlViewModel.scrollFactor) {
-                        markdownViewModel.scroll(scrollFactor: htmlViewModel.scrollFactor)
+                    .onReceive(htmlViewModel.$scrollFactor) { newScrollFactor in
+                        markdownViewModel.scroll(scrollFactor: newScrollFactor)
                     }
                 HtmlView(viewModel: htmlViewModel)
                     .frame(minWidth: 500, minHeight: 580)
@@ -129,8 +129,8 @@ struct ContentView: View {
                                 .environment(\.colorScheme, .light)
                         }
                     }
-                    .onChange(of: markdownViewModel.scrollFactor) {
-                        htmlViewModel.scroll(scrollFactor: markdownViewModel.scrollFactor)
+                    .onReceive(markdownViewModel.$scrollFactor) { newScrollFactor in
+                        htmlViewModel.scroll(scrollFactor: newScrollFactor)
                     }
             }
             .background(.white)
@@ -141,8 +141,8 @@ struct ContentView: View {
                 htmlViewModel.content = markdownViewModel.content
             }
         }
-        .onChange(of: markdownViewModel.content) {
-            htmlViewModel.content = markdownViewModel.content
+        .onReceive(markdownViewModel.$content) { newContent in
+            htmlViewModel.content = newContent
             htmlViewModel.onUpdate()
         }
         .toolbar() {
@@ -160,26 +160,36 @@ struct ContentView: View {
     }
     
     struct ThemeListPopup: View {
-        @State private var menuWidth: CGFloat = 200
-        @State private var menuHeight: CGFloat = 200
-        @State var htmlViewModel: HtmlViewModel
+        var menuWidth: CGFloat = 220
+        var menuHeight: CGFloat = 220
+        @ObservedObject var htmlViewModel: HtmlViewModel
         
         var body: some View {
             VStack {
-                List(selection: $htmlViewModel.gzhTheme) {
+                List {
                     ForEach(Platform.gzh.themes, id: \.self) { theme in
-                        HStack {
-                            Text(theme.name)
-                            Spacer()
-                            Text(theme.author)
+                        Button(action: {
+                            htmlViewModel.gzhTheme = theme
+                        }) {
+                            HStack {
+                                Text(theme.name)
+                                Spacer()
+                                Text(theme.author)
+                            }
+                            .foregroundColor(htmlViewModel.gzhTheme == theme ? Color.white : Color.primary)
+                            .contentShape(Rectangle())
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 2)
                         }
+                        .buttonStyle(.borderless)
+                        .background(htmlViewModel.gzhTheme == theme ? Color.accentColor : Color.clear)
                     }
                 }
                 .padding(5)
-                .listStyle(PlainListStyle())
+                .listStyle(.plain)
                 .background(Color.clear)
                 .frame(width: menuWidth, height: menuHeight)
-                .onChange(of: htmlViewModel.gzhTheme) {
+                .onReceive(htmlViewModel.$gzhTheme) { _ in
                     htmlViewModel.changeTheme()
                 }
             }

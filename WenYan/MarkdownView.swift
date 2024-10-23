@@ -28,12 +28,11 @@ struct MarkdownView: NSViewRepresentable {
     
 }
 
-@Observable
-class MarkdownViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler {
-    var appState: AppState
-    var content: String = ""
+class MarkdownViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, ObservableObject {
+    @Published var appState: AppState
+    @Published var content: String = ""
+    @Published var scrollFactor: CGFloat = 0
     weak var webView: WKWebView?
-    var scrollFactor: CGFloat = 0
     
     init(appState: AppState) {
         self.appState = appState

@@ -11,7 +11,7 @@ import SwiftData
 @main
 struct WenYanApp: App {
     
-    @State private var appState = AppState()
+    @StateObject private var appState = AppState()
     
     var body: some Scene {
         WindowGroup {
