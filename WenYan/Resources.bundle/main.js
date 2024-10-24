@@ -73,11 +73,18 @@ function setContent(content) {
 }
 function setPreviewMode(mode) {
     document.getElementById("style")?.remove();
-    setStylesheet("style", mode)
+    setStylesheet("style", mode);
 }
 function setTheme(theme) {
     document.getElementById("theme")?.remove();
-    setStylesheet("theme", theme)
+    setStylesheet("theme", theme);
+}
+function setCustomTheme(css) {
+    document.getElementById("theme")?.remove();
+    const style = document.createElement("style");
+    style.setAttribute("id", "theme");
+    document.head.appendChild(style);
+    style.innerText = css;
 }
 function setHighlight(highlight) {
     document.getElementById("hljs")?.remove();

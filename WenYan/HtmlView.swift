@@ -9,7 +9,7 @@ import SwiftUI
 import WebKit
 
 struct HtmlView: NSViewRepresentable {
-    let viewModel: HtmlViewModel
+    @EnvironmentObject var viewModel: HtmlViewModel
     
     func makeNSView(context: Context) -> WKWebView {
         let userController = WKUserContentController()
@@ -23,13 +23,13 @@ struct HtmlView: NSViewRepresentable {
         viewModel.loadIndex()
         return webView
     }
-
+    
     func updateNSView(_ uiView: WKWebView, context: Context) {
     }
 }
 
 class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, ObservableObject {
-    @Published var appState: AppState
+    var appState: AppState
     @Published var content: String = ""
     weak var webView: WKWebView?
     @Published var previewMode: PreviewMode = .mobile
@@ -38,9 +38,18 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
     @Published var scrollFactor: CGFloat = 0
     @Published var isCopied = false
     @Published var isFootnotes = false
-    @Published var gzhTheme: ThemeStyle = Platform.gzh.themes[0]
-    @Published var showFileExporter: Bool = false
+    @Published var gzhTheme: ThemeStyleWrapper = ThemeStyleWrapper(themeType: .builtin, themeStyle: Platform.gzh.themes[0])
     @Published var longImageData: DataFile?
+    var hasLongImageData: Binding<Bool> {
+        Binding {
+            return self.longImageData != nil
+        } set: { hasLongImageData in
+            if !hasLongImageData {
+                self.longImageData = nil
+            }
+        }
+    }
+    @Published var customThemes: [CustomTheme] = []
     
     init(appState: AppState) {
         self.appState = appState
@@ -60,15 +69,15 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
     
     // WKNavigationDelegate 方法
     func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {
-//        print("didFinish")
+        //        print("didFinish")
     }
     
     func webView(_ webView: WKWebView, didFail navigation: WKNavigation!, withError error: Error) {
-//        print("didFail")
+        //        print("didFail")
     }
     
     func webView(_ webView: WKWebView, didFailProvisionalNavigation navigation: WKNavigation!, withError error: Error) {
-//        print("didFailProvisionalNavigation")
+        //        print("didFailProvisionalNavigation")
     }
     
     // WKScriptMessageHandler 方法
@@ -91,8 +100,15 @@ extension HtmlViewModel {
     func configWebView() {
         setPreviewMode()
         if platform == .gzh {
-            if let theme = UserDefaults.standard.string(forKey: "gzhTheme") {
-                gzhTheme = ThemeStyle(rawValue: theme) ?? platform.themes[0]
+            if let themeId = UserDefaults.standard.string(forKey: "gzhTheme") {
+                if themeId.starts(with: "custom/") {
+                    if let customTheme = getCustomThemeById(id: themeId.replacingOccurrences(of: "custom/", with: "")) {
+                        gzhTheme = ThemeStyleWrapper(themeType: .custom, customTheme: customTheme)
+                    }
+                } else {
+                    let themeStyle = ThemeStyle(rawValue: themeId) ?? platform.themes[0]
+                    gzhTheme = ThemeStyleWrapper(themeType: .builtin, themeStyle: themeStyle)
+                }
             }
         }
         setTheme()
@@ -143,7 +159,11 @@ extension HtmlViewModel {
     
     func setTheme() {
         if platform == .gzh {
-            callJavascript(javascriptString: "setTheme(\"\(gzhTheme.rawValue)\");")
+            if gzhTheme.themeType == .builtin {
+                callJavascript(javascriptString: "setTheme(\"\(gzhTheme.content())\");")
+            } else {
+                callJavascript(javascriptString: "setCustomTheme(\(gzhTheme.content().toJavaScriptString()));")
+            }
         } else {
             callJavascript(javascriptString: "setTheme(\"\(platform.themes[0].rawValue)\");")
         }
@@ -211,13 +231,18 @@ extension HtmlViewModel {
             do {
                 var content = try result.get() as! String
                 if self.platform == .gzh {
-                    let theme = try loadFileFromResource(path: self.gzhTheme.rawValue)
+                    let theme: String
+                    if self.gzhTheme.themeType == .builtin {
+                        theme = try loadFileFromResource(path: self.gzhTheme.content())
+                    } else {
+                        theme = self.gzhTheme.content()
+                    }
                     let handledTheme = replaceCSSVariables(css: theme)
                     let highlight = try loadFileFromResource(path: self.highlightStyle.rawValue)
                     content = "\(content)<style>\(handledTheme)\(highlight)</style>"
                 }
-
-//                print(content)
+                
+                //                print(content)
                 let pasteBoard = NSPasteboard.general
                 pasteBoard.clearContents()
                 if self.platform == .juejin {
@@ -260,14 +285,11 @@ extension HtmlViewModel {
     func changeTheme() {
         setTheme()
         Task {
-            UserDefaults.standard.set(gzhTheme.rawValue, forKey: "gzhTheme")
+            UserDefaults.standard.set(gzhTheme.id(), forKey: "gzhTheme")
         }
     }
     
     func exportLongImage() {
-        if !showFileExporter {
-            return
-        }
         guard let webView = self.webView else {
             return
         }
@@ -306,5 +328,33 @@ extension HtmlViewModel {
             }
         }
     }
-
+    
+    func fetchCustomThemes() {
+        let context = CoreDataStack.shared.persistentContainer.viewContext
+        let fetchRequest: NSFetchRequest<CustomTheme> = CustomTheme.fetchRequest()
+        do {
+            customThemes = try context.fetch(fetchRequest)
+        } catch {
+            self.appState.appError = AppError.bizError(description: error.localizedDescription)
+        }
+    }
+    
+    func deleteCustomTheme() {
+        if let customTheme = gzhTheme.customTheme {
+            do {
+                try CoreDataStack.shared.delete(item: customTheme)
+                fetchCustomThemes()
+            } catch {
+                self.appState.appError = AppError.bizError(description: error.localizedDescription)
+            }
+        }
+        gzhTheme = ThemeStyleWrapper(themeType: .builtin, themeStyle: Platform.gzh.themes[0])
+    }
+    
+    func getCustomThemeById(id: String) -> CustomTheme? {
+        return customThemes.filter { item in
+            item.objectID.uriRepresentation().absoluteString == id
+        }.first
+    }
+    
 }

@@ -9,7 +9,9 @@ import SwiftUI
 
 class AppState: ObservableObject {
     @Published var appError: AppError?
-    @Published var showThemeList: Bool = false
+    @Published var showThemeList = false
+    @Published var showConfirm = false
+    @Published var showSheet = false
 
     var showError: Binding<Bool> {
         Binding {

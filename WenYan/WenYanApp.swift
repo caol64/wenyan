@@ -11,11 +11,29 @@ import SwiftData
 @main
 struct WenYanApp: App {
     
-    @StateObject private var appState = AppState()
+    @StateObject private var appState: AppState
+    @StateObject private var markdownViewModel: MarkdownViewModel
+    @StateObject private var htmlViewModel: HtmlViewModel
+    @StateObject private var cssEditorViewModel: CssEditorViewModel
+    @StateObject private var themePreviewViewModel: ThemePreviewViewModel
+    
+    init() {
+        let appState = AppState()
+        _appState = StateObject(wrappedValue: appState)
+        _markdownViewModel = StateObject(wrappedValue: MarkdownViewModel(appState: appState))
+        _htmlViewModel = StateObject(wrappedValue: HtmlViewModel(appState: appState))
+        _cssEditorViewModel = StateObject(wrappedValue: CssEditorViewModel(appState: appState))
+        _themePreviewViewModel = StateObject(wrappedValue: ThemePreviewViewModel(appState: appState))
+    }
     
     var body: some Scene {
         WindowGroup {
-            ContentView(appState: appState)
+            ContentView()
+                .environmentObject(appState)
+                .environmentObject(markdownViewModel)
+                .environmentObject(htmlViewModel)
+                .environmentObject(cssEditorViewModel)
+                .environmentObject(themePreviewViewModel)
                 .alert(isPresented: appState.showError, error: appState.appError) {}
         }
         .commands {

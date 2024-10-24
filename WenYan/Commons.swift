@@ -77,7 +77,7 @@ func replaceCSSVariables(css: String) -> String {
     let variablePattern = #"--([a-zA-Z0-9\-]+):\s*([^;]+);"#
     // 正则表达式用于匹配使用 var() 的地方
     let varPattern = #"var\(--([a-zA-Z0-9\-]+)\)"#
-
+    
     var cssVariables = [String: String]()
     
     // 1. 提取变量定义并存入字典
@@ -95,7 +95,7 @@ func replaceCSSVariables(css: String) -> String {
             }
         }
     }
-
+    
     // 2. 递归解析 var() 引用为字典中对应的值
     func resolveVariable(_ value: String, variables: [String: String]) -> String {
         if let regex = try? NSRegularExpression(pattern: varPattern, options: []) {
@@ -118,14 +118,14 @@ func replaceCSSVariables(css: String) -> String {
         }
         return value
     }
-
+    
     // 3. 替换所有变量引用
     var modifiedCSS = css
     for (key, value) in cssVariables {
         let resolvedValue = resolveVariable(value, variables: cssVariables)
         cssVariables[key] = resolvedValue
     }
-
+    
     // 4. 替换 CSS 中的 var() 引用
     if let regex = try? NSRegularExpression(pattern: varPattern, options: []) {
         let matches = regex.matches(in: css, options: [], range: NSRange(css.startIndex..., in: css))
@@ -142,7 +142,7 @@ func replaceCSSVariables(css: String) -> String {
             }
         }
     }
-
+    
     return modifiedCSS
 }
 
@@ -243,5 +243,68 @@ struct DataFile: FileDocument {
     
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
         return FileWrapper(regularFileWithContents: data)
+    }
+}
+
+enum ThemeType {
+    case builtin
+    case custom
+}
+
+struct ThemeStyleWrapper: Equatable, Hashable {
+    let themeType: ThemeType
+    let themeStyle: ThemeStyle?
+    let customTheme: CustomTheme?
+    
+    init(themeType: ThemeType, themeStyle: ThemeStyle? = nil, customTheme: CustomTheme? = nil) {
+        self.themeType = themeType
+        self.themeStyle = themeStyle
+        self.customTheme = customTheme
+    }
+    
+    static func == (lhs: ThemeStyleWrapper, rhs: ThemeStyleWrapper) -> Bool {
+        if lhs.themeType == .builtin {
+            return rhs.themeType == .builtin && lhs.themeStyle == rhs.themeStyle
+        }
+        if lhs.themeType == .custom {
+            return rhs.themeType == .custom && lhs.customTheme == rhs.customTheme
+        }
+        return false
+    }
+    
+    func name() -> String {
+        switch themeType {
+        case .builtin:
+            return themeStyle!.name
+        case .custom:
+            return customTheme!.name ?? ""
+        }
+    }
+    
+    func content() -> String {
+        switch themeType {
+        case .builtin:
+            return themeStyle!.rawValue
+        case .custom:
+            return customTheme!.content!
+        }
+    }
+    
+    func author() -> String {
+        switch themeType {
+        case .builtin:
+            return themeStyle!.author
+        case .custom:
+            return ""
+        }
+    }
+    
+    func id() -> String {
+        switch themeType {
+        case .builtin:
+            return themeStyle!.rawValue
+        case .custom:
+            return "custom/\(customTheme!.objectID.uriRepresentation().absoluteString)"
+        }
     }
 }

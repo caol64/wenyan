@@ -9,26 +9,17 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @StateObject private var markdownViewModel: MarkdownViewModel
-    @StateObject private var htmlViewModel: HtmlViewModel
-    @ObservedObject private var appState: AppState
+    @EnvironmentObject private var appState: AppState
+    @EnvironmentObject private var markdownViewModel: MarkdownViewModel
+    @EnvironmentObject private var htmlViewModel: HtmlViewModel
     
-    init(appState: AppState) {
-        _markdownViewModel = StateObject(wrappedValue: MarkdownViewModel(appState: appState))
-        _htmlViewModel = StateObject(wrappedValue: HtmlViewModel(appState: appState))
-        self.appState = appState
-    }
-
     var body: some View {
         VStack {
             HStack {
-                MarkdownView(viewModel: markdownViewModel)
-                    .frame(minWidth: 500, minHeight: 580)
-                    .onReceive(htmlViewModel.$scrollFactor) { newScrollFactor in
-                        markdownViewModel.scroll(scrollFactor: newScrollFactor)
-                    }
-                HtmlView(viewModel: htmlViewModel)
-                    .frame(minWidth: 500, minHeight: 580)
+                MarkdownView()
+                    .frame(minWidth: 680, idealWidth: 680, minHeight: 800, idealHeight: 800)
+                HtmlView()
+                    .frame(minWidth: 680, idealWidth: 680, minHeight: 800, idealHeight: 800)
                     .overlay(alignment: .topTrailing) {
                         VStack {
                             if htmlViewModel.platform == .gzh {
@@ -75,7 +66,6 @@ struct ContentView: View {
                             }
                             if htmlViewModel.platform == .gzh {
                                 Button(action: {
-                                    htmlViewModel.showFileExporter = true
                                     htmlViewModel.exportLongImage()
                                 }) {
                                     HStack {
@@ -89,7 +79,7 @@ struct ContentView: View {
                                     .frame(height: 24)
                                 }
                                 .fileExporter(
-                                    isPresented: $htmlViewModel.showFileExporter,
+                                    isPresented: htmlViewModel.hasLongImageData,
                                     document: htmlViewModel.longImageData,
                                     contentType: .jpeg,
                                     defaultFilename: "out"
@@ -100,7 +90,6 @@ struct ContentView: View {
                                     case .failure(let error):
                                         appState.appError = AppError.bizError(description: error.localizedDescription)
                                     }
-                                    htmlViewModel.longImageData = nil
                                 }
                             }
                             Button(action: {
@@ -123,14 +112,16 @@ struct ContentView: View {
                     }
                     .overlay(alignment: .topTrailing) {
                         if appState.showThemeList {
-                            ThemeListPopup(htmlViewModel: htmlViewModel)
+                            ThemeListPopup()
                                 .padding(.trailing, 24)
                                 .padding(.top, 8)
                                 .environment(\.colorScheme, .light)
                         }
                     }
-                    .onReceive(markdownViewModel.$scrollFactor) { newScrollFactor in
-                        htmlViewModel.scroll(scrollFactor: newScrollFactor)
+                    .onAppear() {
+                        Task {
+                            htmlViewModel.fetchCustomThemes()
+                        }
                     }
             }
             .background(.white)
@@ -145,6 +136,12 @@ struct ContentView: View {
             htmlViewModel.content = newContent
             htmlViewModel.onUpdate()
         }
+        .onReceive(htmlViewModel.$scrollFactor) { newScrollFactor in
+            markdownViewModel.scroll(scrollFactor: newScrollFactor)
+        }
+        .onReceive(markdownViewModel.$scrollFactor) { newScrollFactor in
+            htmlViewModel.scroll(scrollFactor: newScrollFactor)
+        }
         .toolbar() {
             ToolbarItemGroup {
                 ForEach(Platform.allCases) { platform in
@@ -157,41 +154,91 @@ struct ContentView: View {
             }
         }
         .navigationTitle("文颜")
+        .sheet(isPresented: $appState.showSheet) {
+            SheetView()
+        }
+    }
+    
+    struct SheetView: View {
+        @Environment(\.dismiss) var dismiss
+        @EnvironmentObject private var cssEditorViewModel: CssEditorViewModel
+        @EnvironmentObject private var themePreviewViewModel: ThemePreviewViewModel
+        @EnvironmentObject private var htmlViewModel: HtmlViewModel
+        @EnvironmentObject private var appState: AppState
+        
+        var body: some View {
+            HStack {
+                CssEditorView(customTheme: htmlViewModel.gzhTheme.customTheme)
+                    .frame(minWidth: 500, minHeight: 580)
+                ThemePreviewView()
+                    .frame(minWidth: 500, minHeight: 580)
+            }
+            .onReceive(cssEditorViewModel.$content) { content in
+                themePreviewViewModel.onUpdate(css: content)
+            }
+            .toolbar {
+                ToolbarItem(placement: .destructiveAction) {
+                    Button(action: {
+                        htmlViewModel.deleteCustomTheme()
+                        dismiss()
+                    }) {
+                        Text("删除")
+                            .foregroundColor(.red)
+                    }
+                }
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("取消") {
+                        dismiss()
+                    }
+                }
+                ToolbarItem(placement: .primaryAction) {
+                    Button("保存") {
+                        cssEditorViewModel.save()
+                        htmlViewModel.fetchCustomThemes()
+                        htmlViewModel.setTheme()
+                        dismiss()
+                    }
+                }
+            }
+        }
     }
     
     struct ThemeListPopup: View {
-        var menuWidth: CGFloat = 220
-        var menuHeight: CGFloat = 220
-        @ObservedObject var htmlViewModel: HtmlViewModel
+        @State private var menuWidth: CGFloat = 220
+        @State private var menuHeight: CGFloat = 240
+        @EnvironmentObject private var htmlViewModel: HtmlViewModel
+        @EnvironmentObject private var appState: AppState
         
         var body: some View {
             VStack {
                 List {
                     ForEach(Platform.gzh.themes, id: \.self) { theme in
-                        Button(action: {
-                            htmlViewModel.gzhTheme = theme
-                        }) {
-                            HStack {
-                                Text(theme.name)
-                                Spacer()
-                                Text(theme.author)
+                        ThemeListView(theme: ThemeStyleWrapper(themeType: .builtin, themeStyle: theme))
+                    }
+                    ForEach(htmlViewModel.customThemes, id: \.self) { theme in
+                        CustomThemeListView(theme: ThemeStyleWrapper(themeType: .custom, customTheme: theme))
+                    }
+                    if htmlViewModel.customThemes.count < 3 {
+                        HStack {
+                            Spacer()
+                            Text("创建新主题")
+                            Button {
+                                appState.showSheet = true
+                            } label: {
+                                Image(systemName: "plus.circle")
+                                    .font(.system(size: 12))
                             }
-                            .foregroundColor(htmlViewModel.gzhTheme == theme ? Color.white : Color.primary)
-                            .contentShape(Rectangle())
-                            .padding(.horizontal, 5)
-                            .padding(.vertical, 2)
+                            .buttonStyle(.plain)
+                            .foregroundColor(Color.accentColor)
                         }
-                        .buttonStyle(.borderless)
-                        .background(htmlViewModel.gzhTheme == theme ? Color.accentColor : Color.clear)
+                        .padding(.trailing, 5)
+                        .padding(.vertical, 2)
                     }
                 }
                 .padding(5)
                 .listStyle(.plain)
                 .background(Color.clear)
                 .frame(width: menuWidth, height: menuHeight)
-                .onReceive(htmlViewModel.$gzhTheme) { _ in
-                    htmlViewModel.changeTheme()
-                }
             }
             .frame(width: menuWidth, height: menuHeight)
             .background(
@@ -200,8 +247,84 @@ struct ContentView: View {
                     .shadow(radius: 5)
             )
             .padding(8)
+            .onReceive(htmlViewModel.$gzhTheme) { _ in
+                htmlViewModel.changeTheme()
+            }
+            .onAppear() {
+                calcHeight()
+            }
+            .onReceive(htmlViewModel.$customThemes) { _ in
+                calcHeight()
+            }
+        }
+        
+        private func calcHeight() {
+            menuHeight = 240 + CGFloat(min(htmlViewModel.customThemes.count, 2) * 28)
         }
         
     }
-
+    
+    struct ThemeListView: View {
+        @EnvironmentObject private var htmlViewModel: HtmlViewModel
+        @EnvironmentObject private var appState: AppState
+        var theme: ThemeStyleWrapper
+        
+        var body: some View {
+            Button(action: {
+                htmlViewModel.gzhTheme = theme
+            }) {
+                HStack {
+                    Text(theme.name())
+                    Spacer()
+                    Text(theme.author())
+                }
+                .foregroundColor(htmlViewModel.gzhTheme == theme ? Color.white : Color.primary)
+                .contentShape(Rectangle())
+                .padding(.horizontal, 5)
+                .padding(.vertical, 2)
+            }
+            .buttonStyle(.borderless)
+            .background(htmlViewModel.gzhTheme == theme ? Color.accentColor : Color.clear)
+        }
+    }
+    
+    struct CustomThemeListView: View {
+        @EnvironmentObject private var appState: AppState
+        @EnvironmentObject private var htmlViewModel: HtmlViewModel
+        let theme: ThemeStyleWrapper
+        
+        var body: some View {
+            HStack {
+                Button(action: {
+                    htmlViewModel.gzhTheme = theme
+                }) {
+                    HStack {
+                        Text(theme.name())
+                        Spacer()
+                    }
+                }
+                .buttonStyle(.borderless)
+                .padding(.leading, 5)
+                .padding(.vertical, 2)
+                .foregroundColor(htmlViewModel.gzhTheme == theme ? Color.white : Color.primary)
+                
+                HStack {
+                    Button {
+                        htmlViewModel.gzhTheme = theme
+                        appState.showSheet = true
+                    } label: {
+                        Image(systemName: "square.and.pencil")
+                            .font(.system(size: 12))
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundColor(htmlViewModel.gzhTheme == theme ? Color.white : Color.accentColor)
+                }
+                .padding(.vertical, 2)
+                .padding(.trailing, 5)
+            }
+            .background(htmlViewModel.gzhTheme == theme ? Color.accentColor : Color.clear)
+            .contentShape(Rectangle())
+        }
+    }
+    
 }
