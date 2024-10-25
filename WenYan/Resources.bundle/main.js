@@ -32,7 +32,7 @@ renderer.heading = function(heading) {
     const text = parser.parseInline(heading.tokens);
     const level = heading.depth;
     // 返回带有 span 包裹的自定义标题
-    return `<h${level}><span class="h${level}-span">${text}</span></h${level}>\n`;
+    return `<h${level}><span>${text}</span></h${level}>\n`;
 };
 // 重写渲染paragraph的方法以更好的显示行间公式
 renderer.paragraph = function(paragraph) {
@@ -73,11 +73,18 @@ function setContent(content) {
 }
 function setPreviewMode(mode) {
     document.getElementById("style")?.remove();
-    setStylesheet("style", mode)
+    setStylesheet("style", mode);
 }
 function setTheme(theme) {
     document.getElementById("theme")?.remove();
-    setStylesheet("theme", theme)
+    setStylesheet("theme", theme);
+}
+function setCustomTheme(css) {
+    document.getElementById("theme")?.remove();
+    const style = document.createElement("style");
+    style.setAttribute("id", "theme");
+    document.head.appendChild(style);
+    style.innerText = css;
 }
 function setHighlight(highlight) {
     document.getElementById("hljs")?.remove();
@@ -157,7 +164,7 @@ function getContentForGzh() {
                 const styles = value;
                 if (styles.size > 0) {
                     // 创建一个新的 <span> 元素
-                    const span = document.createElement('span');
+                    const span = document.createElement('section');
                     // 将伪类的内容和样式应用到 <span> 标签
                     span.textContent = styles.get("content").replace(/['"]/g, '');
                     const entries = Array.from(styles.entries());
@@ -266,11 +273,11 @@ function addFootnotes(listStyle) {
         if (!listStyle) {
             let footnoteArray = footnotes.map((x) => {
                 if (x[1] === x[2]) {
-                    return `<p id="#footnote-${x[0]}">[${x[0]}]: <i>${x[1]}</i></p>`;
+                    return `<p><span class="footnote-num">[${x[0]}]</span><span class="footnote-txt"><i>${x[1]}</i></span></p>`;
                 }
-                return `<p id="#footnote-${x[0]}">[${x[0]}]<span>${x[1]}: <i>${x[2]}</i></span></p>`;
+                return `<p><span class="footnote-num">[${x[0]}]</span><span class="footnote-txt">${x[1]}: <i>${x[2]}</i></span></p>`;
             });
-            const footnotesHtml = `<h3>引用链接</h3><div id="footnotes">${footnoteArray.join("")}</div>`;
+            const footnotesHtml = `<h3>引用链接</h3><section id="footnotes">${footnoteArray.join("")}</section>`;
             document.getElementById("wenyan").innerHTML += footnotesHtml;
         } else {
             let footnoteArray = footnotes.map((x) => {

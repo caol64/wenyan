@@ -1,32 +1,73 @@
+/**
+ * 欢迎使用自定义主题功能，问题反馈和讨论：
+ * https://github.com/caol64/wenyan/discussions/9
+ */
+/* 全局变量 */
+:root {
+    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+}
+/* 全局属性 */
 #wenyan {
-    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: var(--sans-serif-font);
     line-height: 1.75;
 }
+/* 全局子元素属性 */
 #wenyan * {
     box-sizing: border-box;
 }
-#wenyan h1, h2, h3, h4, h5, h6, p, pre {
+/* 支持分组 */
+#wenyan h1,
+#wenyan h2,
+#wenyan h3,
+#wenyan h4,
+#wenyan h5,
+#wenyan h6,
+#wenyan p,
+#wenyan pre {
     margin: 1em 0;
 }
+/* 段落 */
+#wenyan p {
+}
+/* 加粗 */
+#wenyan p strong {
+}
+/* 斜体 */
+#wenyan p em {
+}
+/* 一级标题 */
 #wenyan h1 {
     text-align: center;
-    font-size: 1.5em;
-    font-weight: bold;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    font-size: 1.5em;
 }
+/* 标题文字 */
+#wenyan h1 span {
+}
+/* 标题前缀，h1-h6都支持前缀 */
+#wenyan h1::before {
+}
+/* 标题后缀，h1-h6都支持后缀 */
+#wenyan h1::after {
+}
+/* 二级标题 */
 #wenyan h2 {
     text-align: center;
     font-size: 1.2em;
     border-bottom: 1px solid #f7f7f7;
     font-weight: bold;
 }
+/* 三-六级标题 */
 #wenyan h3, h4, h5, h6 {
     font-size: 1em;
     font-weight: bold;
 }
+/* 列表 */
 #wenyan ul, ol {
     padding-left: 1.2em;
 }
+/* 列表元素 */
 #wenyan li {
     margin-left: 1.2em;
 }
@@ -50,6 +91,7 @@
     word-wrap: break-word;
     word-break: break-all;
 }
+/* 表格单元格 */
 #wenyan table td, table th {
     font-size: .75em;
     height: 40px;
@@ -60,10 +102,12 @@
     border: 1px solid #d8d8d8;
     vertical-align: top;
 }
+/* 表格表头 */
 #wenyan table th {
     font-weight: bold;
     background-color: #f0f0f0;
 }
+/* 表格斑马条纹效果 */
 #wenyan table tr:nth-child(2n) {
     background-color: #F8F8F8;
 }
@@ -76,14 +120,20 @@
     font-style: italic;
     font-size: .9em;
 }
+/* 引用块前缀 */
+#wenyan blockquote::before {
+}
+/* 引用块后缀 */
+#wenyan blockquote::after {
+}
 /* 行内代码 */
 #wenyan p code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+    font-family: var(--monospace-font);
     color: #ff502c;
     padding: 4px 6px;
     font-size: .78em;
 }
-/* 代码块 */
+/* 代码块外围 */
 #wenyan pre {
     border-radius: 5px;
     font-size: .8em;
@@ -92,25 +142,13 @@
     padding: 1em;
     background-color: #afb8c133;
 }
+/* 代码块 */
 #wenyan pre code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+    font-family: var(--monospace-font);
     display: block;
     overflow-x: auto;
     margin: 0;
     padding: 0;
-}
-#wenyan pre code::-webkit-scrollbar-track {
-    border-radius: 6px;
-    background-color: #c8c8c84d
-}
-#wenyan pre code::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background-color: #90929880
-}
-#wenyan pre code::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    background-color: #fff
 }
 /* 分割线 */
 #wenyan hr {
@@ -124,18 +162,25 @@
     word-wrap: break-word;
     color: #0069c2;
 }
-/* 脚注 */
-#wenyan #footnotes p {
-    margin: 0;
-    font-size: 0.9em;
-    padding-left: 1.2em;
-    word-wrap: break-word;
-    word-break: break-all;
-    line-height: 2;
-}
-#wenyan #footnotes p span {
-    margin-left: 1.2em;
-}
+/* 原始链接旁脚注上标 */
 #wenyan .footnote {
     color: #0069c2;
+}
+/* 脚注行 */
+#wenyan #footnotes p {
+    display: flex;
+    margin: 0;
+    font-size: 0.9em;
+}
+/* 脚注行内编号 */
+#wenyan .footnote-num {
+    display: inline;
+    width: 10%;
+}
+/* 脚注行内文字 */
+#wenyan .footnote-txt {
+    display: inline;
+    width: 90%;
+    word-wrap: break-word;
+    word-break: break-all;
 }

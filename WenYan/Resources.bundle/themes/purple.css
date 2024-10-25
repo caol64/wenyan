@@ -191,24 +191,6 @@ tt {
     background-color: var(--inline-code-bg);
     margin: 0 2px;
 }
-/* 脚注 */
-#wenyan #footnotes p {
-    margin: 0;
-    font-size: 0.9em;
-    padding-left: 1.2em;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-all;
-    line-height: 2;
-}
-#wenyan #footnotes p span {
-    margin-left: 1.2em;
-}
-#wenyan .footnote {
-    color: var(--code-color);
-    background-color: var(--inline-code-bg);
-}
-
 /* 图片 */
 #wenyan img {
     max-width: 100%;
@@ -233,16 +215,26 @@ tt {
     padding: 0;
     font-family: var(--monospace);
 }
-#wenyan pre code::-webkit-scrollbar-track {
-    border-radius: 6px;
-    background-color: #c8c8c84d
+/* 原始链接旁脚注上标 */
+#wenyan .footnote {
+    color: var(--code-color);
+    background-color: var(--inline-code-bg);
 }
-#wenyan pre code::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background-color: #90929880
+/* 脚注行 */
+#wenyan #footnotes p {
+    display: flex;
+    margin: 0;
+    font-size: 0.9em;
 }
-#wenyan pre code::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    background-color: #fff
+/* 脚注行内编号 */
+#wenyan .footnote-num {
+    display: inline;
+    width: 10%;
+}
+/* 脚注行内文字 */
+#wenyan .footnote-txt {
+    display: inline;
+    width: 90%;
+    word-wrap: break-word;
+    word-break: break-all;
 }

@@ -7,9 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AB9619282CC9F94E00F77CE4 /* WenYan.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = AB9619262CC9F94E00F77CE4 /* WenYan.xcdatamodeld */; };
+		AB96192A2CC9FD0400F77CE4 /* CoreDataStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9619292CC9FD0400F77CE4 /* CoreDataStack.swift */; };
+		AB96192E2CCA0C6600F77CE4 /* CustomTheme+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB96192C2CCA0C6600F77CE4 /* CustomTheme+CoreDataProperties.swift */; };
 		AB9DBBD12C74222500557CEF /* Commons.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9DBBD02C74222500557CEF /* Commons.swift */; };
 		AB9DBBD32C74281600557CEF /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB9DBBD22C74281600557CEF /* AppState.swift */; };
 		ABA1CDE22C7320A9009101DB /* HtmlView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA1CDE12C7320A9009101DB /* HtmlView.swift */; };
+		ABA73E232CC8D2DC0080BECA /* CssEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA73E222CC8D2DC0080BECA /* CssEditorView.swift */; };
+		ABA73E252CC8DE450080BECA /* ThemePreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABA73E242CC8DE450080BECA /* ThemePreviewView.swift */; };
 		ABB7F82E2C72EB290029E73E /* WenYanApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F82D2C72EB290029E73E /* WenYanApp.swift */; };
 		ABB7F8302C72EB290029E73E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F82F2C72EB290029E73E /* ContentView.swift */; };
 		ABB7F8342C72EB2A0029E73E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ABB7F8332C72EB2A0029E73E /* Assets.xcassets */; };
@@ -19,6 +24,7 @@
 		ABB7F84E2C72EB2A0029E73E /* WenYanUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F84D2C72EB2A0029E73E /* WenYanUITestsLaunchTests.swift */; };
 		ABB7F85F2C731B180029E73E /* MarkdownView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABB7F85E2C731B180029E73E /* MarkdownView.swift */; };
 		ABB7F86B2C731FF60029E73E /* Resources.bundle in Resources */ = {isa = PBXBuildFile; fileRef = ABB7F86A2C731FF60029E73E /* Resources.bundle */; };
+		ABBED33D2CCA11480031B745 /* CustomTheme+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = ABBED33C2CCA11480031B745 /* CustomTheme+CoreDataClass.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,10 +47,15 @@
 /* Begin PBXFileReference section */
 		AB5842E62C8163970033F82C /* black.svg */ = {isa = PBXFileReference; lastKnownFileType = text; path = black.svg; sourceTree = "<group>"; };
 		AB5842E92C816AD40033F82C /* 1.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.webp; sourceTree = "<group>"; };
+		AB9619272CC9F94E00F77CE4 /* WenYan.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = WenYan.xcdatamodel; sourceTree = "<group>"; };
+		AB9619292CC9FD0400F77CE4 /* CoreDataStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataStack.swift; sourceTree = "<group>"; };
+		AB96192C2CCA0C6600F77CE4 /* CustomTheme+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomTheme+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		AB9DBBD02C74222500557CEF /* Commons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Commons.swift; sourceTree = "<group>"; };
 		AB9DBBD22C74281600557CEF /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		AB9FDB052C7C7BDE0063B0CE /* 256-mac.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "256-mac.png"; sourceTree = "<group>"; };
 		ABA1CDE12C7320A9009101DB /* HtmlView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HtmlView.swift; sourceTree = "<group>"; };
+		ABA73E222CC8D2DC0080BECA /* CssEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CssEditorView.swift; sourceTree = "<group>"; };
+		ABA73E242CC8DE450080BECA /* ThemePreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemePreviewView.swift; sourceTree = "<group>"; };
 		ABB7F82A2C72EB290029E73E /* 文颜.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "文颜.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ABB7F82D2C72EB290029E73E /* WenYanApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WenYanApp.swift; sourceTree = "<group>"; };
 		ABB7F82F2C72EB290029E73E /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -58,6 +69,7 @@
 		ABB7F84D2C72EB2A0029E73E /* WenYanUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WenYanUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		ABB7F85E2C731B180029E73E /* MarkdownView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownView.swift; sourceTree = "<group>"; };
 		ABB7F86A2C731FF60029E73E /* Resources.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Resources.bundle; sourceTree = "<group>"; };
+		ABBED33C2CCA11480031B745 /* CustomTheme+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomTheme+CoreDataClass.swift"; sourceTree = "<group>"; };
 		ABE070B72C772B6A002A94AA /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		ABE070B82C772B6A002A94AA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		ABE070B92C772B6A002A94AA /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -126,11 +138,17 @@
 			isa = PBXGroup;
 			children = (
 				ABB7F82D2C72EB290029E73E /* WenYanApp.swift */,
+				ABA73E222CC8D2DC0080BECA /* CssEditorView.swift */,
+				AB96192C2CCA0C6600F77CE4 /* CustomTheme+CoreDataProperties.swift */,
+				ABBED33C2CCA11480031B745 /* CustomTheme+CoreDataClass.swift */,
+				ABA73E242CC8DE450080BECA /* ThemePreviewView.swift */,
 				ABB7F82F2C72EB290029E73E /* ContentView.swift */,
 				ABB7F85E2C731B180029E73E /* MarkdownView.swift */,
 				ABA1CDE12C7320A9009101DB /* HtmlView.swift */,
 				AB9DBBD02C74222500557CEF /* Commons.swift */,
 				AB9DBBD22C74281600557CEF /* AppState.swift */,
+				AB9619292CC9FD0400F77CE4 /* CoreDataStack.swift */,
+				AB9619262CC9F94E00F77CE4 /* WenYan.xcdatamodeld */,
 				ABB7F8332C72EB2A0029E73E /* Assets.xcassets */,
 				ABB7F8352C72EB2A0029E73E /* WenYan.entitlements */,
 				ABB7F8362C72EB2A0029E73E /* Preview Content */,
@@ -296,9 +314,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				AB9DBBD12C74222500557CEF /* Commons.swift in Sources */,
+				ABA73E252CC8DE450080BECA /* ThemePreviewView.swift in Sources */,
+				ABA73E232CC8D2DC0080BECA /* CssEditorView.swift in Sources */,
 				ABB7F85F2C731B180029E73E /* MarkdownView.swift in Sources */,
+				ABBED33D2CCA11480031B745 /* CustomTheme+CoreDataClass.swift in Sources */,
 				AB9DBBD32C74281600557CEF /* AppState.swift in Sources */,
+				AB96192A2CC9FD0400F77CE4 /* CoreDataStack.swift in Sources */,
 				ABB7F8302C72EB290029E73E /* ContentView.swift in Sources */,
+				AB9619282CC9F94E00F77CE4 /* WenYan.xcdatamodeld in Sources */,
+				AB96192E2CCA0C6600F77CE4 /* CustomTheme+CoreDataProperties.swift in Sources */,
 				ABA1CDE22C7320A9009101DB /* HtmlView.swift in Sources */,
 				ABB7F82E2C72EB290029E73E /* WenYanApp.swift in Sources */,
 			);
@@ -463,7 +487,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WenYan/WenYan.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"WenYan/Preview Content\"";
 				DEVELOPMENT_TEAM = NNQB2TH9QC;
@@ -486,7 +510,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.7;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYan;
 				PRODUCT_MODULE_NAME = WenYan;
 				PRODUCT_NAME = "文颜";
@@ -506,7 +530,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = WenYan/WenYan.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 8;
+				CURRENT_PROJECT_VERSION = 9;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"WenYan/Preview Content\"";
 				DEVELOPMENT_TEAM = NNQB2TH9QC;
@@ -529,7 +553,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 12.0;
-				MARKETING_VERSION = 1.7;
+				MARKETING_VERSION = 2.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYan;
 				PRODUCT_MODULE_NAME = WenYan;
 				PRODUCT_NAME = "文颜";
@@ -671,6 +695,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		AB9619262CC9F94E00F77CE4 /* WenYan.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				AB9619272CC9F94E00F77CE4 /* WenYan.xcdatamodel */,
+			);
+			currentVersion = AB9619272CC9F94E00F77CE4 /* WenYan.xcdatamodel */;
+			path = WenYan.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = ABB7F8222C72EB290029E73E /* Project object */;
 }

@@ -9,7 +9,7 @@ import SwiftUI
 import WebKit
 
 struct MarkdownView: NSViewRepresentable {
-    let viewModel: MarkdownViewModel
+    @EnvironmentObject var viewModel: MarkdownViewModel
     
     func makeNSView(context: Context) -> WKWebView {
         let userController = WKUserContentController()
@@ -29,7 +29,7 @@ struct MarkdownView: NSViewRepresentable {
 }
 
 class MarkdownViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, ObservableObject {
-    @Published var appState: AppState
+    var appState: AppState
     @Published var content: String = ""
     @Published var scrollFactor: CGFloat = 0
     weak var webView: WKWebView?
