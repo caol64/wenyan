@@ -40,6 +40,7 @@
     /* text-align: center; */
 }
 #wenyan h2::before{
+    display: inline-block;
     content: "✔";
     font-weight: bold;
     color: #ffb11b;
@@ -90,19 +91,10 @@
     font-size:15px;
 }
 
-/* 字体加粗 */
-/* #wenyan strong::before {
- content: '「';
- } */
-
 #wenyan strong {
     color: #E49123;
     font-weight: bold;
 }
-
-/* #wenyan strong::after {
- content: '」';
- } */
 
 /*引用*/
 #wenyan blockquote {
@@ -187,14 +179,6 @@
 #wenyan table tr:nth-child(2n) {
     background-color: #F8F8F8;
 }
-
-
-/* 上角标 */
-#wenyan .footnote {
-    font-weight: bold;
-    color: #E49123;
-}
-
 /* 代码块主题 */
 #wenyan pre {
     border-radius: 5px;
@@ -212,28 +196,26 @@
     padding: 0;
     font-family: var(--monospace);
 }
-#wenyan pre code::-webkit-scrollbar-track {
-    border-radius: 6px;
-    background-color: #c8c8c84d
+/* 原始链接旁脚注上标 */
+#wenyan .footnote {
+    font-weight: bold;
+    color: #E49123;
 }
-#wenyan pre code::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background-color: #90929880
-}
-#wenyan pre code::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    background-color: #fff
-}
-/* 脚注 */
+/* 脚注行 */
 #wenyan #footnotes p {
+    display: flex;
     margin: 0;
     font-size: 0.9em;
-    padding-left: 1.2em;
+}
+/* 脚注行内编号 */
+#wenyan .footnote-num {
+    display: inline;
+    width: 10%;
+}
+/* 脚注行内文字 */
+#wenyan .footnote-txt {
+    display: inline;
+    width: 90%;
     word-wrap: break-word;
     word-break: break-all;
-    line-height: 2;
-}
-#wenyan #footnotes p span {
-    margin-left: 1.2em;
 }

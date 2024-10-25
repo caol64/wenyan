@@ -31,155 +31,128 @@
             }
         </script>
         <script src="mathjax/tex-svg.min.js"></script>
-        <style>
-            .preview {
-                position: relative;
-                margin: auto;
-                width: 375px;
-                outline: none;
-                box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
-                overflow: auto;
-                padding: 20px;
-            }
-        </style>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="highlight/styles/github.min.css">
         <style id="theme"></style>
     </head>
     <body>
-        <section id="wenyan" class="preview"><h1><span class="h1-span">Hello World</span></h1>
+        <section id="wenyan" class="preview"><h1><span>An h1 header</span></h1>
+        <p>Paragraphs are separated by a blank line.</p>
+        <p>2nd paragraph. <em>Italic</em>, <strong>bold</strong>, and <code>monospace</code>. Itemized lists
+        look like:</p>
+        <ul>
+        <li>this one</li>
+        <li>that one</li>
+        <li>the other one</li>
+        </ul>
+        <p>Note that --- not considering the asterisk --- the actual text
+        content starts at 4-columns in.</p>
         <blockquote>
-        <p>This is a document for testing the support of Markdown syntax.</p>
+        <p>Block quotes are
+        written like so.</p>
+        <p>They can span multiple paragraphs,
+        if you like.</p>
         </blockquote>
-        <p>This article offers a sample of basic Markdown syntax that can be used in Hugo content files, also it shows whether basic HTML elements are decorated with CSS in a Hugo theme.</p>
-        <!--more-->
-
-        <p>The following HTML <code>&lt;h1&gt;</code>—<code>&lt;h6&gt;</code> elements represent six levels of section headings. <code>&lt;h1&gt;</code> is the highest section level while <code>&lt;h6&gt;</code> is the lowest.</p>
-        <h2><span class="h2-span">H2</span></h2>
-        <h3><span class="h3-span">H3</span></h3>
-        <h4><span class="h4-span">H4</span></h4>
-        <h5><span class="h5-span">H5</span></h5>
-        <h6><span class="h6-span">H6</span></h6>
-        <h2><span class="h2-span">Paragraph</span></h2>
-        <p>Xerum, quo qui aut unt expliquam qui dolut labo. Aque venitatiusda cum, voluptionse latur sitiae dolessi aut parist aut dollo enim qui voluptate ma dolestendit peritin re plis aut quas inctum laceat est volestemque commosa as cus endigna tectur, offic to cor sequas etum rerum idem sintibus eiur? Quianimin porecus evelectur, cum que nis nust voloribus ratem aut omnimi, sitatur? Quiatem. Nam, omnis sum am facea corem alique molestrunt et eos evelece arcillit ut aut eos eos nus, sin conecerem erum fuga. Ri oditatquam, ad quibus unda veliamenimin cusam et facea ipsamus es exerum sitate dolores editium rerore eost, temped molorro ratiae volorro te reribus dolorer sperchicium faceata tiustia prat.</p>
-        <p>Itatur? Quiatae cullecum rem ent aut odis in re eossequodi nonsequ idebis ne sapicia is sinveli squiatum, core et que aut hariosam ex eat.</p>
-        <h2><span class="h2-span">Blockquotes</span></h2>
-        <p>The blockquote element represents content that is quoted from another source, optionally with a citation which must be within a <code>footer</code> or <code>cite</code> element, and optionally with in-line changes such as annotations and abbreviations.</p>
-        <h4><span class="h4-span">Blockquote without attribution</span></h4>
-        <blockquote>
-        <p>Tiam, ad mint andaepu dandae nostion secatur sequo quae.
-        <strong>Note</strong> that you can use <em>Markdown syntax</em> within a blockquote.</p>
-        </blockquote>
-        <h4><span class="h4-span">Blockquote with attribution</span></h4>
-        <blockquote>
-        <p>Don't communicate by sharing memory, share memory by communicating.</p>
-        <p>— <cite>Rob Pike[^1]</cite></p>
-        </blockquote>
-        <p>[^1]: The above quote is excerpted from Rob Pike's <a href="https://www.youtube.com/watch?v=PAAkCSZUG1c">talk</a> during Gopherfest, November 18, 2015.</p>
-        <h2><span class="h2-span">Tables</span></h2>
-        <p>Tables aren't part of the core Markdown spec, but Hugo supports them out-of-the-box.</p>
-        <table>
-        <thead>
-        <tr>
-        <th>Name</th>
-        <th>Age</th>
-        </tr>
-        </thead>
-        <tbody><tr>
-        <td>Bob</td>
-        <td>27</td>
-        </tr>
-        <tr>
-        <td>Alice</td>
-        <td>23</td>
-        </tr>
-        </tbody></table>
-        <h4><span class="h4-span">Inline Markdown within tables</span></h4>
-        <table>
-        <thead>
-        <tr>
-        <th>Italics</th>
-        <th>Bold</th>
-        <th>Code</th>
-        </tr>
-        </thead>
-        <tbody><tr>
-        <td><em>italics</em></td>
-        <td><strong>bold</strong></td>
-        <td><code>code</code></td>
-        </tr>
-        </tbody></table>
-        <h2><span class="h2-span">Code Blocks</span></h2>
-        <h4><span class="h4-span">Inline Code</span></h4>
-        <p><code>This is Inline Code</code></p>
-        <h4><span class="h4-span">Only <code>pre</code></span></h4>
-        <pre>This is pre text
-        </pre>
-
-        <h4><span class="h4-span">Code block with backticks</span></h4>
-        <pre><code>&lt;!DOCTYPE html&gt;
-        &lt;html lang="en"&gt;
-            &lt;head&gt;
-                &lt;meta charset="utf-8" /&gt;
-                &lt;title&gt;Example HTML5 Document&lt;/title&gt;
-            &lt;/head&gt;
-            &lt;body&gt;
-                &lt;p&gt;Test&lt;/p&gt;
-            &lt;/body&gt;
-        &lt;/html&gt;
-        </code></pre><h4><span class="h4-span">Code block with backticks and language specified</span></h4>
-        <pre><code class="hljs language-html"><span class="hljs-meta">&lt;!DOCTYPE <span class="hljs-keyword">html</span>&gt;</span>
-        <span class="hljs-tag">&lt;<span class="hljs-name">html</span> <span class="hljs-attr">lang</span>=<span class="hljs-string">"en"</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">head</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">charset</span>=<span class="hljs-string">"utf-8"</span> /&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">title</span>&gt;</span>Example HTML5 Document<span class="hljs-tag">&lt;/<span class="hljs-name">title</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">meta</span> <span class="hljs-attr">name</span>=<span class="hljs-string">"description"</span> <span class="hljs-attr">content</span>=<span class="hljs-string">"Sample article showcasing basic Markdown syntax and formatting for HTML elements."</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-name">head</span>&gt;</span>
-            <span class="hljs-tag">&lt;<span class="hljs-name">body</span>&gt;</span>
-                <span class="hljs-tag">&lt;<span class="hljs-name">p</span>&gt;</span>Test<span class="hljs-tag">&lt;/<span class="hljs-name">p</span>&gt;</span>
-            <span class="hljs-tag">&lt;/<span class="hljs-name">body</span>&gt;</span>
-        <span class="hljs-tag">&lt;/<span class="hljs-name">html</span>&gt;</span>
-        </code></pre><!-- #### Gist
-
-        {{< gist spf13 7896402 >}} -->
-
-        <h2><span class="h2-span">List Types</span></h2>
-        <h4><span class="h4-span">Ordered List</span></h4>
+        <p>Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex., "it's all
+        in chapters 12--14"). Three dots ... will be converted to an ellipsis.
+        Unicode is supported. ☺</p>
+        <h2><span>An h2 header</span></h2>
+        <p>Here's a numbered list:</p>
         <ol>
-        <li>First item</li>
-        <li>Second item</li>
-        <li>Third item</li>
+        <li>first item</li>
+        <li>second item</li>
+        <li>third item</li>
         </ol>
-        <h4><span class="h4-span">Unordered List</span></h4>
+        <p>Note again how the actual text starts at 4 columns in (4 characters
+        from the left side). Here's a code sample:</p>
+        <pre><code># Let me re-iterate ...
+        for i in 1 .. 10 { do-something(i) }
+        </code></pre><p>As you probably guessed, indented 4 spaces. By the way, instead of
+        indenting the block, you can use delimited blocks, if you like:</p>
+        <pre><code>define foobar() {
+            print "Welcome to flavor country!";
+        }
+        </code></pre><p>(which makes copying &amp; pasting easier). You can optionally mark the
+        delimited block for Pandoc to syntax highlight it:</p>
+        <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> time
+        <span class="hljs-comment"># Quick, count to ten!</span>
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):
+            <span class="hljs-comment"># (but not *too* quick)</span>
+            time.sleep(<span class="hljs-number">0.5</span>)
+            <span class="hljs-built_in">print</span>(i)
+        </code></pre><h3><span>An h3 header</span></h3>
+        <p>Now a nested list:</p>
+        <ol>
+        <li><p>First, get these ingredients:</p>
         <ul>
-        <li>List item</li>
-        <li>Another item</li>
-        <li>And another item</li>
-        </ul>
-        <h4><span class="h4-span">Nested list</span></h4>
-        <ul>
-        <li>Fruit<ul>
-        <li>Apple</li>
-        <li>Orange</li>
-        <li>Banana</li>
+        <li>carrots</li>
+        <li>celery</li>
+        <li>lentils</li>
         </ul>
         </li>
-        <li>Dairy<ul>
-        <li>Milk</li>
-        <li>Cheese</li>
-        </ul>
+        <li><p>Boil some water.</p>
         </li>
-        </ul>
-        <h2><span class="h2-span">Other Elements — abbr, sub, sup, kbd, mark</span></h2>
-        <p><abbr title="Graphics Interchange Format">GIF</abbr> is a bitmap image format.</p>
-        <p>H<sub>2</sub>O</p>
-        <p>X<sup>n</sup> + Y<sup>n</sup> = Z<sup>n</sup></p>
-        <p>Press <kbd><kbd>CTRL</kbd>+<kbd>ALT</kbd>+<kbd>Delete</kbd></kbd> to end the session.</p>
-        <p>Most <mark>salamanders</mark> are nocturnal, and hunt for insects, worms, and other small creatures.</p>
-        <h2><span class="h2-span">mermaid test</span></h2>
-        <pre><code class="hljs language-mermaid">sequenceDiagram
-          participant Alice
-          participant Bob
-          Alice-&gt;&gt;Bob: Hi Bob
-          Bob-&gt;&gt;Alice: Hi Alice
-        </code></pre></section>
+        <li><p>Dump everything in the pot and follow
+        this algorithm:</p>
+        <pre><code>find wooden spoon
+        uncover pot
+        stir
+        cover pot
+        balance wooden spoon precariously on pot handle
+        wait 10 minutes
+        goto first step (or shut off burner when done)
+        </code></pre><p>Do not bump wooden spoon or it will fall.</p>
+        </li>
+        </ol>
+        <p>Notice again how text always lines up on 4-space indents (including
+        that last line which continues item 3 above).</p>
+        <p>Here's a link to <a href="http://foo.bar">a website</a><sup class="footnote">[1]</sup>, to a <a href="local-doc.html">local
+        doc</a><sup class="footnote">[2]</sup>, and to a <a href="#an-h2-header">section heading in the current
+        doc</a><sup class="footnote">[3]</sup>. Here's a footnote [^1].</p>
+        <p>[^1]: Some footnote text.</p>
+        <p>Tables can look like this:</p>
+        <p>Name           Size  Material      Color</p>
+        <hr>
+        <p>All Business      9  leather       brown
+        Roundabout       10  hemp canvas   natural
+        Cinderella       11  glass         transparent</p>
+        <p>Table: Shoes sizes, materials, and colors.</p>
+        <p>(The above is the caption for the table.) Pandoc also supports
+        multi-line tables:</p>
+        <hr>
+        <p>Keyword   Text</p>
+        <hr>
+        <p>red       Sunsets, apples, and
+                  other red or reddish
+                  things.</p>
+        <p>green     Leaves, grass, frogs
+                  and other things it's
+                  not easy being.</p>
+        <hr>
+        <p>A horizontal rule follows.</p>
+        <hr>
+        <p>Here's a definition list:</p>
+        <p>apples
+          : Good for making applesauce.</p>
+        <p>oranges
+          : Citrus!</p>
+        <p>tomatoes
+          : There's no "e" in tomatoe.</p>
+        <p>Again, text is indented 4 spaces. (Put a blank line between each
+        term and  its definition to spread things out more.)</p>
+        <p>Here's a "line block" (note how whitespace is honored):</p>
+        <p>| Line one
+        |   Line too
+        | Line tree</p>
+        <p>and images can be specified like so:</p>
+        <p><img src="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" alt="example image"></p>
+        <p>Inline math equation: $\omega = d\phi / dt$. Display
+        math should get its own line like so:</p>
+        $$I = \int \rho R^{2} dV$$
+        <p>And note that you can backslash-escape any punctuation characters
+        which you wish to be displayed literally, ex.: `foo`, *bar*, etc.</p>
+        <h3>引用链接</h3><section id="footnotes"><p><span class="footnote-num">[1]</span><span class="footnote-txt">a website: <i>http://foo.bar</i></span></p><p><span class="footnote-num">[2]</span><span class="footnote-txt">local
+        doc: <i>local-doc.html</i></span></p><p><span class="footnote-num">[3]</span><span class="footnote-txt">section heading in the current
+        doc: <i>#an-h2-header</i></span></p></section></section>
     </body>
 </html>

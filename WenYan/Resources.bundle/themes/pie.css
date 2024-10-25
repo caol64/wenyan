@@ -290,32 +290,25 @@ tt {
     padding: 0;
     font-family: var(--font-code);
 }
-#wenyan pre code::-webkit-scrollbar-track {
-    border-radius: 6px;
-    background-color: #c8c8c84d
-}
-#wenyan pre code::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background-color: #90929880
-}
-#wenyan pre code::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    background-color: #fff
-}
-/* 脚注 */
-#wenyan #footnotes p {
-    margin: 0;
-    font-size: 0.9em;
-    padding-left: 1.2em;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-all;
-    line-height: 2;
-}
-#wenyan #footnotes p span {
-    margin-left: 1.2em;
-}
+/* 原始链接旁脚注上标 */
 #wenyan .footnote {
     color: rgb(239, 112, 96);
+}
+/* 脚注行 */
+#wenyan #footnotes p {
+    display: flex;
+    margin: 0;
+    font-size: 0.9em;
+}
+/* 脚注行内编号 */
+#wenyan .footnote-num {
+    display: inline;
+    width: 10%;
+}
+/* 脚注行内文字 */
+#wenyan .footnote-txt {
+    display: inline;
+    width: 90%;
+    word-wrap: break-word;
+    word-break: break-all;
 }

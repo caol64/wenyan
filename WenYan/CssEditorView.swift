@@ -69,7 +69,7 @@ extension CssEditorViewModel {
             setContent()
         } else {
             Task {
-                content = try loadFileFromResource(forResource: "themes/template", withExtension: "css")
+                content = try loadFileFromResource(forResource: "themes/gzh_default", withExtension: "css")
                 setContent()
             }
         }

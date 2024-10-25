@@ -50,6 +50,7 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
         }
     }
     @Published var customThemes: [CustomTheme] = []
+    var selectedCustomTheme: CustomTheme?
     
     init(appState: AppState) {
         self.appState = appState
@@ -239,10 +240,10 @@ extension HtmlViewModel {
                     }
                     let handledTheme = replaceCSSVariables(css: theme)
                     let highlight = try loadFileFromResource(path: self.highlightStyle.rawValue)
-                    content = "\(content)<style>\(handledTheme)\(highlight)</style>"
+                    content = "\(content)<style>\(removeComments(handledTheme))\(removeComments(highlight))</style>"
                 }
                 
-                //                print(content)
+//                print(content)
                 let pasteBoard = NSPasteboard.general
                 pasteBoard.clearContents()
                 if self.platform == .juejin {
@@ -340,9 +341,10 @@ extension HtmlViewModel {
     }
     
     func deleteCustomTheme() {
-        if let customTheme = gzhTheme.customTheme {
+        if let customTheme = selectedCustomTheme {
             do {
                 try CoreDataStack.shared.delete(item: customTheme)
+                selectedCustomTheme = nil
                 fetchCustomThemes()
             } catch {
                 self.appState.appError = AppError.bizError(description: error.localizedDescription)

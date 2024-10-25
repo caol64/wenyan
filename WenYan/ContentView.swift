@@ -168,7 +168,7 @@ struct ContentView: View {
         
         var body: some View {
             HStack {
-                CssEditorView(customTheme: htmlViewModel.gzhTheme.customTheme)
+                CssEditorView(customTheme: htmlViewModel.selectedCustomTheme)
                     .frame(minWidth: 500, minHeight: 580)
                 ThemePreviewView()
                     .frame(minWidth: 500, minHeight: 580)
@@ -178,12 +178,14 @@ struct ContentView: View {
             }
             .toolbar {
                 ToolbarItem(placement: .destructiveAction) {
-                    Button(action: {
-                        htmlViewModel.deleteCustomTheme()
-                        dismiss()
-                    }) {
-                        Text("删除")
-                            .foregroundColor(.red)
+                    if htmlViewModel.selectedCustomTheme != nil {
+                        Button(action: {
+                            htmlViewModel.deleteCustomTheme()
+                            dismiss()
+                        }) {
+                            Text("删除")
+                                .foregroundColor(.red)
+                        }
                     }
                 }
                 ToolbarItem(placement: .cancellationAction) {
@@ -223,6 +225,7 @@ struct ContentView: View {
                             Spacer()
                             Text("创建新主题")
                             Button {
+                                htmlViewModel.selectedCustomTheme = nil
                                 appState.showSheet = true
                             } label: {
                                 Image(systemName: "plus.circle")
@@ -311,6 +314,7 @@ struct ContentView: View {
                 HStack {
                     Button {
                         htmlViewModel.gzhTheme = theme
+                        htmlViewModel.selectedCustomTheme = theme.customTheme
                         appState.showSheet = true
                     } label: {
                         Image(systemName: "square.and.pencil")

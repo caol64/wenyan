@@ -95,19 +95,6 @@
     margin: 0;
     padding: 0;
 }
-#wenyan pre code::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-    background-color: #fff
-}
-#wenyan pre code::-webkit-scrollbar-track {
-    border-radius: 6px;
-    background-color: #c8c8c84d
-}
-#wenyan pre code::-webkit-scrollbar-thumb {
-    border-radius: 6px;
-    background-color: #90929880
-}
 #wenyan hr {
     width: 100%;
     height: 1px;

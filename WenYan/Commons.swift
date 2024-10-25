@@ -146,6 +146,23 @@ func replaceCSSVariables(css: String) -> String {
     return modifiedCSS
 }
 
+func removeComments(_ input: String) -> String {
+    // 正则表达式：匹配单行和多行注释
+    let pattern = "(//.*?$)|(/\\*.*?\\*/)"
+    
+    // 创建正则表达式对象
+    guard let regex = try? NSRegularExpression(pattern: pattern, options: [.dotMatchesLineSeparators]) else {
+        return input
+    }
+    
+    // 匹配并替换
+    let range = NSRange(location: 0, length: input.utf16.count)
+    let output = regex.stringByReplacingMatches(in: input, options: [], range: range, withTemplate: "")
+    
+    // 返回去除了注释的字符串
+    return output
+}
+
 
 enum ThemeStyle: String {
     case gzhDefault = "themes/gzh_default.css"
