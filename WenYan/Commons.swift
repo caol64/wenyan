@@ -325,3 +325,7 @@ struct ThemeStyleWrapper: Equatable, Hashable {
         }
     }
 }
+
+func getAppinfo(for key: String) -> String? {
+    return Bundle.main.infoDictionary?[key] as? String
+}

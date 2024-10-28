@@ -29,7 +29,7 @@
   - [Pie](https://github.com/kevinzhao2233/typora-theme-pie)
   - [Maize](https://github.com/BEATREE/typora-maize-theme)
   - [Purple](https://github.com/hliu202/typora-purple-theme)
-- 即将支持：公众号自定义样式
+- 公众号自定义样式
 
 ## 应用截图
 
