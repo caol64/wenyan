@@ -25,10 +25,11 @@ marked.use(markedHighlight({ // marked加载highlight函数
 }));
 // 自定义渲染器
 const renderer = marked.Renderer;
+const parser = marked.Parser;
 
 // 重写渲染标题的方法（h1 ~ h6）
 renderer.heading = function(heading) {
-    const text = heading.text;
+    const text = parser.parseInline(heading.tokens);
     const level = heading.depth;
     // 返回带有 span 包裹的自定义标题
     return `<h${level}><span>${text}</span></h${level}>\n`;
@@ -39,7 +40,7 @@ renderer.paragraph = function(paragraph) {
     if (text.length > 4 && (/\$\$[\s\S]*?\$\$/g.test(text) || /\\\[[\s\S]*?\\\]/g.test(text))) {
         return `${text}\n`;
     } else {
-        return `<p>${text}</p>\n`;
+        return `<p>${parser.parseInline(paragraph.tokens)}</p>\n`;
     }
 };
 
@@ -246,11 +247,6 @@ function scroll(scrollFactor) {
     window.scrollTo(0, document.body.scrollHeight * scrollFactor);
     requestAnimationFrame(() => isScrollingFromScript = false);
 }
-window.onscroll = function() {
-    if (!isScrollingFromScript) {
-        window.webkit.messageHandlers.scrollHandler.postMessage({ y0: window.scrollY / document.body.scrollHeight });
-    }
-};
 function addFootnotes(listStyle) {
     let footnotes = [];
     let footnoteIndex = 0;
@@ -294,7 +290,7 @@ function tableToAsciiArt(table) {
     const rows = Array.from(table.querySelectorAll('tr')).map(tr =>
         Array.from(tr.querySelectorAll('th, td')).map(td => td.innerText.trim())
     );
-  
+
     if (rows.length === 0) return '';
 
     // 获取每列的最大宽度
@@ -303,12 +299,12 @@ function tableToAsciiArt(table) {
     );
 
     const horizontalLine = '+' + columnWidths.map(width => '-'.repeat(width + 2)).join('+') + '+\n';
-  
+
     // 格式化行数据
     const formattedRows = rows.map(row =>
         '| ' + row.map((cell, i) => cell.padEnd(columnWidths[i])).join(' | ') + ' |\n'
     );
-  
+
     // 构建最终的表格
     let asciiTable = horizontalLine;
     asciiTable += formattedRows[0];  // 表头
@@ -334,6 +330,13 @@ function transformUl(ulElement) {
     // 将原来的 <ul> 替换为转换后的字符串
     ulElement.outerHTML = replaceString;
 }
+
+//// 非通用方法
+window.onscroll = function() {
+    if (!isScrollingFromScript) {
+        window.webkit.messageHandlers.scrollHandler.postMessage({ y0: window.scrollY / document.body.scrollHeight });
+    }
+};
 document.addEventListener('click', function(event) {
     window.webkit.messageHandlers.clickHandler.postMessage(null);
 });
