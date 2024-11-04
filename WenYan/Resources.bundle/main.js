@@ -24,20 +24,19 @@ marked.use(markedHighlight({ // marked加载highlight函数
     }
 }));
 // 自定义渲染器
-const renderer = new marked.Renderer();
-const parser = new marked.Parser();
+const renderer = marked.Renderer;
 
 // 重写渲染标题的方法（h1 ~ h6）
 renderer.heading = function(heading) {
-    const text = parser.parseInline(heading.tokens);
+    const text = heading.text;
     const level = heading.depth;
     // 返回带有 span 包裹的自定义标题
     return `<h${level}><span>${text}</span></h${level}>\n`;
 };
 // 重写渲染paragraph的方法以更好的显示行间公式
 renderer.paragraph = function(paragraph) {
-    const text = parser.parseInline(paragraph.tokens);
-    if (text.length > 4 && /^(\$\$)(?!\$)/.test(text)) {
+    const text = paragraph.text;
+    if (text.length > 4 && (/\$\$[\s\S]*?\$\$/g.test(text) || /\\\[[\s\S]*?\\\]/g.test(text))) {
         return `${text}\n`;
     } else {
         return `<p>${text}</p>\n`;
@@ -135,7 +134,7 @@ function getContentForGzh() {
         element.remove();
         parent.appendChild(svg);
         if (parent.classList.contains('block-equation')) {
-            parent.setAttribute("style", "text-align: center;");
+            parent.setAttribute("style", "text-align: center; margin-bottom: 1rem;");
         }
     });
     // 读取主题css样式
@@ -179,7 +178,7 @@ function getContentForGzh() {
             }
         });
     });
-    return clonedWenyan.outerHTML;
+    return clonedWenyan.outerHTML.replace(/class="mjx-solid"/g, 'fill="none" stroke-width="70"');
 }
 function getContentForMedium() {
     const wenyan = document.getElementById("wenyan");
