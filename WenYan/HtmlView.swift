@@ -159,19 +159,32 @@ extension HtmlViewModel {
     }
     
     func setTheme() {
-        if platform == .gzh {
-            if gzhTheme.themeType == .builtin {
-                callJavascript(javascriptString: "setTheme(\"\(gzhTheme.content())\");")
+        do {
+            if platform == .gzh {
+                if gzhTheme.themeType == .custom {
+                    if let customTheme = getCustomThemeById(id: gzhTheme.id().replacingOccurrences(of: "custom/", with: "")) {
+                        callJavascript(javascriptString: "setCustomTheme(\(customTheme.content!.toJavaScriptString()));")
+                    }
+                } else {
+                    let themeContent = try loadFileFromResource(path: gzhTheme.themeStyle!.rawValue)
+                    callJavascript(javascriptString: "setCustomTheme(\(themeContent.toJavaScriptString()));")
+                }
             } else {
-                callJavascript(javascriptString: "setCustomTheme(\(gzhTheme.content().toJavaScriptString()));")
+                let themeContent = try loadFileFromResource(path: platform.themes[0].rawValue)
+                callJavascript(javascriptString: "setCustomTheme(\(themeContent.toJavaScriptString()));")
             }
-        } else {
-            callJavascript(javascriptString: "setTheme(\"\(platform.themes[0].rawValue)\");")
+        } catch {
+            appState.appError = AppError.bizError(description: error.localizedDescription)
         }
     }
     
     func setHighlight() {
-        callJavascript(javascriptString: "setHighlight(\"\(highlightStyle.rawValue)\");")
+        do {
+            let themeContent = try loadFileFromResource(path: highlightStyle.rawValue)
+            callJavascript(javascriptString: "setHighlight(\(themeContent.toJavaScriptString()));")
+        } catch {
+            appState.appError = AppError.bizError(description: error.localizedDescription)
+        }
     }
     
     func removeHighlight() {
@@ -230,19 +243,7 @@ extension HtmlViewModel {
         }
         fetchContent { result in
             do {
-                var content = try result.get() as! String
-                if self.platform == .gzh {
-                    let theme: String
-                    if self.gzhTheme.themeType == .builtin {
-                        theme = try loadFileFromResource(path: self.gzhTheme.content())
-                    } else {
-                        theme = self.gzhTheme.content()
-                    }
-                    let handledTheme = replaceCSSVariables(css: theme)
-                    let highlight = try loadFileFromResource(path: self.highlightStyle.rawValue)
-                    content = "\(content)<style>\(removeComments(handledTheme))\(removeComments(highlight))</style>"
-                }
-                
+                let content = try result.get() as! String
 //                print(content)
                 let pasteBoard = NSPasteboard.general
                 pasteBoard.clearContents()

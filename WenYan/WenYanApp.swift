@@ -50,10 +50,6 @@ struct WenYanApp: App {
                     Link("文颜帮助", destination: url)
                 }
             }
-//            CommandGroup(after: .textEditing) {
-//                Button("HTML转换") {
-//                }
-//            }
         }
     }
 

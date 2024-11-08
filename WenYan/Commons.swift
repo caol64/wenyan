@@ -71,99 +71,6 @@ func callJavascript(webView: WKWebView?, javascriptString: String, callback: Jav
     }
 }
 
-// 函数用于解析 CSS 并替换 `var()` 引用，支持递归解析变量
-func replaceCSSVariables(css: String) -> String {
-    // 正则表达式用于匹配变量定义，例如 --sans-serif-font: ...
-    let variablePattern = #"--([a-zA-Z0-9\-]+):\s*([^;]+);"#
-    // 正则表达式用于匹配使用 var() 的地方
-    let varPattern = #"var\(--([a-zA-Z0-9\-]+)\)"#
-    
-    var cssVariables = [String: String]()
-    
-    // 1. 提取变量定义并存入字典
-    if let regex = try? NSRegularExpression(pattern: variablePattern, options: []) {
-        let matches = regex.matches(in: css, options: [], range: NSRange(css.startIndex..., in: css))
-        
-        for match in matches {
-            if let variableRange = Range(match.range(at: 1), in: css),
-               let valueRange = Range(match.range(at: 2), in: css) {
-                let variableName = String(css[variableRange])
-                let variableValue = String(css[valueRange]).trimmingCharacters(in: .whitespacesAndNewlines)
-                
-                // 将变量存入字典
-                cssVariables[variableName] = variableValue
-            }
-        }
-    }
-    
-    // 2. 递归解析 var() 引用为字典中对应的值
-    func resolveVariable(_ value: String, variables: [String: String]) -> String {
-        if let regex = try? NSRegularExpression(pattern: varPattern, options: []) {
-            var resolvedValue = value
-            let matches = regex.matches(in: value, options: [], range: NSRange(value.startIndex..., in: value))
-            
-            for match in matches.reversed() {
-                if let varNameRange = Range(match.range(at: 1), in: value) {
-                    let varName = String(value[varNameRange])
-                    
-                    // 查找对应的变量值，如果变量引用另一个变量，递归解析
-                    if let resolved = variables[varName] {
-                        let fullMatchRange = Range(match.range, in: value)!
-                        let resolvedVar = resolveVariable(resolved, variables: variables)
-                        resolvedValue.replaceSubrange(fullMatchRange, with: resolvedVar)
-                    }
-                }
-            }
-            return resolvedValue
-        }
-        return value
-    }
-    
-    // 3. 替换所有变量引用
-    var modifiedCSS = css
-    for (key, value) in cssVariables {
-        let resolvedValue = resolveVariable(value, variables: cssVariables)
-        cssVariables[key] = resolvedValue
-    }
-    
-    // 4. 替换 CSS 中的 var() 引用
-    if let regex = try? NSRegularExpression(pattern: varPattern, options: []) {
-        let matches = regex.matches(in: css, options: [], range: NSRange(css.startIndex..., in: css))
-        
-        for match in matches.reversed() {
-            if let varNameRange = Range(match.range(at: 1), in: css) {
-                let varName = String(css[varNameRange])
-                
-                // 查找对应的变量值
-                if let value = cssVariables[varName] {
-                    let fullMatchRange = Range(match.range, in: css)!
-                    modifiedCSS.replaceSubrange(fullMatchRange, with: value)
-                }
-            }
-        }
-    }
-    
-    return modifiedCSS
-}
-
-func removeComments(_ input: String) -> String {
-    // 正则表达式：匹配单行和多行注释
-    let pattern = "(//.*?$)|(/\\*.*?\\*/)"
-    
-    // 创建正则表达式对象
-    guard let regex = try? NSRegularExpression(pattern: pattern, options: [.dotMatchesLineSeparators]) else {
-        return input
-    }
-    
-    // 匹配并替换
-    let range = NSRange(location: 0, length: input.utf16.count)
-    let output = regex.stringByReplacingMatches(in: input, options: [], range: range, withTemplate: "")
-    
-    // 返回去除了注释的字符串
-    return output
-}
-
-
 enum ThemeStyle: String {
     case gzhDefault = "themes/gzh_default.css"
     case toutiaoDefault = "themes/toutiao_default.css"
@@ -295,15 +202,6 @@ struct ThemeStyleWrapper: Equatable, Hashable {
             return themeStyle!.name
         case .custom:
             return customTheme!.name ?? ""
-        }
-    }
-    
-    func content() -> String {
-        switch themeType {
-        case .builtin:
-            return themeStyle!.rawValue
-        case .custom:
-            return customTheme!.content!
         }
     }
     

@@ -202,6 +202,7 @@ struct ContentView: View {
                     }
                 }
             }
+            .background(.white)
         }
     }
     

@@ -1,6 +1,8 @@
 const {markedHighlight} = globalThis.markedHighlight;
 let postprocessMarkdown = "";
 let isScrollingFromScript = false;
+let customCss = "";
+let highlightCss = "";
 // ------- marked.js默认配置开始 -------
 // 处理frontMatter的函数
 function preprocess(markdown) {
@@ -75,21 +77,24 @@ function setPreviewMode(mode) {
     document.getElementById("style")?.remove();
     setStylesheet("style", mode);
 }
-function setTheme(theme) {
-    document.getElementById("theme")?.remove();
-    setStylesheet("theme", theme);
-}
 function setCustomTheme(css) {
     document.getElementById("theme")?.remove();
     const style = document.createElement("style");
     style.setAttribute("id", "theme");
+    customCss = replaceCSSVariables(css);
+    style.textContent = customCss;
     document.head.appendChild(style);
-    style.innerText = css;
 }
-function setHighlight(highlight) {
+function setHighlight(css) {
     document.getElementById("hljs")?.remove();
-    if (highlight) {
-        setStylesheet("hljs", highlight);
+    if (css) {
+        const style = document.createElement("style");
+        style.setAttribute("id", "hljs");
+        highlightCss = css;
+        style.textContent = css;
+        document.head.appendChild(style);
+    } else {
+        css = "";
     }
 }
 function getContent() {
@@ -155,31 +160,38 @@ function getContentForGzh() {
             }
         });
     });
+    // console.log(stylesMap);
     // 公众号不支持css伪元素，将伪元素样式提取出来拼接成一个span
     elements = clonedWenyan.querySelectorAll('h1, h2, h3, h4, h5, h6, blockquote');
     elements.forEach(element => {
-        stylesMap.forEach((value, key) => {
-            if (key.includes(element.tagName.toLowerCase() + "::after") ||
-                key.includes(element.tagName.toLowerCase() + "::before")) {
-                const styles = value;
-                if (styles.size > 0) {
-                    // 创建一个新的 <span> 元素
-                    const span = document.createElement('section');
-                    // 将伪类的内容和样式应用到 <span> 标签
-                    span.textContent = styles.get("content").replace(/['"]/g, '');
-                    const entries = Array.from(styles.entries());
-                    const cssString = entries.map(([key, value]) => `${key}: ${value}`).join('; ');
-                    span.style.cssText = cssString;
-                    if (key.includes("::after")) {
-                        element.appendChild(span);
-                    } else {
-                        element.insertBefore(span, element.firstChild);
-                    }
-                }
-            }
-        });
+        const afterRresults = Array.from(stylesMap)
+            .filter(([key, value]) =>
+                key.includes(element.tagName.toLowerCase() + "::after")
+            )
+            .map(([key, value]) => value).reduce((acc, map) => {
+                map.forEach((value, key) => {
+                    acc.set(key, value);
+                });
+                return acc;
+            }, new Map());
+        const beforeRresults = Array.from(stylesMap)
+            .filter(([key]) =>
+                key.includes(element.tagName.toLowerCase() + "::before")
+            )
+            .map(([key, value]) => value).reduce((acc, map) => {
+                map.forEach((value, key) => {
+                    acc.set(key, value);
+                });
+                return acc;
+            }, new Map());
+        if (afterRresults.size > 0) {
+            element.appendChild(buildPseudoSpan(afterRresults));
+        }
+        if (beforeRresults.size > 0) {
+            element.insertBefore(buildPseudoSpan(beforeRresults), element.firstChild);
+        }
     });
-    return clonedWenyan.outerHTML.replace(/class="mjx-solid"/g, 'fill="none" stroke-width="70"');
+    return `${clonedWenyan.outerHTML.replace(/class="mjx-solid"/g, 'fill="none" stroke-width="70"')}<style>${removeComments(customCss)}${removeComments(highlightCss)}</style>`;
 }
 function getContentForMedium() {
     const wenyan = document.getElementById("wenyan");
@@ -329,6 +341,100 @@ function transformUl(ulElement) {
 
     // 将原来的 <ul> 替换为转换后的字符串
     ulElement.outerHTML = replaceString;
+}
+
+function replaceCSSVariables(css) {
+    // 正则表达式用于匹配变量定义，例如 --sans-serif-font: ...
+    const variablePattern = /--([a-zA-Z0-9\-]+):\s*([^;()]*\((?:[^()]*|\([^()]*\))*\)[^;()]*|[^;]+);/g;
+    // 正则表达式用于匹配使用 var() 的地方
+    const varPattern = /var\(--([a-zA-Z0-9\-]+)\)/g;
+
+    const cssVariables = {};
+
+    // 1. 提取变量定义并存入字典
+    let match;
+    while ((match = variablePattern.exec(css)) !== null) {
+        const variableName = match[1];
+        const variableValue = match[2].trim().replaceAll("\n", "");
+
+        // 将变量存入字典
+        cssVariables[variableName] = variableValue;
+    }
+
+    // 2. 递归解析 var() 引用为字典中对应的值
+    function resolveVariable(value, variables, resolved = new Set()) {
+        // 如果已经解析过这个值，则返回原始值以避免死循环
+        if (resolved.has(value)) return value;
+
+        resolved.add(value);
+        let resolvedValue = value;
+
+        // 解析变量
+        let match;
+        while ((match = varPattern.exec(resolvedValue)) !== null) {
+            const varName = match[1];
+
+            // 查找对应的变量值，如果变量引用另一个变量，递归解析
+            if (variables[varName]) {
+                const resolvedVar = resolveVariable(variables[varName], variables, resolved);
+                resolvedValue = resolvedValue.replace(match[0], resolvedVar);
+            }
+        }
+        return resolvedValue;
+    }
+
+    // 3. 替换所有变量引用
+    for (const key in cssVariables) {
+        const resolvedValue = resolveVariable(cssVariables[key], cssVariables);
+        cssVariables[key] = resolvedValue;
+    }
+
+    // 4. 替换 CSS 中的 var() 引用
+    let modifiedCSS = css;
+    while ((match = varPattern.exec(css)) !== null) {
+        const varName = match[1];
+
+        // 查找对应的变量值
+        if (cssVariables[varName]) {
+            modifiedCSS = modifiedCSS.replace(match[0], cssVariables[varName]);
+        }
+    }
+
+    return modifiedCSS.replace(/:root\s*\{[^}]*\}/g, '');
+}
+
+function buildPseudoSpan(beforeRresults) {
+    // 创建一个新的 <span> 元素
+    const span = document.createElement('section');
+    // 将伪类的内容和样式应用到 <span> 标签
+    if (beforeRresults.get("content")) {
+        span.textContent = beforeRresults.get("content").replace(/['"]/g, '');
+        beforeRresults.delete("content");
+    }
+    for (const [k, v] of beforeRresults) {
+        if (v.includes("url(")) {
+            const svgMatch = v.match(/data:image\/svg\+xml;utf8,(.*<\/svg>)/);
+            if (svgMatch) {
+                const svgCode = decodeURIComponent(svgMatch[1]);
+                span.innerHTML = svgCode;
+            }
+            beforeRresults.delete(k);
+        }
+    }
+    const entries = Array.from(beforeRresults.entries());
+    const cssString = entries.map(([key, value]) => `${key}: ${value}`).join('; ');
+    span.style.cssText = cssString;
+    return span;
+}
+function removeComments(input) {
+    // 正则表达式：匹配单行和多行注释
+    const pattern = /\/\*[\s\S]*?\*\//gm;
+
+    // 使用正则表达式替换匹配的注释部分为空字符串
+    const output = input.replace(pattern, '');
+
+    // 返回去除了注释的字符串
+    return output;
 }
 
 //// 非通用方法
