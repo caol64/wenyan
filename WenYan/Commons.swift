@@ -227,3 +227,9 @@ struct ThemeStyleWrapper: Equatable, Hashable {
 func getAppinfo(for key: String) -> String? {
     return Bundle.main.infoDictionary?[key] as? String
 }
+
+extension UTType {
+    static var md: UTType {
+        UTType(importedAs: "com.yztech.WenYan.markdown")
+    }
+}

@@ -12,119 +12,152 @@ struct ContentView: View {
     @EnvironmentObject private var appState: AppState
     @EnvironmentObject private var markdownViewModel: MarkdownViewModel
     @EnvironmentObject private var htmlViewModel: HtmlViewModel
+    @State private var isMasking = false
     
     var body: some View {
         VStack {
-            HStack {
-                MarkdownView()
-                    .frame(minWidth: 680, idealWidth: 680, minHeight: 800, idealHeight: 800)
-                HtmlView()
-                    .frame(minWidth: 680, idealWidth: 680, minHeight: 800, idealHeight: 800)
-                    .overlay(alignment: .topTrailing) {
-                        VStack {
-                            if htmlViewModel.platform == .gzh {
+            ZStack {
+                HStack {
+                    MarkdownView()
+                        .frame(minWidth: 680, idealWidth: 680, minHeight: 800, idealHeight: 800)
+                    HtmlView()
+                        .frame(minWidth: 680, idealWidth: 680, minHeight: 800, idealHeight: 800)
+                        .overlay(alignment: .topTrailing) {
+                            VStack {
+                                if htmlViewModel.platform == .gzh {
+                                    Button(action: {
+                                        appState.showThemeList = true
+                                    }) {
+                                        HStack {
+                                            Image(systemName: "tshirt")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 16, height: 16)
+                                            Text("主题")
+                                                .font(.system(size: 14))
+                                        }
+                                        .frame(height: 24)
+                                    }
+                                    
+                                }
                                 Button(action: {
-                                    appState.showThemeList = true
+                                    htmlViewModel.changePreviewMode()
                                 }) {
                                     HStack {
-                                        Image(systemName: "tshirt")
+                                        Image(systemName: htmlViewModel.previewMode == .mobile ? "iphone.gen1" : "desktopcomputer")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 16, height: 16)
-                                        Text("主题")
+                                        Text("预览")
                                             .font(.system(size: 14))
                                     }
                                     .frame(height: 24)
                                 }
-                                
-                            }
-                            Button(action: {
-                                htmlViewModel.changePreviewMode()
-                            }) {
-                                HStack {
-                                    Image(systemName: htmlViewModel.previewMode == .mobile ? "iphone.gen1" : "desktopcomputer")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 16, height: 16)
-                                    Text("预览")
-                                        .font(.system(size: 14))
-                                }
-                                .frame(height: 24)
-                            }
-                            Button(action: {
-                                htmlViewModel.changeFootnotes()
-                            }) {
-                                HStack {
-                                    Image(systemName: htmlViewModel.isFootnotes ? "link.circle.fill" : "link.circle")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 16, height: 16)
-                                    Text("脚注")
-                                        .font(.system(size: 14))
-                                }
-                                .frame(height: 24)
-                            }
-                            if htmlViewModel.platform == .gzh {
                                 Button(action: {
-                                    htmlViewModel.exportLongImage()
+                                    htmlViewModel.changeFootnotes()
                                 }) {
                                     HStack {
-                                        Image(systemName: "photo")
+                                        Image(systemName: htmlViewModel.isFootnotes ? "link.circle.fill" : "link.circle")
                                             .resizable()
                                             .aspectRatio(contentMode: .fit)
                                             .frame(width: 16, height: 16)
-                                        Text("长图")
+                                        Text("脚注")
                                             .font(.system(size: 14))
                                     }
                                     .frame(height: 24)
                                 }
-                                .fileExporter(
-                                    isPresented: htmlViewModel.hasLongImageData,
-                                    document: htmlViewModel.longImageData,
-                                    contentType: .jpeg,
-                                    defaultFilename: "out"
-                                ) { result in
-                                    switch result {
-                                    case .success(let url):
-                                        print("File saved to \(url)")
-                                    case .failure(let error):
-                                        appState.appError = AppError.bizError(description: error.localizedDescription)
+                                if htmlViewModel.platform == .gzh {
+                                    Button(action: {
+                                        htmlViewModel.exportLongImage()
+                                    }) {
+                                        HStack {
+                                            Image(systemName: "photo")
+                                                .resizable()
+                                                .aspectRatio(contentMode: .fit)
+                                                .frame(width: 16, height: 16)
+                                            Text("长图")
+                                                .font(.system(size: 14))
+                                        }
+                                        .frame(height: 24)
+                                    }
+                                    .fileExporter(
+                                        isPresented: htmlViewModel.hasLongImageData,
+                                        document: htmlViewModel.longImageData,
+                                        contentType: .jpeg,
+                                        defaultFilename: "out"
+                                    ) { result in
+                                        switch result {
+                                        case .success(let url):
+                                            print("File saved to \(url)")
+                                        case .failure(let error):
+                                            appState.appError = AppError.bizError(description: error.localizedDescription)
+                                        }
                                     }
                                 }
-                            }
-                            Button(action: {
-                                htmlViewModel.onCopy()
-                            }) {
-                                HStack {
-                                    Image(systemName: htmlViewModel.isCopied ? "checkmark" : "clipboard")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 16, height: 16)
-                                    Text("复制")
-                                        .font(.system(size: 14))
+                                Button(action: {
+                                    htmlViewModel.onCopy()
+                                }) {
+                                    HStack {
+                                        Image(systemName: htmlViewModel.isCopied ? "checkmark" : "clipboard")
+                                            .resizable()
+                                            .aspectRatio(contentMode: .fit)
+                                            .frame(width: 16, height: 16)
+                                        Text("复制")
+                                            .font(.system(size: 14))
+                                    }
+                                    .frame(height: 24)
                                 }
-                                .frame(height: 24)
+                            }
+                            .padding(.trailing, 32)
+                            .padding(.top, 16)
+                            .environment(\.colorScheme, .light)
+                        }
+                        .overlay(alignment: .topTrailing) {
+                            if appState.showThemeList {
+                                ThemeListPopup()
+                                    .padding(.trailing, 24)
+                                    .padding(.top, 8)
+                                    .environment(\.colorScheme, .light)
                             }
                         }
-                        .padding(.trailing, 32)
-                        .padding(.top, 16)
-                        .environment(\.colorScheme, .light)
-                    }
-                    .overlay(alignment: .topTrailing) {
-                        if appState.showThemeList {
-                            ThemeListPopup()
-                                .padding(.trailing, 24)
-                                .padding(.top, 8)
-                                .environment(\.colorScheme, .light)
+                        .onAppear() {
+                            Task {
+                                htmlViewModel.fetchCustomThemes()
+                            }
                         }
+                }
+                .background(.white)
+                
+                if #available(macOS 13.0, *) {
+                    if isMasking {
+                        Color.black.opacity(0)
+                            .background(
+                                Rectangle()
+                                    .fill(Color.clear)
+                                    .contentShape(Rectangle())
+                                    .dropDestination(for: URL.self) { items, _ in
+                                        isMasking = false
+                                        markdownViewModel.dragArticle(url: items[0])
+                                        return true
+                                    }
+                            )
+                            .zIndex(1)
                     }
-                    .onAppear() {
-                        Task {
-                            htmlViewModel.fetchCustomThemes()
-                        }
-                    }
+                }
             }
-            .background(.white)
+        }
+        .onHover { hovering in
+            if #available(macOS 13.0, *) {
+                if hovering {
+                    withAnimation {
+                        isMasking = NSEvent.pressedMouseButtons > 0
+                    }
+                } else {
+                    withAnimation {
+                        isMasking = true
+                    }
+                }
+            }
         }
         .onAppear() {
             Task {

@@ -15,6 +15,7 @@ struct WenYanApp: App {
     @StateObject private var htmlViewModel: HtmlViewModel
     @StateObject private var cssEditorViewModel: CssEditorViewModel
     @StateObject private var themePreviewViewModel: ThemePreviewViewModel
+    @State private var showFileImporter = false
     
     init() {
         let appState = AppState()
@@ -50,7 +51,28 @@ struct WenYanApp: App {
                     Link("文颜帮助", destination: url)
                 }
             }
+            CommandGroup(after: .newItem) {
+                Button("打开文件") {
+                    showFileImporter = true
+                }
+                .fileImporter(
+                    isPresented: $showFileImporter,
+                    allowedContentTypes: [.md],
+                    allowsMultipleSelection: false
+                ) { result in
+                    switch result {
+                    case .success(let files):
+                        let file = files[0]
+                        let gotAccess = file.startAccessingSecurityScopedResource()
+                        if !gotAccess { return }
+                        markdownViewModel.dragArticle(url: file)
+                        file.stopAccessingSecurityScopedResource()
+                    case .failure(let error):
+                        appState.appError = AppError.bizError(description: error.localizedDescription)
+                    }
+                }
+            }
         }
     }
-
+    
 }

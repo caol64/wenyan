@@ -127,5 +127,17 @@ extension MarkdownViewModel {
             }
         }
     }
+    
+    func dragArticle(url: URL) {
+        let fileExtension = url.pathExtension.lowercased()
+        if fileExtension == "md" || fileExtension == "markdown" {
+            do {
+                content = try String(contentsOfFile: url.path, encoding: .utf8)
+                setContent()
+            } catch {
+                self.appState.appError = AppError.bizError(description: error.localizedDescription)
+            }
+        }
+    }
 
 }
