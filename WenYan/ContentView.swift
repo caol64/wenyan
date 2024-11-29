@@ -23,94 +23,7 @@ struct ContentView: View {
                     HtmlView()
                         .frame(minWidth: 680, idealWidth: 680, minHeight: 800, idealHeight: 800)
                         .overlay(alignment: .topTrailing) {
-                            VStack {
-                                if htmlViewModel.platform == .gzh {
-                                    Button(action: {
-                                        appState.showThemeList = true
-                                    }) {
-                                        HStack {
-                                            Image(systemName: "tshirt")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 16, height: 16)
-                                            Text("主题")
-                                                .font(.system(size: 14))
-                                        }
-                                        .frame(height: 24)
-                                    }
-                                    
-                                }
-                                Button(action: {
-                                    htmlViewModel.changePreviewMode()
-                                }) {
-                                    HStack {
-                                        Image(systemName: htmlViewModel.previewMode == .mobile ? "iphone.gen1" : "desktopcomputer")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 16, height: 16)
-                                        Text("预览")
-                                            .font(.system(size: 14))
-                                    }
-                                    .frame(height: 24)
-                                }
-                                Button(action: {
-                                    htmlViewModel.changeFootnotes()
-                                }) {
-                                    HStack {
-                                        Image(systemName: htmlViewModel.isFootnotes ? "link.circle.fill" : "link.circle")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 16, height: 16)
-                                        Text("脚注")
-                                            .font(.system(size: 14))
-                                    }
-                                    .frame(height: 24)
-                                }
-                                if htmlViewModel.platform == .gzh {
-                                    Button(action: {
-                                        htmlViewModel.exportLongImage()
-                                    }) {
-                                        HStack {
-                                            Image(systemName: "photo")
-                                                .resizable()
-                                                .aspectRatio(contentMode: .fit)
-                                                .frame(width: 16, height: 16)
-                                            Text("长图")
-                                                .font(.system(size: 14))
-                                        }
-                                        .frame(height: 24)
-                                    }
-                                    .fileExporter(
-                                        isPresented: htmlViewModel.hasLongImageData,
-                                        document: htmlViewModel.longImageData,
-                                        contentType: .jpeg,
-                                        defaultFilename: "out"
-                                    ) { result in
-                                        switch result {
-                                        case .success(let url):
-                                            print("File saved to \(url)")
-                                        case .failure(let error):
-                                            appState.appError = AppError.bizError(description: error.localizedDescription)
-                                        }
-                                    }
-                                }
-                                Button(action: {
-                                    htmlViewModel.onCopy()
-                                }) {
-                                    HStack {
-                                        Image(systemName: htmlViewModel.isCopied ? "checkmark" : "clipboard")
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 16, height: 16)
-                                        Text("复制")
-                                            .font(.system(size: 14))
-                                    }
-                                    .frame(height: 24)
-                                }
-                            }
-                            .padding(.trailing, 32)
-                            .padding(.top, 16)
-                            .environment(\.colorScheme, .light)
+                            ToolButtonPopup()
                         }
                         .overlay(alignment: .topTrailing) {
                             if appState.showThemeList {
@@ -201,10 +114,18 @@ struct ContentView: View {
         
         var body: some View {
             HStack {
-                CssEditorView(customTheme: htmlViewModel.selectedCustomTheme)
-                    .frame(minWidth: 500, minHeight: 580)
+                if cssEditorViewModel.editorMode == .developer {
+                    CssEditorView()
+                        .frame(minWidth: 500, minHeight: 580)
+                } else {
+                    ThemeEditorView()
+                        .frame(minWidth: 500, minHeight: 580)
+                }
                 ThemePreviewView()
                     .frame(minWidth: 500, minHeight: 580)
+                    .overlay(alignment: .topTrailing) {
+                        ThemeButtonPopup()
+                    }
             }
             .onReceive(cssEditorViewModel.$content) { content in
                 themePreviewViewModel.onUpdate(css: content)
@@ -239,11 +160,107 @@ struct ContentView: View {
         }
     }
     
+    struct ToolButtonPopup: View {
+        @EnvironmentObject private var htmlViewModel: HtmlViewModel
+        @EnvironmentObject private var appState: AppState
+        var body: some View {
+            VStack {
+                if htmlViewModel.platform == .gzh {
+                    Button(action: {
+                        appState.showThemeList = true
+                    }) {
+                        HStack {
+                            Image(systemName: "tshirt")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 16, height: 16)
+                            Text("主题")
+                                .font(.system(size: 14))
+                        }
+                        .frame(height: 24)
+                    }
+                    
+                }
+                Button(action: {
+                    htmlViewModel.changePreviewMode()
+                }) {
+                    HStack {
+                        Image(systemName: htmlViewModel.previewMode == .mobile ? "iphone.gen1" : "desktopcomputer")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16, height: 16)
+                        Text("预览")
+                            .font(.system(size: 14))
+                    }
+                    .frame(height: 24)
+                }
+                Button(action: {
+                    htmlViewModel.changeFootnotes()
+                }) {
+                    HStack {
+                        Image(systemName: htmlViewModel.isFootnotes ? "link.circle.fill" : "link.circle")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16, height: 16)
+                        Text("脚注")
+                            .font(.system(size: 14))
+                    }
+                    .frame(height: 24)
+                }
+                if htmlViewModel.platform == .gzh {
+                    Button(action: {
+                        htmlViewModel.exportLongImage()
+                    }) {
+                        HStack {
+                            Image(systemName: "photo")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 16, height: 16)
+                            Text("长图")
+                                .font(.system(size: 14))
+                        }
+                        .frame(height: 24)
+                    }
+                    .fileExporter(
+                        isPresented: htmlViewModel.hasLongImageData,
+                        document: htmlViewModel.longImageData,
+                        contentType: .jpeg,
+                        defaultFilename: "out"
+                    ) { result in
+                        switch result {
+                        case .success(let url):
+                            print("File saved to \(url)")
+                        case .failure(let error):
+                            appState.appError = AppError.bizError(description: error.localizedDescription)
+                        }
+                    }
+                }
+                Button(action: {
+                    htmlViewModel.onCopy()
+                }) {
+                    HStack {
+                        Image(systemName: htmlViewModel.isCopied ? "checkmark" : "clipboard")
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16, height: 16)
+                        Text("复制")
+                            .font(.system(size: 14))
+                    }
+                    .frame(height: 24)
+                }
+            }
+            .padding(.trailing, 32)
+            .padding(.top, 16)
+            .environment(\.colorScheme, .light)
+        }
+    }
+    
     struct ThemeListPopup: View {
         @State private var menuWidth: CGFloat = 220
         @State private var menuHeight: CGFloat = 240
         @EnvironmentObject private var htmlViewModel: HtmlViewModel
         @EnvironmentObject private var appState: AppState
+        @EnvironmentObject private var cssEditorViewModel: CssEditorViewModel
         
         var body: some View {
             VStack {
@@ -260,6 +277,8 @@ struct ContentView: View {
                             Text("创建新主题")
                             Button {
                                 htmlViewModel.selectedCustomTheme = nil
+                                cssEditorViewModel.customTheme = nil
+                                cssEditorViewModel.loadContent(customTheme: nil, modelTheme: htmlViewModel.gzhTheme)
                                 appState.showSheet = true
                             } label: {
                                 Image(systemName: "plus.circle")
@@ -328,6 +347,7 @@ struct ContentView: View {
     struct CustomThemeListView: View {
         @EnvironmentObject private var appState: AppState
         @EnvironmentObject private var htmlViewModel: HtmlViewModel
+        @EnvironmentObject private var cssEditorViewModel: CssEditorViewModel
         let theme: ThemeStyleWrapper
         
         var body: some View {
@@ -349,6 +369,8 @@ struct ContentView: View {
                     Button {
                         htmlViewModel.gzhTheme = theme
                         htmlViewModel.selectedCustomTheme = theme.customTheme
+                        cssEditorViewModel.customTheme = theme.customTheme
+                        cssEditorViewModel.loadContent(customTheme: htmlViewModel.selectedCustomTheme, modelTheme: nil)
                         appState.showSheet = true
                     } label: {
                         Image(systemName: "square.and.pencil")
@@ -362,6 +384,70 @@ struct ContentView: View {
             }
             .background(htmlViewModel.gzhTheme == theme ? Color.accentColor : Color.clear)
             .contentShape(Rectangle())
+        }
+    }
+    
+    struct ThemeButtonPopup: View {
+        @EnvironmentObject private var cssEditorViewModel: CssEditorViewModel
+        @EnvironmentObject private var appState: AppState
+        @State private var showFileImporter = false
+        var body: some View {
+            VStack {
+//                Button(action: {
+//                    cssEditorViewModel.editorMode = cssEditorViewModel.editorMode == .developer ? .normal : .developer
+//                }) {
+//                    HStack {
+//                        Text(cssEditorViewModel.editorMode == .developer ? "普通模式" : "开发模式")
+//                            .font(.system(size: 14))
+//                    }
+//                    .frame(height: 24)
+//                }
+                Button(action: {
+                    showFileImporter = true
+                }) {
+                    HStack {
+                        Text("导入CSS")
+                            .font(.system(size: 14))
+                    }
+                    .frame(height: 24)
+                }
+            }
+            .padding(.trailing, 32)
+            .padding(.top, 16)
+            .environment(\.colorScheme, .light)
+            .fileImporter(
+                isPresented: $showFileImporter,
+                allowedContentTypes: [.css],
+                allowsMultipleSelection: false
+            ) { result in
+                switch result {
+                case .success(let files):
+                    let file = files[0]
+                    let gotAccess = file.startAccessingSecurityScopedResource()
+                    if !gotAccess { return }
+                    do {
+                        cssEditorViewModel.content = try cssParser(css: try String(contentsOfFile: file.path, encoding: .utf8)) ?? ""
+                    } catch {
+                        appState.appError = AppError.bizError(description: error.localizedDescription)
+                    }
+                    cssEditorViewModel.setContent()
+                    file.stopAccessingSecurityScopedResource()
+                case .failure(let error):
+                    appState.appError = AppError.bizError(description: error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    struct ThemeEditorView: View {
+        @EnvironmentObject var cssEditorViewModel: CssEditorViewModel
+        @EnvironmentObject var themePreviewViewModel: ThemePreviewViewModel
+        @EnvironmentObject private var appState: AppState
+        
+        var body: some View {
+            VStack {
+                
+            }
         }
     }
     

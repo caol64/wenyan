@@ -9,6 +9,7 @@ import Foundation
 import WebKit
 import UniformTypeIdentifiers
 import SwiftUI
+import JavaScriptCore
 
 struct WebkitStatus {
     static let loadHandler = "loadHandler"
@@ -71,88 +72,6 @@ func callJavascript(webView: WKWebView?, javascriptString: String, callback: Jav
     }
 }
 
-enum ThemeStyle: String {
-    case gzhDefault = "themes/gzh_default.css"
-    case toutiaoDefault = "themes/toutiao_default.css"
-    case zhihuDefault = "themes/zhihu_default.css"
-    case juejinDefault = "themes/juejin_default.css"
-    case mediumDefault = "themes/medium_default.css"
-    case orangeHeart = "themes/orangeheart.css"
-    case rainbow = "themes/rainbow.css"
-    case lapis = "themes/lapis.css"
-    case pie = "themes/pie.css"
-    case maize = "themes/maize.css"
-    case purple = "themes/purple.css"
-    
-    var name: String {
-        switch self {
-        case .gzhDefault: "默认"
-        case .toutiaoDefault: "默认"
-        case .zhihuDefault: "默认"
-        case .juejinDefault: "默认"
-        case .mediumDefault: "默认"
-        case .orangeHeart: "Orange Heart"
-        case .rainbow: "Rainbow"
-        case .lapis: "Lapis"
-        case .pie: "Pie"
-        case .maize: "Maize"
-        case .purple: "Purple"
-        }
-    }
-    
-    var author: String {
-        switch self {
-        case .gzhDefault: ""
-        case .toutiaoDefault: ""
-        case .zhihuDefault: ""
-        case .juejinDefault: ""
-        case .mediumDefault: ""
-        case .orangeHeart: "evgo2017"
-        case .rainbow: "thezbm"
-        case .lapis: "YiNN"
-        case .pie: "kevinzhao2233"
-        case .maize: "BEATREE"
-        case .purple: "hliu202"
-        }
-    }
-}
-
-enum HighlightStyle: String {
-    case idea = "highlight/styles/idea.min.css"
-    case monokai = "highlight/styles/monokai.min.css"
-    case github = "highlight/styles/github.min.css"
-}
-
-enum PreviewMode: String {
-    case mobile = "style.css"
-    case desktop = "desktop_style.css"
-}
-
-enum Platform: String, CaseIterable, Identifiable {
-    case gzh
-    case toutiao
-    case zhihu
-    case juejin
-    case medium
-    
-    var id: Self { self }
-    
-    var themes: [ThemeStyle] {
-        switch self {
-        case .gzh:
-            return [.gzhDefault, .orangeHeart, .rainbow, .lapis, .pie, .maize, .purple]
-        case .zhihu:
-            return [.zhihuDefault]
-        case .toutiao:
-            return [.toutiaoDefault]
-        case .juejin:
-            return [.juejinDefault]
-        case .medium:
-            return [.mediumDefault]
-        }
-    }
-}
-
 struct DataFile: FileDocument {
     static var readableContentTypes: [UTType] { [.jpeg] }
     var data: Data
@@ -168,11 +87,6 @@ struct DataFile: FileDocument {
     func fileWrapper(configuration: WriteConfiguration) throws -> FileWrapper {
         return FileWrapper(regularFileWithContents: data)
     }
-}
-
-enum ThemeType {
-    case builtin
-    case custom
 }
 
 struct ThemeStyleWrapper: Equatable, Hashable {
@@ -232,4 +146,34 @@ extension UTType {
     static var md: UTType {
         UTType(importedAs: "com.yztech.WenYan.markdown")
     }
+    static var css: UTType {
+        UTType(importedAs: "com.yztech.WenYan.stylesheet")
+    }
+}
+
+func cssParser(css: String) throws -> String? {
+    let context = JSContext()
+    var caughtException: AppError?
+
+    context?.exceptionHandler = { context, exception in
+        let errorMessage = exception?.toString() ?? "Unknown JavaScript error."
+        caughtException = AppError.bizError(description: errorMessage)
+    }
+
+    let csstreeCode = try loadFileFromResource(forResource: "csstree/csstree", withExtension: "js")
+    context?.evaluateScript(csstreeCode)
+    let handlerCode = try loadFileFromResource(forResource: "csstree/handler", withExtension: "js")
+    context?.evaluateScript(handlerCode)
+
+    if let parseCssFunction = context?.objectForKeyedSubscript("parseCss") {
+        let result = parseCssFunction.call(withArguments: [css, 1])
+        return result?.toString()
+    }
+    
+    if let error = caughtException {
+        throw error
+    }
+    
+    throw AppError.bizError(description: "cssParser Unknown error.")
+
 }

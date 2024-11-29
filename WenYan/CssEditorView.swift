@@ -10,7 +10,6 @@ import WebKit
 
 struct CssEditorView: NSViewRepresentable {
     @EnvironmentObject var viewModel: CssEditorViewModel
-    let customTheme: CustomTheme?
     
     func makeNSView(context: Context) -> WKWebView {
         let userController = WKUserContentController()
@@ -18,7 +17,6 @@ struct CssEditorView: NSViewRepresentable {
         configuration.userContentController = userController
         
         let webView = WKWebView(frame: .zero, configuration: configuration)
-        viewModel.customTheme = customTheme
         viewModel.setupWebView(webView)
         viewModel.loadIndex()
         return webView
@@ -34,6 +32,7 @@ class CssEditorViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler
     var appState: AppState
     weak var webView: WKWebView?
     @Published var content: String = ""
+    @Published var editorMode: EditorMode = .developer
     var customTheme: CustomTheme?
     
     init(appState: AppState) {
@@ -63,16 +62,24 @@ class CssEditorViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler
 }
 
 extension CssEditorViewModel {
-    func configWebView() {
-        if let customTheme = customTheme {
-            content = customTheme.content ?? ""
-            setContent()
-        } else {
-            Task {
-                content = try loadFileFromResource(forResource: "themes/gzh_default", withExtension: "css")
-                setContent()
+    func loadContent(customTheme: CustomTheme?, modelTheme: ThemeStyleWrapper?) {
+        do {
+            if let customTheme = customTheme {
+                content = customTheme.content ?? ""
+            } else {
+                if let modelTheme = modelTheme {
+                    content = modelTheme.themeType == .builtin ? try loadFileFromResource(path: modelTheme.themeStyle!.rawValue) : modelTheme.customTheme!.content ?? ""
+                } else {
+                    content = try loadFileFromResource(forResource: "themes/gzh_default", withExtension: "css")
+                }
             }
+        } catch {
+            appState.appError = AppError.bizError(description: error.localizedDescription)
         }
+    }
+    
+    func configWebView() {
+        setContent()
     }
     
     func loadIndex() {

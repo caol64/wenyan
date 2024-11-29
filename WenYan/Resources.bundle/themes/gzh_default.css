@@ -1,7 +1,3 @@
-/**
- * 欢迎使用自定义主题功能，使用教程：
- * https://babyno.top/posts/2024/11/wenyan-supports-customized-themes/
- */
 /* 全局变量 */
 :root {
     --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
@@ -59,12 +55,12 @@
     font-weight: bold;
 }
 /* 三-六级标题 */
-#wenyan h3, h4, h5, h6 {
+#wenyan h3, #wenyan h4, #wenyan h5, #wenyan h6 {
     font-size: 1em;
     font-weight: bold;
 }
 /* 列表 */
-#wenyan ul, ol {
+#wenyan ul, #wenyan ol {
     padding-left: 1.2em;
 }
 /* 列表元素 */
@@ -92,7 +88,7 @@
     word-break: break-all;
 }
 /* 表格单元格 */
-#wenyan table td, table th {
+#wenyan table td, #wenyan table th {
     font-size: .75em;
     height: 40px;
     padding: 9px 12px;

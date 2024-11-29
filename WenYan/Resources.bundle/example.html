@@ -19,7 +19,7 @@
                     }
                 },
                 svg: {
-                  fontCache: 'none'
+                    fontCache: 'none'
                 },
                 tex: {
                     inlineMath: [['$', '$'], ['\\(', '\\)']],
@@ -36,123 +36,65 @@
         <style id="theme"></style>
     </head>
     <body>
-        <section id="wenyan" class="preview"><h1><span>An h1 header</span></h1>
-        <p>Paragraphs are separated by a blank line.</p>
-        <p>2nd paragraph. <em>Italic</em>, <strong>bold</strong>, and <code>monospace</code>. Itemized lists
-        look like:</p>
+        <section id="wenyan" class="preview">
+            <h1><span>一级标题</span></h1>
+            <h2><span>二级标题</span></h2>
+            <h3><span>三级标题</span></h3>
+            <h4><span>四级标题</span></h4>
+            <h5><span>五级标题</span></h5>
+            <h6><span>六级标题</span></h6>
+        <p>这是第一个段落。</p>
+        <p>这是第二个段落，<em>斜体</em>，<strong>加粗</strong>，行内代码：<code>monospace</code>，行内公式：$I = \int \rho R^{2} dV$。</p>
+        <p>无序列表：</p>
         <ul>
         <li>this one</li>
         <li>that one</li>
         <li>the other one</li>
         </ul>
-        <p>Note that --- not considering the asterisk --- the actual text
-        content starts at 4-columns in.</p>
+        <p>有序列表：</p>
+        <ol>
+        <li>first item</li>
+        <li>second item</li>
+        <li>third item</li>
+        </ol>
+        <p>文字引用：</p>
         <blockquote>
         <p>Block quotes are
         written like so.</p>
         <p>They can span multiple paragraphs,
         if you like.</p>
         </blockquote>
-        <p>Use 3 dashes for an em-dash. Use 2 dashes for ranges (ex., "it's all
-        in chapters 12--14"). Three dots ... will be converted to an ellipsis.
-        Unicode is supported. ☺</p>
-        <h2><span>An h2 header</span></h2>
-        <p>Here's a numbered list:</p>
-        <ol>
-        <li>first item</li>
-        <li>second item</li>
-        <li>third item</li>
-        </ol>
-        <p>Note again how the actual text starts at 4 columns in (4 characters
-        from the left side). Here's a code sample:</p>
-        <pre><code># Let me re-iterate ...
-        for i in 1 .. 10 { do-something(i) }
-        </code></pre><p>As you probably guessed, indented 4 spaces. By the way, instead of
-        indenting the block, you can use delimited blocks, if you like:</p>
+        <p>代码块：</p>
         <pre><code>define foobar() {
-            print "Welcome to flavor country!";
-        }
-        </code></pre><p>(which makes copying &amp; pasting easier). You can optionally mark the
-        delimited block for Pandoc to syntax highlight it:</p>
+    print "Welcome to flavor country!";
+}
+        </code></pre>
         <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> time
-        <span class="hljs-comment"># Quick, count to ten!</span>
-        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):
-            <span class="hljs-comment"># (but not *too* quick)</span>
-            time.sleep(<span class="hljs-number">0.5</span>)
-            <span class="hljs-built_in">print</span>(i)
-        </code></pre><h3><span>An h3 header</span></h3>
-        <p>Now a nested list:</p>
-        <ol>
-        <li><p>First, get these ingredients:</p>
-        <ul>
-        <li>carrots</li>
-        <li>celery</li>
-        <li>lentils</li>
-        </ul>
-        </li>
-        <li><p>Boil some water.</p>
-        </li>
-        <li><p>Dump everything in the pot and follow
-        this algorithm:</p>
-        <pre><code>find wooden spoon
-        uncover pot
-        stir
-        cover pot
-        balance wooden spoon precariously on pot handle
-        wait 10 minutes
-        goto first step (or shut off burner when done)
-        </code></pre><p>Do not bump wooden spoon or it will fall.</p>
-        </li>
-        </ol>
-        <p>Notice again how text always lines up on 4-space indents (including
-        that last line which continues item 3 above).</p>
-        <p>Here's a link to <a href="http://foo.bar">a website</a><sup class="footnote">[1]</sup>, to a <a href="local-doc.html">local
-        doc</a><sup class="footnote">[2]</sup>, and to a <a href="#an-h2-header">section heading in the current
-        doc</a><sup class="footnote">[3]</sup>. Here's a footnote [^1].</p>
-        <p>[^1]: Some footnote text.</p>
-        <p>Tables can look like this:</p>
-        <p>Name           Size  Material      Color</p>
+<span class="hljs-comment"># Quick, count to ten!</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):
+    <span class="hljs-comment"># (but not *too* quick)</span>
+    time.sleep(<span class="hljs-number">0.5</span>)
+    <span class="hljs-built_in">print</span>(i)
+        </code></pre>
+        <p>表格：</p>
+        <table><thead><tr><th>标题1</th><th>标题2</th><th>标题3</th></tr></thead><tbody><tr><td>行1列1</td><td>行1列2</td><td>行1列3</td></tr><tr><td>行2列1</td><td>行2列2</td><td>行2列3</td></tr><tr><td>行3列1</td><td>行3列2</td><td>行3列3</td></tr></tbody></table>
+        <p>链接：</p>
+        <p><a href="http://foo.bar">a website</a></p>
+        <p>分割线：</p>
         <hr>
-        <p>All Business      9  leather       brown
-        Roundabout       10  hemp canvas   natural
-        Cinderella       11  glass         transparent</p>
-        <p>Table: Shoes sizes, materials, and colors.</p>
-        <p>(The above is the caption for the table.) Pandoc also supports
-        multi-line tables:</p>
-        <hr>
-        <p>Keyword   Text</p>
-        <hr>
-        <p>red       Sunsets, apples, and
-                  other red or reddish
-                  things.</p>
-        <p>green     Leaves, grass, frogs
-                  and other things it's
-                  not easy being.</p>
-        <hr>
-        <p>A horizontal rule follows.</p>
-        <hr>
-        <p>Here's a definition list:</p>
-        <p>apples
-          : Good for making applesauce.</p>
-        <p>oranges
-          : Citrus!</p>
-        <p>tomatoes
-          : There's no "e" in tomatoe.</p>
-        <p>Again, text is indented 4 spaces. (Put a blank line between each
-        term and  its definition to spread things out more.)</p>
-        <p>Here's a "line block" (note how whitespace is honored):</p>
-        <p>| Line one
-        |   Line too
-        | Line tree</p>
-        <p>and images can be specified like so:</p>
+        <p>图片：</p>
         <p><img src="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" alt="example image"></p>
-        <p>Inline math equation: $\omega = d\phi / dt$. Display
-        math should get its own line like so:</p>
+        <p>行间公式：</p>
         $$I = \int \rho R^{2} dV$$
-        <p>And note that you can backslash-escape any punctuation characters
-        which you wish to be displayed literally, ex.: `foo`, *bar*, etc.</p>
-        <h3>引用链接</h3><section id="footnotes"><p><span class="footnote-num">[1]</span><span class="footnote-txt">a website: <i>http://foo.bar</i></span></p><p><span class="footnote-num">[2]</span><span class="footnote-txt">local
+        <p>引用链接：</p>
+        <p>Here's a link to <a href="http://foo.bar">a website</a><sup class="footnote">[1]</sup>, to a <a href="local-doc.html">local
+                doc</a><sup class="footnote">[2]</sup>, and to a <a href="#an-h2-header">section heading in the current
+                doc</a><sup class="footnote">[3]</sup>. </p>
+        <section id="footnotes"><p><span class="footnote-num">[1]</span><span class="footnote-txt">a website: <i>http://foo.bar</i></span></p><p><span class="footnote-num">[2]</span><span class="footnote-txt">local
         doc: <i>local-doc.html</i></span></p><p><span class="footnote-num">[3]</span><span class="footnote-txt">section heading in the current
         doc: <i>#an-h2-header</i></span></p></section></section>
     </body>
 </html>
+<script>
+    window.webkit.messageHandlers.loadHandler.postMessage(null);
+</script>

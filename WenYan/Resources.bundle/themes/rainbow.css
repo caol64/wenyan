@@ -90,7 +90,7 @@ tables settings
 #wenyan table th {
     background-color: var(--th-bg-color);
 }
-#wenyan table th, td {
+#wenyan table th, table td {
     font-size: .75em;
     text-align: center;
     border: 0.13em dashed var(--table-border-color);

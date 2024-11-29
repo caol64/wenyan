@@ -43,7 +43,7 @@
     border-top-left-radius: 3px;
     margin-right: 3px;
 }
-#wenyan h2:after {
+#wenyan h2::after {
     display: inline-block;
     content: "";
     vertical-align: bottom;
