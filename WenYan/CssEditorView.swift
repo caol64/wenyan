@@ -84,8 +84,8 @@ extension CssEditorViewModel {
     
     func loadIndex() {
         do {
-            let html = try loadFileFromResource(forResource: "codemirror/index", withExtension: "html")
-            webView?.loadHTMLString(html.replacingOccurrences(of: "mode: \"text/markdown\"", with: "mode: \"text/css\""), baseURL: getResourceBundle())
+            let html = try loadFileFromResource(forResource: "codemirror/css_editor", withExtension: "html")
+            webView?.loadHTMLString(html, baseURL: getResourceBundle())
         } catch {
             appState.appError = AppError.bizError(description: error.localizedDescription)
         }
@@ -93,6 +93,10 @@ extension CssEditorViewModel {
     
     func setContent() {
         callJavascript(javascriptString: "setContent(\(content.toJavaScriptString()));")
+    }
+    
+    func loadCss(css: String) {
+        callJavascript(javascriptString: "loadCss(\(css.toJavaScriptString()));")
     }
     
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {

@@ -1,4 +1,4 @@
-const allowedTypeSelector = ["*", "h1", "h2", "h3", "h4", "h5", "h6", "p", "em", "strong", "ul", "ol", "li", "img", "table", "thead", "th", "td", "tr", "blockquote", "code", "pre", "hr", "a", "span", "del"];
+const allowedTypeSelector = ["*", "h1", "h2", "h3", "h4", "h5", "h6", "p", "em", "strong", "ul", "ol", "li", "img", "table", "thead", "tbody", "th", "td", "tr", "blockquote", "code", "pre", "hr", "a", "span", "del"];
 const allowedClassSelector = ["footnote", "footnote-num", "footnote-txt"];
 const allowedPseudoElement = ["before", "after"];
 const allowedPseudoClass = ["root", "nth-child"];
@@ -137,7 +137,7 @@ function parseCss(css, compatibilityMode) {
           node.block.children.prepend(list.createItem({type: "Declaration", property: "content", value: {type: "Value", children: [{type: "String", value: ""}]}}));
         }
       }
-      if (node.prelude.children.head.data.children.some(child => child.type === "TypeSelector" && child.name === "img")) {
+      if (node.prelude.children.head.data.children.some(child => child.type === "TypeSelector" && child.name === "img") && !node.block.children.some(child => child.type === "Declaration" && child.property === "max-width")) {
         node.block.children.prepend(list.createItem({type: "Declaration", property: "max-width", value: {type: "Value", children: [{type: "Percentage", value: "100"}]}}));
       }
     }

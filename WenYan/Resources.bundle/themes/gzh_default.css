@@ -1,6 +1,11 @@
+/**
+ * 欢迎使用自定义主题功能，使用教程：
+ * https://babyno.top/posts/2024/11/wenyan-supports-customized-themes/
+ */
 /* 全局变量 */
 :root {
-    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
     --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
 }
 /* 全局属性 */
@@ -55,12 +60,16 @@
     font-weight: bold;
 }
 /* 三-六级标题 */
-#wenyan h3, #wenyan h4, #wenyan h5, #wenyan h6 {
+#wenyan h3,
+#wenyan h4,
+#wenyan h5,
+#wenyan h6 {
     font-size: 1em;
     font-weight: bold;
 }
 /* 列表 */
-#wenyan ul, #wenyan ol {
+#wenyan ul,
+#wenyan ol {
     padding-left: 1.2em;
 }
 /* 列表元素 */
@@ -82,14 +91,14 @@
     table-layout: fixed;
     text-align: left;
     overflow: auto;
-    border: 1px solid #f6f6f6;
     display: inline-block;
     word-wrap: break-word;
     word-break: break-all;
 }
 /* 表格单元格 */
-#wenyan table td, #wenyan table th {
-    font-size: .75em;
+#wenyan table td,
+#wenyan table th {
+    font-size: 0.75em;
     height: 40px;
     padding: 9px 12px;
     line-height: 22px;
@@ -105,7 +114,7 @@
 }
 /* 表格斑马条纹效果 */
 #wenyan table tr:nth-child(2n) {
-    background-color: #F8F8F8;
+    background-color: #f8f8f8;
 }
 /* 引用块 */
 #wenyan blockquote {
@@ -114,7 +123,7 @@
     margin: 1.5em 0;
     padding: 0.5em 10px;
     font-style: italic;
-    font-size: .9em;
+    font-size: 0.9em;
 }
 /* 引用块前缀 */
 #wenyan blockquote::before {
@@ -127,12 +136,12 @@
     font-family: var(--monospace-font);
     color: #ff502c;
     padding: 4px 6px;
-    font-size: .78em;
+    font-size: 0.78em;
 }
 /* 代码块外围 */
 #wenyan pre {
     border-radius: 5px;
-    font-size: .8em;
+    font-size: 0.8em;
     line-height: 2;
     margin: 1em 0.5em;
     padding: 1em;

@@ -1,15 +1,28 @@
+:root {
+    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+}
 #wenyan {
-    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: var(--sans-serif-font);
     line-height: 1.75;
     font-size: 16px;
 }
 #wenyan * {
     box-sizing: border-box;
 }
-#wenyan h1, h2, h3, h4, h5, h6, p, pre {
+#wenyan h1,
+#wenyan h2,
+#wenyan h3,
+#wenyan h4,
+#wenyan h5,
+#wenyan h6,
+#wenyan p,
+#wenyan pre {
     margin: 1em 0;
 }
-#wenyan h1, h2 {
+#wenyan h1,
+#wenyan h2 {
     clear: left;
     font-size: 1.2em;
     font-weight: 600;
@@ -17,7 +30,10 @@
     margin-bottom: 1.16667em;
     margin-top: 2.33333em;
 }
-#wenyan h3, h4, h5, h6 {
+#wenyan h3,
+#wenyan h4,
+#wenyan h5,
+#wenyan h6 {
     clear: left;
     font-size: 1.1em;
     font-weight: 600;
@@ -25,7 +41,8 @@
     margin-bottom: 1.27273em;
     margin-top: 1.90909em;
 }
-#wenyan ul, ol {
+#wenyan ul,
+#wenyan ol {
     padding-left: 1.2em;
 }
 #wenyan li {
@@ -53,7 +70,8 @@
     color: #191b1f;
     font-weight: 500;
 }
-#wenyan table td, table th {
+#wenyan table td,
+#wenyan table th {
     border: 1px solid #c4c7ce;
     height: 24px;
     line-height: 24px;
@@ -69,17 +87,17 @@
     margin: 0px 2px;
     padding: 3px 4px;
     border-radius: 3px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+    font-family: var(--monospace-font);
     background-color: rgb(246, 246, 246);
 }
 #wenyan pre {
     word-wrap: normal;
     background: #f8f8fa;
     border-radius: 4px;
-    font-size: .8em;
+    font-size: 0.8em;
     margin: 1.4em 0;
     overflow: auto;
-    padding: .88889em;
+    padding: 0.88889em;
     white-space: pre;
     word-break: normal;
 }

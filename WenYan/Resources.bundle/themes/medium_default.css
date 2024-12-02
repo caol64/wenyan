@@ -1,12 +1,21 @@
+:root {
+    --sans-serif-font: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
+    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+}
 #wenyan {
-    font-family: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
+    font-family: var(--sans-serif-font);
     line-height: 1.75;
     font-size: 16px;
 }
 #wenyan * {
     box-sizing: border-box;
 }
-#wenyan h1, h2, h3, h4, h5, h6 {
+#wenyan h1,
+#wenyan h2,
+#wenyan h3,
+#wenyan h4,
+#wenyan h5,
+#wenyan h6 {
     font-family: sohne, "Helvetica Neue", Helvetica, Arial, sans-serif;
     margin: 1em 0;
 }
@@ -14,11 +23,14 @@
     font-size: 2em;
     font-weight: 700;
 }
-#wenyan h2, h3 {
+#wenyan h2,
+#wenyan h3 {
     font-size: 1.3em;
     font-weight: 700;
 }
-#wenyan h4, h5, h6 {
+#wenyan h4,
+#wenyan h5,
+#wenyan h6 {
     font-size: 1.2em;
     font-weight: 700;
 }
@@ -26,7 +38,8 @@
     letter-spacing: -0.003em;
     margin: 1em 0;
 }
-#wenyan ul, ol {
+#wenyan ul,
+#wenyan ol {
     padding-left: 1.2em;
 }
 #wenyan li {
@@ -54,7 +67,8 @@
     color: #191b1f;
     font-weight: 500;
 }
-#wenyan table td, table th {
+#wenyan table td,
+#wenyan table th {
     border: 1px solid #c4c7ce;
     height: 24px;
     line-height: 24px;
@@ -62,32 +76,32 @@
 }
 #wenyan blockquote {
     letter-spacing: -0.003em;
-    border-left: 3px solid rgba(0, 0, 0, .84);
+    border-left: 3px solid rgba(0, 0, 0, 0.84);
     padding-left: 20px;
     margin: 0 0 20px 0;
 }
 #wenyan p code {
     padding: 4px 6px;
-    font-size: .78em;
+    font-size: 0.78em;
     border-radius: 3px;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
-    background-color: #F2F2F2;
+    font-family: var(--monospace-font);
+    background-color: #f2f2f2;
 }
 #wenyan pre {
-    font-size: .8em;
+    font-size: 0.8em;
     line-height: 2;
     margin: 1em 0.5em;
     padding: 1em;
-    background: #F9F9F9;
+    background: #f9f9f9;
     border-radius: 4px;
-    border: 1px solid #E5E5E5;
+    border: 1px solid #e5e5e5;
 }
 #wenyan pre code {
     display: block;
     overflow-x: auto;
     margin: 0;
     padding: 0;
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+    font-family: var(--monospace-font);
 }
 #wenyan hr {
     border: none;

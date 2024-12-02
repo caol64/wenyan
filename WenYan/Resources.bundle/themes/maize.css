@@ -3,28 +3,25 @@
  *     https://github.com/BEATREE/typora-maize-theme
  */
 
-/* 全局属性 */
-:root{
-    --bg-color:  #fafafa;                   /*change background*/
-    --text-color: #333333;                  /*change text color*/
-    
-    --primary-color: #428bca;               /* color of primary buttons */
-    --monospace: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;                   /*monospace font for codes, fences*/
+:root {
+    --bg-color: #fafafa;
+    --text-color: #333333;
+    --primary-color: #428bca;
+    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
 }
-
 #wenyan {
-    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: var(--sans-serif-font);
     line-height: 1.75;
 }
 #wenyan * {
     box-sizing: border-box;
 }
-/*段落*/
-#wenyan p, pre {
+#wenyan p,
+#wenyan pre {
     margin: 1em 0;
 }
-
-/*标题*/
 #wenyan h1,
 #wenyan h2,
 #wenyan h3,
@@ -37,15 +34,13 @@
 }
 #wenyan h1 {
     font-size: 1.5em;
-    /* text-align: center; */
 }
-#wenyan h2::before{
+#wenyan h2::before {
     display: inline-block;
     content: "✔";
     font-weight: bold;
     color: #ffb11b;
     margin-right: 4px;
-    font-family: 'Segoe UI Symbol', Arial, sans-serif;
 }
 #wenyan h2 {
     font-size: 1.3em;
@@ -55,7 +50,6 @@
     color: #333;
     padding: 3px 10px 1px;
 }
-
 #wenyan h3 {
     font-size: 1.3em;
 }
@@ -68,8 +62,6 @@
 #wenyan h6 {
     font-size: 1.2em;
 }
-
-/* 列表 */
 #wenyan ul,
 #wenyan ol {
     margin-top: 8px;
@@ -86,17 +78,10 @@
 #wenyan ol {
     list-style-type: decimal;
 }
-/* 列表内容 */
-#wenyan li section {
-    font-size:15px;
-}
-
 #wenyan strong {
-    color: #E49123;
+    color: #e49123;
     font-weight: bold;
 }
-
-/*引用*/
 #wenyan blockquote {
     margin: 0;
     padding: 10px 10px 10px 20px;
@@ -105,51 +90,41 @@
     border-left: 3px solid #ffb11b;
     color: #6a737d;
     overflow: auto;
-    -webkit-overflow-scrolling: touch;
 }
-
-/* 超链接 */
 #wenyan a {
     text-decoration: none;
     font-weight: bold;
-    color: #E49123;
-    border-bottom: 1px solid #E49123;
+    color: #e49123;
+    border-bottom: 1px solid #e49123;
 }
-
-/* 分割线 */
 #wenyan hr {
     height: 1px;
     padding: 0;
     border: none;
     text-align: center;
-    background-image: linear-gradient(to right,rgba(231, 93, 109,0.3),rgba(255, 159, 150,0.75),rgba(255, 216, 181,0.3));
+    background-image: linear-gradient(to right, rgba(231, 93, 109, 0.3), rgba(255, 159, 150, 0.75), rgba(255, 216, 181, 0.3));
 }
-
-/* 行内代码 */
 #wenyan p code,
 #wenyan span code,
 #wenyan li code {
+    font-family: var(--monospace-font);
     word-wrap: break-word;
     padding: 2px 4px;
     border-radius: 4px;
     margin: 0 2px;
     word-break: break-all;
-    color:  rgb(235, 76, 55);
+    color: rgb(235, 76, 55);
     background-color: #f0f0f0;
 }
-
-/* 文章插图 */
 #wenyan img {
+    max-width: 100%;
     display: block;
     margin: 0 auto;
     width: 85%;
-    max-width: 100%;
     border-radius: 5px;
-    box-shadow:0px 4px 12px #84A1A8;
+    box-shadow: 0px 4px 12px #84a1a8;
     border: 0px;
 }
-
-/* 表格 */
 #wenyan table {
     border-collapse: collapse;
     margin: 1.4em auto;
@@ -157,29 +132,29 @@
     table-layout: fixed;
     text-align: left;
     overflow: auto;
-    border: 1px solid #f6f6f6;
     display: inline-block;
     word-wrap: break-word;
     word-break: break-all;
 }
-#wenyan table td, table th {
-    font-size: .75em;
+#wenyan table td,
+#wenyan table th {
+    font-size: 0.75em;
     height: 40px;
     padding: 9px 12px;
     line-height: 22px;
     color: #222;
     min-width: 60px;
-    border: 1px solid #d8d8d8;
+    border: 1px solid rgb(255, 216, 181);
     vertical-align: top;
 }
 #wenyan table th {
     font-weight: bold;
-    background-color: #f0f0f0;
+    color: #ffb11b;
+    background: #fff9f9;
 }
 #wenyan table tr:nth-child(2n) {
-    background-color: #F8F8F8;
+    background: #fff9f9;
 }
-/* 代码块主题 */
 #wenyan pre {
     border-radius: 5px;
     line-height: 2;
@@ -187,32 +162,28 @@
     padding: 1em;
     background-color: #fafafa;
     box-shadow: rgba(0, 0, 0, 0.55) 0px 2px 10px;
-    font-size: .8em;
+    font-size: 0.8em;
 }
 #wenyan pre code {
     display: block;
     overflow-x: auto;
     margin: 0;
     padding: 0;
-    font-family: var(--monospace);
+    font-family: var(--monospace-font);
 }
-/* 原始链接旁脚注上标 */
 #wenyan .footnote {
     font-weight: bold;
-    color: #E49123;
+    color: #e49123;
 }
-/* 脚注行 */
 #wenyan #footnotes p {
     display: flex;
     margin: 0;
     font-size: 0.9em;
 }
-/* 脚注行内编号 */
 #wenyan .footnote-num {
     display: inline;
     width: 10%;
 }
-/* 脚注行内文字 */
 #wenyan .footnote-txt {
     display: inline;
     width: 90%;

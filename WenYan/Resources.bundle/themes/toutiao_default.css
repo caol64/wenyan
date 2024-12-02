@@ -1,14 +1,31 @@
+:root {
+    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
+    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+}
 #wenyan {
-    font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    font-family: var(--sans-serif-font);
     line-height: 1.75;
 }
 #wenyan * {
     box-sizing: border-box;
 }
-#wenyan h1, h2, h3, h4, h5, h6, p, pre {
+#wenyan h1,
+#wenyan h2,
+#wenyan h3,
+#wenyan h4,
+#wenyan h5,
+#wenyan h6,
+#wenyan p,
+#wenyan pre {
     margin: 1em 0;
 }
-#wenyan h1, h2, h3, h4, h5, h6 {
+#wenyan h1,
+#wenyan h2,
+#wenyan h3,
+#wenyan h4,
+#wenyan h5,
+#wenyan h6 {
     font-size: 18px;
     line-height: 30px;
     margin-top: 20px;
@@ -16,7 +33,12 @@
     font-weight: 700;
     position: relative;
 }
-#wenyan h1:before, h2:before, h3:before, h4:before, h5:before, h6:before {
+#wenyan h1:before,
+#wenyan h2:before,
+#wenyan h3:before,
+#wenyan h4:before,
+#wenyan h5:before,
+#wenyan h6:before {
     content: "";
     display: inline-block;
     vertical-align: 1px;
@@ -28,7 +50,8 @@
     background-size: 16px 16px;
     background-position-y: 6px;
 }
-#wenyan ul, ol {
+#wenyan ul,
+#wenyan ol {
     padding-left: 1.2em;
 }
 #wenyan li {
@@ -51,7 +74,8 @@
     word-wrap: break-word;
     word-break: break-all;
 }
-#wenyan table td, table th {
+#wenyan table td,
+#wenyan table th {
     height: 40px;
     padding: 9px 12px;
     line-height: 22px;
@@ -77,19 +101,20 @@
     background: #f2f2f2;
 }
 #wenyan p code {
-    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
-    color: #1E6BB8;
+    font-family: var(--monospace-font);
+    color: #1e6bb8;
 }
 /* 代码块 */
 #wenyan pre {
     border-radius: 3px;
-/*    background: #fafafa;*/
+    /*    background: #fafafa;*/
     border: 1px solid #e8e8e8;
     line-height: 1.5;
     margin: 1em 0.5em;
     padding: 1em;
 }
 #wenyan pre code {
+    font-family: var(--monospace-font);
     display: block;
     overflow-x: auto;
     margin: 0;

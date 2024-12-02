@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+
+      <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+      <script src="codemirror/lib/codemirror.js"></script>
+
+      <link rel="stylesheet" href="codemirror/theme/base16-light.css">
+
+      <script src="codemirror/modes/css/css.js"></script>
+      <script src="csstree/csstree.js"></script>
+      <script src="csstree/handler.js"></script>
+      <script src="prettier/prettier.min.js"></script>
+      <script src="prettier/postcss.js"></script>
+    </head>
+  <body>
+    <script>
+      
+      CodeMirror.keyMap["default"]["Cmd-/"] = "toggleComment";  // Add-on
+      let isScrollingFromScript = false;
+      var editor = CodeMirror(document.body, {
+        lineNumbers: false,
+        autofocus: true,
+        mode: "text/css",
+        theme: "base16-light",
+        showInvisibles: false,
+        maxInvisibles: 16,
+        autoCloseTags: true,
+        smartIndent: true,
+        tabSize: 2,
+        indentUnit: 2,
+        lineWrapping: true,
+        readOnly: false,
+        autoCloseBrackets: true,
+        selectionPointer: true,
+        extraKeys: {
+          "Cmd-F": "findPersistent",
+          "Ctrl-Space": "autocomplete",
+          "Ctrl-I": "indentAuto"
+        },
+        styleActiveLine: true
+      });
+      editor.on("change", function(instance, change) {
+          var content = getContent();
+          window.webkit.messageHandlers.contentChangeHandler.postMessage(content);
+      });
+
+      function setTabInsertSpaces(flag) {
+        // See http://codemirror.net/doc/manual.html#keymaps
+        if (flag) {
+          CodeMirror.keyMap["basic"]["Tab"] = function(cm) {
+            var spaces = Array(cm.getOption("indentUnit") + 1).join(" ");
+            cm.replaceSelection(spaces, "end", "+input");
+          };
+        } else {
+          CodeMirror.keyMap["basic"]["Tab"] = "defaultTab";
+        }
+      }
+
+      function setContent(content) {
+        editor.doc.setValue(content);
+        editor.doc.clearHistory();
+        editor.doc.markClean();
+      }
+        
+      async function loadCss(css) {
+        const result = parseCss(css, 1);
+        const formattedCss = await prettier.format(result, {
+          parser: "css",
+          plugins: prettierPlugins,
+          printWidth: 128,
+          tabWidth: 4
+        });
+        setContent(formattedCss);
+      }
+
+      function getContent() {
+        return editor.doc.getValue();
+      }
+
+      setTabInsertSpaces(true);
+
+      window.webkit.messageHandlers.loadHandler.postMessage(null);
+
+    </script>
+  </body>
+</html>

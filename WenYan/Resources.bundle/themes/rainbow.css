@@ -3,48 +3,38 @@
  *     https://github.com/thezbm/typora-theme-rainbow
  */
 
-/*
-root variables including colors, font-familys and a shadow style
-*/
-:root {
+ :root {
     --h-border-color: rgb(255, 191, 191);
     --h-bg-color: rgb(255, 232, 232);
     --table-border-color: rgb(255, 235, 211);
     --th-bg-color: rgb(255, 243, 228);
     --tr-bg-color: rgb(255, 249, 242);
-    --tr-hover-bg-color: rgb(254, 255, 230);
     --code-bg-color: rgb(247, 247, 247);
-    --del-color: rgb(151, 151, 151);
-    --selection-bg-color: rgb(235, 227, 255);
     --block-shadow: 0.15em 0.15em 0.5em rgb(150, 150, 150);
-    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
+        "Noto Color Emoji";
     --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
 }
-
-
 #wenyan {
     font-family: var(--sans-serif-font);
     line-height: 1.75;
 }
 #wenyan * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
-#wenyan p, pre {
-    margin: 1em .8em;
+#wenyan p,
+#wenyan pre {
+    margin: 1em 0.8em;
 }
-
-/*
-headers settings
-*/
 #wenyan h1,
 #wenyan h2,
 #wenyan h3,
 #wenyan h4,
 #wenyan h5,
 #wenyan h6 {
-  margin: 1.2em 0 1em;
-  padding: 0px;
-  font-weight: bold;
+    margin: 1.2em 0 1em;
+    padding: 0px;
+    font-weight: bold;
 }
 #wenyan h1 {
     font-size: 1.5em;
@@ -71,10 +61,6 @@ headers settings
     -webkit-text-decoration: underline dotted var(--h-border-color);
     text-decoration-thickness: 0.2em;
 }
-
-/*
-tables settings
-*/
 #wenyan table {
     border-collapse: collapse;
     border: 0.25em solid var(--table-border-color);
@@ -90,8 +76,9 @@ tables settings
 #wenyan table th {
     background-color: var(--th-bg-color);
 }
-#wenyan table th, table td {
-    font-size: .75em;
+#wenyan table th,
+#wenyan table td {
+    font-size: 0.75em;
     text-align: center;
     border: 0.13em dashed var(--table-border-color);
     padding: 0.5em;
@@ -104,17 +91,10 @@ tables settings
 #wenyan table tr:nth-child(even) {
     background-color: var(--tr-bg-color);
 }
-#wenyan table tr:hover {
-    background-color: var(--tr-hover-bg-color);
-}
-
-/*
-blockquotes settings
-*/
 #wenyan blockquote {
-    font-size: .9em;
+    font-size: 0.9em;
     margin: 0 1em;
-    color:rgb(102, 102, 102);
+    color: rgb(102, 102, 102);
     border-left: 0.25em solid rgb(169, 202, 255);
     padding: 0.5em 1em 0.6em 1em;
 }
@@ -128,9 +108,6 @@ blockquotes settings
 #wenyan blockquote p {
     margin: 0;
 }
-/*
-horizontal rules settings
-*/
 #wenyan hr {
     margin-top: 2em;
     margin-bottom: 2em;
@@ -138,12 +115,8 @@ horizontal rules settings
     height: 0.13em;
     border: 0;
 }
-
-/*
-code blocks settings
-*/
 #wenyan pre {
-    font-size: .8em;
+    font-size: 0.8em;
     line-height: 2;
     padding: 0.6em;
     background-color: var(--code-bg-color);
@@ -157,9 +130,6 @@ code blocks settings
     padding: 0;
     font-family: var(--monospace-font);
 }
-/*
-inline codes settings
-*/
 #wenyan p code {
     font-family: var(--monospace-font);
     margin-left: 0.25em;
@@ -168,19 +138,11 @@ inline codes settings
     background-color: var(--code-bg-color);
     border-radius: 0.4em;
     box-shadow: 0.13em 0.13em 0.26em rgb(197, 197, 197);
-    font-size: .9em;
+    font-size: 0.9em;
 }
-
-/*
-urls settings
-*/
 #wenyan a {
     color: rgb(31, 117, 255);
 }
-
-/*
-images settings
-*/
 #wenyan img {
     max-width: 100%;
     height: auto;
@@ -189,22 +151,18 @@ images settings
     border-radius: 5px;
     box-shadow: var(--block-shadow);
 }
-/* 原始链接旁脚注上标 */
 #wenyan .footnote {
     color: rgb(31, 117, 255);
 }
-/* 脚注行 */
 #wenyan #footnotes p {
     display: flex;
     margin: 0;
     font-size: 0.9em;
 }
-/* 脚注行内编号 */
 #wenyan .footnote-num {
     display: inline;
     width: 10%;
 }
-/* 脚注行内文字 */
 #wenyan .footnote-txt {
     display: inline;
     width: 90%;

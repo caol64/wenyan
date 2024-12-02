@@ -426,11 +426,10 @@ struct ContentView: View {
                     let gotAccess = file.startAccessingSecurityScopedResource()
                     if !gotAccess { return }
                     do {
-                        cssEditorViewModel.content = try cssParser(css: try String(contentsOfFile: file.path, encoding: .utf8)) ?? ""
+                        cssEditorViewModel.loadCss(css: try String(contentsOfFile: file.path, encoding: .utf8))
                     } catch {
                         appState.appError = AppError.bizError(description: error.localizedDescription)
                     }
-                    cssEditorViewModel.setContent()
                     file.stopAccessingSecurityScopedResource()
                 case .failure(let error):
                     appState.appError = AppError.bizError(description: error.localizedDescription)

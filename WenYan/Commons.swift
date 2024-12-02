@@ -150,30 +150,3 @@ extension UTType {
         UTType(importedAs: "com.yztech.WenYan.stylesheet")
     }
 }
-
-func cssParser(css: String) throws -> String? {
-    let context = JSContext()
-    var caughtException: AppError?
-
-    context?.exceptionHandler = { context, exception in
-        let errorMessage = exception?.toString() ?? "Unknown JavaScript error."
-        caughtException = AppError.bizError(description: errorMessage)
-    }
-
-    let csstreeCode = try loadFileFromResource(forResource: "csstree/csstree", withExtension: "js")
-    context?.evaluateScript(csstreeCode)
-    let handlerCode = try loadFileFromResource(forResource: "csstree/handler", withExtension: "js")
-    context?.evaluateScript(handlerCode)
-
-    if let parseCssFunction = context?.objectForKeyedSubscript("parseCss") {
-        let result = parseCssFunction.call(withArguments: [css, 1])
-        return result?.toString()
-    }
-    
-    if let error = caughtException {
-        throw error
-    }
-    
-    throw AppError.bizError(description: "cssParser Unknown error.")
-
-}
