@@ -2,6 +2,8 @@
     <img alt = "logo" src="Data/256-mac.png" />
 </div>
 
+**文颜`Windows`版已开源，[请戳](https://github.com/caol64/wenyan-pc)。**
+
 # 文颜
 
 本项目的起源是我平常使用`markdown`写文章，再使用`hugo`生成静态页面发布到我的博客。但当我想把文章发布到诸如“公众号”、“知乎”、“今日头条”等平台时，发现需要针对每个平台进行格式转换，这会让我每次浪费很多时间。
@@ -30,6 +32,7 @@
   - [Maize](https://github.com/BEATREE/typora-maize-theme)
   - [Purple](https://github.com/hliu202/typora-purple-theme)
 - 公众号自定义样式
+  - 支持导入现成的主题
 
 ## 应用截图
 
@@ -47,7 +50,7 @@
 
 `Windows`版下载：
 
-[文颜](https://yuzhi.tech/docs/wenyan/windows)
+[文颜](https://yuzhi.tech/docs/wenyan/download)
 
 ## 支持
 
