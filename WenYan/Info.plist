@@ -2,11 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CustomThemeHelp</key>
-	<string>/**
- * 欢迎使用自定义主题功能，使用教程：
- * https://babyno.top/posts/2024/11/wenyan-supports-customized-themes/
- */</string>
 	<key>HelpUrl</key>
 	<string>https://yuzhi.tech/docs/wenyan</string>
 	<key>UTImportedTypeDeclarations</key>

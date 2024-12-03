@@ -45,6 +45,7 @@ class CssEditorViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler
         let contentController = webView.configuration.userContentController
         contentController.add(self, name: WebkitStatus.loadHandler)
         contentController.add(self, name: WebkitStatus.contentChangeHandler)
+        contentController.add(self, name: WebkitStatus.clickHandler)
         webView.setValue(true, forKey: "drawsTransparentBackground")
         webView.allowsMagnification = false
         self.webView = webView
@@ -56,6 +57,10 @@ class CssEditorViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler
             configWebView()
         } else if message.name == WebkitStatus.contentChangeHandler {
             content = (message.body as? String) ?? ""
+        } else if message.name == WebkitStatus.clickHandler {
+            if appState.showHelpBubble {
+                appState.showHelpBubble = false
+            }
         }
     }
     

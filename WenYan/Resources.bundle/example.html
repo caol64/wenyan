@@ -29,6 +29,9 @@
             function setCss(css) {
                 document.getElementById("theme").innerText = css;
             }
+            document.addEventListener('click', function (event) {
+                window.webkit.messageHandlers.clickHandler.postMessage(null);
+            });
         </script>
         <script src="mathjax/tex-svg-full.min.js"></script>
         <link rel="stylesheet" href="style.css">

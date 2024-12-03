@@ -150,3 +150,15 @@ extension UTType {
         UTType(importedAs: "com.yztech.WenYan.stylesheet")
     }
 }
+
+extension Link {
+    func pointingHandCursor() -> some View {
+        self.onHover { inside in
+            if inside {
+                NSCursor.pointingHand.set()
+            } else {
+                NSCursor.arrow.set()
+            }
+        }
+    }
+}

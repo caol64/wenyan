@@ -45,6 +45,7 @@ class ThemePreviewViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHand
         webView.navigationDelegate = self
         let contentController = webView.configuration.userContentController
         contentController.add(self, name: WebkitStatus.loadHandler)
+        contentController.add(self, name: WebkitStatus.clickHandler)
         webView.setValue(true, forKey: "drawsTransparentBackground")
         webView.allowsMagnification = false
         self.webView = webView
@@ -54,6 +55,10 @@ class ThemePreviewViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHand
         // 处理来自 JavaScript 的消息
         if message.name == WebkitStatus.loadHandler {
             callJavascript(javascriptString: "setCss(\(css.toJavaScriptString()));")
+        } else if message.name == WebkitStatus.clickHandler {
+            if appState.showHelpBubble {
+                appState.showHelpBubble = false
+            }
         }
     }
     

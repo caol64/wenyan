@@ -111,27 +111,20 @@ struct ContentView: View {
         @EnvironmentObject private var themePreviewViewModel: ThemePreviewViewModel
         @EnvironmentObject private var htmlViewModel: HtmlViewModel
         @EnvironmentObject private var appState: AppState
+        @State private var showFileImporter = false
         
         var body: some View {
             HStack {
-                if cssEditorViewModel.editorMode == .developer {
-                    CssEditorView()
-                        .frame(minWidth: 500, minHeight: 580)
-                } else {
-                    ThemeEditorView()
-                        .frame(minWidth: 500, minHeight: 580)
-                }
+                CssEditorView()
+                    .frame(minWidth: 500, minHeight: 580)
                 ThemePreviewView()
                     .frame(minWidth: 500, minHeight: 580)
-                    .overlay(alignment: .topTrailing) {
-                        ThemeButtonPopup()
-                    }
             }
             .onReceive(cssEditorViewModel.$content) { content in
                 themePreviewViewModel.onUpdate(css: content)
             }
             .toolbar {
-                ToolbarItem(placement: .destructiveAction) {
+                ToolbarItem(placement: .automatic) {
                     if htmlViewModel.selectedCustomTheme != nil {
                         Button(action: {
                             htmlViewModel.deleteCustomTheme()
@@ -142,13 +135,37 @@ struct ContentView: View {
                         }
                     }
                 }
+                
+                ToolbarItem(placement: .automatic) {
+                    Button("导入") {
+                        appState.showHelpBubble = false
+                        showFileImporter = true
+                    }
+                }
+                ToolbarItem(placement: .automatic) {
+                    Button("", systemImage: "questionmark.circle") {
+                        appState.showHelpBubble.toggle()
+                    }
+                    .buttonStyle(.borderless)
+                    .font(.system(size: 13))
+                    .overlay(alignment: .bottomLeading) {
+                        if appState.showHelpBubble {
+                            HelpBubble()
+                                .padding(.bottom, 20)
+                                .environment(\.colorScheme, .light)
+                        }
+                    }
+                }
+                
                 ToolbarItem(placement: .cancellationAction) {
                     Button("取消") {
+                        appState.showHelpBubble = false
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button("保存") {
+                        appState.showHelpBubble = false
                         cssEditorViewModel.save()
                         htmlViewModel.fetchCustomThemes()
                         htmlViewModel.setTheme()
@@ -157,6 +174,26 @@ struct ContentView: View {
                 }
             }
             .background(.white)
+            .fileImporter(
+                isPresented: $showFileImporter,
+                allowedContentTypes: [.css],
+                allowsMultipleSelection: false
+            ) { result in
+                switch result {
+                case .success(let files):
+                    let file = files[0]
+                    let gotAccess = file.startAccessingSecurityScopedResource()
+                    if !gotAccess { return }
+                    do {
+                        cssEditorViewModel.loadCss(css: try String(contentsOfFile: file.path, encoding: .utf8))
+                    } catch {
+                        appState.appError = AppError.bizError(description: error.localizedDescription)
+                    }
+                    file.stopAccessingSecurityScopedResource()
+                case .failure(let error):
+                    appState.appError = AppError.bizError(description: error.localizedDescription)
+                }
+            }
         }
     }
     
@@ -387,66 +424,23 @@ struct ContentView: View {
         }
     }
     
-    struct ThemeButtonPopup: View {
-        @EnvironmentObject private var cssEditorViewModel: CssEditorViewModel
-        @EnvironmentObject private var appState: AppState
-        @State private var showFileImporter = false
+    struct HelpBubble: View {
         var body: some View {
-            VStack {
-//                Button(action: {
-//                    cssEditorViewModel.editorMode = cssEditorViewModel.editorMode == .developer ? .normal : .developer
-//                }) {
-//                    HStack {
-//                        Text(cssEditorViewModel.editorMode == .developer ? "普通模式" : "开发模式")
-//                            .font(.system(size: 14))
-//                    }
-//                    .frame(height: 24)
-//                }
-                Button(action: {
-                    showFileImporter = true
-                }) {
-                    HStack {
-                        Text("导入CSS")
-                            .font(.system(size: 14))
-                    }
-                    .frame(height: 24)
-                }
+            VStack(alignment: .leading) {
+                Text("欢迎使用自定义主题功能")
+                Link("使用教程", destination: URL(string: "https://babyno.top/posts/2024/11/wenyan-supports-customized-themes/")!)
+                    .pointingHandCursor()
+                Link("功能讨论", destination: URL(string: "https://github.com/caol64/wenyan/discussions/9")!)
+                    .pointingHandCursor()
+                Link("主题分享", destination: URL(string: "https://github.com/caol64/wenyan/discussions/13")!)
+                    .pointingHandCursor()
             }
-            .padding(.trailing, 32)
-            .padding(.top, 16)
-            .environment(\.colorScheme, .light)
-            .fileImporter(
-                isPresented: $showFileImporter,
-                allowedContentTypes: [.css],
-                allowsMultipleSelection: false
-            ) { result in
-                switch result {
-                case .success(let files):
-                    let file = files[0]
-                    let gotAccess = file.startAccessingSecurityScopedResource()
-                    if !gotAccess { return }
-                    do {
-                        cssEditorViewModel.loadCss(css: try String(contentsOfFile: file.path, encoding: .utf8))
-                    } catch {
-                        appState.appError = AppError.bizError(description: error.localizedDescription)
-                    }
-                    file.stopAccessingSecurityScopedResource()
-                case .failure(let error):
-                    appState.appError = AppError.bizError(description: error.localizedDescription)
-                }
-            }
-        }
-    }
-    
-    struct ThemeEditorView: View {
-        @EnvironmentObject var cssEditorViewModel: CssEditorViewModel
-        @EnvironmentObject var themePreviewViewModel: ThemePreviewViewModel
-        @EnvironmentObject private var appState: AppState
-        
-        var body: some View {
-            VStack {
-                
-            }
+            .frame(width: 220, height: 120)
+            .background(
+                RoundedRectangle(cornerRadius: 5)
+                    .fill(Color.white)
+                    .shadow(radius: 5)
+            )
         }
     }
     
