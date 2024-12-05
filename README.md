@@ -31,8 +31,13 @@
   - [Pie](https://github.com/kevinzhao2233/typora-theme-pie)
   - [Maize](https://github.com/BEATREE/typora-maize-theme)
   - [Purple](https://github.com/hliu202/typora-purple-theme)
-- 公众号自定义样式
+- 自定义主题
+  - 支持自定义样式
   - 支持导入现成的主题
+  - [使用教程](https://babyno.top/posts/2024/11/wenyan-supports-customized-themes/)
+  - [功能讨论](https://github.com/caol64/wenyan/discussions/9)
+  - [主题分享](https://github.com/caol64/wenyan/discussions/13)
+- 支持导出长图
 
 ## 应用截图
 
@@ -47,10 +52,6 @@
 本项目已上架`App Store`，你可以直接点击下方链接或搜索“文颜”下载：
 
 <a href="https://apps.apple.com/cn/app/%E6%96%87%E9%A2%9C/id6670157335?mt=12&amp;itsct=apps_box_badge&amp;itscg=30200" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 250px; height: 83px;"><img src="Data/black.svg" alt="Download on the Mac App Store" style="border-radius: 13px; width: 250px; height: 83px;"></a>
-
-`Windows`版下载：
-
-[文颜](https://yuzhi.tech/docs/wenyan/download)
 
 ## 支持
 
