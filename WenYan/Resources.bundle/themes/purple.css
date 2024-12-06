@@ -24,9 +24,7 @@
     font-family: var(--base-font);
     color: var(--text-color);
     line-height: 1.75;
-}
-#wenyan * {
-    box-sizing: border-box;
+    font-size: 16px;
 }
 #wenyan a {
     border-bottom: 1px solid var(--link-bottom);

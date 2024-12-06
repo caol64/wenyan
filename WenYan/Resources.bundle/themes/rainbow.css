@@ -18,9 +18,7 @@
 #wenyan {
     font-family: var(--sans-serif-font);
     line-height: 1.75;
-}
-#wenyan * {
-    box-sizing: border-box;
+    font-size: 16px;
 }
 #wenyan p,
 #wenyan pre {

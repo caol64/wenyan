@@ -12,11 +12,9 @@
 #wenyan {
     font-family: var(--sans-serif-font);
     line-height: 1.75;
+    font-size: 16px;
 }
 /* 全局子元素属性 */
-#wenyan * {
-    box-sizing: border-box;
-}
 /* 支持分组 */
 #wenyan h1,
 #wenyan h2,

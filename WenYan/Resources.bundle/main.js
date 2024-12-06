@@ -142,8 +142,54 @@ function getContentWithMathImg() {
     return clonedWenyan.outerHTML;
 }
 function getContentForGzh() {
+    const ast = csstree.parse(customCss, {
+        context: 'stylesheet',
+        positions: false,
+        parseAtrulePrelude: false,
+        parseCustomProperty: false,
+        parseValue: false
+    });
+
+    const ast1 = csstree.parse(highlightCss, {
+        context: 'stylesheet',
+        positions: false,
+        parseAtrulePrelude: false,
+        parseCustomProperty: false,
+        parseValue: false
+    });
+
+    ast.children.appendList(ast1.children);
+
     const wenyan = document.getElementById("wenyan");
     const clonedWenyan = wenyan.cloneNode(true);
+
+    csstree.walk(ast, {
+        visit: 'Rule',
+        enter(node, item, list) {
+            const selectorList = node.prelude.children;
+            selectorList.forEach((selectorNode) => {
+                const selector = csstree.generate(selectorNode);
+                // console.log(selector);
+                
+                const declarations = node.block.children.toArray();
+                if (selector === "#wenyan") {
+                    declarations.forEach((decl) => {
+                        const value = csstree.generate(decl.value);
+                        clonedWenyan.style[decl.property] = value
+                    });
+                } else {
+                    const elements = clonedWenyan.querySelectorAll(selector);
+                    elements.forEach((element) => {
+                        declarations.forEach((decl) => {
+                            const value = csstree.generate(decl.value);
+                            element.style[decl.property] = value
+                        });
+                    });
+                }
+            });
+        }
+    });
+    
     // 处理公式
     let elements = clonedWenyan.querySelectorAll("mjx-container");
     elements.forEach(element => {
@@ -159,55 +205,56 @@ function getContentForGzh() {
             parent.setAttribute("style", "text-align: center; margin-bottom: 1rem;");
         }
     });
-    // 读取主题css样式
-    const stylesheets = document.styleSheets;
-    let stylesMap = new Map();
-    Array.from(stylesheets).forEach(sheet => {
-        Array.from(sheet.cssRules).forEach(rule => {
-            if (rule instanceof CSSStyleRule) {
-                if (rule.selectorText.startsWith("#wenyan")) {
-                    let styleObject = new Map();
-                    for (let i = 0; i < rule.style.length; i++) {
-                        const property = rule.style[i];
-                        styleObject.set(property, rule.style.getPropertyValue(property));
-                    }
-                    stylesMap.set(rule.selectorText, styleObject);
-                }
+    // 处理代码块
+    elements = clonedWenyan.querySelectorAll("pre code");
+    elements.forEach(element => {
+        element.innerHTML = element.innerHTML.replace(/\n/g, "<br>");
+        element.childNodes.forEach((node) => {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const updatedContent = node.textContent.replace(/ /g, "&nbsp;");
+                const span = document.createElement("span");
+                span.innerHTML = updatedContent;
+                node.replaceWith(span);
             }
         });
     });
-    // console.log(stylesMap);
     // 公众号不支持css伪元素，将伪元素样式提取出来拼接成一个span
     elements = clonedWenyan.querySelectorAll('h1, h2, h3, h4, h5, h6, blockquote');
     elements.forEach(element => {
-        const afterRresults = Array.from(stylesMap)
-            .filter(([key, value]) =>
-                key.includes(element.tagName.toLowerCase() + "::after")
-            )
-            .map(([key, value]) => value).reduce((acc, map) => {
-                map.forEach((value, key) => {
-                    acc.set(key, value);
-                });
-                return acc;
-            }, new Map());
-        const beforeRresults = Array.from(stylesMap)
-            .filter(([key]) =>
-                key.includes(element.tagName.toLowerCase() + "::before")
-            )
-            .map(([key, value]) => value).reduce((acc, map) => {
-                map.forEach((value, key) => {
-                    acc.set(key, value);
-                });
-                return acc;
-            }, new Map());
-        if (afterRresults.size > 0) {
-            element.appendChild(buildPseudoSpan(afterRresults));
+        const afterResults = new Map();
+        const beforeResults = new Map();
+        csstree.walk(ast, {
+            visit: 'Rule',
+            enter(node) {
+                const selector = csstree.generate(node.prelude); // 生成选择器字符串
+                const tagName = element.tagName.toLowerCase();
+
+                // 检查是否匹配 ::after 或 ::before
+                if (selector.includes(`${tagName}::after`)) {
+                    extractDeclarations(node, afterResults);
+                } else if (selector.includes(`${tagName}::before`)) {
+                    extractDeclarations(node, beforeResults);
+                }
+            }
+        });
+        if (afterResults.size > 0) {
+            element.appendChild(buildPseudoSpan(afterResults));
         }
-        if (beforeRresults.size > 0) {
-            element.insertBefore(buildPseudoSpan(beforeRresults), element.firstChild);
+        if (beforeResults.size > 0) {
+            element.insertBefore(buildPseudoSpan(beforeResults), element.firstChild);
         }
     });
-    return `${clonedWenyan.outerHTML.replace(/class="mjx-solid"/g, 'fill="none" stroke-width="70"')}<style>${removeComments(customCss)}${removeComments(highlightCss)}</style>`;
+    return `${clonedWenyan.outerHTML.replace(/class="mjx-solid"/g, 'fill="none" stroke-width="70"')}`;
+}
+function extractDeclarations(ruleNode, resultMap) {
+    csstree.walk(ruleNode.block, {
+        visit: 'Declaration',
+        enter(declNode) {
+            const property = declNode.property;
+            const value = csstree.generate(declNode.value);
+            resultMap.set(property, value);
+        }
+    });
 }
 function getContentForMedium() {
     const wenyan = document.getElementById("wenyan");
