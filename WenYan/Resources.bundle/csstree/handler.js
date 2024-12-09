@@ -281,7 +281,7 @@ function parseCss(css, compatibilityMode) {
     table-layout: fixed;
     text-align: left;
     overflow: auto;
-    display: inline-block;
+    display: table;
     word-wrap: break-word;
     word-break: break-all;
 }`;

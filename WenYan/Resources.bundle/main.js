@@ -175,14 +175,14 @@ function getContentForGzh() {
                 if (selector === "#wenyan") {
                     declarations.forEach((decl) => {
                         const value = csstree.generate(decl.value);
-                        clonedWenyan.style[decl.property] = value
+                        clonedWenyan.style[decl.property] = value;
                     });
                 } else {
                     const elements = clonedWenyan.querySelectorAll(selector);
                     elements.forEach((element) => {
                         declarations.forEach((decl) => {
                             const value = csstree.generate(decl.value);
-                            element.style[decl.property] = value
+                            element.style[decl.property] = value;
                         });
                     });
                 }
@@ -244,6 +244,17 @@ function getContentForGzh() {
             element.insertBefore(buildPseudoSpan(beforeResults), element.firstChild);
         }
     });
+    // 不知是否是bug，公众号不再支持blockquote样式
+    elements = clonedWenyan.querySelectorAll('blockquote');
+    elements.forEach(element => {
+        const preElement = document.createElement('section');
+        preElement.style.cssText = element.style.cssText;
+        while (element.firstChild) {
+            preElement.appendChild(element.firstChild);
+        }
+        element.parentNode.replaceChild(preElement, element);
+    });
+    clonedWenyan.setAttribute("data-provider", "WenYan");
     return `${clonedWenyan.outerHTML.replace(/class="mjx-solid"/g, 'fill="none" stroke-width="70"')}`;
 }
 function extractDeclarations(ruleNode, resultMap) {

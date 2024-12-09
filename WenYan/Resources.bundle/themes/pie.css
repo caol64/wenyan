@@ -12,9 +12,8 @@
     --main-4: #f27f79;
     --main-5: #e6514e;
     --main-6: #da282a;
-    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
-    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+    --sans-serif-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --monospace-font: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 #wenyan {
     font-family: var(--sans-serif-font);
@@ -159,7 +158,7 @@
     table-layout: fixed;
     text-align: left;
     overflow: auto;
-    display: inline-block;
+    display: table;
     word-wrap: break-word;
     word-break: break-all;
 }
@@ -176,6 +175,7 @@
 #wenyan table th {
     font-weight: bold;
     color: var(--main-6);
+    background-color: var(--main-1);
 }
 #wenyan strong {
     padding: 0 1px;

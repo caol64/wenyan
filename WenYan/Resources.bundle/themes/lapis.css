@@ -11,9 +11,8 @@
     --source-color: #a8a8a9;
     --header-span-color: var(--primary-color);
     --block-bg-color: #f6f8fa;
-    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
-    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+    --sans-serif-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --monospace-font: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 #wenyan {
     color: var(--text-color);
@@ -129,6 +128,7 @@
     text-align: justify;
     overflow-x: auto;
     border-collapse: collapse;
+    margin: 1.4em auto;
     max-width: 100%;
     table-layout: fixed;
     text-align: left;
@@ -136,15 +136,8 @@
     word-wrap: break-word;
     word-break: break-all;
 }
-#wenyan tbody {
-    border: 0;
-}
-#wenyan table tr {
-    border: 0;
-    border-top: 1px solid #ccc;
-}
-#wenyan table tr th,
-#wenyan table tr td {
+#wenyan table th,
+#wenyan table td {
     border: 1px solid #d9dfe4;
     height: 40px;
     padding: 9px 12px;
@@ -153,10 +146,11 @@
     min-width: 60px;
     vertical-align: top;
 }
-#wenyan table tr th {
+#wenyan table th {
     text-align: center;
     font-weight: bold;
     color: var(--primary-color);
+    background: #f7f7f7;
 }
 #wenyan hr {
     margin-top: 20px;
