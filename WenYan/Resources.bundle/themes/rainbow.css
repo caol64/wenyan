@@ -138,6 +138,7 @@
     font-size: 0.9em;
 }
 #wenyan a {
+    word-wrap: break-word;
     color: rgb(31, 117, 255);
 }
 #wenyan img {

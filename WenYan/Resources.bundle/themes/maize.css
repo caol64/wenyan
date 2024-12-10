@@ -34,10 +34,15 @@
 }
 #wenyan h2::before {
     display: inline-block;
-    content: "✔";
-    font-weight: bold;
-    color: #ffb11b;
+    content: "";
+    width: 20px;
+    height: 20px;
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIj4KICAgIDxnPgogICAgICAgIDxwYXRoIGQ9Im0zMy40NTIgNjIuMTQyUzY2LjA2MyAxNC45MzcgOTAuNDU2IDEwLjI4M2wxLjQyOSAxLjcxNFM3Mi41MzIgMjkuNTgyIDU4LjEzMyA0OC41ODNDNDMuMDg0IDY4LjQ0MiAzNi4wNTggODkuOTQ3IDMxLjg4IDg5LjcxNWMtNS42ODEtLjQxLTEyLjQyOS0zNy43MTYtMjMuMjg3LTMzLjI4Ny0yLjI4Ni0uNTcxIDMuOTEyLTkuNjE0IDEyLjU3Mi03LjU3MiA1LjQzIDEuMjgxIDEyLjI4NyAxMy4yODYgMTIuMjg3IDEzLjI4NnoiIGZpbGw9IiNmZmIxMWIiIC8+CiAgICA8L2c+Cjwvc3ZnPg==);
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    background-position-y: 4px;
     margin-right: 4px;
+    vertical-align: text-top;
 }
 #wenyan h2 {
     font-size: 1.3em;
@@ -89,6 +94,7 @@
     overflow: auto;
 }
 #wenyan a {
+    word-wrap: break-word;
     text-decoration: none;
     font-weight: bold;
     color: #e49123;

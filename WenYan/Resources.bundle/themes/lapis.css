@@ -28,6 +28,7 @@
     color: var(--primary-color);
 }
 #wenyan a {
+    word-wrap: break-word;
     color: var(--primary-color);
 }
 #wenyan p {

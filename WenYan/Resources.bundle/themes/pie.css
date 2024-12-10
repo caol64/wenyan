@@ -31,6 +31,7 @@
     text-align: justify;
 }
 #wenyan a {
+    word-wrap: break-word;
     color: var(--main-6);
     text-decoration: none;
     border-bottom: 1px solid var(--main-6);

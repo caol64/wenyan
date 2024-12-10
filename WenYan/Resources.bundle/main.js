@@ -491,6 +491,12 @@ function buildPseudoSpan(beforeRresults) {
             if (svgMatch) {
                 const svgCode = decodeURIComponent(svgMatch[1]);
                 span.innerHTML = svgCode;
+            } else {
+                const base64SvgMatch = v.match(/data:image\/svg\+xml;base64,([^"'\)]*)["']?\)/);
+                if (base64SvgMatch) {
+                    const decodedString = atob(base64SvgMatch[1]);
+                    span.innerHTML = decodedString;
+                }
             }
             beforeRresults.delete(k);
         }
