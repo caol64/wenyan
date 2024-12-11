@@ -488,15 +488,19 @@ function buildPseudoSpan(beforeRresults) {
     for (const [k, v] of beforeRresults) {
         if (v.includes("url(")) {
             const svgMatch = v.match(/data:image\/svg\+xml;utf8,(.*<\/svg>)/);
+            const base64SvgMatch = v.match(/data:image\/svg\+xml;base64,([^"'\)]*)["']?\)/);
+            const httpMatch = v.match(/(?:"|')?(https?[^"'\)]*)(?:"|')?\)/);
             if (svgMatch) {
                 const svgCode = decodeURIComponent(svgMatch[1]);
                 span.innerHTML = svgCode;
-            } else {
-                const base64SvgMatch = v.match(/data:image\/svg\+xml;base64,([^"'\)]*)["']?\)/);
-                if (base64SvgMatch) {
-                    const decodedString = atob(base64SvgMatch[1]);
-                    span.innerHTML = decodedString;
-                }
+            } else if (base64SvgMatch) {
+                const decodedString = atob(base64SvgMatch[1]);
+                span.innerHTML = decodedString;
+            } else if (httpMatch) {
+                const img = document.createElement('img');
+                img.src = httpMatch[1];
+                img.setAttribute("style", "vertical-align: top;");
+                span.appendChild(img);
             }
             beforeRresults.delete(k);
         }
