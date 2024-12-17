@@ -140,11 +140,9 @@
 #wenyan table th,
 #wenyan table td {
     border: 1px solid #d9dfe4;
-    height: 40px;
     padding: 9px 12px;
     font-size: 0.75em;
     line-height: 22px;
-    min-width: 60px;
     vertical-align: top;
 }
 #wenyan table th {

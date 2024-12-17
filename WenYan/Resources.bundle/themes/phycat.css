@@ -1,0 +1,342 @@
+/*
+ *     Typora Theme - Phycat    /    Author - sumruler
+ *     https://github.com/sumruler/typora-theme-phycat
+ */
+
+:root {
+    /* 标题后小图标，借鉴自思源笔记主题——Savor */
+    --h1-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='24' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.8 29.714v0c-1.371 0-2.514-1.143-2.514-2.514v0c0-1.371 1.143-2.514 2.514-2.514v0c1.371 0 2.514 1.143 2.514 2.514v0c0.114 1.371-1.029 2.514-2.514 2.514z'/></svg>")
+        no-repeat center;
+    --h2-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='24' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286z'/></svg>")
+        no-repeat center;
+    --h3-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='28' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286z'/></svg>")
+        no-repeat center;
+    --h4-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='24' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 22.857c1.257 0 2.286-1.029 2.286-2.286s-1.029-2.286-2.286-2.286-2.286 1.029-2.286 2.286 1.029 2.286 2.286 2.286z'/></svg>")
+        no-repeat center;
+    --h5-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='24' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 22.857c1.257 0 2.286-1.029 2.286-2.286s-1.029-2.286-2.286-2.286-2.286 1.029-2.286 2.286 1.029 2.286 2.286 2.286zM4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 11.429c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286z'/></svg>")
+        no-repeat center;
+    --h6-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='24' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 11.429c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 16c1.257 0 2.286-1.029 2.286-2.286s-1.029-2.286-2.286-2.286-2.286 1.029-2.286 2.286 1.029 2.286 2.286 2.286z'/></svg>")
+        no-repeat center;
+
+    /* 是否开启网格背景？1 是；0 否 */
+    --bg-grid: 0;
+
+    /* 主题颜色 */
+
+    --head-title-color: #3db8bf;
+    /* 标题主色 */
+    --head-title-h2-color: #fff;
+    --head-title-h2-background: linear-gradient(to right, #3db8d3, #80f7c4);
+    /* 二级标题主色，因为二级标题是背景色的，所以单独设置 */
+
+    --element-color: #3db8bf;
+    /* 元素主色 */
+    --element-color-deep: #089ba3;
+    /* 元素深色 */
+    --element-color-shallow: #7aeaf0;
+    /* 元素浅色 */
+    --element-color-so-shallow: #7aeaf077;
+    /* 元素很浅色 */
+    --element-color-soo-shallow: #7aeaf018;
+    /* 元素非常浅色 */
+
+    --element-color-linecode: #089ba3;
+    /* 行内代码文字色 */
+    --element-color-linecode-background: #7aeaf018;
+    /* 行内代码背景色 */
+
+    /* 程序本体UI */
+    --appui-color: #3db8bf;
+    /* 程序UI主题色 */
+    --appui-color-icon: #3db8bf;
+    /* 程序UI图标颜色 */
+    --appui-color-text: #333;
+    /* 程序UI文字色 */
+    --primary-color: #3db8bf;
+    --sans-serif-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    --monospace-font: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+#wenyan {
+    font-size: 16px;
+    font-family: var(--sans-serif-font);
+    margin: 0 auto;
+    padding: 15px;
+    line-height: 1.75;
+    color: #000;
+    letter-spacing: 1.1px;
+    word-break: break-word;
+    word-wrap: break-word;
+    text-align: left;
+}
+#wenyan p {
+    color: #333;
+    margin: 10px 10px;
+    word-spacing: 2px;
+}
+#wenyan h3::after,
+#wenyan h4::after,
+#wenyan h5::after,
+#wenyan h6::after {
+    content: '';
+    display: inline-block;
+    margin-left: 0.2em;
+    height: 2em;
+    width: 1.2em;
+    vertical-align: middle;
+}
+#wenyan h3::after {
+    content: '';
+    background: var(--h3-r-graphic);
+    background-position-y: 2px;
+}
+#wenyan h4::after {
+    content: '';
+    background: var(--h4-r-graphic);
+    background-position-y: 2px;
+}
+#wenyan h5::after {
+    content: '';
+    background: var(--h5-r-graphic);
+    background-position-y: 2px;
+}
+#wenyan h6::after {
+    content: '';
+    background: var(--h6-r-graphic);
+    background-position-y: 2px;
+}
+#wenyan h1 {
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.4em;
+}
+#wenyan h2 {
+    color: var(--head-title-h2-color);
+    font-size: 1.4em;
+    line-height: 1.6;
+    width: fit-content;
+    font-weight: bold;
+    margin: 20px 0;
+    padding: 1px 12.5px;
+    border-radius: 4px;
+    background: var(--head-title-h2-background);
+    background-size: 200% 100%;
+    background-position: 0% 0%;
+    transition: all ease-in-out 0.1s;
+}
+#wenyan h3 {
+    width: fit-content;
+    margin: 20px 0;
+    font-size: 1.3em;
+    text-align: left;
+    padding-left: 10px;
+    border-left: 5px solid var(--head-title-color);
+}
+#wenyan h3 span {
+    border-bottom: 2px hidden var(--head-title-color);
+}
+#wenyan h4 {
+    margin: 20px 0;
+    font-size: 1.15em;
+    text-align: left;
+}
+#wenyan h4::before {
+    content: '';
+    margin-right: 7px;
+    display: inline-block;
+    background-color: var(--head-title-color);
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    border: var(--head-title-color) 1px solid;
+    vertical-align: middle;
+}
+#wenyan h5 {
+    margin: 23px 0;
+    font-size: 1.1em;
+    text-align: left;
+}
+#wenyan h5::before {
+    content: '';
+    margin-right: 7px;
+    display: inline-block;
+    background-color: #ffffff;
+    width: 10px;
+    height: 10px;
+    border-radius: 100%;
+    border: var(--head-title-color) 2px solid;
+    vertical-align: middle;
+}
+#wenyan h6 {
+    margin: 23px 0;
+    font-size: 1.1em;
+    text-align: left;
+}
+#wenyan h6::before {
+    content: '-';
+    color: var(--head-title-color);
+    margin-right: 7px;
+    display: inline-block;
+    vertical-align: middle;
+}
+#wenyan ul,
+#wenyan ol {
+    margin-top: 0px;
+    margin-left: 16px;
+    margin-bottom: 8px;
+    padding-left: 13px;
+}
+#wenyan em {
+    padding: 0 3px 0 0;
+}
+#wenyan ul {
+    list-style-type: disc;
+}
+#wenyan ul ul {
+    list-style-type: circle;
+}
+#wenyan ul ul ul {
+    list-style-type: square;
+}
+#wenyan ol {
+    list-style-type: decimal;
+}
+#wenyan ol ol {
+    list-style-type: lower-alpha;
+}
+#wenyan ol ol ol {
+    list-style-type: lower-roman;
+}
+#wenyan li::before {
+    content: '';
+    height: calc(100% - 50px);
+    top: 35px;
+    position: absolute;
+    border-left: 0.5px solid var(--element-color);
+    left: -14.5px;
+}
+#wenyan blockquote {
+    margin-left: 12px;
+    padding: 12px;
+    background: var(--element-color-soo-shallow);
+    border: 0px solid var(--element-color);
+    border-left-color: var(--element-color);
+    border-left-width: 4px;
+    border-radius: 4px;
+    line-height: 26px;
+}
+#wenyan blockquote p {
+    color: #000;
+}
+#wenyan a {
+    color: #000;
+    font-weight: bolder;
+    text-decoration: none;
+    border-bottom: 1px solid #3db8bf;
+}
+#wenyan a::before {
+    content: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'%3E%3Cpath  d='M477.934459 330.486594A50.844091 50.844091 0 0 1 406.752731 258.796425L512 152.532274a254.220457 254.220457 0 0 1 359.467726 359.467726L762.66137 618.772592a50.844091 50.844091 0 1 1-71.690168-71.690169l106.772591-106.772592a152.532274 152.532274 0 0 0-215.578947-215.578947z m70.164846 361.501489A50.844091 50.844091 0 1 1 619.789474 762.66137l-107.281033 107.281033A254.220457 254.220457 0 0 1 152.532274 512L259.813307 406.752731a50.844091 50.844091 0 1 1 72.19861 69.656405l-107.789474 107.281033a152.532274 152.532274 0 0 0 215.578947 215.578947z m-126.601788-16.77855a50.844091 50.844091 0 1 1-71.690168-71.690169l251.678252-251.678252a50.844091 50.844091 0 0 1 71.690169 71.690169z'/%3E%3C/svg%3E");
+    color: #f68800;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    margin-right: 0.2em;
+    vertical-align: sub;
+}
+#wenyan strong {
+    color: #000;
+    font-weight: bold;
+}
+#wenyan em {
+    font-style: italic;
+    color: #000;
+}
+#wenyan del {
+    text-decoration-color: var(--element-color-deep);
+}
+#wenyan hr {
+    height: 1px;
+    padding: 0;
+    border: none;
+    border-top: 2px solid var(--head-title-color);
+}
+#wenyan img {
+    max-width: 100%;
+    border-radius: 6px;
+    margin: 20px auto;
+    object-fit: contain;
+}
+#wenyan p code {
+    padding: 3px 3px 1px;
+    color: var(--element-color-linecode);
+    background: var(--element-color-linecode-background);
+    border-radius: 3px;
+    font-family: var(--monospace-font);
+    letter-spacing: 0.5px;
+}
+#wenyan li code {
+    color: var(--element-color-linecode);
+}
+#wenyan pre {
+    border-radius: 5px;
+    font-size: 0.8em;
+    line-height: 2;
+    margin: 1em 0.5em;
+    padding: 1em;
+    background-color: #afb8c133;
+}
+#wenyan pre code {
+    font-family: var(--monospace-font);
+    display: block;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0;
+}
+#wenyan table {
+    border-collapse: collapse;
+    margin: 1.4em auto;
+    max-width: 100%;
+    table-layout: fixed;
+    text-align: left;
+    overflow: auto;
+    display: table;
+    word-wrap: break-word;
+    word-break: break-all;
+}
+#wenyan table thead {
+    border-top: 1px solid #dedddd;
+    border-bottom: 1px solid #dedddd;
+}
+#wenyan table tbody {
+    border-bottom: 1px solid #dedddd;
+}
+#wenyan table td,
+#wenyan table th {
+    font-size: 0.75em;
+    padding: 9px 12px;
+    line-height: 22px;
+    color: #222;
+    vertical-align: top;
+    border: none;
+}
+#wenyan table th {
+    font-weight: bold;
+    background-color: #fafafa;
+}
+#wenyan .footnote {
+    color: var(--primary-color);
+}
+#wenyan #footnotes p {
+    display: flex;
+    margin: 0;
+    font-size: 0.9em;
+}
+#wenyan .footnote-num {
+    display: inline;
+    width: 10%;
+}
+#wenyan .footnote-txt {
+    display: inline;
+    width: 90%;
+    word-wrap: break-word;
+    word-break: break-all;
+}

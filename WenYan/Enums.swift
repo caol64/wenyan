@@ -17,6 +17,7 @@ enum ThemeStyle: String {
     case pie = "themes/pie.css"
     case maize = "themes/maize.css"
     case purple = "themes/purple.css"
+    case phycat = "themes/phycat.css"
     
     var name: String {
         switch self {
@@ -31,6 +32,7 @@ enum ThemeStyle: String {
         case .pie: "Pie"
         case .maize: "Maize"
         case .purple: "Purple"
+        case .phycat: "物理猫-薄荷"
         }
     }
     
@@ -47,6 +49,7 @@ enum ThemeStyle: String {
         case .pie: "kevinzhao2233"
         case .maize: "BEATREE"
         case .purple: "hliu202"
+        case .phycat: "sumruler"
         }
     }
 }
@@ -74,7 +77,7 @@ enum Platform: String, CaseIterable, Identifiable {
     var themes: [ThemeStyle] {
         switch self {
         case .gzh:
-            return [.gzhDefault, .orangeHeart, .rainbow, .lapis, .pie, .maize, .purple]
+            return [.gzhDefault, .orangeHeart, .rainbow, .lapis, .pie, .maize, .purple, .phycat]
         case .zhihu:
             return [.zhihuDefault]
         case .toutiao:

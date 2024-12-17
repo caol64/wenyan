@@ -13,15 +13,25 @@ struct ContentView: View {
     @EnvironmentObject private var markdownViewModel: MarkdownViewModel
     @EnvironmentObject private var htmlViewModel: HtmlViewModel
     @State private var isMasking = false
+    private var screenResolution: CGSize? = {
+        guard let mainScreen = NSScreen.main else { return nil }
+        let screenSize = mainScreen.frame.size
+        let resolution = CGSize(width: screenSize.width, height: screenSize.height)
+        return resolution
+    }()
+    @State private var minWidth: CGFloat = 570
+    @State private var idealWidth: CGFloat = 680
+    @State private var minHeight: CGFloat = 645
+    @State private var idealHeight: CGFloat = 800
     
     var body: some View {
         VStack {
             ZStack {
                 HStack {
                     MarkdownView()
-                        .frame(minWidth: 680, idealWidth: 680, minHeight: 800, idealHeight: 800)
+                        .frame(minWidth: minWidth, idealWidth: idealWidth, minHeight: minHeight, idealHeight: idealHeight)
                     HtmlView()
-                        .frame(minWidth: 680, idealWidth: 680, minHeight: 800, idealHeight: 800)
+                        .frame(minWidth: minWidth, idealWidth: idealWidth, minHeight: minHeight, idealHeight: idealHeight)
                         .overlay(alignment: .topTrailing) {
                             ToolButtonPopup()
                         }
@@ -40,6 +50,16 @@ struct ContentView: View {
                         }
                 }
                 .background(.white)
+                .onAppear() {
+                    if let screenResolution = screenResolution {
+                        if screenResolution.width > 1360 {
+                            minWidth = 680
+                        }
+                        if screenResolution.height > 940 {
+                            minHeight = 800
+                        }
+                    }
+                }
                 
                 if #available(macOS 13.0, *) {
                     if isMasking {
@@ -352,7 +372,7 @@ struct ContentView: View {
         }
         
         private func calcHeight() {
-            menuHeight = 240 + CGFloat(min(htmlViewModel.customThemes.count, 2) * 28)
+            menuHeight = 265 + CGFloat(min(htmlViewModel.customThemes.count, 2) * 28)
         }
         
     }

@@ -79,10 +79,8 @@
     text-align: center;
     border: 0.13em dashed var(--table-border-color);
     padding: 0.5em;
-    height: 40px;
     padding: 9px 12px;
     line-height: 22px;
-    min-width: 60px;
     vertical-align: top;
 }
 #wenyan table tr:nth-child(even) {

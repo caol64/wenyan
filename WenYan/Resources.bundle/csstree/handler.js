@@ -299,11 +299,9 @@ function parseCss(css, compatibilityMode) {
         const defaultCss = `
 #wenyan table td {
     font-size: 0.75em;
-    height: 40px;
     padding: 9px 12px;
     line-height: 22px;
     color: #222;
-    min-width: 60px;
     border: 1px solid #d8d8d8;
     vertical-align: top;
 }`;
@@ -321,11 +319,9 @@ function parseCss(css, compatibilityMode) {
         const defaultCss = `
 #wenyan table th {
     font-size: 0.75em;
-    height: 40px;
     padding: 9px 12px;
     line-height: 22px;
     color: #222;
-    min-width: 60px;
     border: 1px solid #d8d8d8;
     vertical-align: top;
     font-weight: bold;

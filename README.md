@@ -31,6 +31,7 @@
   - [Pie](https://github.com/kevinzhao2233/typora-theme-pie)
   - [Maize](https://github.com/BEATREE/typora-maize-theme)
   - [Purple](https://github.com/hliu202/typora-purple-theme)
+  - [物理猫-薄荷](https://github.com/sumruler/typora-theme-phycat)
 - 自定义主题
   - 支持自定义样式
   - 支持导入现成的主题
