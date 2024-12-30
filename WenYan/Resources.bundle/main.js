@@ -118,10 +118,14 @@ function getContent() {
     const clonedWenyan = wenyan.cloneNode(true);
     const elements = clonedWenyan.querySelectorAll("mjx-container");
     elements.forEach(element => {
-        const math = element.getAttribute("math");
+        const svg = element.firstChild;
         const parent = element.parentElement;
         element.remove();
-        parent.innerHTML = math;
+        let img = document.createElement("img");
+        const encodedSVG = encodeURIComponent(svg.outerHTML);
+        const dataURL = `data:image/svg+xml,${encodedSVG}`;
+        img.setAttribute("src", dataURL);
+        parent.appendChild(img);
     });
     return clonedWenyan.outerHTML;
 }
