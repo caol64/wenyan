@@ -42,10 +42,20 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
     @Published var longImageData: DataFile?
     var hasLongImageData: Binding<Bool> {
         Binding {
-            return self.longImageData != nil
-        } set: { hasLongImageData in
-            if !hasLongImageData {
+            self.longImageData != nil
+        } set: {
+            if !$0 {
                 self.longImageData = nil
+            }
+        }
+    }
+    @Published var pdfData: DataFile?
+    var hasPdfData: Binding<Bool> {
+        Binding {
+            self.pdfData != nil
+        } set: {
+            if !$0 {
+                self.pdfData = nil
             }
         }
     }
@@ -324,6 +334,33 @@ extension HtmlViewModel {
                     }
                 }
                 
+                webView.frame = originalFrame
+            } catch {
+                self.appState.appError = AppError.bizError(description: error.localizedDescription)
+            }
+        }
+    }
+    
+    func exportPDF() {
+        guard let webView = self.webView else {
+            return
+        }
+        getScrollFrame { result in
+            do {
+                guard let body = try result.get() as? [String: CGFloat],
+                      let height = body["height"]
+                else {
+                    return
+                }
+                
+                let originalFrame = webView.frame
+                let newFrame = NSRect(x: 0, y: 0, width: originalFrame.width, height: height)
+                webView.frame = newFrame
+                webView.exportPDF() { pdfData, error in
+                    if let pdfData = pdfData {
+                        self.pdfData = DataFile(data: pdfData)
+                    }
+                }
                 webView.frame = originalFrame
             } catch {
                 self.appState.appError = AppError.bizError(description: error.localizedDescription)

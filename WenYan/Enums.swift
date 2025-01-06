@@ -5,6 +5,10 @@
 //  Created by Lei Cao on 2024/11/27.
 //
 
+enum AppConstants {
+    static let defaultAppName = "文颜"
+}
+
 enum ThemeStyle: String {
     case gzhDefault = "themes/gzh_default.css"
     case toutiaoDefault = "themes/toutiao_default.css"

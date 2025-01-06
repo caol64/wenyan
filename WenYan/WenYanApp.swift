@@ -38,7 +38,7 @@ struct WenYanApp: App {
         }
         .commands {
             CommandGroup(replacing: .appInfo) {
-                Button("关于文颜") {
+                Button("关于\(getAppName())") {
                     NSApplication.shared.orderFrontStandardAboutPanel(
                         options: [
                             NSApplication.AboutPanelOptionKey.version: ""
@@ -48,7 +48,7 @@ struct WenYanApp: App {
             }
             CommandGroup(replacing: .help) {
                 if let helpURL = getAppinfo(for: "HelpUrl"), let url = URL(string: helpURL) {
-                    Link("文颜帮助", destination: url)
+                    Link("\(getAppName())帮助", destination: url)
                 }
             }
             CommandGroup(after: .newItem) {
@@ -69,6 +69,12 @@ struct WenYanApp: App {
                         file.stopAccessingSecurityScopedResource()
                     case .failure(let error):
                         appState.appError = AppError.bizError(description: error.localizedDescription)
+                    }
+                }
+                Button("打开示例文本") {
+                    Task {
+                        markdownViewModel.loadDefaultArticle()
+                        markdownViewModel.setContent()
                     }
                 }
             }

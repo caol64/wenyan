@@ -73,7 +73,7 @@ func callJavascript(webView: WKWebView?, javascriptString: String, callback: Jav
 }
 
 struct DataFile: FileDocument {
-    static var readableContentTypes: [UTType] { [.jpeg] }
+    static var readableContentTypes: [UTType] { [.jpeg, .pdf] }
     var data: Data
     
     init(data: Data) {
@@ -142,6 +142,10 @@ func getAppinfo(for key: String) -> String? {
     return Bundle.main.infoDictionary?[key] as? String
 }
 
+func getAppName() -> String {
+    return getAppinfo(for: "CFBundleDisplayName") ?? AppConstants.defaultAppName
+}
+
 extension UTType {
     static var md: UTType {
         UTType(importedAs: "com.yztech.WenYan.markdown")
@@ -158,6 +162,21 @@ extension Link {
                 NSCursor.pointingHand.set()
             } else {
                 NSCursor.arrow.set()
+            }
+        }
+    }
+}
+
+// 扩展 WKWebView 添加 PDF 导出支持
+extension WKWebView {
+    func exportPDF(completion: @escaping (Data?, Error?) -> Void) {
+        let pdfConfiguration = WKPDFConfiguration()
+        self.createPDF(configuration: pdfConfiguration) { result in
+            switch result {
+            case .success(let pdfData):
+                completion(pdfData, nil)
+            case .failure(let error):
+                completion(nil, error)
             }
         }
     }
