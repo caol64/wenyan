@@ -264,56 +264,58 @@ struct ContentView: View {
                     }
                     .frame(height: 24)
                 }
-                Button(action: {
-                    htmlViewModel.exportLongImage()
-                }) {
-                    HStack {
-                        Image(systemName: "photo")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 16, height: 16)
-                        Text("长图")
-                            .font(.system(size: 14))
+                if htmlViewModel.platform == .gzh {
+                    Button(action: {
+                        htmlViewModel.exportLongImage()
+                    }) {
+                        HStack {
+                            Image(systemName: "photo")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 16, height: 16)
+                            Text("长图")
+                                .font(.system(size: 14))
+                        }
+                        .frame(height: 24)
                     }
-                    .frame(height: 24)
-                }
-                .fileExporter(
-                    isPresented: htmlViewModel.hasLongImageData,
-                    document: htmlViewModel.longImageData,
-                    contentType: .jpeg,
-                    defaultFilename: "out"
-                ) { result in
-                    switch result {
-                    case .success(let url):
-                        print("File saved to \(url)")
-                    case .failure(let error):
-                        appState.appError = AppError.bizError(description: error.localizedDescription)
+                    .fileExporter(
+                        isPresented: htmlViewModel.hasLongImageData,
+                        document: htmlViewModel.longImageData,
+                        contentType: .jpeg,
+                        defaultFilename: "out"
+                    ) { result in
+                        switch result {
+                        case .success(let url):
+                            print("File saved to \(url)")
+                        case .failure(let error):
+                            appState.appError = AppError.bizError(description: error.localizedDescription)
+                        }
                     }
-                }
-                Button(action: {
-                    htmlViewModel.exportPDF()
-                }) {
-                    HStack {
-                        Image(systemName: "text.document")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 16, height: 16)
-                        Text("PDF")
-                            .font(.system(size: 14))
+                    Button(action: {
+                        htmlViewModel.exportPDF()
+                    }) {
+                        HStack {
+                            Image(systemName: "text.document")
+                                .resizable()
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 16, height: 16)
+                            Text("PDF")
+                                .font(.system(size: 14))
+                        }
+                        .frame(height: 24)
                     }
-                    .frame(height: 24)
-                }
-                .fileExporter(
-                    isPresented: htmlViewModel.hasPdfData,
-                    document: htmlViewModel.pdfData,
-                    contentType: .pdf,
-                    defaultFilename: "out"
-                ) { result in
-                    switch result {
-                    case .success(let url):
-                        print("File saved to \(url)")
-                    case .failure(let error):
-                        appState.appError = AppError.bizError(description: error.localizedDescription)
+                    .fileExporter(
+                        isPresented: htmlViewModel.hasPdfData,
+                        document: htmlViewModel.pdfData,
+                        contentType: .pdf,
+                        defaultFilename: "out"
+                    ) { result in
+                        switch result {
+                        case .success(let url):
+                            print("File saved to \(url)")
+                        case .failure(let error):
+                            appState.appError = AppError.bizError(description: error.localizedDescription)
+                        }
                     }
                 }
                 Button(action: {
