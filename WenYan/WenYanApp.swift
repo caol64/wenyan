@@ -48,7 +48,7 @@ struct WenYanApp: App {
             }
             CommandGroup(replacing: .help) {
                 if let helpURL = getAppinfo(for: "HelpUrl"), let url = URL(string: helpURL) {
-                    Link("\(getAppName())帮助", destination: url)
+                    Link("\(getAppName())使用帮助", destination: url)
                 }
             }
             CommandGroup(after: .newItem) {
