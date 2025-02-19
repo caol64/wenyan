@@ -16,6 +16,8 @@ struct WebkitStatus {
     static let contentChangeHandler = "contentChangeHandler"
     static let scrollHandler = "scrollHandler"
     static let clickHandler = "clickHandler"
+    static let errorHandler = "errorHandler"
+    static let uploadHandler = "uploadHandler"
 }
 
 // Helper to convert Swift string to JavaScript string literal

@@ -167,7 +167,7 @@ function parseCss(css, compatibilityMode) {
     csstree.walk(ast, {
         visit: 'Rule',
         leave: (node, item, list) => {
-            if (node.block.children.isEmpty || node.prelude.children.isEmpty) {
+            if (node.block.children.isEmpty || !node.prelude.children || node.prelude.children.isEmpty) {
                 list.remove(item);
                 return;
             }

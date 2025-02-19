@@ -80,16 +80,11 @@ enum Platform: String, CaseIterable, Identifiable {
     
     var themes: [ThemeStyle] {
         switch self {
-        case .gzh:
-            return [.gzhDefault, .orangeHeart, .rainbow, .lapis, .pie, .maize, .purple, .phycat]
-        case .zhihu:
-            return [.zhihuDefault]
-        case .toutiao:
-            return [.toutiaoDefault]
-        case .juejin:
-            return [.juejinDefault]
-        case .medium:
-            return [.mediumDefault]
+        case .gzh: [.gzhDefault, .orangeHeart, .rainbow, .lapis, .pie, .maize, .purple, .phycat]
+        case .zhihu: [.zhihuDefault]
+        case .toutiao: [.toutiaoDefault]
+        case .juejin: [.juejinDefault]
+        case .medium: [.mediumDefault]
         }
     }
 }
@@ -102,4 +97,18 @@ enum ThemeType {
 enum EditorMode {
     case normal
     case developer
+}
+
+enum ImageHosts: String, CaseIterable, Identifiable {
+    case gzh = "公众号图床"
+//    case cos = "腾讯云COS"
+//    case oss = "阿里云OSS"
+    
+    var id: String {
+        switch self {
+        case .gzh: "gzh"
+//        case .cos: "cos"
+//        case .oss: "oss"
+        }
+    }
 }

@@ -65,7 +65,7 @@ struct WenYanApp: App {
                         let file = files[0]
                         let gotAccess = file.startAccessingSecurityScopedResource()
                         if !gotAccess { return }
-                        markdownViewModel.dragArticle(url: file)
+                        markdownViewModel.openArticle(url: file)
                         file.stopAccessingSecurityScopedResource()
                     case .failure(let error):
                         appState.appError = AppError.bizError(description: error.localizedDescription)
@@ -78,6 +78,10 @@ struct WenYanApp: App {
                     }
                 }
             }
+        }
+        
+        Settings {
+            SettingsView()
         }
     }
     

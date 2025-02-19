@@ -46,6 +46,8 @@ class MarkdownViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler,
         contentController.add(self, name: WebkitStatus.contentChangeHandler)
         contentController.add(self, name: WebkitStatus.scrollHandler)
         contentController.add(self, name: WebkitStatus.clickHandler)
+        contentController.add(self, name: WebkitStatus.errorHandler)
+        contentController.add(self, name: WebkitStatus.uploadHandler)
         webView.setValue(true, forKey: "drawsTransparentBackground")
         webView.allowsMagnification = false
         self.webView = webView
@@ -82,6 +84,22 @@ class MarkdownViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler,
             if appState.showThemeList {
                 appState.showThemeList = false
             }
+        } else if message.name == WebkitStatus.errorHandler {
+            let content = (message.body as? String) ?? ""
+            appState.appError = AppError.bizError(description: content)
+        } else if message.name == WebkitStatus.uploadHandler {
+            guard let body = message.body as? [String: Any],
+                  let name = body["name"] as? String,
+                  let type = body["type"] as? String,
+                  let dataArray = body["data"] as? [UInt8] else {
+                appState.appError = AppError.bizError(description: "未找到需上传的文件")
+                onFileUploadFailed()
+                return
+            }
+            let fileData = Data(dataArray)
+            Task {
+                await upload(fileData: fileData, fileName: name, mimeType: type)
+            }
         }
     }
 }
@@ -112,6 +130,14 @@ extension MarkdownViewModel {
         callJavascript(javascriptString: "scroll(\(scrollFactor));")
     }
     
+    func onFileUploadComplete(_ url: String) {
+        callJavascript(javascriptString: "window.onFileUploadComplete(\(url.toJavaScriptString()));")
+    }
+    
+    func onFileUploadFailed() {
+        callJavascript(javascriptString: "window.onFileUploadComplete();")
+    }
+    
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {
         WenYan.callJavascript(webView: webView, javascriptString: javascriptString, callback: callback)
     }
@@ -132,7 +158,7 @@ extension MarkdownViewModel {
         }
     }
     
-    func dragArticle(url: URL) {
+    func openArticle(url: URL) {
         let fileExtension = url.pathExtension.lowercased()
         if fileExtension == "md" || fileExtension == "markdown" {
             do {
@@ -140,6 +166,38 @@ extension MarkdownViewModel {
                 setContent()
             } catch {
                 self.appState.appError = AppError.bizError(description: error.localizedDescription)
+            }
+        }
+    }
+    
+    func upload(fileData: Data, fileName: String, mimeType: String) async {
+        let ebabledImageHost = UserDefaults.standard.string(forKey: "ebabledImageHost")
+        guard let enabled = ebabledImageHost, enabled != "" else {
+            appState.appError = AppError.bizError(description: "未启用图床")
+            onFileUploadFailed()
+            return
+        }
+        if enabled == ImageHosts.gzh.id {
+            guard let savedData = UserDefaults.standard.data(forKey: "gzhImageHost"),
+                  let gzhImageHost = try? JSONDecoder().decode(GzhImageHost.self, from: savedData) else {
+                appState.appError = AppError.bizError(description: "图床未配置")
+                onFileUploadFailed()
+                return
+            }
+            if let uploader = UploaderFactory.createUploader(config: gzhImageHost) {
+                do {
+                    if let url = try await uploader.upload(fileData: fileData, fileName: fileName, mimeType: mimeType) {
+                        onFileUploadComplete(url.replacingOccurrences(of: "http://", with: "https://"))
+                    } else {
+                        onFileUploadFailed()
+                    }
+                } catch {
+                    self.appState.appError = AppError.bizError(description: error.localizedDescription)
+                    onFileUploadFailed()
+                }
+            } else {
+                appState.appError = AppError.bizError(description: "图床配置错误")
+                onFileUploadFailed()
             }
         }
     }

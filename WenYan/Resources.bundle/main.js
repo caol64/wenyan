@@ -171,26 +171,28 @@ function getContentForGzh() {
         visit: 'Rule',
         enter(node, item, list) {
             const selectorList = node.prelude.children;
-            selectorList.forEach((selectorNode) => {
-                const selector = csstree.generate(selectorNode);
-                // console.log(selector);
-                
-                const declarations = node.block.children.toArray();
-                if (selector === "#wenyan") {
-                    declarations.forEach((decl) => {
-                        const value = csstree.generate(decl.value);
-                        clonedWenyan.style[decl.property] = value;
-                    });
-                } else {
-                    const elements = clonedWenyan.querySelectorAll(selector);
-                    elements.forEach((element) => {
+            if (selectorList) {
+                selectorList.forEach((selectorNode) => {
+                    const selector = csstree.generate(selectorNode);
+                    // console.log(selector);
+                    
+                    const declarations = node.block.children.toArray();
+                    if (selector === "#wenyan") {
                         declarations.forEach((decl) => {
                             const value = csstree.generate(decl.value);
-                            element.style[decl.property] = value;
+                            clonedWenyan.style[decl.property] = value;
                         });
-                    });
-                }
-            });
+                    } else {
+                        const elements = clonedWenyan.querySelectorAll(selector);
+                        elements.forEach((element) => {
+                            declarations.forEach((decl) => {
+                                const value = csstree.generate(decl.value);
+                                element.style[decl.property] = value;
+                            });
+                        });
+                    }
+                });
+            }
         }
     });
     
@@ -223,7 +225,7 @@ function getContentForGzh() {
         });
     });
     // 公众号不支持css伪元素，将伪元素样式提取出来拼接成一个span
-    elements = clonedWenyan.querySelectorAll('h1, h2, h3, h4, h5, h6, blockquote');
+    elements = clonedWenyan.querySelectorAll('h1, h2, h3, h4, h5, h6, blockquote, pre');
     elements.forEach(element => {
         const afterResults = new Map();
         const beforeResults = new Map();

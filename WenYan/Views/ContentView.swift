@@ -12,16 +12,15 @@ struct ContentView: View {
     @EnvironmentObject private var appState: AppState
     @EnvironmentObject private var markdownViewModel: MarkdownViewModel
     @EnvironmentObject private var htmlViewModel: HtmlViewModel
-    @State private var isMasking = false
     private var screenResolution: CGSize? = {
         guard let mainScreen = NSScreen.main else { return nil }
         let screenSize = mainScreen.frame.size
         let resolution = CGSize(width: screenSize.width, height: screenSize.height)
         return resolution
     }()
-    @State private var minWidth: CGFloat = 570
+    @State private var minWidth: CGFloat = 680
     @State private var idealWidth: CGFloat = 680
-    @State private var minHeight: CGFloat = 645
+    @State private var minHeight: CGFloat = 800
     @State private var idealHeight: CGFloat = 800
     
     var body: some View {
@@ -52,42 +51,12 @@ struct ContentView: View {
                 .background(.white)
                 .onAppear() {
                     if let screenResolution = screenResolution {
-                        if screenResolution.width > 1360 {
-                            minWidth = 680
+                        if screenResolution.width < 1360 {
+                            minWidth = 570
                         }
-                        if screenResolution.height > 940 {
-                            minHeight = 800
+                        if screenResolution.height < 940 {
+                            minHeight = 645
                         }
-                    }
-                }
-                
-                if #available(macOS 13.0, *) {
-                    if isMasking {
-                        Color.black.opacity(0)
-                            .background(
-                                Rectangle()
-                                    .fill(Color.clear)
-                                    .contentShape(Rectangle())
-                                    .dropDestination(for: URL.self) { items, _ in
-                                        isMasking = false
-                                        markdownViewModel.dragArticle(url: items[0])
-                                        return true
-                                    }
-                            )
-                            .zIndex(1)
-                    }
-                }
-            }
-        }
-        .onHover { hovering in
-            if #available(macOS 13.0, *) {
-                if hovering {
-                    withAnimation {
-                        isMasking = NSEvent.pressedMouseButtons > 0
-                    }
-                } else {
-                    withAnimation {
-                        isMasking = true
                     }
                 }
             }
