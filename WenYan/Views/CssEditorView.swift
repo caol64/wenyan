@@ -104,6 +104,18 @@ extension CssEditorViewModel {
         callJavascript(javascriptString: "loadCss(\(css.toJavaScriptString()));")
     }
     
+    func showHideOverlay(_ showHelpBubble: Bool) {
+        showHelpBubble ? showOverlay() : hideOverlay()
+    }
+    
+    func showOverlay() {
+        callJavascript(javascriptString: "showOverlay();")
+    }
+    
+    func hideOverlay() {
+        callJavascript(javascriptString: "hideOverlay();")
+    }
+    
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {
         WenYan.callJavascript(webView: webView, javascriptString: javascriptString, callback: callback)
     }

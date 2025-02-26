@@ -3,19 +3,19 @@
  *     https://github.com/sumruler/typora-theme-phycat
  */
 
-:root {
+ :root {
     /* 标题后小图标，借鉴自思源笔记主题——Savor */
-    --h1-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='24' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.8 29.714v0c-1.371 0-2.514-1.143-2.514-2.514v0c0-1.371 1.143-2.514 2.514-2.514v0c1.371 0 2.514 1.143 2.514 2.514v0c0.114 1.371-1.029 2.514-2.514 2.514z'/></svg>")
+    --h1-r-graphic: url("https://cdn.phycat.cn/img/mdicon/green/h1_icon.svg")
         no-repeat center;
-    --h2-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='24' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286z'/></svg>")
+    --h2-r-graphic: url("https://cdn.phycat.cn/img/mdicon/green/h2_icon.svg")
         no-repeat center;
-    --h3-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='28' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286z'/></svg>")
+    --h3-r-graphic: url("https://cdn.phycat.cn/img/mdicon/green/h3_icon.svg")
         no-repeat center;
-    --h4-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='24' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 22.857c1.257 0 2.286-1.029 2.286-2.286s-1.029-2.286-2.286-2.286-2.286 1.029-2.286 2.286 1.029 2.286 2.286 2.286z'/></svg>")
+    --h4-r-graphic: url("https://cdn.phycat.cn/img/mdicon/green/h4_icon.svg")
         no-repeat center;
-    --h5-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='24' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 22.857c1.257 0 2.286-1.029 2.286-2.286s-1.029-2.286-2.286-2.286-2.286 1.029-2.286 2.286 1.029 2.286 2.286 2.286zM4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 11.429c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286z'/></svg>")
+    --h5-r-graphic: url("https://cdn.phycat.cn/img/mdicon/green/h5_icon.svg")
         no-repeat center;
-    --h6-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='24' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 11.429c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 16c1.257 0 2.286-1.029 2.286-2.286s-1.029-2.286-2.286-2.286-2.286 1.029-2.286 2.286 1.029 2.286 2.286 2.286z'/></svg>")
+    --h6-r-graphic: url("https://cdn.phycat.cn/img/mdicon/green/h6_icon.svg")
         no-repeat center;
 
     /* 是否开启网格背景？1 是；0 否 */
@@ -44,21 +44,12 @@
     /* 行内代码文字色 */
     --element-color-linecode-background: #7aeaf018;
     /* 行内代码背景色 */
-
-    /* 程序本体UI */
-    --appui-color: #3db8bf;
-    /* 程序UI主题色 */
-    --appui-color-icon: #3db8bf;
-    /* 程序UI图标颜色 */
-    --appui-color-text: #333;
-    /* 程序UI文字色 */
-    --primary-color: #3db8bf;
-    --sans-serif-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     --monospace-font: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+    --sans-serif-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 #wenyan {
-    font-size: 16px;
-    font-family: var(--sans-serif-font);
+    font-size: 14px;
+    font-family:var(--sans-serif-font);
     margin: 0 auto;
     padding: 15px;
     line-height: 1.75;
@@ -67,8 +58,19 @@
     word-break: break-word;
     word-wrap: break-word;
     text-align: left;
+    background-image: linear-gradient(90deg,
+    rgba(50, 0, 0, 0.05) calc(3% * var(--bg-grid)),
+    rgba(0, 0, 0, 0) calc(3% * var(--bg-grid))),
+    linear-gradient(360deg,
+    rgba(50, 0, 0, 0.05) calc(3% * var(--bg-grid)),
+    rgba(0, 0, 0, 0) calc(3% * var(--bg-grid)));
+  background-size: 20px 20px;
+  background-position: center center;
 }
 #wenyan p {
+    font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light,
+    Cambria, Cochin, Georgia, Times, serif;
+    text-align:justify;
     color: #333;
     margin: 10px 10px;
     word-spacing: 2px;
@@ -92,7 +94,7 @@
 #wenyan h4::after {
     content: '';
     background: var(--h4-r-graphic);
-    background-position-y: 2px;
+    background-position-y: -px;
 }
 #wenyan h5::after {
     content: '';
@@ -115,7 +117,7 @@
     line-height: 1.6;
     width: fit-content;
     font-weight: bold;
-    margin: 20px 0;
+    margin: 20px 0 5px;
     padding: 1px 12.5px;
     border-radius: 4px;
     background: var(--head-title-h2-background);
@@ -123,9 +125,12 @@
     background-position: 0% 0%;
     transition: all ease-in-out 0.1s;
 }
+#wenyan h3,h4,h5,h6{
+font-weight: bold;
+}
 #wenyan h3 {
     width: fit-content;
-    margin: 20px 0;
+    margin: 20px 0 5px;
     font-size: 1.3em;
     text-align: left;
     padding-left: 10px;
@@ -135,7 +140,7 @@
     border-bottom: 2px hidden var(--head-title-color);
 }
 #wenyan h4 {
-    margin: 20px 0;
+    margin: 20px 0 5px;
     font-size: 1.15em;
     text-align: left;
 }
@@ -151,7 +156,7 @@
     vertical-align: middle;
 }
 #wenyan h5 {
-    margin: 23px 0;
+    margin: 20px 0 5px;
     font-size: 1.1em;
     text-align: left;
 }
@@ -167,55 +172,77 @@
     vertical-align: middle;
 }
 #wenyan h6 {
-    margin: 23px 0;
+    margin: 20px 0 5px;
     font-size: 1.1em;
     text-align: left;
 }
 #wenyan h6::before {
-    content: '-';
+    content: '⁘';
     color: var(--head-title-color);
     margin-right: 7px;
     display: inline-block;
     vertical-align: middle;
 }
-#wenyan ul,
+/* 列表 */
+::marker {
+  color: var(--element-color-deep);
+}
+
+li.md-list-item {
+  margin: 0.4rem 0;
+}
+
 #wenyan ol {
-    margin-top: 0px;
-    margin-left: 16px;
-    margin-bottom: 8px;
-    padding-left: 13px;
+  margin-left: 2px;
+  padding-left: 12px;
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
-#wenyan em {
-    padding: 0 3px 0 0;
-}
+
 #wenyan ul {
-    list-style-type: disc;
+  list-style-type: disc;
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
+
 #wenyan ul ul {
-    list-style-type: circle;
+  list-style-type: circle;
 }
+
 #wenyan ul ul ul {
-    list-style-type: square;
+  list-style-type: square;
 }
+
 #wenyan ol {
-    list-style-type: decimal;
+  padding-left: 27px;
+  list-style-type: decimal;
 }
 #wenyan ol ol {
-    list-style-type: lower-alpha;
+  list-style-type: lower-alpha;
 }
 #wenyan ol ol ol {
-    list-style-type: lower-roman;
+  list-style-type: lower-roman;
 }
-#wenyan li::before {
-    content: '';
-    height: calc(100% - 50px);
-    top: 35px;
-    position: absolute;
-    border-left: 0.5px solid var(--element-color);
-    left: -14.5px;
+
+#wenyan li {
+  font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light,
+    Cambria, Cochin, Georgia, Times, serif;
+  color: #333;
+  margin: 0px 6px;
+  word-spacing: 2px;
+  line-height: 2.5;
+}
+
+#wenyan li {
+  position: relative;
+}
+#wenyan li > p{
+  margin:0;
 }
 #wenyan blockquote {
+    font-size:12px;
     margin-left: 12px;
+    text-align:justify;
     padding: 12px;
     background: var(--element-color-soo-shallow);
     border: 0px solid var(--element-color);
@@ -233,15 +260,7 @@
     text-decoration: none;
     border-bottom: 1px solid #3db8bf;
 }
-#wenyan a::before {
-    content: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1024 1024'%3E%3Cpath  d='M477.934459 330.486594A50.844091 50.844091 0 0 1 406.752731 258.796425L512 152.532274a254.220457 254.220457 0 0 1 359.467726 359.467726L762.66137 618.772592a50.844091 50.844091 0 1 1-71.690168-71.690169l106.772591-106.772592a152.532274 152.532274 0 0 0-215.578947-215.578947z m70.164846 361.501489A50.844091 50.844091 0 1 1 619.789474 762.66137l-107.281033 107.281033A254.220457 254.220457 0 0 1 152.532274 512L259.813307 406.752731a50.844091 50.844091 0 1 1 72.19861 69.656405l-107.789474 107.281033a152.532274 152.532274 0 0 0 215.578947 215.578947z m-126.601788-16.77855a50.844091 50.844091 0 1 1-71.690168-71.690169l251.678252-251.678252a50.844091 50.844091 0 0 1 71.690169 71.690169z'/%3E%3C/svg%3E");
-    color: #f68800;
-    display: inline-block;
-    width: 1em;
-    height: 1em;
-    margin-right: 0.2em;
-    vertical-align: sub;
-}
+
 #wenyan strong {
     color: #000;
     font-weight: bold;
@@ -260,9 +279,10 @@
     border-top: 2px solid var(--head-title-color);
 }
 #wenyan img {
-    max-width: 100%;
+    max-width: 90%;
+    display:block;
     border-radius: 6px;
-    margin: 20px auto;
+    margin: 10px auto;
     object-fit: contain;
 }
 #wenyan p code {
@@ -278,11 +298,11 @@
 }
 #wenyan pre {
     border-radius: 5px;
-    font-size: 0.8em;
+    font-size:12px;
     line-height: 2;
     margin: 1em 0.5em;
     padding: 1em;
-    background-color: #afb8c133;
+    background-color: #FAFAFA;
 }
 #wenyan pre code {
     font-family: var(--monospace-font);
@@ -302,26 +322,21 @@
     word-wrap: break-word;
     word-break: break-all;
 }
-#wenyan table thead {
-    border-top: 1px solid #dedddd;
-    border-bottom: 1px solid #dedddd;
-}
-#wenyan table tbody {
-    border-bottom: 1px solid #dedddd;
-}
 #wenyan table td,
 #wenyan table th {
-    font-size: 0.75em;
+    font-size: 10px;
     padding: 9px 12px;
     line-height: 22px;
     color: #222;
+    border: 1px solid var(--element-color-deep);
     vertical-align: top;
-    border: none;
 }
 #wenyan table th {
     font-weight: bold;
-    background-color: #fafafa;
+    background-color: var(--element-color-soo-shallow);
+    color: var(--element-color-deep);
 }
+
 #wenyan .footnote {
     color: var(--primary-color);
 }

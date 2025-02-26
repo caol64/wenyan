@@ -23,44 +23,41 @@ struct ContentView: View {
     @State private var minHeight: CGFloat = 800
     @State private var idealHeight: CGFloat = 800
     
-    var body: some View {
-        VStack {
-            ZStack {
-                HStack {
-                    MarkdownView()
-                        .frame(minWidth: minWidth, idealWidth: idealWidth, minHeight: minHeight, idealHeight: idealHeight)
-                    HtmlView()
-                        .frame(minWidth: minWidth, idealWidth: idealWidth, minHeight: minHeight, idealHeight: idealHeight)
-                        .overlay(alignment: .topTrailing) {
-                            ToolButtonPopup()
-                        }
-                        .overlay(alignment: .topTrailing) {
-                            if appState.showThemeList {
-                                ThemeListPopup()
-                                    .padding(.trailing, 24)
-                                    .padding(.top, 8)
-                                    .environment(\.colorScheme, .light)
-                            }
-                        }
-                        .onAppear() {
-                            Task {
-                                htmlViewModel.fetchCustomThemes()
-                            }
-                        }
-                }
-                .background(.white)
-                .onAppear() {
-                    if let screenResolution = screenResolution {
-                        if screenResolution.width < 1360 {
-                            minWidth = 570
-                        }
-                        if screenResolution.height < 940 {
-                            minHeight = 645
-                        }
-                    }
-                }
+    init() {
+        if let screenResolution = screenResolution {
+            if screenResolution.width < 1360 {
+                minWidth = 570
+            }
+            if screenResolution.height < 940 {
+                minHeight = 645
             }
         }
+    }
+    
+    var body: some View {
+        HStack {
+            MarkdownView()
+                .frame(minWidth: minWidth, idealWidth: idealWidth, minHeight: minHeight, idealHeight: idealHeight)
+            HtmlView()
+                .frame(minWidth: minWidth, idealWidth: idealWidth, minHeight: minHeight, idealHeight: idealHeight)
+                .overlay(alignment: .topTrailing) {
+                    ToolButtonPopup()
+                }
+                .overlay(alignment: .topTrailing) {
+                    if appState.showThemeList {
+                        ThemeListPopup()
+                            .padding(.trailing, 24)
+                            .padding(.top, 8)
+                            .environment(\.colorScheme, .light)
+                    }
+                }
+                .onAppear() {
+                    Task {
+                        htmlViewModel.fetchCustomThemes()
+                    }
+                }
+        }
+        .background(.white)
         .onAppear() {
             Task {
                 markdownViewModel.loadArticle()
@@ -111,6 +108,9 @@ struct ContentView: View {
             }
             .onReceive(cssEditorViewModel.$content) { content in
                 themePreviewViewModel.onUpdate(css: content)
+            }
+            .onReceive(appState.$showHelpBubble) { showHelpBubble in
+                cssEditorViewModel.showHideOverlay(showHelpBubble)
             }
             .toolbar {
                 ToolbarItem(placement: .automatic) {

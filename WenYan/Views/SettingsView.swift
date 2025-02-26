@@ -22,6 +22,11 @@ struct SettingsView: View {
                         SidebarItem(title: imageHost.rawValue, id: imageHost.id)
                     }
                 }
+//                Section(header: Text("代码块设置")) {
+//                    ForEach(ImageHosts.allCases) { imageHost in
+//                        SidebarItem(title: "代码块设置", id: "")
+//                    }
+//                }
             }
             .listStyle(.sidebar)
 
@@ -41,7 +46,7 @@ struct SettingsView: View {
             .padding()
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
         }
-        .frame(width: 700, height: 400)
+        .frame(width: 600, height: 400)
     }
 }
 
@@ -103,6 +108,16 @@ struct GzhImageHostSettingsView: View {
                         .bold()
                     TextField("如：d9f1abcdef01234567890abcdef82397", text: $viewModel.gzhImageHost.appSecret)
                         .textFieldStyle(.roundedBorder)
+                    HStack {
+                        Spacer()
+                        Text("请务必开启“IP白名单”")
+                    }
+                    .padding(.top, 16)
+                    HStack {
+                        Spacer()
+                        Link("使用帮助", destination: URL(string: "https://yuzhi.tech/docs/wenyan/upload")!)
+                            .pointingHandCursor()
+                    }
                 }
                 .padding()
             }

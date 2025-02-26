@@ -9,12 +9,25 @@
     <script src="codemirror/lib/codemirror.js"></script>
 
     <link rel="stylesheet" href="codemirror/theme/juejin.min.css">
-
+        
     <script src="codemirror/modes/css/css.js"></script>
     <script src="csstree/csstree.js"></script>
     <script src="csstree/handler.js"></script>
     <script src="prettier/prettier.min.js"></script>
     <script src="prettier/postcss.js"></script>
+    <style>
+        /* 遮罩层 */
+        .overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+
+    </style>
 </head>
 
 <body>
@@ -84,6 +97,16 @@
 
         setTabInsertSpaces(true);
         
+        // 显示遮罩层
+        function showOverlay() {
+            document.getElementById("overlay").style.display = "flex";
+        }
+
+        // 隐藏遮罩层
+        function hideOverlay() {
+            document.getElementById("overlay").style.display = "none";
+        }
+        
         document.addEventListener('click', function (event) {
             window.webkit.messageHandlers.clickHandler.postMessage(null);
         });
@@ -91,6 +114,8 @@
         window.webkit.messageHandlers.loadHandler.postMessage(null);
 
     </script>
+    <div class="overlay" id="overlay">
+    </div>
 </body>
 
 </html>

@@ -41,6 +41,39 @@ marked.use(markedHighlight({ // marked加载highlight函数
         return hljs.highlight(code, { language: language }).value;
     }
 }));
+
+const attributeImageExtension = {
+    name: 'attributeImage',
+    level: 'inline',
+    start(src) { return src.indexOf('![') },
+    tokenizer(src) {
+        const rule = /^!\[([^\]]*)\]\(([^)]+)\)\{(.*?)\}/; // 匹配 ![](){}
+        const match = rule.exec(src);
+        if (match) {
+            return {
+                type: 'attributeImage',
+                raw: match[0],
+                alt: match[1],
+                href: match[2],
+                attrs: match[3]
+            };
+        }
+    },
+    renderer(token) {
+        const attrs = stringToMap(token.attrs);
+        const attrStr = Array
+            .from(attrs)
+            .map(([k, v]) => {
+                const isNumber = /^\d+$/.test(v);
+                return `${k}:${isNumber ? v + 'px' : v}`;
+            })
+            .join('; ');
+        return `<img src="${token.href}" alt="${token.alt}" style="${attrStr}">`;
+    }
+};
+
+marked.use({ extensions: [attributeImageExtension] });
+
 // 自定义渲染器
 const renderer = marked.Renderer;
 const parser = marked.Parser;
@@ -250,16 +283,6 @@ function getContentForGzh() {
             element.insertBefore(buildPseudoSpan(beforeResults), element.firstChild);
         }
     });
-//    // 不知是否是bug，公众号不再支持blockquote样式
-//    elements = clonedWenyan.querySelectorAll('blockquote');
-//    elements.forEach(element => {
-//        const preElement = document.createElement('section');
-//        preElement.style.cssText = element.style.cssText;
-//        while (element.firstChild) {
-//            preElement.appendChild(element.firstChild);
-//        }
-//        element.parentNode.replaceChild(preElement, element);
-//    });
     clonedWenyan.setAttribute("data-provider", "WenYan");
     return `${clonedWenyan.outerHTML.replace(/class="mjx-solid"/g, 'fill="none" stroke-width="70"')}`;
 }
@@ -525,6 +548,20 @@ function removeComments(input) {
 
     // 返回去除了注释的字符串
     return output;
+}
+
+function stringToMap(str) {
+    const map = new Map();
+    if (str) {
+        const keyValuePairs = str.trim().split(" ");
+        for (const pair of keyValuePairs) {
+            const [key, value] = pair.split("=");
+            if (key && value) {
+                map.set(key, value);
+            }
+        }
+    }
+    return map;
 }
 
 //// 非通用方法
