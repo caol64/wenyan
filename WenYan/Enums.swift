@@ -58,10 +58,32 @@ enum ThemeStyle: String {
     }
 }
 
-enum HighlightStyle: String {
-    case idea = "highlight/styles/idea.min.css"
-    case monokai = "highlight/styles/monokai.min.css"
-    case github = "highlight/styles/github.min.css"
+enum HighlightStyle: String, CaseIterable, Identifiable {
+    case atomOneDark = "atom-one-dark"
+    case atomOneLight = "atom-one-light"
+    case dracula = "dracula"
+    case githubDark = "github-dark"
+    case github = "github"
+    case monokai = "monokai"
+    case solarizedDark = "solarized-dark"
+    case solarizedLight = "solarized-light"
+    case xcode = "xcode"
+    
+    var id: Self { self }
+    
+    var path: String {
+        switch self {
+        case .atomOneDark: "highlight/styles/atom-one-dark.min.css"
+        case .atomOneLight: "highlight/styles/atom-one-light.min.css"
+        case .dracula: "highlight/styles/dracula.min.css"
+        case .githubDark: "highlight/styles/github-dark.min.css"
+        case .github: "highlight/styles/github.min.css"
+        case .monokai: "highlight/styles/monokai.min.css"
+        case .solarizedDark: "highlight/styles/solarized-dark.min.css"
+        case .solarizedLight: "highlight/styles/solarized-light.min.css"
+        case .xcode: "highlight/styles/xcode.min.css"
+        }
+    }
 }
 
 enum PreviewMode: String {
@@ -99,16 +121,34 @@ enum EditorMode {
     case developer
 }
 
-enum ImageHosts: String, CaseIterable, Identifiable {
-    case gzh = "公众号图床"
-//    case cos = "腾讯云COS"
-//    case oss = "阿里云OSS"
+enum Settings: Identifiable, Hashable {
+    enum ImageHosts: String, CaseIterable, Identifiable {
+        case gzh = "公众号图床"
+        
+        var id: String {
+            switch self {
+            case .gzh: "gzh"
+            }
+        }
+    }
+    
+    case imageHosts(ImageHosts)
+    case codeblock
     
     var id: String {
         switch self {
-        case .gzh: "gzh"
-//        case .cos: "cos"
-//        case .oss: "oss"
+        case .imageHosts(let imageHost): imageHost.id
+        case .codeblock: "codeblock"
         }
     }
+}
+
+enum FontSize: String, CaseIterable, Identifiable {
+    case px12 = "12px"
+    case px13 = "13px"
+    case px14 = "14px"
+    case px15 = "15px"
+    case px16 = "16px"
+    
+    var id: Self { self }
 }

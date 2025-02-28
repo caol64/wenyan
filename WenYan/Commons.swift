@@ -67,8 +67,7 @@ func callJavascript(webView: WKWebView?, javascriptString: String, callback: Jav
     webView?.evaluateJavaScript(javascriptString) { (response, error) in
         if let error = error {
             callback?(.failure(error))
-        }
-        else {
+        } else {
             callback?(.success(response))
         }
     }

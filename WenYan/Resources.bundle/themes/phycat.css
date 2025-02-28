@@ -301,14 +301,14 @@ li.md-list-item {
     font-size:12px;
     line-height: 2;
     margin: 1em 0.5em;
-    padding: 1em;
-    background-color: #FAFAFA;
+    padding: .5em;
+    box-shadow: rgba(0, 0, 0, 0.55) 0px 1px 5px;
 }
 #wenyan pre code {
     font-family: var(--monospace-font);
     display: block;
     overflow-x: auto;
-    margin: 0;
+    margin: .5em;
     padding: 0;
 }
 #wenyan table {

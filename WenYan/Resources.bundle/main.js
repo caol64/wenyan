@@ -19,6 +19,8 @@ let postprocessMarkdown = "";
 let isScrollingFromScript = false;
 let customCss = "";
 let highlightCss = "";
+let macStyleCss = "";
+
 // ------- marked.js默认配置开始 -------
 // 处理frontMatter的函数
 function preprocess(markdown) {
@@ -196,6 +198,17 @@ function getContentForGzh() {
     });
 
     ast.children.appendList(ast1.children);
+
+    if (macStyleCss !== "") {
+        const ast2 = csstree.parse(macStyleCss, {
+            context: 'stylesheet',
+            positions: false,
+            parseAtrulePrelude: false,
+            parseCustomProperty: false,
+            parseValue: false
+        });
+        ast.children.appendList(ast2.children);
+    }
 
     const wenyan = document.getElementById("wenyan");
     const clonedWenyan = wenyan.cloneNode(true);
@@ -565,6 +578,23 @@ function stringToMap(str) {
 }
 
 //// 非通用方法
+function setMacStyle() {
+    setStylesheet('macStyle', 'mac_style.css');
+    loadMacStyle().then(css => {
+        macStyleCss = css;
+    });
+}
+
+function removeMacStyle() {
+    macStyle = "";
+    document.getElementById("macStyle")?.remove();
+}
+
+function loadMacStyle() {
+    return fetch('mac_style.css')
+        .then(response => response.text())
+}
+
 window.onscroll = function() {
     if (!isScrollingFromScript) {
         window.webkit.messageHandlers.scrollHandler.postMessage({ y0: window.scrollY / document.body.scrollHeight });

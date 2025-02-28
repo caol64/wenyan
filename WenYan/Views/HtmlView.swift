@@ -123,7 +123,12 @@ extension HtmlViewModel {
             }
         }
         setTheme()
+        let codeblockSettings = CodeblockSettingsViewModel.loadSettings() ?? CodeblockSettings()
+        if let highlightStyle = HighlightStyle(rawValue: codeblockSettings.theme) {
+            self.highlightStyle = highlightStyle
+        }
         setHighlight()
+        setMacStyle()
         setContent()
     }
     
@@ -188,9 +193,17 @@ extension HtmlViewModel {
         }
     }
     
+    func setMacStyle() {
+        callJavascript(javascriptString: "setMacStyle();")
+    }
+    
+    func removeMacStyle() {
+        callJavascript(javascriptString: "removeMacStyle();")
+    }
+    
     func setHighlight() {
         do {
-            let themeContent = try loadFileFromResource(path: highlightStyle.rawValue)
+            let themeContent = try loadFileFromResource(path: highlightStyle.path)
             callJavascript(javascriptString: "setHighlight(\(themeContent.toJavaScriptString()));")
         } catch {
             appState.appError = AppError.bizError(description: error.localizedDescription)
@@ -203,6 +216,14 @@ extension HtmlViewModel {
     
     func scroll(scrollFactor: CGFloat) {
         callJavascript(javascriptString: "scroll(\(scrollFactor));")
+    }
+    
+    func setCodeblockFontSize() {
+        
+    }
+    
+    func setCodeblockFontFamily() {
+        
     }
     
     func changeFootnotes() {
@@ -395,6 +416,12 @@ extension HtmlViewModel {
         return customThemes.filter { item in
             item.objectID.uriRepresentation().absoluteString == id
         }.first
+    }
+    
+    func setCodeblock() {
+        setHighlight()
+        setCodeblockFontSize()
+        setCodeblockFontFamily()
     }
     
 }

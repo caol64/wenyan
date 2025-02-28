@@ -139,15 +139,15 @@
     font-size: 0.8em;
     line-height: 2;
     margin: 1em 0.5em;
-    padding: 1em;
-    background-color: #afb8c133;
+    padding: .5em;
+    box-shadow: rgba(0, 0, 0, 0.55) 0px 1px 5px;
 }
 /* 代码块 */
 #wenyan pre code {
     font-family: var(--monospace-font);
     display: block;
     overflow-x: auto;
-    margin: 0;
+    margin: .5em;
     padding: 0;
 }
 /* 分割线 */

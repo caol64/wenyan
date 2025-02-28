@@ -177,7 +177,7 @@ extension MarkdownViewModel {
             onFileUploadFailed()
             return
         }
-        if enabled == ImageHosts.gzh.id {
+        if enabled == Settings.ImageHosts.gzh.id {
             guard let savedData = UserDefaults.standard.data(forKey: "gzhImageHost"),
                   let gzhImageHost = try? JSONDecoder().decode(GzhImageHost.self, from: savedData) else {
                 appState.appError = AppError.bizError(description: "图床未配置")

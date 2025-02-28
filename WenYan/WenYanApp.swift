@@ -80,8 +80,9 @@ struct WenYanApp: App {
             }
         }
         
-        Settings {
+        SwiftUI.Settings {
             SettingsView()
+                .environmentObject(htmlViewModel)
         }
     }
     

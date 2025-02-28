@@ -8,7 +8,7 @@
 import Foundation
 
 struct GzhImageHost: Codable {
-    var type: String = ImageHosts.gzh.id
+    var type: String = Settings.ImageHosts.gzh.id
     var appId: String = ""
     var appSecret: String = ""
     var accessToken: String = ""
