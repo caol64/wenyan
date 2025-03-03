@@ -197,6 +197,7 @@ class GzhImageHostSettingsViewModel: ObservableObject {
 struct CodeblockSettingsView: View {
     @StateObject private var viewModel = CodeblockSettingsViewModel()
     @EnvironmentObject private var htmlViewModel: HtmlViewModel
+    @State private var showBubble = false
 
     var body: some View {
         VStack(alignment: .leading) {
@@ -207,54 +208,87 @@ struct CodeblockSettingsView: View {
             }
             
             CardView {
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-                        Text("Mac 风格")
+                ZStack {
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Text("Mac 风格")
+                                .bold()
+                            Spacer()
+                            Toggle("", isOn: $viewModel.codeblockSettings.isMacStyle)
+                                .toggleStyle(.switch)
+                        }
+                        .padding(.bottom, 8)
+                        
+                        Text("高亮主题")
                             .bold()
-                        Spacer()
-                        Toggle("", isOn: $viewModel.codeblockSettings.isMacStyle)
-                            .toggleStyle(.switch)
-                    }
-                    .padding(.bottom, 8)
-                    
-                    Text("高亮主题")
-                        .bold()
-                    Picker("", selection: $viewModel.codeblockSettings.theme) {
-                        ForEach(HighlightStyle.allCases, id: \.self.rawValue) { style in
-                            Text(style.rawValue).tag(style.rawValue)
+                        Picker("", selection: $viewModel.codeblockSettings.theme) {
+                            ForEach(HighlightStyle.allCases, id: \.self.rawValue) { style in
+                                Text(style.rawValue).tag(style.rawValue)
+                            }
                         }
-                    }
-                    .pickerStyle(.menu)
-                    .padding(.bottom, 8)
-                    
-                    Text("字体大小")
-                        .bold()
-                    Picker("", selection: $viewModel.codeblockSettings.fontSize) {
-                        ForEach(FontSize.allCases, id: \.self.rawValue) { fontSize in
-                            Text(fontSize.rawValue).tag(fontSize.rawValue)
+                        .pickerStyle(.menu)
+                        .padding(.bottom, 8)
+                        
+                        Text("字体大小")
+                            .bold()
+                        Picker("", selection: $viewModel.codeblockSettings.fontSize) {
+                            ForEach(FontSize.allCases, id: \.self.rawValue) { fontSize in
+                                Text(fontSize.rawValue).tag(fontSize.rawValue)
+                            }
                         }
+                        .pickerStyle(.segmented)
+                        .padding(.bottom, 8)
+                        
+                        HStack {
+                            Text("字体")
+                                .bold()
+                                Button("", systemImage: "questionmark.circle") {
+                                    showBubble = true
+                                }
+                                .buttonStyle(.borderless)
+                                .font(.system(size: 13))
+                                .onHover { hovering in
+                                    if hovering {
+                                        showBubble = true
+                                    } else {
+                                        showBubble = false
+                                    }
+                                }
+                        }
+                        TextField("如：JetBrains Mono", text: $viewModel.codeblockSettings.fontFamily)
+                            .textFieldStyle(.roundedBorder)
+                        
+                        HStack {
+                            Spacer()
+                            Link("使用帮助", destination: URL(string: "https://yuzhi.tech/docs/wenyan/codeblock")!)
+                                .pointingHandCursor()
+                        }
+                        .padding(.top, 16)
                     }
-                    .pickerStyle(.segmented)
-                    .padding(.bottom, 8)
-                    
-                    Text("字体")
-                        .bold()
-                    TextField("如：JetBrains Mono", text: $viewModel.codeblockSettings.fontFamily)
-                        .textFieldStyle(.roundedBorder)
-                    
-                    HStack {
-                        Spacer()
-                        Link("使用帮助", destination: URL(string: "https://yuzhi.tech/docs/wenyan/codeblock")!)
-                            .pointingHandCursor()
+                    if showBubble {
+                        Text("你可以在这里设置你本机上已经安装的字体，但请注意：这里设置的字体只会影响你本地预览、导出图片时的显示，并不会影响公众号发布后用户看到的字体。具体说明请参阅“使用帮助”。")
+                            .padding()
+                            .offset(x: 20, y: 40)
+                            .foregroundColor(.gray)
+                            .font(.system(size: 12))
+                            .background(
+                                RoundedRectangle(cornerRadius: 5)
+                                    .fill(Color.white)
+                                    .shadow(radius: 5)
+                                    .offset(x: 20, y: 40)
+                            )
+                            .frame(width: 300, height: 120)
                     }
-                    .padding(.top, 16)
                 }
                 .onReceive(viewModel.$codeblockSettings) { newContent in
                     if let highlightStyle = HighlightStyle(rawValue: newContent.theme) {
                         htmlViewModel.highlightStyle = highlightStyle
                     }
-                    newContent.isMacStyle ? htmlViewModel.setMacStyle() : htmlViewModel.removeMacStyle()
+                    htmlViewModel.codeblockSettings.fontSize = newContent.fontSize
+                    htmlViewModel.codeblockSettings.fontFamily = newContent.fontFamily
                     htmlViewModel.setCodeblock()
+                    htmlViewModel.setTheme()
+                    newContent.isMacStyle ? htmlViewModel.setMacStyle() : htmlViewModel.removeMacStyle()
                 }
             }
 

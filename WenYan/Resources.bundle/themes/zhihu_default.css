@@ -94,17 +94,16 @@
     word-wrap: normal;
     background: #f8f8fa;
     border-radius: 4px;
-    font-size: 0.8em;
-    margin: 1.4em 0;
-    overflow: auto;
-    padding: 0.88889em;
+    line-height: 2;
+    margin: 1em 0.5em;
+    padding: .5em;
     white-space: pre;
     word-break: normal;
 }
 #wenyan pre code {
     display: block;
     overflow-x: auto;
-    margin: 0;
+    margin: .5em;
     padding: 0;
 }
 #wenyan hr {

@@ -93,10 +93,9 @@
     font-size: 0.78em;
 }
 #wenyan pre {
-    font-size: 0.95em;
-    line-height: 1.5;
+    line-height: 2;
     margin: 1em 0.5em;
-    padding: 1em;
+    padding: .5em;
     color: #333;
     background: #f8f8f8;
 }
@@ -104,8 +103,9 @@
     font-family: var(--monospace-font);
     display: block;
     overflow-x: auto;
-    margin: 0;
+    margin: .5em;
     padding: 0;
+    background: #f8f8f8;
 }
 #wenyan hr {
     border: none;
