@@ -60,7 +60,14 @@
 
 <a href="https://apps.apple.com/cn/app/%E6%96%87%E9%A2%9C/id6670157335?mt=12&amp;itsct=apps_box_badge&amp;itscg=30200" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 250px; height: 83px;"><img src="Data/black.svg" alt="Download on the Mac App Store" style="border-radius: 13px; width: 250px; height: 83px;"></a>
 
-## 支持
+## 如何贡献
+
+- 通过 [Issue](https://github.com/caol64/wenyan/issues) 报告**bug**或进行咨询。
+- 提交 [Pull Request](https://github.com/caol64/wenyan/pulls)。
+- 分享 [自定义主题](https://github.com/caol64/wenyan/discussions/13)。
+- 推荐美观的 `Typora` 主题。
+
+## 赞助
 
 如果您觉得不错，可以给我家猫咪买点罐头吃。[喂猫❤️](https://yuzhi.tech/sponsor)
 
