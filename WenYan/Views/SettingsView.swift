@@ -31,7 +31,7 @@ struct Sidebar: View {
         List(selection: $selectedTab) {
             Section {
                 ForEach(Settings.ImageHosts.allCases) { imageHost in
-                    SidebarItem(title: imageHost.rawValue, id: Settings.imageHosts(.gzh), padding: 16)
+                    SidebarItem(title: imageHost.rawValue, id: Settings.imageHosts(imageHost), padding: 16)
                 }
             } header: {
                 HStack {

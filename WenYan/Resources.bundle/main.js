@@ -274,15 +274,9 @@ function getContentForGzh() {
     // 处理代码块
     elements = clonedWenyan.querySelectorAll("pre code");
     elements.forEach(element => {
-        element.innerHTML = element.innerHTML.replace(/\n/g, "<br>");
-        element.childNodes.forEach((node) => {
-            if (node.nodeType === Node.TEXT_NODE) {
-                const updatedContent = node.textContent.replace(/ /g, "&nbsp;");
-                const span = document.createElement("span");
-                span.innerHTML = updatedContent;
-                node.replaceWith(span);
-            }
-        });
+        element.innerHTML = element.innerHTML
+                .replace(/\n/g, '<br>')
+                .replace(/(>[^<]+)|(^[^<]+)/g, str => str.replace(/\s/g, '&nbsp;'));
     });
     // 公众号不支持css伪元素，将伪元素样式提取出来拼接成一个span
     elements = clonedWenyan.querySelectorAll('h1, h2, h3, h4, h5, h6, blockquote, pre');
