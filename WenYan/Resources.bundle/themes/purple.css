@@ -15,12 +15,9 @@
     --shadow: 3px 3px 10px var(--shadow-color);
     --inline-code-bg: #f4f2f9;
     --header-weight: normal;
-    --base-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --title-font: var(--base-font);
-    --monospace-font: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 #wenyan {
-    font-family: var(--base-font);
+    font-family: var(--sans-serif-font);
     color: var(--text-color);
     line-height: 1.75;
     font-size: 16px;
@@ -41,7 +38,7 @@
     padding: 0px;
     font-weight: var(--header-weight);
     color: var(--title-color);
-    font-family: var(--title-font);
+    font-family: var(--sans-serif-font);
 }
 #wenyan h1 {
     text-align: center;

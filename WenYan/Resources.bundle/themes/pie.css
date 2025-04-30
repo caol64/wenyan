@@ -12,8 +12,6 @@
     --main-4: #f27f79;
     --main-5: #e6514e;
     --main-6: #da282a;
-    --sans-serif-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --monospace-font: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 #wenyan {
     font-family: var(--sans-serif-font);

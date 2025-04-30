@@ -2,9 +2,12 @@
 
 .CodeMirror {
   /* Set height, width, borders, and global font properties here */
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Roboto Mono', 'Courier New', 'Microsoft YaHei', monospace;
   color: black;
   direction: ltr;
+  font-size: 14px;
+  line-height: 1.6;
+  white-space: pre;
 }
 
 /* PADDING */

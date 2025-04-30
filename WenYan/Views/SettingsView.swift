@@ -18,7 +18,7 @@ struct SettingsView: View {
                 // 右侧详情视图
                 SettingsContent(selectedTab: $selectedTab)
             }
-            .frame(width: 650, height: 400)
+            .frame(width: 650, height: 550)
         }
     }
 }
@@ -40,11 +40,12 @@ struct Sidebar: View {
                 }
                 .padding(.leading, 8)
             }
+            SidebarItem(title: "段落设置", id: Settings.paragraph, padding: 8)
             SidebarItem(title: "代码块设置", id: Settings.codeblock, padding: 8)
         }
         .padding(.leading, 8)
         .listStyle(.sidebar)
-        .frame(minWidth: 200, maxWidth: 200, minHeight: 400, maxHeight: 400)
+        .frame(minWidth: 200, maxWidth: 200, minHeight: 550, maxHeight: 550)
     }
 }
 
@@ -73,6 +74,8 @@ struct SettingsContent: View {
                 }
             case .codeblock:
                 CodeblockSettingsView()
+            case .paragraph:
+                ParagraphSettingsView()
             default:
                 CardView {
                     HStack {
@@ -82,7 +85,7 @@ struct SettingsContent: View {
                 }
             }
         }
-        .frame(minWidth: 450, maxWidth: 450, minHeight: 400, maxHeight: 400, alignment: .topLeading)
+        .frame(minWidth: 450, maxWidth: 450, minHeight: 550, maxHeight: 550, alignment: .topLeading)
         .padding()
     }
 }
@@ -329,4 +332,142 @@ struct CodeblockSettings: Codable {
     var theme: String = HighlightStyle.github.rawValue
     var fontSize: String = FontSize.px12.rawValue
     var fontFamily: String = ""
+}
+
+
+// 段落设置视图
+struct ParagraphSettingsView: View {
+    @StateObject private var viewModel = ParagraphSettingsViewModel()
+    @EnvironmentObject private var htmlViewModel: HtmlViewModel
+
+    var body: some View {
+        VStack(alignment: .leading) {
+            HStack {
+                Text("段落设置")
+                    .font(.title2)
+                    .bold()
+            }
+            
+            CardView {
+                ZStack {
+                    VStack(alignment: .leading, spacing: 10) {
+                        HStack {
+                            Text("跟随主题")
+                                .bold()
+                            Spacer()
+                            Toggle("", isOn: Binding(
+                                get: { !viewModel.paragraphSettings.isEnabled },
+                                set: { viewModel.paragraphSettings.isEnabled = !$0 }
+                            ))
+                            .toggleStyle(.switch)
+                        }
+                        .padding(.bottom, 8)
+                        
+                        Text("字体大小")
+                            .bold()
+                        Picker("", selection: $viewModel.paragraphSettings.fontSize) {
+                            ForEach(FontSize.allCases, id: \.self.rawValue) { fontSize in
+                                Text(fontSize.rawValue).tag(fontSize.rawValue)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .padding(.bottom, 8)
+                        
+                        Text("字体")
+                            .bold()
+                        Picker("", selection: $viewModel.paragraphSettings.fontType) {
+                            ForEach(FontType.allCases, id: \.self.rawValue) { style in
+                                Text(style.label).tag(style.rawValue)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .padding(.bottom, 8)
+                        
+                        Text("文字粗细")
+                            .bold()
+                        Picker("", selection: $viewModel.paragraphSettings.fontWeight) {
+                            ForEach(FontWeight.allCases, id: \.self.rawValue) { style in
+                                Text(style.label).tag(style.rawValue)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .padding(.bottom, 8)
+                        
+                        Text("字间距")
+                            .bold()
+                        Picker("", selection: $viewModel.paragraphSettings.wordSpacing) {
+                            ForEach(WordSpacing.allCases, id: \.self.rawValue) { style in
+                                Text(style.label).tag(style.rawValue)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .padding(.bottom, 8)
+                        
+                        Text("行间距")
+                            .bold()
+                        Picker("", selection: $viewModel.paragraphSettings.lineSpacing) {
+                            ForEach(LineSpacing.allCases, id: \.self.rawValue) { style in
+                                Text(style.label).tag(style.rawValue)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .padding(.bottom, 8)
+                        
+                        Text("段落间距")
+                            .bold()
+                        Picker("", selection: $viewModel.paragraphSettings.paragraphSpacing) {
+                            ForEach(ParagraphSpacing.allCases, id: \.self.rawValue) { style in
+                                Text(style.label).tag(style.rawValue)
+                            }
+                        }
+                        .pickerStyle(.segmented)
+                        .padding(.bottom, 8)
+                    }
+                }
+                .onReceive(viewModel.$paragraphSettings) { newContent in
+                    htmlViewModel.setParagraphSettings(paragraphSettings: newContent)
+                    htmlViewModel.setTheme()
+                }
+            }
+
+        }
+        .padding()
+    }
+}
+
+class ParagraphSettingsViewModel: ObservableObject {
+    @Published var paragraphSettings: ParagraphSettings {
+        didSet {
+            saveSettings()
+        }
+    }
+    private static let key = "paragraphSettings"
+    
+    init() {
+        self.paragraphSettings = Self.loadSettings() ?? ParagraphSettings()
+    }
+    
+    private func saveSettings() {
+        if let encoded = try? JSONEncoder().encode(paragraphSettings) {
+            UserDefaults.standard.set(encoded, forKey: Self.key)
+        }
+    }
+
+    static func loadSettings() -> ParagraphSettings? {
+        if let savedData = UserDefaults.standard.data(forKey: key),
+           let decoded = try? JSONDecoder().decode(ParagraphSettings.self, from: savedData) {
+            return decoded
+        }
+        return nil
+    }
+}
+
+struct ParagraphSettings: Codable {
+    var isEnabled: Bool = false
+    var fontSize: String = FontSize.px16.rawValue
+    var fontType: String = FontType.sans.rawValue
+    var fontWeight: String = FontWeight._400.rawValue
+    var wordSpacing: String = WordSpacing.medium.rawValue
+    var lineSpacing: String = LineSpacing.medium.rawValue
+    var paragraphSpacing: String = ParagraphSpacing.medium.rawValue
 }

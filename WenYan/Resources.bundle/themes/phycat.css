@@ -44,8 +44,6 @@
     /* 行内代码文字色 */
     --element-color-linecode-background: #7aeaf018;
     /* 行内代码背景色 */
-    --monospace-font: SFMono-Regular, Consolas, 'Liberation Mono', Menlo, Courier, monospace;
-    --sans-serif-font: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 #wenyan {
     font-size: 14px;

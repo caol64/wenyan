@@ -11,8 +11,6 @@
     --tr-bg-color: rgb(255, 249, 242);
     --code-bg-color: rgb(247, 247, 247);
     --block-shadow: 0.15em 0.15em 0.5em rgb(150, 150, 150);
-    --sans-serif-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --monospace-font: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 #wenyan {
     font-family: var(--sans-serif-font);

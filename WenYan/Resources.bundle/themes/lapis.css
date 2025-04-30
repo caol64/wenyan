@@ -11,8 +11,6 @@
     --source-color: #a8a8a9;
     --header-span-color: var(--primary-color);
     --block-bg-color: #f6f8fa;
-    --sans-serif-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --monospace-font: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
 }
 #wenyan {
     color: var(--text-color);

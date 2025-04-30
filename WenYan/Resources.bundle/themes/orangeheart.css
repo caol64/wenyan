@@ -3,10 +3,6 @@
  *     https://github.com/evgo2017/typora-theme-orange-heart
  */
 
-:root {
-    --sans-serif-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --monospace-font: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
-}
 #wenyan {
     font-family: var(--sans-serif-font);
     line-height: 1.75;

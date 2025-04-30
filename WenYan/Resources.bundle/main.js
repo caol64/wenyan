@@ -14,6 +14,9 @@
  * limitations under the License.
  */
 
+const serif = "ui-serif, Georgia, Cambria, 'Noto Serif', 'Times New Roman', serif";
+const sansSerif = "ui-sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI', 'Segoe UI Symbol', 'Noto Sans', 'Roboto', sans-serif";
+const monospace = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Roboto Mono', 'Courier New', 'Microsoft YaHei', monospace";
 const {markedHighlight} = globalThis.markedHighlight;
 let postprocessMarkdown = "";
 let isScrollingFromScript = false;
@@ -21,6 +24,7 @@ let customCss = "";
 let highlightCss = "";
 let macStyleCss = "";
 let codeblockSettings;
+let paragraphSettings;
 
 // ------- marked.js默认配置开始 -------
 // 处理frontMatter的函数
@@ -98,6 +102,14 @@ renderer.paragraph = function(paragraph) {
     }
 };
 
+renderer.image = function(img, title, text) {
+    const href = img.href;
+    if (!text) {
+        text = "";
+    }
+    return `<img src="${href}" alt="${text}" title="${title || text}">`;
+};
+
 // 配置 marked.js 使用自定义的 Renderer
 marked.use({
     renderer: renderer
@@ -134,7 +146,63 @@ function setCustomTheme(css) {
     const style = document.createElement("style");
     style.setAttribute("id", "theme");
     customCss = replaceCSSVariables(css);
-    customCss = modifyCodeblockCss(customCss, codeblockSettings.fontSize, codeblockSettings.fontFamily);
+    customCss = modifyCss(customCss, {
+        '#wenyan pre code': [
+            {
+                property: 'font-family',
+                value: codeblockSettings.fontFamily,
+                append: true
+            }
+        ],
+        '#wenyan pre': [
+            {
+                property: 'font-size',
+                value: codeblockSettings.fontSize,
+                append: true
+            }
+        ]
+    });
+    if (paragraphSettings && paragraphSettings.isEnabled) {
+        let classes = [];
+        let fontFamilyClass = {};
+        if (paragraphSettings.fontSize) {
+            classes.push({property: 'font-size', value: paragraphSettings.fontSize, append: true});
+        }
+        if (paragraphSettings.fontType) {
+            if (paragraphSettings.fontType === 'serif') {
+                fontFamilyClass = {property: 'font-family', value: serif, append: true};
+                classes.push(fontFamilyClass);
+            } else if (paragraphSettings.fontType === 'sans') {
+                fontFamilyClass = {property: 'font-family', value: sansSerif, append: true};
+                classes.push(fontFamilyClass);
+            } else if (paragraphSettings.fontType === 'mono') {
+                fontFamilyClass = {property: 'font-family', value: monospace, append: true};
+                classes.push(fontFamilyClass);
+            }
+        }
+        if (paragraphSettings.fontWeight) {
+            classes.push({property: 'font-weight', value: paragraphSettings.fontWeight, append: true});
+        }
+        if (paragraphSettings.wordSpacing) {
+            classes.push({property: 'letter-spacing', value: paragraphSettings.wordSpacing, append: true});
+        }
+        if (paragraphSettings.lineSpacing) {
+            classes.push({property: 'line-height', value: paragraphSettings.lineSpacing, append: true});
+        }
+        if (paragraphSettings.paragraphSpacing) {
+            classes.push({property: 'margin', value: `${paragraphSettings.paragraphSpacing} 0`, append: true});
+        }
+        customCss = modifyCss(customCss, {
+            '#wenyan p': classes,
+            '#wenyan ul': classes,
+            '#wenyan h1': [fontFamilyClass],
+            '#wenyan h2': [fontFamilyClass],
+            '#wenyan h3': [fontFamilyClass],
+            '#wenyan h4': [fontFamilyClass],
+            '#wenyan h5': [fontFamilyClass],
+            '#wenyan h6': [fontFamilyClass]
+        });
+    }
     style.textContent = customCss;
     document.head.appendChild(style);
 }
@@ -150,18 +218,7 @@ function setHighlight(css) {
         highlightCss = "";
     }
 }
-function setMacStyle(css) {
-    document.getElementById("macStyle")?.remove();
-    if (css) {
-        const style = document.createElement("style");
-        style.setAttribute("id", "macStyle");
-        macStyleCss = css;
-        style.textContent = css;
-        document.head.appendChild(style);
-    } else {
-        macStyleCss = "";
-    }
-}
+
 function getContent() {
     const wenyan = document.getElementById("wenyan");
     const clonedWenyan = wenyan.cloneNode(true);
@@ -485,6 +542,14 @@ function replaceCSSVariables(css) {
         cssVariables[variableName] = variableValue;
     }
 
+    if (!cssVariables['sans-serif-font']) {
+        cssVariables['sans-serif-font'] = sansSerif;
+    }
+
+    if (!cssVariables['monospace-font']) {
+        cssVariables['monospace-font'] = monospace;
+    }
+
     // 2. 递归解析 var() 引用为字典中对应的值
     function resolveVariable(value, variables, resolved = new Set()) {
         // 如果已经解析过这个值，则返回原始值以避免死循环
@@ -571,7 +636,7 @@ function removeComments(input) {
     return output;
 }
 
-function modifyCodeblockCss(customCss, newFontSize, newFontFamily) {
+function modifyCss(customCss, updates) {
     const ast = csstree.parse(customCss, {
         context: 'stylesheet',
         positions: false,
@@ -583,50 +648,32 @@ function modifyCodeblockCss(customCss, newFontSize, newFontFamily) {
     csstree.walk(ast, {
         visit: 'Rule',
         leave: (node, item, list) => {
-            if (node.prelude.type === 'SelectorList') {
-                const selectors = node.prelude.children.toArray().map(sel => csstree.generate(sel));
+            if (node.prelude.type !== 'SelectorList') return;
 
-                if (selectors && selectors[0] === '#wenyan pre code') {
-                    if (newFontFamily && newFontFamily.trim() !== "") {
-                        let fontFamilyDecl = null;
-                        csstree.walk(node.block, function(decl) {
-                            if (decl.type === 'Declaration' && decl.property === 'font-family') {
-                                fontFamilyDecl = decl;
+            const selectors = node.prelude.children.toArray().map(sel => csstree.generate(sel));
+            if (selectors) {
+                const selector = selectors[0];
+                const update = updates[selector];
+                if (!update) return;
+    
+                for (const { property, value, append } of update) {
+                    if (value) {
+                        let found = false;
+                        csstree.walk(node.block, decl => {
+                            if (decl.type === 'Declaration' && decl.property === property) {
+                                decl.value = csstree.parse(value, { context: 'value' });
+                                found = true;
                             }
                         });
-
-                        if (fontFamilyDecl) {
-                            const existingFontFamily = csstree.generate(fontFamilyDecl.value);
-                            fontFamilyDecl.value = csstree.parse(`${newFontFamily}, ${existingFontFamily}`, { context: 'value' });
-                        } else {
+                        if (!found && append) {
                             node.block.children.prepend(
                                 list.createItem({
                                     type: 'Declaration',
-                                    property: 'font-family',
-                                    value: { type: 'Value', children: [{ type: 'String', value: newFontFamily }] }
+                                    property,
+                                    value: csstree.parse(value, { context: 'value' })
                                 })
                             );
                         }
-                    }
-                    return;
-                }
-
-                if (selectors && selectors[0] === '#wenyan pre') {
-                    let hasFontSize = false;
-                    csstree.walk(node.block, function(decl) {
-                        if (decl.type === 'Declaration' && decl.property === 'font-size') {
-                            decl.value = csstree.parse(`${newFontSize}`, { context: 'value' });
-                            hasFontSize = true;
-                        }
-                    });
-                    if (!hasFontSize) {
-                        node.block.children.prepend(
-                            list.createItem({
-                                type: 'Declaration',
-                                property: 'font-size',
-                                value: { type: 'Value', children: [{ type: 'Dimension', value: newFontSize.replace("px", ""), unit: 'px' }] }
-                            })
-                        );
                     }
                 }
             }
@@ -651,8 +698,25 @@ function stringToMap(str) {
     return map;
 }
 
+function setMacStyle(css) {
+    document.getElementById("macStyle")?.remove();
+    if (css) {
+        const style = document.createElement("style");
+        style.setAttribute("id", "macStyle");
+        macStyleCss = css;
+        style.textContent = css;
+        document.head.appendChild(style);
+    } else {
+        macStyleCss = "";
+    }
+}
+
 function setCodeblockSettings(settingsObj) {
     codeblockSettings = settingsObj;
+}
+
+function setParagraphSettings(settingsObj) {
+    paragraphSettings = settingsObj;
 }
 
 function removeMacStyle() {

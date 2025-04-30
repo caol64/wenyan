@@ -122,6 +122,7 @@ extension HtmlViewModel {
                     gzhTheme = ThemeStyleWrapper(themeType: .builtin, themeStyle: themeStyle)
                 }
             }
+            setParagraphSettings(paragraphSettings: ParagraphSettingsViewModel.loadSettings() ?? ParagraphSettings())
         }
         if let highlightStyle = HighlightStyle(rawValue: codeblockSettings.theme) {
             self.highlightStyle = highlightStyle
@@ -229,6 +230,18 @@ extension HtmlViewModel {
         callJavascript(javascriptString: "setCodeblockSettings(JSON.parse(\(jsString.toJavaScriptString())));")
     }
     
+    func setParagraphSettings(paragraphSettings: ParagraphSettings) {
+        do {
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(paragraphSettings)
+            let jsonString = String(data: jsonData, encoding: .utf8)
+            let jsString = jsonString ?? ""
+            callJavascript(javascriptString: "setParagraphSettings(JSON.parse(\(jsString.toJavaScriptString())));")
+        } catch {
+            appState.appError = AppError.bizError(description: error.localizedDescription)
+        }
+    }
+    
     func changeFootnotes() {
         isFootnotes.toggle()
         if isFootnotes {
@@ -314,10 +327,12 @@ extension HtmlViewModel {
             if codeblockSettings.isMacStyle {
                 setMacStyle()
             }
+            setParagraphSettings(paragraphSettings: ParagraphSettingsViewModel.loadSettings() ?? ParagraphSettings())
         } else {
             let settings = CodeblockSettings()
             setCodeblock(highlightStyle: .github, fontSize: settings.fontSize, fontFamily: settings.fontFamily)
             removeMacStyle()
+            setParagraphSettings(paragraphSettings: ParagraphSettings())
         }
         setTheme()
     }

@@ -2,11 +2,6 @@
  * 欢迎使用自定义主题功能，使用教程：
  * https://babyno.top/posts/2024/11/wenyan-supports-customized-themes/
  */
-/* 全局变量 */
-:root {
-    --sans-serif-font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    --monospace-font: SFMono-Regular, Consolas, "Liberation Mono", Menlo, Courier, monospace;
-}
 /* 全局属性 */
 #wenyan {
     font-family: var(--sans-serif-font);
