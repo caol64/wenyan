@@ -101,7 +101,7 @@ struct CardView<Content: View>: View {
         content
             .padding()
             .frame(maxWidth: .infinity)
-            .background(Color.white)
+            .background(Color(nsColor: .windowBackgroundColor))
             .cornerRadius(10)
             .shadow(radius: 3)
     }
