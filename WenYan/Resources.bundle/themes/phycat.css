@@ -66,8 +66,6 @@
   background-position: center center;
 }
 #wenyan p {
-    font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light,
-    Cambria, Cochin, Georgia, Times, serif;
     text-align:justify;
     color: #333;
     margin: 10px 10px;
@@ -78,31 +76,25 @@
 #wenyan h5::after,
 #wenyan h6::after {
     content: '';
-    display: inline-block;
     margin-left: 0.2em;
     height: 2em;
     width: 1.2em;
-    vertical-align: middle;
 }
 #wenyan h3::after {
-    content: '';
     background: var(--h3-r-graphic);
-    background-position-y: 2px;
+    background-position-y: -2px;
 }
 #wenyan h4::after {
-    content: '';
     background: var(--h4-r-graphic);
-    background-position-y: -px;
+    background-position-y: -2px;
 }
 #wenyan h5::after {
-    content: '';
     background: var(--h5-r-graphic);
-    background-position-y: 2px;
+    background-position-y: -1px;
 }
 #wenyan h6::after {
-    content: '';
     background: var(--h6-r-graphic);
-    background-position-y: 2px;
+    background-position-y: -1px;
 }
 #wenyan h1 {
     text-align: center;
@@ -124,13 +116,14 @@
     transition: all ease-in-out 0.1s;
 }
 #wenyan h3,h4,h5,h6{
-font-weight: bold;
+    font-weight: bold;
+    display: flex;
+    align-items: top;
 }
 #wenyan h3 {
     width: fit-content;
     margin: 20px 0 5px;
     font-size: 1.3em;
-    text-align: left;
     padding-left: 10px;
     border-left: 5px solid var(--head-title-color);
 }
@@ -140,54 +133,40 @@ font-weight: bold;
 #wenyan h4 {
     margin: 20px 0 5px;
     font-size: 1.15em;
-    text-align: left;
 }
 #wenyan h4::before {
     content: '';
     margin-right: 7px;
-    display: inline-block;
+    margin-top: 8px;
     background-color: var(--head-title-color);
     width: 10px;
     height: 10px;
     border-radius: 100%;
     border: var(--head-title-color) 1px solid;
-    vertical-align: middle;
 }
 #wenyan h5 {
     margin: 20px 0 5px;
     font-size: 1.1em;
-    text-align: left;
 }
 #wenyan h5::before {
     content: '';
     margin-right: 7px;
+    margin-top: 8px;
     display: inline-block;
     background-color: #ffffff;
     width: 10px;
     height: 10px;
     border-radius: 100%;
     border: var(--head-title-color) 2px solid;
-    vertical-align: middle;
 }
 #wenyan h6 {
     margin: 20px 0 5px;
     font-size: 1.1em;
-    text-align: left;
 }
 #wenyan h6::before {
     content: '⁘';
     color: var(--head-title-color);
     margin-right: 7px;
-    display: inline-block;
-    vertical-align: middle;
-}
-/* 列表 */
-::marker {
-  color: var(--element-color-deep);
-}
-
-li.md-list-item {
-  margin: 0.4rem 0;
 }
 
 #wenyan ol {
@@ -223,8 +202,6 @@ li.md-list-item {
 }
 
 #wenyan li {
-  font-family: Optima-Regular, Optima, PingFangSC-light, PingFangTC-light,
-    Cambria, Cochin, Georgia, Times, serif;
   color: #333;
   margin: 0px 6px;
   word-spacing: 2px;

@@ -28,6 +28,7 @@
 #wenyan h2 {
     font-size: 1.3em;
     border-bottom: 2px solid rgb(239, 112, 96);
+    display: flex;
 }
 #wenyan h2 span {
     display: inline-block;
@@ -40,11 +41,11 @@
     margin-right: 3px;
 }
 #wenyan h2::after {
-    display: inline-block;
     content: "";
-    vertical-align: bottom;
     border-bottom: 36px solid #efebe9;
     border-right: 20px solid transparent;
+    align-self: flex-end;
+    height: 0;
 }
 #wenyan h3 {
     font-size: 1.3em;
