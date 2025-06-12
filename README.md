@@ -32,7 +32,7 @@
 - 支持公式
 - 支持链接转脚注
 - 支持识别`front matter`语法
-- 集成多种主题样式模版
+- 集成多种主题样式模版（[主题效果预览](https://yuzhi.tech/docs/wenyan/theme)）
   - [Orange Heart](https://github.com/evgo2017/typora-theme-orange-heart)
   - [Rainbow](https://github.com/thezbm/typora-theme-rainbow)
   - [Lapis](https://github.com/YiNNx/typora-theme-lapis)
