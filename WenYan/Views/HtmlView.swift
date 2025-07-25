@@ -7,6 +7,7 @@
 
 import SwiftUI
 import WebKit
+import PDFKit
 
 struct HtmlView: NSViewRepresentable {
     @EnvironmentObject var viewModel: HtmlViewModel
@@ -351,32 +352,26 @@ extension HtmlViewModel {
         getScrollFrame { result in
             do {
                 guard let body = try result.get() as? [String: CGFloat],
-                      let width = body["width"],
                       let height = body["height"]
                 else {
                     return
                 }
                 
                 let originalFrame = webView.frame
-                let frameWidth = originalFrame.width - 30
-                let clipWidth = width + 15
                 let newFrame = NSRect(x: 0, y: 0, width: originalFrame.width, height: height)
                 webView.frame = newFrame
-                let configuration = WKSnapshotConfiguration()
-                configuration.rect = NSRect(x: (frameWidth - width) / 2.0, y: 0, width: clipWidth, height: height)
-                webView.takeSnapshot(with: configuration) { image, error in
-                    if let image = image {
-                        guard let tiffData = image.tiffRepresentation,
-                              let bitmapRep = NSBitmapImageRep(data: tiffData) else {
-                            return
-                        }
-                        let jpegData = bitmapRep.representation(using: .jpeg, properties: [.compressionFactor: 0.9]) // 设置压缩系数为 0.9
-                        if let data = jpegData {
-                            self.longImageData = DataFile(data: data)
+                webView.exportPDF() { pdfData, error in
+                    if let data = pdfData, let pdf = PDFDocument(data: data), let page = pdf.page(at: 0) {
+                        let image = page.thumbnail(of: CGSize(width: 1024, height: 1024 * CGFloat(page.bounds(for: .mediaBox).height / page.bounds(for: .mediaBox).width)), for: .mediaBox)
+                        if let tiffData = image.tiffRepresentation,
+                            let bitmapRep = NSBitmapImageRep(data: tiffData) {
+                            let jpegData = bitmapRep.representation(using: .jpeg, properties: [.compressionFactor: 0.9])
+                            if let data = jpegData {
+                                self.longImageData = DataFile(data: data)
+                            }
                         }
                     }
                 }
-                
                 webView.frame = originalFrame
             } catch {
                 self.appState.appError = AppError.bizError(description: error.localizedDescription)

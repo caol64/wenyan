@@ -54,7 +54,7 @@
 
 ## 更多功能介绍
 
-[https://yuzhi.tech/docs/wenyan](https://yuzhi.tech/docs/wenyan)
+[https://yuzhi.tech/wenyan](https://yuzhi.tech/wenyan)
 
 ## 下载
 
