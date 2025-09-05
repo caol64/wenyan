@@ -6,6 +6,8 @@
 
 **[文颜 MCP](https://github.com/caol64/wenyan-mcp) —— 可以让 AI 自动将 Markdown 文章排版后发布至微信公众号。**
 
+**[文颜 CLI](https://github.com/caol64/wenyan-cli) —— 文颜的 CLI 工具。**
+
 # 文颜
 
 本项目的起源是我平常使用`markdown`写文章，再使用`hugo`生成静态页面发布到我的博客。但当我想把文章发布到诸如“公众号”、“知乎”、“今日头条”等平台时，发现需要针对每个平台进行格式转换，这会让我每次浪费很多时间。
