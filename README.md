@@ -2,17 +2,18 @@
     <img alt = "logo" src="Data/256-mac.png" />
 </div>
 
-**文颜`Windows`版已开源，[请戳](https://github.com/caol64/wenyan-pc)。**
-
-**[文颜 MCP](https://github.com/caol64/wenyan-mcp) —— 可以让 AI 自动将 Markdown 文章排版后发布至微信公众号。**
-
-**[文颜 CLI](https://github.com/caol64/wenyan-cli) —— 文颜的 CLI 工具。**
-
 # 文颜
 
 本项目的起源是我平常使用`markdown`写文章，再使用`hugo`生成静态页面发布到我的博客。但当我想把文章发布到诸如“公众号”、“知乎”、“今日头条”等平台时，发现需要针对每个平台进行格式转换，这会让我每次浪费很多时间。
 
 后来我找到了 [Markdown Editor](https://markdown.com.cn/editor/) 网站，确实能很好的解决这些问题。但毕竟这是一个在线网站，我希望有个离线也能使用的工具，且我最近也在学`swift`，因此本项目应运而生。
+
+**文颜**现已推出多个版本：
+
+* [macOS App Store 版](https://github.com/caol64/wenyan) - MAC 桌面应用
+* [Windows + Linux 版](https://github.com/caol64/wenyan-pc) - 跨平台桌面应用
+* [CLI 版本](https://github.com/caol64/wenyan-cli) - CI/CD 或脚本自动化发布公众号文章
+* [MCP 版本](https://github.com/caol64/wenyan-mcp) - 让 AI 自动发布公众号文章
 
 ## 3.0版本升级
 
@@ -34,7 +35,7 @@
 - 支持公式
 - 支持链接转脚注
 - 支持识别`front matter`语法
-- 集成多种主题样式模版（[主题效果预览](https://yuzhi.tech/docs/wenyan/theme)）
+- 集成多种主题样式模版（👉 [内置主题预览](https://yuzhi.tech/docs/wenyan/theme)）
   - [Orange Heart](https://github.com/evgo2017/typora-theme-orange-heart)
   - [Rainbow](https://github.com/thezbm/typora-theme-rainbow)
   - [Lapis](https://github.com/YiNNx/typora-theme-lapis)
