@@ -4,6 +4,10 @@
 
 # 文颜
 
+[![App Store](https://img.shields.io/badge/App_Store-Download-blue?logo=apple)](https://apps.apple.com/cn/app/%E6%96%87%E9%A2%9C/id6670157335?mt=12&amp;itsct=apps_box_badge&amp;itscg=30200)
+[![License](https://img.shields.io/github/license/caol64/wenyan)](LICENSE)
+[![Stars](https://img.shields.io/github/stars/caol64/wenyan?style=social)](https://github.com/caol64/wenyan)
+
 本项目的起源是我平常使用`markdown`写文章，再使用`hugo`生成静态页面发布到我的博客。但当我想把文章发布到诸如“公众号”、“知乎”、“今日头条”等平台时，发现需要针对每个平台进行格式转换，这会让我每次浪费很多时间。
 
 后来我找到了 [Markdown Editor](https://markdown.com.cn/editor/) 网站，确实能很好的解决这些问题。但毕竟这是一个在线网站，我希望有个离线也能使用的工具，且我最近也在学`swift`，因此本项目应运而生。
