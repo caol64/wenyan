@@ -16,6 +16,7 @@ struct WenYanApp: App {
     @StateObject private var cssEditorViewModel: CssEditorViewModel
     @StateObject private var themePreviewViewModel: ThemePreviewViewModel
     @State private var showFileImporter = false
+    @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
     
     init() {
         let appState = AppState()
@@ -86,4 +87,16 @@ struct WenYanApp: App {
         }
     }
     
+}
+
+class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
+    func applicationDidFinishLaunching(_ notification: Notification) {
+        if let window = NSApplication.shared.windows.first {
+            window.delegate = self
+        }
+    }
+
+    func windowWillClose(_ notification: Notification) {
+        NSApplication.shared.terminate(nil)
+    }
 }
