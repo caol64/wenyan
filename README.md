@@ -18,6 +18,7 @@
 * [跨平台版本](https://github.com/caol64/wenyan-pc) - Windows/Linux 跨平台桌面应用
 * [CLI 版本](https://github.com/caol64/wenyan-cli) - CI/CD 或脚本自动化发布公众号文章
 * [MCP 版本](https://github.com/caol64/wenyan-mcp) - 让 AI 自动发布公众号文章
+* [嵌入版本](https://github.com/caol64/wenyan-core) - 将文颜的核心功能嵌入 Node 或者 Web 项目
 
 ## 3.0版本升级
 
