@@ -4,38 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>WenYan</title>
-        <script src="marked/marked.min.js"></script>
-        <script type="module">
-            import frontMatter from './marked/front-matter+esm.js';
-            window.frontMatter = frontMatter;
-        </script>
         <script src="highlight/highlight.min.js"></script>
-        <script src="marked/marked_hljs.umd.min.js"></script>
-        <script>
-            function addContainer(math, doc) {
-                const tag = math.display ? 'section' : 'span';
-                const cls = math.display ? 'block-equation' : 'inline-equation';
-                math.typesetRoot.setAttribute("math", math.math);
-                math.typesetRoot = doc.adaptor.node(tag, {class: cls}, [math.typesetRoot]);
-            }
-            MathJax = {
-                options: {
-                    renderActions: {
-                        addContainer: [190, (doc) => {for (const math of doc.math) {addContainer(math, doc)}}, addContainer]
-                    }
-                },
-                svg: {
-                    fontCache: 'none'
-                },
-                tex: {
-                    inlineMath: [['$', '$'], ['\\(', '\\)']],
-                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
-                    processEscapes: true
-                }
-            };
-        </script>
-        <script src="mathjax/tex-svg-full.min.js"></script>
         <script src="csstree/csstree.js"></script>
+        <script src="wenyan-math.js"></script>
+        <script src="wenyan-styles.js"></script>
+        <script src="wenyan-core.js"></script>
         <script src="main.js" defer></script>
     </head>
     <body>

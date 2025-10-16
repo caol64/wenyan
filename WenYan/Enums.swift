@@ -10,18 +10,18 @@ enum AppConstants {
 }
 
 enum ThemeStyle: String {
-    case gzhDefault = "themes/gzh_default.css"
-    case toutiaoDefault = "themes/toutiao_default.css"
-    case zhihuDefault = "themes/zhihu_default.css"
-    case juejinDefault = "themes/juejin_default.css"
-    case mediumDefault = "themes/medium_default.css"
-    case orangeHeart = "themes/orangeheart.css"
-    case rainbow = "themes/rainbow.css"
-    case lapis = "themes/lapis.css"
-    case pie = "themes/pie.css"
-    case maize = "themes/maize.css"
-    case purple = "themes/purple.css"
-    case phycat = "themes/phycat.css"
+    case gzhDefault
+    case toutiaoDefault
+    case zhihuDefault
+    case juejinDefault
+    case mediumDefault
+    case orangeheart
+    case rainbow
+    case lapis
+    case pie
+    case maize
+    case purple
+    case phycat
     
     var name: String {
         switch self {
@@ -30,7 +30,7 @@ enum ThemeStyle: String {
         case .zhihuDefault: "默认"
         case .juejinDefault: "默认"
         case .mediumDefault: "默认"
-        case .orangeHeart: "Orange Heart"
+        case .orangeheart: "Orange Heart"
         case .rainbow: "Rainbow"
         case .lapis: "Lapis"
         case .pie: "Pie"
@@ -47,7 +47,7 @@ enum ThemeStyle: String {
         case .zhihuDefault: ""
         case .juejinDefault: ""
         case .mediumDefault: ""
-        case .orangeHeart: "evgo2017"
+        case .orangeheart: "evgo2017"
         case .rainbow: "thezbm"
         case .lapis: "YiNN"
         case .pie: "kevinzhao2233"
@@ -102,7 +102,7 @@ enum Platform: String, CaseIterable, Identifiable {
     
     var themes: [ThemeStyle] {
         switch self {
-        case .gzh: [.gzhDefault, .orangeHeart, .rainbow, .lapis, .pie, .maize, .purple, .phycat]
+        case .gzh: [.gzhDefault, .orangeheart, .rainbow, .lapis, .pie, .maize, .purple, .phycat]
         case .zhihu: [.zhihuDefault]
         case .toutiao: [.toutiaoDefault]
         case .juejin: [.juejinDefault]

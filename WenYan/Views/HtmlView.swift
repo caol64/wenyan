@@ -20,6 +20,9 @@ struct HtmlView: NSViewRepresentable {
         configuration.setValue(true, forKey: "allowUniversalAccessFromFileURLs")
         
         let webView = WKWebView(frame: .zero, configuration: configuration)
+//        if #available(macOS 13.3, *) {
+//            webView.isInspectable = true
+//        }
         viewModel.setupWebView(webView)
         viewModel.loadIndex()
         return webView
@@ -97,6 +100,9 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         // 处理来自 JavaScript 的消息
         if message.name == WebkitStatus.loadHandler {
+//            if let body = message.body as? [[String: String]] {
+//                print(body)
+//            }
             configWebView()
         } else if message.name == WebkitStatus.scrollHandler {
             guard let body = message.body as? [String: CGFloat], let y = body["y0"] else { return }
@@ -178,31 +184,21 @@ extension HtmlViewModel {
     }
     
     func setTheme() {
-        do {
-            let themeContent: String
-            if platform == .gzh {
-                if gzhTheme.themeType == .custom,
-                   let customTheme = getCustomThemeById(id: gzhTheme.id().replacingOccurrences(of: "custom/", with: "")) {
-                    themeContent = customTheme.content!
-                } else {
-                    themeContent = try loadFileFromResource(path: gzhTheme.themeStyle!.rawValue)
-                }
+        if platform == .gzh {
+            if gzhTheme.themeType == .custom,
+               let customTheme = getCustomThemeById(id: gzhTheme.id().replacingOccurrences(of: "custom/", with: "")) {
+                let themeContent = customTheme.content!
+                callJavascript(javascriptString: "setCustomTheme(\(themeContent.toJavaScriptString()));")
             } else {
-                themeContent = try loadFileFromResource(path: platform.themes[0].rawValue)
+                callJavascript(javascriptString: "setThemeById('\(gzhTheme.themeStyle!.rawValue.replacingOccurrences(of: "gzhDefault", with: "default"))', true);")
             }
-            callJavascript(javascriptString: "setCustomTheme(\(themeContent.toJavaScriptString()));")
-        } catch {
-            appState.appError = AppError.bizError(description: error.localizedDescription)
+        } else {
+            callJavascript(javascriptString: "setThemeById('\(platform.themes[0].rawValue.replacingOccurrences(of: "default", with: ""))', false);")
         }
     }
     
     func setMacStyle() {
-        do {
-            let themeContent = try loadFileFromResource(path: "mac_style.css")
-            callJavascript(javascriptString: "setMacStyle(\(themeContent.toJavaScriptString()));")
-        } catch {
-            appState.appError = AppError.bizError(description: error.localizedDescription)
-        }
+        callJavascript(javascriptString: "setMacStyle();")
     }
     
     func removeMacStyle() {
@@ -210,12 +206,7 @@ extension HtmlViewModel {
     }
     
     func setHighlight(highlightStyle: HighlightStyle) {
-        do {
-            let themeContent = try loadFileFromResource(path: highlightStyle.path)
-            callJavascript(javascriptString: "setHighlight(\(themeContent.toJavaScriptString()));")
-        } catch {
-            appState.appError = AppError.bizError(description: error.localizedDescription)
-        }
+        callJavascript(javascriptString: "setHighlight(\(highlightStyle.id));")
     }
     
     func removeHighlight() {
