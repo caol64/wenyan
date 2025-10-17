@@ -22,7 +22,6 @@ let postprocessMarkdown = "";
 let isScrollingFromScript = false;
 let customCss = "";
 let highlightCss = "";
-let macStyleCss = "";
 let codeblockSettings;
 let paragraphSettings;
 
@@ -300,8 +299,7 @@ function setMacStyle() {
     document.getElementById("macStyle")?.remove();
     const style = document.createElement("style");
     style.setAttribute("id", "macStyle");
-    macStyleCss = WenyanStyles.macStyleCss;;
-    style.textContent = css;
+    style.textContent = window.macStyleCss;
     document.head.appendChild(style);
 }
 
@@ -314,7 +312,6 @@ function setParagraphSettings(settingsObj) {
 }
 
 function removeMacStyle() {
-    macStyleCss = "";
     document.getElementById("macStyle")?.remove();
 }
 
@@ -336,9 +333,14 @@ document.addEventListener('click', function(event) {
 
 WenyanCore.configureMarked();
 
-const builtinThemes = WenyanStyles.getAllThemes().map(obj => {
+const builtinGzhThemes = WenyanStyles.getAllThemes().map(obj => {
     const { id, appName, author } = obj;
     return { id, appName, author };
 });
 
-window.webkit.messageHandlers.loadHandler.postMessage(builtinThemes);
+const builtinHighlightThemes = WenyanStyles.getAllHlThemes().map(obj => {
+    const { id } = obj;
+    return { id };
+});
+
+window.webkit.messageHandlers.loadHandler.postMessage({ gzhThemes: builtinGzhThemes, hlThemes: builtinHighlightThemes });

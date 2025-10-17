@@ -73,7 +73,7 @@ extension CssEditorViewModel {
                 content = customTheme.content ?? ""
             } else {
                 if let modelTheme = modelTheme {
-                    content = modelTheme.themeType == .builtin ? try loadFileFromResource(path: modelTheme.themeStyle!.rawValue) : modelTheme.customTheme!.content ?? ""
+                    content = modelTheme.themeType == .builtin ? try loadFileFromResource(path: modelTheme.themeStyle!.id) : modelTheme.customTheme!.content ?? ""
                 } else {
                     content = try loadFileFromResource(forResource: "themes/gzh_default", withExtension: "css")
                 }

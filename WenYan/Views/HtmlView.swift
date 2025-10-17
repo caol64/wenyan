@@ -38,11 +38,11 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
     weak var webView: WKWebView?
     @Published var previewMode: PreviewMode = .mobile
     @Published var platform: Platform = .gzh
-    var highlightStyle: HighlightStyle = .github
+//    var highlightStyle = "github"
     @Published var scrollFactor: CGFloat = 0
     @Published var isCopied = false
     @Published var isFootnotes = false
-    @Published var gzhTheme: ThemeStyleWrapper = ThemeStyleWrapper(themeType: .builtin, themeStyle: Platform.gzh.themes[0])
+    @Published var gzhTheme: ThemeStyleWrapper = ThemeStyleWrapper(themeType: .builtin, themeStyle: ThemeStyle(id: "default"))
     var codeblockSettings = CodeblockSettingsViewModel.loadSettings() ?? CodeblockSettings()
     @Published var longImageData: DataFile?
     var hasLongImageData: Binding<Bool> {
@@ -100,9 +100,14 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         // 处理来自 JavaScript 的消息
         if message.name == WebkitStatus.loadHandler {
-//            if let body = message.body as? [[String: String]] {
-//                print(body)
-//            }
+            if let body = message.body as? [String: [[String: String]]] {
+                if let gzhThemes = body["gzhThemes"] {
+                    PlatformConfig.setThemes(body: gzhThemes)
+                }
+                if let hlThemes = body["hlThemes"] {
+                    HlThemeConfig.setThemes(body: hlThemes)
+                }
+            }
             configWebView()
         } else if message.name == WebkitStatus.scrollHandler {
             guard let body = message.body as? [String: CGFloat], let y = body["y0"] else { return }
@@ -125,19 +130,13 @@ extension HtmlViewModel {
                         gzhTheme = ThemeStyleWrapper(themeType: .custom, customTheme: customTheme)
                     }
                 } else {
-                    let themeStyle = ThemeStyle(rawValue: themeId) ?? platform.themes[0]
+                    let themeStyle = Platform.gzh.theme(withId: themeId)
                     gzhTheme = ThemeStyleWrapper(themeType: .builtin, themeStyle: themeStyle)
                 }
             }
             setParagraphSettings(paragraphSettings: ParagraphSettingsViewModel.loadSettings() ?? ParagraphSettings())
         }
-        if let highlightStyle = HighlightStyle(rawValue: codeblockSettings.theme) {
-            self.highlightStyle = highlightStyle
-        }
         setCodeblock()
-        if codeblockSettings.isMacStyle {
-            setMacStyle()
-        }
         setTheme()
         setContent()
     }
@@ -190,36 +189,15 @@ extension HtmlViewModel {
                 let themeContent = customTheme.content!
                 callJavascript(javascriptString: "setCustomTheme(\(themeContent.toJavaScriptString()));")
             } else {
-                callJavascript(javascriptString: "setThemeById('\(gzhTheme.themeStyle!.rawValue.replacingOccurrences(of: "gzhDefault", with: "default"))', true);")
+                callJavascript(javascriptString: "setThemeById('\(gzhTheme.themeStyle!.id)', true);")
             }
         } else {
-            callJavascript(javascriptString: "setThemeById('\(platform.themes[0].rawValue.replacingOccurrences(of: "default", with: ""))', false);")
+            callJavascript(javascriptString: "setThemeById('\(platform.themes[0].id)', false);")
         }
-    }
-    
-    func setMacStyle() {
-        callJavascript(javascriptString: "setMacStyle();")
-    }
-    
-    func removeMacStyle() {
-        callJavascript(javascriptString: "removeMacStyle();")
-    }
-    
-    func setHighlight(highlightStyle: HighlightStyle) {
-        callJavascript(javascriptString: "setHighlight(\(highlightStyle.id));")
-    }
-    
-    func removeHighlight() {
-        callJavascript(javascriptString: "setHighlight(null);")
     }
     
     func scroll(scrollFactor: CGFloat) {
         callJavascript(javascriptString: "scroll(\(scrollFactor));")
-    }
-    
-    func setCodeblockFont(fontSize: String, fontFamily: String) {
-        let jsString = "{\"fontSize\":\"\(fontSize)\",\"fontFamily\":\"\(fontFamily)\"}";
-        callJavascript(javascriptString: "setCodeblockSettings(JSON.parse(\(jsString.toJavaScriptString())));")
     }
     
     func setParagraphSettings(paragraphSettings: ParagraphSettings) {
@@ -315,17 +293,11 @@ extension HtmlViewModel {
         }
         self.platform = platform
         if (platform == .gzh) {
-            setCodeblock()
-            if codeblockSettings.isMacStyle {
-                setMacStyle()
-            }
             setParagraphSettings(paragraphSettings: ParagraphSettingsViewModel.loadSettings() ?? ParagraphSettings())
         } else {
-            let settings = CodeblockSettings()
-            setCodeblock(highlightStyle: .github, fontSize: settings.fontSize, fontFamily: settings.fontFamily)
-            removeMacStyle()
             setParagraphSettings(paragraphSettings: ParagraphSettings())
         }
+        setCodeblock()
         setTheme()
     }
     
@@ -426,14 +398,15 @@ extension HtmlViewModel {
         }.first
     }
     
-    func setCodeblock(highlightStyle: HighlightStyle, fontSize: String, fontFamily: String) {
-        setHighlight(highlightStyle: highlightStyle)
-        setCodeblockFont(fontSize: fontSize, fontFamily: fontFamily)
-    }
-    
     func setCodeblock() {
-        setHighlight(highlightStyle: highlightStyle)
-        setCodeblockFont(fontSize: codeblockSettings.fontSize, fontFamily: codeblockSettings.fontFamily)
+        callJavascript(javascriptString: "setHighlight('\(codeblockSettings.theme)');")
+        let jsString = "{\"fontSize\":\"\(codeblockSettings.fontSize)\",\"fontFamily\":\"\(codeblockSettings.fontFamily)\"}";
+        callJavascript(javascriptString: "setCodeblockSettings(JSON.parse(\(jsString.toJavaScriptString())));")
+        if codeblockSettings.isMacStyle {
+            callJavascript(javascriptString: "setMacStyle();")
+        } else {
+            callJavascript(javascriptString: "removeMacStyle();")
+        }
     }
     
 }
