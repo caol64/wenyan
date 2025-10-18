@@ -15,24 +15,10 @@
     <script src="csstree/handler.js"></script>
     <script src="prettier/prettier.min.js"></script>
     <script src="prettier/postcss.js"></script>
-    <style>
-        /* 遮罩层 */
-        .overlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0, 0, 0, 0);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 999;
-        }
-
-    </style>
 </head>
 
 <body>
     <script>
-
         CodeMirror.keyMap["default"]["Cmd-/"] = "toggleComment";  // Add-on
         let isScrollingFromScript = false;
         var editor = CodeMirror(document.body, {
@@ -57,8 +43,9 @@
             },
             styleActiveLine: true
         });
-        editor.on("change", function (instance, change) {
-            var content = getContent();
+
+        editor.on("change", function(instance, change) {
+            const content = getContent();
             window.webkit.messageHandlers.contentChangeHandler.postMessage(content);
         });
 
@@ -96,17 +83,7 @@
         }
 
         setTabInsertSpaces(true);
-        
-        // 显示遮罩层
-        function showOverlay() {
-            document.getElementById("overlay").style.display = "flex";
-        }
 
-        // 隐藏遮罩层
-        function hideOverlay() {
-            document.getElementById("overlay").style.display = "none";
-        }
-        
         document.addEventListener('click', function (event) {
             window.webkit.messageHandlers.clickHandler.postMessage(null);
         });
@@ -114,8 +91,6 @@
         window.webkit.messageHandlers.loadHandler.postMessage(null);
 
     </script>
-    <div class="overlay" id="overlay">
-    </div>
 </body>
 
 </html>

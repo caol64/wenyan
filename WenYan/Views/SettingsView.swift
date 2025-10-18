@@ -225,8 +225,8 @@ struct CodeblockSettingsView: View {
                         Text("高亮主题")
                             .bold()
                         Picker("", selection: $viewModel.codeblockSettings.theme) {
-                            ForEach(HighlightStyle.allCases, id: \.self.rawValue) { style in
-                                Text(style.rawValue).tag(style.rawValue)
+                            ForEach(HlThemeConfig.themes(), id: \.self) { style in
+                                Text(style).tag(style)
                             }
                         }
                         .pickerStyle(.menu)
@@ -284,14 +284,12 @@ struct CodeblockSettingsView: View {
                     }
                 }
                 .onReceive(viewModel.$codeblockSettings) { newContent in
-                    if let highlightStyle = HighlightStyle(rawValue: newContent.theme) {
-                        htmlViewModel.highlightStyle = highlightStyle
-                    }
+                    htmlViewModel.codeblockSettings.theme = newContent.theme
                     htmlViewModel.codeblockSettings.fontSize = newContent.fontSize
                     htmlViewModel.codeblockSettings.fontFamily = newContent.fontFamily
+                    htmlViewModel.codeblockSettings.isMacStyle = newContent.isMacStyle
                     htmlViewModel.setCodeblock()
                     htmlViewModel.setTheme()
-                    newContent.isMacStyle ? htmlViewModel.setMacStyle() : htmlViewModel.removeMacStyle()
                 }
             }
 
@@ -329,7 +327,7 @@ class CodeblockSettingsViewModel: ObservableObject {
 
 struct CodeblockSettings: Codable {
     var isMacStyle: Bool = false
-    var theme: String = HighlightStyle.github.rawValue
+    var theme: String = "github"
     var fontSize: String = FontSize.px12.rawValue
     var fontFamily: String = ""
 }
