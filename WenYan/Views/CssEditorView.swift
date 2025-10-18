@@ -17,6 +17,9 @@ struct CssEditorView: NSViewRepresentable {
         configuration.userContentController = userController
         
         let webView = WKWebView(frame: .zero, configuration: configuration)
+//        if #available(macOS 13.3, *) {
+//            webView.isInspectable = true
+//        }
         viewModel.setupWebView(webView)
         viewModel.loadIndex()
         return webView
@@ -32,8 +35,6 @@ class CssEditorViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler
     var appState: AppState
     weak var webView: WKWebView?
     @Published var content: String = ""
-    @Published var editorMode: EditorMode = .developer
-    var customTheme: CustomTheme?
     
     init(appState: AppState) {
         self.appState = appState
@@ -66,23 +67,7 @@ class CssEditorViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler
     
 }
 
-extension CssEditorViewModel {
-    func loadContent(customTheme: CustomTheme?, modelTheme: ThemeStyleWrapper?) {
-        do {
-            if let customTheme = customTheme {
-                content = customTheme.content ?? ""
-            } else {
-                if let modelTheme = modelTheme {
-                    content = modelTheme.themeType == .builtin ? try loadFileFromResource(path: modelTheme.themeStyle!.id) : modelTheme.customTheme!.content ?? ""
-                } else {
-                    content = try loadFileFromResource(forResource: "themes/gzh_default", withExtension: "css")
-                }
-            }
-        } catch {
-            appState.appError = AppError.bizError(description: error.localizedDescription)
-        }
-    }
-    
+extension CssEditorViewModel {    
     func configWebView() {
         setContent()
     }
@@ -104,36 +89,7 @@ extension CssEditorViewModel {
         callJavascript(javascriptString: "loadCss(\(css.toJavaScriptString()));")
     }
     
-    func showHideOverlay(_ showHelpBubble: Bool) {
-        showHelpBubble ? showOverlay() : hideOverlay()
-    }
-    
-    func showOverlay() {
-        callJavascript(javascriptString: "showOverlay();")
-    }
-    
-    func hideOverlay() {
-        callJavascript(javascriptString: "hideOverlay();")
-    }
-    
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {
         WenYan.callJavascript(webView: webView, javascriptString: javascriptString, callback: callback)
-    }
-    
-    func save() {
-        do {
-            if let customTheme = customTheme {
-                customTheme.content = content
-            } else {
-                let context = CoreDataStack.shared.persistentContainer.viewContext
-                let customTheme = CustomTheme(context: context)
-                customTheme.name = "自定义主题"
-                customTheme.content = content
-                customTheme.createdAt = Date()
-            }
-            try CoreDataStack.shared.save()
-        } catch {
-            appState.appError = AppError.bizError(description: error.localizedDescription)
-        }
     }
 }

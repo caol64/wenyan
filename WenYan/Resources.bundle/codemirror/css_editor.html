@@ -19,7 +19,6 @@
 
 <body>
     <script>
-
         CodeMirror.keyMap["default"]["Cmd-/"] = "toggleComment";  // Add-on
         let isScrollingFromScript = false;
         var editor = CodeMirror(document.body, {
@@ -44,8 +43,9 @@
             },
             styleActiveLine: true
         });
-        editor.on("change", function (instance, change) {
-            var content = getContent();
+
+        editor.on("change", function(instance, change) {
+            const content = getContent();
             window.webkit.messageHandlers.contentChangeHandler.postMessage(content);
         });
 

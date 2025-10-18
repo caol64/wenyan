@@ -173,12 +173,6 @@ function getContentWithMathImg() {
     return clonedWenyan.outerHTML;
 }
 
-function getContentForGzh() {
-    const wenyan = document.getElementById("wenyan");
-    const clonedWenyan = wenyan.cloneNode(true);
-    return WenyanCore.getContentForGzhCustomCss(clonedWenyan, customCss, highlightCss, macStyle);
-}
-
 function getContentForMedium() {
     const wenyan = document.getElementById("wenyan");
     const clonedWenyan = wenyan.cloneNode(true);
@@ -295,6 +289,13 @@ function transformUl(ulElement) {
 }
 
 //// 非通用方法
+async function getContentForGzh() {
+    const wenyan = document.getElementById("wenyan");
+    const clonedWenyan = wenyan.cloneNode(true);
+    const content = await WenyanCore.getContentForGzhCustomCss(clonedWenyan, customCss, highlightCss, codeblockSettings.isMacStyle);
+    window.webkit.messageHandlers.copyContentHandler.postMessage(content);
+}
+
 function setMacStyle() {
     document.getElementById("macStyle")?.remove();
     const style = document.createElement("style");
@@ -319,6 +320,12 @@ async function setThemeById(themeId, isGzh) {
     const theme = isGzh ? WenyanStyles.themes[themeId] : WenyanStyles.otherThemes[themeId];
     const css = await theme.getCss();
     setCustomTheme(css);
+}
+
+async function getThemeById(themeId) {
+    const theme = WenyanStyles.themes[themeId];
+    const content = await theme.getCss();
+    window.webkit.messageHandlers.loadThemesHandler.postMessage(content);
 }
 
 window.onscroll = function() {

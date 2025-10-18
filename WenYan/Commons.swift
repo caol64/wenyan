@@ -18,6 +18,8 @@ struct WebkitStatus {
     static let clickHandler = "clickHandler"
     static let errorHandler = "errorHandler"
     static let uploadHandler = "uploadHandler"
+    static let loadThemesHandler = "loadThemesHandler"
+    static let copyContentHandler = "copyContentHandler"
 }
 
 // Helper to convert Swift string to JavaScript string literal
@@ -99,6 +101,10 @@ struct ThemeStyleWrapper: Equatable, Hashable {
         self.themeType = themeType
         self.themeStyle = themeStyle
         self.customTheme = customTheme
+    }
+    
+    static func getDefault() -> ThemeStyleWrapper {
+        ThemeStyleWrapper(themeType: .builtin, themeStyle: ThemeStyle(id: "default"))
     }
     
     static func == (lhs: ThemeStyleWrapper, rhs: ThemeStyleWrapper) -> Bool {

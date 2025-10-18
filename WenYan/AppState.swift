@@ -13,6 +13,7 @@ class AppState: ObservableObject {
     @Published var showConfirm = false
     @Published var showSheet = false
     @Published var showHelpBubble = false
+    @Published var showDeleteButton = false
 
     var showError: Binding<Bool> {
         Binding {

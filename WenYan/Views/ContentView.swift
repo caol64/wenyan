@@ -109,12 +109,13 @@ struct ContentView: View {
             .onReceive(cssEditorViewModel.$content) { content in
                 themePreviewViewModel.onUpdate(css: content)
             }
-            .onReceive(appState.$showHelpBubble) { showHelpBubble in
-                cssEditorViewModel.showHideOverlay(showHelpBubble)
+            .onReceive(htmlViewModel.$cssEditorContent) { content in
+                cssEditorViewModel.content = content
+                cssEditorViewModel.setContent()
             }
             .toolbar {
                 ToolbarItem(placement: .automatic) {
-                    if htmlViewModel.selectedCustomTheme != nil {
+                    if !appState.showDeleteButton {
                         Button(action: {
                             htmlViewModel.deleteCustomTheme()
                             dismiss()
@@ -155,7 +156,7 @@ struct ContentView: View {
                 ToolbarItem(placement: .primaryAction) {
                     Button("保存") {
                         appState.showHelpBubble = false
-                        cssEditorViewModel.save()
+                        save()
                         htmlViewModel.fetchCustomThemes()
                         htmlViewModel.setTheme()
                         dismiss()
@@ -184,11 +185,30 @@ struct ContentView: View {
                 }
             }
         }
+        
+        func save() {
+            do {
+                if let customTheme = htmlViewModel.gzhTheme.customTheme {
+                    customTheme.content = cssEditorViewModel.content
+                } else {
+                    let context = CoreDataStack.shared.persistentContainer.viewContext
+                    let customTheme = CustomTheme(context: context)
+                    customTheme.name = "自定义主题"
+                    customTheme.content = cssEditorViewModel.content
+                    customTheme.createdAt = Date()
+                }
+                try CoreDataStack.shared.save()
+            } catch {
+                appState.appError = AppError.bizError(description: error.localizedDescription)
+            }
+        }
     }
     
     struct ToolButtonPopup: View {
         @EnvironmentObject private var htmlViewModel: HtmlViewModel
         @EnvironmentObject private var appState: AppState
+        @State var isCopied = false
+
         var body: some View {
             VStack {
                 if htmlViewModel.platform == .gzh {
@@ -289,9 +309,15 @@ struct ContentView: View {
                 }
                 Button(action: {
                     htmlViewModel.onCopy()
+                    isCopied = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        withAnimation {
+                            self.isCopied = false
+                        }
+                    }
                 }) {
                     HStack {
-                        Image(systemName: htmlViewModel.isCopied ? "checkmark" : "clipboard")
+                        Image(systemName: isCopied ? "checkmark" : "clipboard")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 16, height: 16)
@@ -328,9 +354,12 @@ struct ContentView: View {
                             Spacer()
                             Text("创建新主题")
                             Button {
-                                htmlViewModel.selectedCustomTheme = nil
-                                cssEditorViewModel.customTheme = nil
-                                cssEditorViewModel.loadContent(customTheme: nil, modelTheme: htmlViewModel.gzhTheme)
+                                if htmlViewModel.gzhTheme.themeType == .builtin {
+                                    htmlViewModel.getThemeById()
+                                } else {
+                                    htmlViewModel.cssEditorContent = htmlViewModel.gzhTheme.customTheme?.content ?? ""
+                                }
+                                appState.showDeleteButton = true
                                 appState.showSheet = true
                             } label: {
                                 Image(systemName: "plus.circle")
@@ -420,9 +449,8 @@ struct ContentView: View {
                 HStack {
                     Button {
                         htmlViewModel.gzhTheme = theme
-                        htmlViewModel.selectedCustomTheme = theme.customTheme
-                        cssEditorViewModel.customTheme = theme.customTheme
-                        cssEditorViewModel.loadContent(customTheme: htmlViewModel.selectedCustomTheme, modelTheme: nil)
+                        htmlViewModel.cssEditorContent = theme.customTheme?.content ?? ""
+                        appState.showDeleteButton = false
                         appState.showSheet = true
                     } label: {
                         Image(systemName: "square.and.pencil")

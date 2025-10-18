@@ -38,11 +38,10 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
     weak var webView: WKWebView?
     @Published var previewMode: PreviewMode = .mobile
     @Published var platform: Platform = .gzh
-//    var highlightStyle = "github"
     @Published var scrollFactor: CGFloat = 0
-    @Published var isCopied = false
     @Published var isFootnotes = false
-    @Published var gzhTheme: ThemeStyleWrapper = ThemeStyleWrapper(themeType: .builtin, themeStyle: ThemeStyle(id: "default"))
+    @Published var gzhTheme = ThemeStyleWrapper.getDefault()
+    @Published var cssEditorContent = ""
     var codeblockSettings = CodeblockSettingsViewModel.loadSettings() ?? CodeblockSettings()
     @Published var longImageData: DataFile?
     var hasLongImageData: Binding<Bool> {
@@ -65,7 +64,6 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
         }
     }
     @Published var customThemes: [CustomTheme] = []
-    var selectedCustomTheme: CustomTheme?
     
     init(appState: AppState) {
         self.appState = appState
@@ -78,6 +76,8 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
         contentController.add(self, name: WebkitStatus.loadHandler)
         contentController.add(self, name: WebkitStatus.scrollHandler)
         contentController.add(self, name: WebkitStatus.clickHandler)
+        contentController.add(self, name: WebkitStatus.loadThemesHandler)
+        contentController.add(self, name: WebkitStatus.copyContentHandler)
         webView.setValue(true, forKey: "drawsTransparentBackground")
         webView.allowsMagnification = false
         self.webView = webView
@@ -116,6 +116,14 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
             if appState.showThemeList {
                 appState.showThemeList = false
             }
+        } else if message.name == WebkitStatus.loadThemesHandler {
+            guard let body = message.body as? String else { return }
+            cssEditorContent = body
+        } else if message.name == WebkitStatus.copyContentHandler {
+            guard let body = message.body as? String else { return }
+            let pasteBoard = NSPasteboard.general
+            pasteBoard.clearContents()
+            pasteBoard.setString(body, forType: .html)
         }
     }
 }
@@ -166,8 +174,8 @@ extension HtmlViewModel {
         callJavascript(javascriptString: "getContentWithMathImg();", callback: block)
     }
     
-    func getContentForGzh(_ block: JavascriptCallback?) {
-        callJavascript(javascriptString: "getContentForGzh();", callback: block)
+    func getContentForGzh() {
+        callJavascript(javascriptString: "getContentForGzh();")
     }
     
     func getContentForMedium(_ block: JavascriptCallback?) {
@@ -179,7 +187,11 @@ extension HtmlViewModel {
     }
     
     func setPreviewMode() {
-        callJavascript(javascriptString: "setPreviewMode(\"\(previewMode.rawValue)\");")
+        callJavascript(javascriptString: "setPreviewMode(\(previewMode.rawValue.toJavaScriptString()));")
+    }
+    
+    func getThemeById() {
+        callJavascript(javascriptString: "getThemeById(\(gzhTheme.id().toJavaScriptString()));")
     }
     
     func setTheme() {
@@ -189,10 +201,10 @@ extension HtmlViewModel {
                 let themeContent = customTheme.content!
                 callJavascript(javascriptString: "setCustomTheme(\(themeContent.toJavaScriptString()));")
             } else {
-                callJavascript(javascriptString: "setThemeById('\(gzhTheme.themeStyle!.id)', true);")
+                callJavascript(javascriptString: "setThemeById(\(gzhTheme.id().toJavaScriptString()), true);")
             }
         } else {
-            callJavascript(javascriptString: "setThemeById('\(platform.themes[0].id)', false);")
+            callJavascript(javascriptString: "setThemeById(\(platform.themes[0].id.toJavaScriptString()), false);")
         }
     }
     
@@ -245,10 +257,12 @@ extension HtmlViewModel {
     }
     
     func onCopy() {
+        if self.platform == .gzh {
+            getContentForGzh()
+            return
+        }
         let fetchContent: (@escaping JavascriptCallback) -> Void
         switch self.platform {
-        case .gzh:
-            fetchContent = getContentForGzh
         case .zhihu:
             fetchContent = getContentWithMathImg
         case .juejin:
@@ -271,13 +285,6 @@ extension HtmlViewModel {
                 }
             } catch {
                 self.appState.appError = AppError.bizError(description: error.localizedDescription)
-            }
-        }
-        isCopied = true
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            withAnimation {
-                self.isCopied = false
             }
         }
     }
@@ -380,16 +387,15 @@ extension HtmlViewModel {
     }
     
     func deleteCustomTheme() {
-        if let customTheme = selectedCustomTheme {
+        if let customTheme = gzhTheme.customTheme {
             do {
                 try CoreDataStack.shared.delete(item: customTheme)
-                selectedCustomTheme = nil
                 fetchCustomThemes()
             } catch {
                 self.appState.appError = AppError.bizError(description: error.localizedDescription)
             }
         }
-        gzhTheme = ThemeStyleWrapper(themeType: .builtin, themeStyle: Platform.gzh.themes[0])
+        gzhTheme = ThemeStyleWrapper.getDefault()
     }
     
     func getCustomThemeById(id: String) -> CustomTheme? {
@@ -399,13 +405,24 @@ extension HtmlViewModel {
     }
     
     func setCodeblock() {
-        callJavascript(javascriptString: "setHighlight('\(codeblockSettings.theme)');")
-        let jsString = "{\"fontSize\":\"\(codeblockSettings.fontSize)\",\"fontFamily\":\"\(codeblockSettings.fontFamily)\"}";
-        callJavascript(javascriptString: "setCodeblockSettings(JSON.parse(\(jsString.toJavaScriptString())));")
+        callJavascript(javascriptString: "setHighlight(\(codeblockSettings.theme.toJavaScriptString()));")
+        setCodeblockSettings(codeblockSettings: codeblockSettings)
         if codeblockSettings.isMacStyle {
             callJavascript(javascriptString: "setMacStyle();")
         } else {
             callJavascript(javascriptString: "removeMacStyle();")
+        }
+    }
+    
+    func setCodeblockSettings(codeblockSettings: CodeblockSettings) {
+        do {
+            let encoder = JSONEncoder()
+            let jsonData = try encoder.encode(codeblockSettings)
+            let jsonString = String(data: jsonData, encoding: .utf8)
+            let jsString = jsonString ?? ""
+            callJavascript(javascriptString: "setCodeblockSettings(JSON.parse(\(jsString.toJavaScriptString())));")
+        } catch {
+            appState.appError = AppError.bizError(description: error.localizedDescription)
         }
     }
     

@@ -41,11 +41,6 @@ enum ThemeType {
     case custom
 }
 
-enum EditorMode {
-    case normal
-    case developer
-}
-
 enum Settings: Identifiable, Hashable {
     enum ImageHosts: String, CaseIterable, Identifiable {
         case gzh = "公众号图床"
