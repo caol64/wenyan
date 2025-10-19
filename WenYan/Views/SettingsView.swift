@@ -113,37 +113,43 @@ struct GzhImageHostSettingsView: View {
 
     var body: some View {
         VStack(alignment: .leading) {
-            HStack {
-                Text(Settings.ImageHosts.gzh.rawValue)
-                    .font(.title2)
-                    .bold()
-                Spacer()
-                Toggle("", isOn: $viewModel.isEnabled)
-                    .toggleStyle(.switch)
-            }
+            Text(Settings.ImageHosts.gzh.rawValue)
+                .font(.title2)
+                .bold()
             
             CardView {
                 VStack(alignment: .leading, spacing: 10) {
-                    Text("开发者ID(AppID)")
-                        .bold()
-                    TextField("如：wx6e1234567890efa3", text: $viewModel.gzhImageHost.appId)
-                        .textFieldStyle(.roundedBorder)
-                        .padding(.bottom, 8)
-                    
-                    Text("开发者密码(AppSecret)")
-                        .bold()
-                    TextField("如：d9f1abcdef01234567890abcdef82397", text: $viewModel.gzhImageHost.appSecret)
-                        .textFieldStyle(.roundedBorder)
-                    
                     HStack {
+                        Text("启用")
+                            .bold()
                         Spacer()
-                        Text("请务必开启“IP白名单”")
+                        Toggle("", isOn: $viewModel.isEnabled.animation(.easeInOut(duration: 0.25)))
+                            .toggleStyle(.switch)
                     }
-                    .padding(.top, 16)
-                    HStack {
-                        Spacer()
-                        Link("使用帮助", destination: URL(string: "https://yuzhi.tech/docs/wenyan/upload")!)
-                            .pointingHandCursor()
+                    .padding(.bottom, 8)
+                    
+                    if viewModel.isEnabled {
+                        Text("开发者ID(AppID)")
+                            .bold()
+                        TextField("如：wx6e1234567890efa3", text: $viewModel.gzhImageHost.appId)
+                            .textFieldStyle(.roundedBorder)
+                            .padding(.bottom, 8)
+                        
+                        Text("开发者密码(AppSecret)")
+                            .bold()
+                        TextField("如：d9f1abcdef01234567890abcdef82397", text: $viewModel.gzhImageHost.appSecret)
+                            .textFieldStyle(.roundedBorder)
+                        
+                        HStack {
+                            Spacer()
+                            Text("请务必开启“IP白名单”")
+                        }
+                        .padding(.top, 16)
+                        HStack {
+                            Spacer()
+                            Link("使用帮助", destination: URL(string: "https://yuzhi.tech/docs/wenyan/upload")!)
+                                .pointingHandCursor()
+                        }
                     }
                 }
             }
@@ -355,71 +361,77 @@ struct ParagraphSettingsView: View {
                             Spacer()
                             Toggle("", isOn: Binding(
                                 get: { !viewModel.paragraphSettings.isEnabled },
-                                set: { viewModel.paragraphSettings.isEnabled = !$0 }
+                                set: { newValue in
+                                    withAnimation(.easeInOut(duration: 0.25)) {
+                                        viewModel.paragraphSettings.isEnabled = !newValue
+                                    }
+                                }
                             ))
                             .toggleStyle(.switch)
                         }
                         .padding(.bottom, 8)
                         
-                        Text("字体大小")
-                            .bold()
-                        Picker("", selection: $viewModel.paragraphSettings.fontSize) {
-                            ForEach(FontSize.allCases, id: \.self.rawValue) { fontSize in
-                                Text(fontSize.rawValue).tag(fontSize.rawValue)
+                        if viewModel.paragraphSettings.isEnabled {
+                            Text("字体大小")
+                                .bold()
+                            Picker("", selection: $viewModel.paragraphSettings.fontSize) {
+                                ForEach(FontSize.allCases, id: \.self.rawValue) { fontSize in
+                                    Text(fontSize.rawValue).tag(fontSize.rawValue)
+                                }
                             }
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.bottom, 8)
-                        
-                        Text("字体")
-                            .bold()
-                        Picker("", selection: $viewModel.paragraphSettings.fontType) {
-                            ForEach(FontType.allCases, id: \.self.rawValue) { style in
-                                Text(style.label).tag(style.rawValue)
+                            .pickerStyle(.segmented)
+                            .padding(.bottom, 8)
+                            
+                            Text("字体")
+                                .bold()
+                            Picker("", selection: $viewModel.paragraphSettings.fontType) {
+                                ForEach(FontType.allCases, id: \.self.rawValue) { style in
+                                    Text(style.label).tag(style.rawValue)
+                                }
                             }
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.bottom, 8)
-                        
-                        Text("文字粗细")
-                            .bold()
-                        Picker("", selection: $viewModel.paragraphSettings.fontWeight) {
-                            ForEach(FontWeight.allCases, id: \.self.rawValue) { style in
-                                Text(style.label).tag(style.rawValue)
+                            .pickerStyle(.segmented)
+                            .padding(.bottom, 8)
+                            
+                            Text("文字粗细")
+                                .bold()
+                            Picker("", selection: $viewModel.paragraphSettings.fontWeight) {
+                                ForEach(FontWeight.allCases, id: \.self.rawValue) { style in
+                                    Text(style.label).tag(style.rawValue)
+                                }
                             }
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.bottom, 8)
-                        
-                        Text("字间距")
-                            .bold()
-                        Picker("", selection: $viewModel.paragraphSettings.wordSpacing) {
-                            ForEach(WordSpacing.allCases, id: \.self.rawValue) { style in
-                                Text(style.label).tag(style.rawValue)
+                            .pickerStyle(.segmented)
+                            .padding(.bottom, 8)
+                            
+                            Text("字间距")
+                                .bold()
+                            Picker("", selection: $viewModel.paragraphSettings.wordSpacing) {
+                                ForEach(WordSpacing.allCases, id: \.self.rawValue) { style in
+                                    Text(style.label).tag(style.rawValue)
+                                }
                             }
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.bottom, 8)
-                        
-                        Text("行间距")
-                            .bold()
-                        Picker("", selection: $viewModel.paragraphSettings.lineSpacing) {
-                            ForEach(LineSpacing.allCases, id: \.self.rawValue) { style in
-                                Text(style.label).tag(style.rawValue)
+                            .pickerStyle(.segmented)
+                            .padding(.bottom, 8)
+                            
+                            Text("行间距")
+                                .bold()
+                            Picker("", selection: $viewModel.paragraphSettings.lineSpacing) {
+                                ForEach(LineSpacing.allCases, id: \.self.rawValue) { style in
+                                    Text(style.label).tag(style.rawValue)
+                                }
                             }
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.bottom, 8)
-                        
-                        Text("段落间距")
-                            .bold()
-                        Picker("", selection: $viewModel.paragraphSettings.paragraphSpacing) {
-                            ForEach(ParagraphSpacing.allCases, id: \.self.rawValue) { style in
-                                Text(style.label).tag(style.rawValue)
+                            .pickerStyle(.segmented)
+                            .padding(.bottom, 8)
+                            
+                            Text("段落间距")
+                                .bold()
+                            Picker("", selection: $viewModel.paragraphSettings.paragraphSpacing) {
+                                ForEach(ParagraphSpacing.allCases, id: \.self.rawValue) { style in
+                                    Text(style.label).tag(style.rawValue)
+                                }
                             }
+                            .pickerStyle(.segmented)
+                            .padding(.bottom, 8)
                         }
-                        .pickerStyle(.segmented)
-                        .padding(.bottom, 8)
                     }
                 }
                 .onReceive(viewModel.$paragraphSettings) { newContent in
