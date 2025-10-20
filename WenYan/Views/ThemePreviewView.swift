@@ -35,6 +35,7 @@ class ThemePreviewViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHand
     @Published var appState: AppState
     weak var webView: WKWebView?
     var css = ""
+    var content = ""
     
     init(appState: AppState) {
         self.appState = appState
@@ -54,7 +55,7 @@ class ThemePreviewViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHand
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         // 处理来自 JavaScript 的消息
         if message.name == WebkitStatus.loadHandler {
-            callJavascript(javascriptString: "setCss(\(css.toJavaScriptString()));")
+            onUpdate()
         } else if message.name == WebkitStatus.clickHandler {
             if appState.showHelpBubble {
                 appState.showHelpBubble = false
@@ -75,9 +76,9 @@ extension ThemePreviewViewModel {
         }
     }
     
-    func onUpdate(css: String) {
-        self.css = css
+    func onUpdate() {
         callJavascript(javascriptString: "setCss(\(css.toJavaScriptString()));")
+        callJavascript(javascriptString: "setContent(\(content.toJavaScriptString()));")
     }
     
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {

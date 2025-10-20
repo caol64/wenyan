@@ -105,9 +105,13 @@ struct ContentView: View {
                     .frame(minWidth: 500, minHeight: 580)
                 ThemePreviewView()
                     .frame(minWidth: 500, minHeight: 580)
+                    .onAppear() {
+                        themePreviewViewModel.content = htmlViewModel.content
+                    }
             }
             .onReceive(cssEditorViewModel.$content) { content in
-                themePreviewViewModel.onUpdate(css: content)
+                themePreviewViewModel.css = content
+                themePreviewViewModel.onUpdate()
             }
             .onReceive(htmlViewModel.$cssEditorContent) { content in
                 cssEditorViewModel.content = content
@@ -156,7 +160,7 @@ struct ContentView: View {
                 ToolbarItem(placement: .primaryAction) {
                     Button("保存") {
                         appState.showHelpBubble = false
-                        save()
+                        htmlViewModel.saveCustomTheme(content: cssEditorViewModel.content)
                         htmlViewModel.fetchCustomThemes()
                         htmlViewModel.setTheme()
                         dismiss()
@@ -186,28 +190,11 @@ struct ContentView: View {
             }
         }
         
-        func save() {
-            do {
-                if let customTheme = htmlViewModel.gzhTheme.customTheme {
-                    customTheme.content = cssEditorViewModel.content
-                } else {
-                    let context = CoreDataStack.shared.persistentContainer.viewContext
-                    let customTheme = CustomTheme(context: context)
-                    customTheme.name = "自定义主题"
-                    customTheme.content = cssEditorViewModel.content
-                    customTheme.createdAt = Date()
-                }
-                try CoreDataStack.shared.save()
-            } catch {
-                appState.appError = AppError.bizError(description: error.localizedDescription)
-            }
-        }
     }
     
     struct ToolButtonPopup: View {
         @EnvironmentObject private var htmlViewModel: HtmlViewModel
         @EnvironmentObject private var appState: AppState
-        @State var isCopied = false
 
         var body: some View {
             VStack {
@@ -309,15 +296,9 @@ struct ContentView: View {
                 }
                 Button(action: {
                     htmlViewModel.onCopy()
-                    isCopied = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                        withAnimation {
-                            self.isCopied = false
-                        }
-                    }
                 }) {
                     HStack {
-                        Image(systemName: isCopied ? "checkmark" : "clipboard")
+                        Image(systemName: appState.isCopied ? "checkmark" : "clipboard")
                             .resizable()
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 16, height: 16)

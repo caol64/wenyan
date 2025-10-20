@@ -4,7 +4,11 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>WenYan</title>
+        <script src="highlight/highlight.min.js"></script>
+        <script src="csstree/csstree.js"></script>
+        <script src="wenyan-math.js"></script>
         <script src="wenyan-styles.js"></script>
+        <script src="wenyan-core.js"></script>
         <link rel="stylesheet" href="style.css">
         <style>
             :root {
@@ -16,78 +20,34 @@
             }
         </style>
         <style id="theme"></style>
-        <style id="highlight"></style>
+        <style id="hljs"></style>
         <style id="macStyle"></style>
         <script>
             function setCss(cssText) {
                 document.getElementById("theme").innerText = cssText;
             }
+
+            async function setContent(content) {
+                const preHandlerContent = WenyanCore.handleFrontMatter(content);
+                let body = preHandlerContent.body;
+                if (preHandlerContent.title) {
+                    body = `# ${preHandlerContent.title}\n\n${body}`;
+                }
+                document.getElementById("wenyan").innerHTML = await WenyanCore.renderMarkdown(body);
+            }
+
             (async () => {
-                document.getElementById("highlight").innerText = await WenyanStyles.hlThemes["github"].getCss();
-                document.getElementById("macStyle").innerText = WenyanStyles.macStyleCss;
+                document.getElementById("hljs").innerText = await WenyanStyles.hlThemes["solarized-light"].getCss();
+                document.getElementById("macStyle").innerText = window.macStyleCss;
             })();
         </script>
     </head>
     <body>
         <section id="wenyan" class="preview">
-            <h1><span>一级标题</span></h1>
-            <h2><span>二级标题</span></h2>
-            <h3><span>三级标题</span></h3>
-            <h4><span>四级标题</span></h4>
-            <h5><span>五级标题</span></h5>
-            <h6><span>六级标题</span></h6>
-        <p>这是第一个段落。</p>
-        <p>这是第二个段落，<em>斜体</em>，<strong>加粗</strong>，行内代码：<code>monospace</code>，行内公式：$I = \int \rho R^{2} dV$。</p>
-        <p>无序列表：</p>
-        <ul>
-        <li>this one</li>
-        <li>that one</li>
-        <li>the other one</li>
-        </ul>
-        <p>有序列表：</p>
-        <ol>
-        <li>first item</li>
-        <li>second item</li>
-        <li>third item</li>
-        </ol>
-        <p>文字引用：</p>
-        <blockquote>
-        <p>Block quotes are
-        written like so.</p>
-        <p>They can span multiple paragraphs,
-        if you like.</p>
-        </blockquote>
-        <p>代码块：</p>
-        <pre><code>define foobar() {
-    print "Welcome to flavor country!";
-}
-        </code></pre>
-        <pre><code class="hljs language-python"><span class="hljs-keyword">import</span> time
-<span class="hljs-comment"># Quick, count to ten!</span>
-<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> <span class="hljs-built_in">range</span>(<span class="hljs-number">10</span>):
-    <span class="hljs-comment"># (but not *too* quick)</span>
-    time.sleep(<span class="hljs-number">0.5</span>)
-    <span class="hljs-built_in">print</span>(i)
-        </code></pre>
-        <p>表格：</p>
-        <table><thead><tr><th>标题1</th><th>标题2</th><th>标题3</th></tr></thead><tbody><tr><td>行1列1</td><td>行1列2</td><td>行1列3</td></tr><tr><td>行2列1</td><td>行2列2</td><td>行2列3</td></tr><tr><td>行3列1</td><td>行3列2</td><td>行3列3</td></tr></tbody></table>
-        <p>链接：</p>
-        <p><a href="http://foo.bar">a website</a></p>
-        <p>分割线：</p>
-        <hr>
-        <p>图片：</p>
-        <p><img src="https://www.baidu.com/img/PCtm_d9c8750bed0b3c7d089fa7d55720d6cf.png" alt="example image"></p>
-        <p>行间公式：</p>
-        $$I = \int \rho R^{2} dV$$
-        <p>引用链接：</p>
-        <p>Here's a link to <a href="http://foo.bar">a website</a><sup class="footnote">[1]</sup>, to a <a href="local-doc.html">local
-                doc</a><sup class="footnote">[2]</sup>, and to a <a href="#an-h2-header">section heading in the current
-                doc</a><sup class="footnote">[3]</sup>. </p>
-        <section id="footnotes"><p><span class="footnote-num">[1]</span><span class="footnote-txt">a website: <i>http://foo.bar</i></span></p><p><span class="footnote-num">[2]</span><span class="footnote-txt">local
-        doc: <i>local-doc.html</i></span></p><p><span class="footnote-num">[3]</span><span class="footnote-txt">section heading in the current
-        doc: <i>#an-h2-header</i></span></p></section></section>
+        </section>
     </body>
 </html>
 <script>
+    WenyanCore.configureMarked();
     window.webkit.messageHandlers.loadHandler.postMessage(null);
 </script>

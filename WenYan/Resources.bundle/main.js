@@ -191,9 +191,17 @@ function getContentForMedium() {
             const classAttribute = code.getAttribute('class');
             // 提取语言
             if (classAttribute) {
-                const language = classAttribute.split(' ').find(cls => cls.startsWith('language-')).replace('language-', '');
-                if (language) {
-                    p.setAttribute("data-code-block-lang", language);
+                // 1. 分割类名并使用 find() 查找以 'language-' 开头的类
+                const languageClass = classAttribute.split(' ').find(cls => cls.startsWith('language-'));
+                
+                // 2. 关键：检查 find() 的返回值是否有效（即不是 undefined）
+                if (languageClass) {
+                    // 3. 只有在找到匹配项时，才执行 replace() 来提取语言名
+                    const language = languageClass.replace('language-', '');
+                    
+                    if (language) {
+                        p.setAttribute("data-code-block-lang", language);
+                    }
                 }
             }
             // 获取所有子 span 元素

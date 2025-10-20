@@ -124,6 +124,7 @@ class HtmlViewModel: NSObject, WKNavigationDelegate, WKScriptMessageHandler, Obs
             let pasteBoard = NSPasteboard.general
             pasteBoard.clearContents()
             pasteBoard.setString(body, forType: .html)
+            appState.toggleCopyIcon()
         }
     }
 }
@@ -283,6 +284,7 @@ extension HtmlViewModel {
                 } else {
                     pasteBoard.setString(content, forType: .html)
                 }
+                self.appState.toggleCopyIcon()
             } catch {
                 self.appState.appError = AppError.bizError(description: error.localizedDescription)
             }
@@ -301,10 +303,13 @@ extension HtmlViewModel {
         self.platform = platform
         if (platform == .gzh) {
             setParagraphSettings(paragraphSettings: ParagraphSettingsViewModel.loadSettings() ?? ParagraphSettings())
+            setCodeblock()
         } else {
             setParagraphSettings(paragraphSettings: ParagraphSettings())
+            callJavascript(javascriptString: "removeMacStyle();")
+            callJavascript(javascriptString: "setHighlight('github');")
+            setCodeblockSettings(codeblockSettings: CodeblockSettings())
         }
-        setCodeblock()
         setTheme()
     }
     
@@ -402,6 +407,23 @@ extension HtmlViewModel {
         return customThemes.filter { item in
             item.objectID.uriRepresentation().absoluteString == id
         }.first
+    }
+    
+    func saveCustomTheme(content: String) {
+        do {
+            if let customTheme = gzhTheme.customTheme {
+                customTheme.content = content
+            } else {
+                let context = CoreDataStack.shared.persistentContainer.viewContext
+                let customTheme = CustomTheme(context: context)
+                customTheme.name = "自定义主题"
+                customTheme.content = content
+                customTheme.createdAt = Date()
+            }
+            try CoreDataStack.shared.save()
+        } catch {
+            appState.appError = AppError.bizError(description: error.localizedDescription)
+        }
     }
     
     func setCodeblock() {

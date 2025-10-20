@@ -14,6 +14,7 @@ class AppState: ObservableObject {
     @Published var showSheet = false
     @Published var showHelpBubble = false
     @Published var showDeleteButton = false
+    @Published var isCopied = false
 
     var showError: Binding<Bool> {
         Binding {
@@ -21,6 +22,15 @@ class AppState: ObservableObject {
         } set: { showError in
             if !showError {
                 self.appError = nil
+            }
+        }
+    }
+    
+    func toggleCopyIcon() {
+        isCopied = true
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            withAnimation(.easeInOut(duration: 0.25)) {
+                self.isCopied = false
             }
         }
     }
