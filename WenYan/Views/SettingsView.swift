@@ -220,37 +220,54 @@ struct CodeblockSettingsView: View {
                 ZStack {
                     VStack(alignment: .leading, spacing: 10) {
                         HStack {
-                            Text("Mac 风格")
+                            Text("跟随主题")
                                 .bold()
                             Spacer()
-                            Toggle("", isOn: $viewModel.codeblockSettings.isMacStyle)
-                                .toggleStyle(.switch)
+                            Toggle("", isOn: Binding(
+                                get: { !viewModel.codeblockSettings.isEnabled },
+                                set: { newValue in
+                                    withAnimation(.easeInOut(duration: 0.25)) {
+                                        viewModel.codeblockSettings.isEnabled = !newValue
+                                    }
+                                }
+                            ))
+                            .toggleStyle(.switch)
                         }
                         .padding(.bottom, 8)
                         
-                        Text("高亮主题")
-                            .bold()
-                        Picker("", selection: $viewModel.codeblockSettings.theme) {
-                            ForEach(HlThemeConfig.themes(), id: \.self) { style in
-                                Text(style).tag(style)
+                        if viewModel.codeblockSettings.isEnabled {
+                            HStack {
+                                Text("Mac 风格")
+                                    .bold()
+                                Spacer()
+                                Toggle("", isOn: $viewModel.codeblockSettings.isMacStyle)
+                                    .toggleStyle(.switch)
                             }
-                        }
-                        .pickerStyle(.menu)
-                        .padding(.bottom, 8)
-                        
-                        Text("字体大小")
-                            .bold()
-                        Picker("", selection: $viewModel.codeblockSettings.fontSize) {
-                            ForEach(FontSize.allCases, id: \.self.rawValue) { fontSize in
-                                Text(fontSize.rawValue).tag(fontSize.rawValue)
-                            }
-                        }
-                        .pickerStyle(.segmented)
-                        .padding(.bottom, 8)
-                        
-                        HStack {
-                            Text("字体")
+                            .padding(.bottom, 8)
+                            
+                            Text("高亮主题")
                                 .bold()
+                            Picker("", selection: $viewModel.codeblockSettings.theme) {
+                                ForEach(HlThemeConfig.themes(), id: \.self) { style in
+                                    Text(style).tag(style)
+                                }
+                            }
+                            .pickerStyle(.menu)
+                            .padding(.bottom, 8)
+                            
+                            Text("字体大小")
+                                .bold()
+                            Picker("", selection: $viewModel.codeblockSettings.fontSize) {
+                                ForEach(FontSize.allCases, id: \.self.rawValue) { fontSize in
+                                    Text(fontSize.rawValue).tag(fontSize.rawValue)
+                                }
+                            }
+                            .pickerStyle(.segmented)
+                            .padding(.bottom, 8)
+                            
+                            HStack {
+                                Text("字体")
+                                    .bold()
                                 Button("", systemImage: "questionmark.circle") {
                                     showBubble = true
                                 }
@@ -263,16 +280,17 @@ struct CodeblockSettingsView: View {
                                         showBubble = false
                                     }
                                 }
+                            }
+                            TextField("如：JetBrains Mono", text: $viewModel.codeblockSettings.fontFamily)
+                                .textFieldStyle(.roundedBorder)
+                            
+                            HStack {
+                                Spacer()
+                                Link("使用帮助", destination: URL(string: "https://yuzhi.tech/docs/wenyan/codeblock")!)
+                                    .pointingHandCursor()
+                            }
+                            .padding(.top, 16)
                         }
-                        TextField("如：JetBrains Mono", text: $viewModel.codeblockSettings.fontFamily)
-                            .textFieldStyle(.roundedBorder)
-                        
-                        HStack {
-                            Spacer()
-                            Link("使用帮助", destination: URL(string: "https://yuzhi.tech/docs/wenyan/codeblock")!)
-                                .pointingHandCursor()
-                        }
-                        .padding(.top, 16)
                     }
                     if showBubble {
                         Text("你可以在这里设置你本机上已经安装的字体，但请注意：这里设置的字体只会影响你本地预览、导出图片时的显示，并不会影响公众号发布后用户看到的字体。具体说明请参阅“使用帮助”。")
@@ -290,6 +308,7 @@ struct CodeblockSettingsView: View {
                     }
                 }
                 .onReceive(viewModel.$codeblockSettings) { newContent in
+                    htmlViewModel.codeblockSettings.isEnabled = newContent.isEnabled
                     htmlViewModel.codeblockSettings.theme = newContent.theme
                     htmlViewModel.codeblockSettings.fontSize = newContent.fontSize
                     htmlViewModel.codeblockSettings.fontFamily = newContent.fontFamily
@@ -332,6 +351,7 @@ class CodeblockSettingsViewModel: ObservableObject {
 }
 
 struct CodeblockSettings: Codable {
+    var isEnabled: Bool = false
     var isMacStyle: Bool = false
     var theme: String = "github"
     var fontSize: String = FontSize.px12.rawValue

@@ -305,10 +305,8 @@ extension HtmlViewModel {
             setParagraphSettings(paragraphSettings: ParagraphSettingsViewModel.loadSettings() ?? ParagraphSettings())
             setCodeblock()
         } else {
-            setParagraphSettings(paragraphSettings: ParagraphSettings())
             callJavascript(javascriptString: "removeMacStyle();")
             callJavascript(javascriptString: "setHighlight('github');")
-            setCodeblockSettings(codeblockSettings: CodeblockSettings())
         }
         setTheme()
     }
@@ -427,12 +425,20 @@ extension HtmlViewModel {
     }
     
     func setCodeblock() {
-        callJavascript(javascriptString: "setHighlight(\(codeblockSettings.theme.toJavaScriptString()));")
-        setCodeblockSettings(codeblockSettings: codeblockSettings)
-        if codeblockSettings.isMacStyle {
-            callJavascript(javascriptString: "setMacStyle();")
-        } else {
-            callJavascript(javascriptString: "removeMacStyle();")
+        if platform == .gzh {
+            if codeblockSettings.isEnabled {
+                callJavascript(javascriptString: "setHighlight(\(codeblockSettings.theme.toJavaScriptString()));")
+                setCodeblockSettings(codeblockSettings: codeblockSettings)
+                if codeblockSettings.isMacStyle {
+                    callJavascript(javascriptString: "setMacStyle();")
+                } else {
+                    callJavascript(javascriptString: "removeMacStyle();")
+                }
+            } else {
+                callJavascript(javascriptString: "setMacStyle();")
+                callJavascript(javascriptString: "setHighlight('github');")
+                setCodeblockSettings(codeblockSettings: CodeblockSettings())
+            }
         }
     }
     

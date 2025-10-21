@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-const serif = "ui-serif, Georgia, Cambria, 'Noto Serif', 'Times New Roman', serif";
-const sansSerif = "ui-sans-serif, system-ui, 'Apple Color Emoji', 'Segoe UI', 'Segoe UI Symbol', 'Noto Sans', 'Roboto', sans-serif";
-const monospace = "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Roboto Mono', 'Courier New', 'Microsoft YaHei', monospace";
-
 let postprocessMarkdown = "";
 let isScrollingFromScript = false;
 let customCss = "";
@@ -64,22 +60,28 @@ function setCustomTheme(css) {
     const style = document.createElement("style");
     style.setAttribute("id", "theme");
     customCss = WenyanCore.replaceCSSVariables(css);
+
+    const codeFontFamily = codeblockSettings.isEnabled && codeblockSettings.fontFamily ? codeblockSettings.fontFamily : WenyanCore.monospace;
     customCss = WenyanCore.modifyCss(customCss, {
         '#wenyan pre code': [
             {
                 property: 'font-family',
-                value: codeblockSettings.fontFamily,
-                append: true
-            }
-        ],
-        '#wenyan pre': [
-            {
-                property: 'font-size',
-                value: codeblockSettings.fontSize,
+                value: codeFontFamily,
                 append: true
             }
         ]
     });
+    const codeFontSize = codeblockSettings.isEnabled ? codeblockSettings.fontSize : "12px";
+    customCss = WenyanCore.modifyCss(customCss, {
+        '#wenyan pre': [
+            {
+                property: 'font-size',
+                value: codeFontSize,
+                append: true
+            }
+        ]
+    });
+
     if (paragraphSettings && paragraphSettings.isEnabled) {
         let classes = [];
         let fontFamilyClass = {};
@@ -88,13 +90,13 @@ function setCustomTheme(css) {
         }
         if (paragraphSettings.fontType) {
             if (paragraphSettings.fontType === 'serif') {
-                fontFamilyClass = {property: 'font-family', value: serif, append: true};
+                fontFamilyClass = {property: 'font-family', value: WenyanCore.serif, append: true};
                 classes.push(fontFamilyClass);
             } else if (paragraphSettings.fontType === 'sans') {
-                fontFamilyClass = {property: 'font-family', value: sansSerif, append: true};
+                fontFamilyClass = {property: 'font-family', value: WenyanCore.sansSerif, append: true};
                 classes.push(fontFamilyClass);
             } else if (paragraphSettings.fontType === 'mono') {
-                fontFamilyClass = {property: 'font-family', value: monospace, append: true};
+                fontFamilyClass = {property: 'font-family', value: WenyanCore.monospace, append: true};
                 classes.push(fontFamilyClass);
             }
         }
@@ -300,7 +302,7 @@ function transformUl(ulElement) {
 async function getContentForGzh() {
     const wenyan = document.getElementById("wenyan");
     const clonedWenyan = wenyan.cloneNode(true);
-    const content = await WenyanCore.getContentForGzhCustomCss(clonedWenyan, customCss, highlightCss, codeblockSettings.isMacStyle);
+    const content = await WenyanCore.getContentForGzhCustomCss(clonedWenyan, customCss, highlightCss, codeblockSettings.isEnabled ? codeblockSettings.isMacStyle : true);
     window.webkit.messageHandlers.copyContentHandler.postMessage(content);
 }
 
@@ -327,7 +329,25 @@ function removeMacStyle() {
 async function setThemeById(themeId, isGzh) {
     const theme = isGzh ? WenyanStyles.themes[themeId] : WenyanStyles.otherThemes[themeId];
     const css = await theme.getCss();
-    setCustomTheme(css);
+    if (!isGzh) {
+        document.getElementById("theme")?.remove();
+        const style = document.createElement("style");
+        style.setAttribute("id", "theme");
+        customCss = WenyanCore.replaceCSSVariables(css);
+        customCss = WenyanCore.modifyCss(customCss, {
+            '#wenyan pre': [
+                {
+                    property: 'font-size',
+                    value: "12px",
+                    append: true
+                }
+            ]
+        });
+        style.textContent = customCss;
+        document.head.appendChild(style);
+    } else {
+        setCustomTheme(css);
+    }
 }
 
 async function getThemeById(themeId) {

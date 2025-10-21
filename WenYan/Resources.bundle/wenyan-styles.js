@@ -5,7 +5,7 @@ var WenyanStyles=(function(e){"use strict";const i=`#wenyan pre::before {
     background-repeat: no-repeat;
     width: 100%;
     height: 16px;
-}`,s=[{id:"default",name:"Default",description:"A clean, classic layout ideal for long-form reading.",appName:"默认",author:""},{id:"orangeheart",name:"OrangeHeart",description:"A vibrant and elegant theme in warm orange tones.",appName:"Orange Heart",author:"evgo2017"},{id:"rainbow",name:"Rainbow",description:"A colorful, lively theme with a clean layout.",appName:"Rainbow",author:"thezbm"},{id:"lapis",name:"Lapis",description:"A minimal and refreshing theme in cool blue tones.",appName:"Lapis",author:"YiNN"},{id:"pie",name:"Pie",description:"Inspired by sspai.com and Misty — modern, sharp, and stylish.",appName:"Pie",author:"kevinzhao2233"},{id:"maize",name:"Maize",description:"A crisp, light theme with a soft maize palette.",appName:"Maize",author:"BEATREE"},{id:"purple",name:"Purple",description:"Clean and minimalist, with a subtle purple accent.",appName:"Purple",author:"hliu202"},{id:"phycat",name:"Phycat",description:"物理猫-薄荷：a mint-green theme with clear structure and hierarchy.",appName:"物理猫-薄荷",author:"sumruler"}],r=Object.assign({"./themes/default.css":()=>Promise.resolve().then(()=>b).then(n=>n.default),"./themes/juejin_default.css":()=>Promise.resolve().then(()=>w).then(n=>n.default),"./themes/lapis.css":()=>Promise.resolve().then(()=>f).then(n=>n.default),"./themes/maize.css":()=>Promise.resolve().then(()=>y).then(n=>n.default),"./themes/medium_default.css":()=>Promise.resolve().then(()=>u).then(n=>n.default),"./themes/orangeheart.css":()=>Promise.resolve().then(()=>x).then(n=>n.default),"./themes/phycat.css":()=>Promise.resolve().then(()=>j).then(n=>n.default),"./themes/pie.css":()=>Promise.resolve().then(()=>k).then(n=>n.default),"./themes/purple.css":()=>Promise.resolve().then(()=>v).then(n=>n.default),"./themes/rainbow.css":()=>Promise.resolve().then(()=>z).then(n=>n.default),"./themes/toutiao_default.css":()=>Promise.resolve().then(()=>M).then(n=>n.default),"./themes/zhihu_default.css":()=>Promise.resolve().then(()=>_).then(n=>n.default)});function d(n){const l=`./themes/${n.id}.css`,o=r[l];return o?{...n,getCss:o}:(console.warn(`[Themes] CSS file not found for theme: ${n.id}`),null)}const t=Object.fromEntries(s.map(n=>d(n)).filter(n=>n!==null).map(n=>[n.id,n]));function h(){return Object.values(t)}const c=Object.fromEntries(["juejin_default","medium_default","toutiao_default","zhihu_default"].map(n=>[n,{id:n,name:"",description:"",appName:"",author:"",getCss:r[`./themes/${n}.css`]}])),p=[{id:"atom-one-dark"},{id:"atom-one-light"},{id:"dracula"},{id:"github-dark"},{id:"github"},{id:"monokai"},{id:"solarized-dark"},{id:"solarized-light"},{id:"xcode"}],m=Object.assign({"./highlight/styles/atom-one-dark.min.css":()=>Promise.resolve().then(()=>T).then(n=>n.default),"./highlight/styles/atom-one-light.min.css":()=>Promise.resolve().then(()=>I).then(n=>n.default),"./highlight/styles/dracula.min.css":()=>Promise.resolve().then(()=>N).then(n=>n.default),"./highlight/styles/github-dark.min.css":()=>Promise.resolve().then(()=>S).then(n=>n.default),"./highlight/styles/github.min.css":()=>Promise.resolve().then(()=>D).then(n=>n.default),"./highlight/styles/monokai.min.css":()=>Promise.resolve().then(()=>O).then(n=>n.default),"./highlight/styles/solarized-dark.min.css":()=>Promise.resolve().then(()=>A).then(n=>n.default),"./highlight/styles/solarized-light.min.css":()=>Promise.resolve().then(()=>L).then(n=>n.default),"./highlight/styles/xcode.min.css":()=>Promise.resolve().then(()=>C).then(n=>n.default)}),a={};for(const n of p){const l=`./highlight/styles/${n.id}.min.css`,o=m[l];o?a[n.id]={...n,getCss:o}:console.warn(`[Highlight Themes] CSS file not found for theme: ${n.id}`)}function g(){return Object.values(a)}(function(n){n.macStyleCss=i,n.themes=t,n.hlThemes=a})(typeof window<"u"?window:void 0);const b=Object.freeze(Object.defineProperty({__proto__:null,default:`/**
+}`,s=[{id:"default",name:"Default",description:"A clean, classic layout ideal for long-form reading.",appName:"默认",author:""},{id:"orangeheart",name:"OrangeHeart",description:"A vibrant and elegant theme in warm orange tones.",appName:"Orange Heart",author:"evgo2017"},{id:"rainbow",name:"Rainbow",description:"A colorful, lively theme with a clean layout.",appName:"Rainbow",author:"thezbm"},{id:"lapis",name:"Lapis",description:"A minimal and refreshing theme in cool blue tones.",appName:"Lapis",author:"YiNN"},{id:"pie",name:"Pie",description:"Inspired by sspai.com and Misty — modern, sharp, and stylish.",appName:"Pie",author:"kevinzhao2233"},{id:"maize",name:"Maize",description:"A crisp, light theme with a soft maize palette.",appName:"Maize",author:"BEATREE"},{id:"purple",name:"Purple",description:"Clean and minimalist, with a subtle purple accent.",appName:"Purple",author:"hliu202"},{id:"phycat",name:"Phycat",description:"物理猫-薄荷：a mint-green theme with clear structure and hierarchy.",appName:"物理猫-薄荷",author:"sumruler"}],r=Object.assign({"./themes/default.css":()=>Promise.resolve().then(()=>b).then(n=>n.default),"./themes/juejin_default.css":()=>Promise.resolve().then(()=>w).then(n=>n.default),"./themes/lapis.css":()=>Promise.resolve().then(()=>f).then(n=>n.default),"./themes/maize.css":()=>Promise.resolve().then(()=>y).then(n=>n.default),"./themes/medium_default.css":()=>Promise.resolve().then(()=>u).then(n=>n.default),"./themes/orangeheart.css":()=>Promise.resolve().then(()=>x).then(n=>n.default),"./themes/phycat.css":()=>Promise.resolve().then(()=>j).then(n=>n.default),"./themes/pie.css":()=>Promise.resolve().then(()=>k).then(n=>n.default),"./themes/purple.css":()=>Promise.resolve().then(()=>v).then(n=>n.default),"./themes/rainbow.css":()=>Promise.resolve().then(()=>z).then(n=>n.default),"./themes/toutiao_default.css":()=>Promise.resolve().then(()=>_).then(n=>n.default),"./themes/zhihu_default.css":()=>Promise.resolve().then(()=>M).then(n=>n.default)});function d(n){const l=`./themes/${n.id}.css`,o=r[l];return o?{...n,getCss:o}:(console.warn(`[Themes] CSS file not found for theme: ${n.id}`),null)}const t=Object.fromEntries(s.map(n=>d(n)).filter(n=>n!==null).map(n=>[n.id,n]));function h(){return Object.values(t)}const c=Object.fromEntries(["juejin_default","medium_default","toutiao_default","zhihu_default"].map(n=>[n,{id:n,name:"",description:"",appName:"",author:"",getCss:r[`./themes/${n}.css`]}])),p=[{id:"atom-one-dark"},{id:"atom-one-light"},{id:"dracula"},{id:"github-dark"},{id:"github"},{id:"monokai"},{id:"solarized-dark"},{id:"solarized-light"},{id:"xcode"}],m=Object.assign({"./highlight/styles/atom-one-dark.min.css":()=>Promise.resolve().then(()=>T).then(n=>n.default),"./highlight/styles/atom-one-light.min.css":()=>Promise.resolve().then(()=>O).then(n=>n.default),"./highlight/styles/dracula.min.css":()=>Promise.resolve().then(()=>S).then(n=>n.default),"./highlight/styles/github-dark.min.css":()=>Promise.resolve().then(()=>I).then(n=>n.default),"./highlight/styles/github.min.css":()=>Promise.resolve().then(()=>P).then(n=>n.default),"./highlight/styles/monokai.min.css":()=>Promise.resolve().then(()=>D).then(n=>n.default),"./highlight/styles/solarized-dark.min.css":()=>Promise.resolve().then(()=>N).then(n=>n.default),"./highlight/styles/solarized-light.min.css":()=>Promise.resolve().then(()=>A).then(n=>n.default),"./highlight/styles/xcode.min.css":()=>Promise.resolve().then(()=>L).then(n=>n.default)}),a={};for(const n of p){const l=`./highlight/styles/${n.id}.min.css`,o=m[l];o?a[n.id]={...n,getCss:o}:console.warn(`[Highlight Themes] CSS file not found for theme: ${n.id}`)}function g(){return Object.values(a)}(function(n){n.macStyleCss=i,n.themes=t,n.hlThemes=a})(typeof window<"u"?window:void 0);const b=Object.freeze(Object.defineProperty({__proto__:null,default:`/**
  * 欢迎使用自定义主题功能，使用教程：
  * https://babyno.top/posts/2024/11/wenyan-supports-customized-themes/
  */
@@ -185,12 +185,7 @@ var WenyanStyles=(function(e){"use strict";const i=`#wenyan pre::before {
     word-wrap: break-word;
     word-break: break-all;
 }
-`},Symbol.toStringTag,{value:"Module"})),w=Object.freeze(Object.defineProperty({__proto__:null,default:`:root {
-    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
-    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
-}
-#wenyan {
+`},Symbol.toStringTag,{value:"Module"})),w=Object.freeze(Object.defineProperty({__proto__:null,default:`#wenyan {
     font-family: var(--sans-serif-font);
     line-height: 1.75;
 }
@@ -342,7 +337,7 @@ var WenyanStyles=(function(e){"use strict";const i=`#wenyan pre::before {
 }
 #wenyan p,
 #wenyan pre {
-    margin: 1em 0.8em;
+    margin: 1em 0;
 }
 #wenyan strong {
     color: var(--primary-color);
@@ -702,7 +697,7 @@ var WenyanStyles=(function(e){"use strict";const i=`#wenyan pre::before {
 }
 `},Symbol.toStringTag,{value:"Module"})),u=Object.freeze(Object.defineProperty({__proto__:null,default:`:root {
     --sans-serif-font: source-serif-pro, Georgia, Cambria, "Times New Roman", Times, serif;
-    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
+    --monospace-font: Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
 }
 #wenyan {
     font-family: var(--sans-serif-font);
@@ -1018,10 +1013,6 @@ var WenyanStyles=(function(e){"use strict";const i=`#wenyan pre::before {
 
 :root {
     /* 标题后小图标，借鉴自思源笔记主题——Savor */
-    --h1-r-graphic: url("https://cdn.phycat.cn/img/mdicon/green/h1_icon.svg")
-        no-repeat center;
-    --h2-r-graphic: url("https://cdn.phycat.cn/img/mdicon/green/h2_icon.svg")
-        no-repeat center;
     --h3-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='28' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286z'/></svg>")
         no-repeat center;
     --h4-r-graphic: url("data:image/svg+xml;utf8,<svg fill='rgba(74, 200, 141, 0.5)' height='24' viewBox='0 0 32 32' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M4.571 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM4.571 18.286c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 25.143c-1.257 0-2.286 1.029-2.286 2.286s1.029 2.286 2.286 2.286 2.286-1.029 2.286-2.286-1.029-2.286-2.286-2.286zM11.429 22.857c1.257 0 2.286-1.029 2.286-2.286s-1.029-2.286-2.286-2.286-2.286 1.029-2.286 2.286 1.029 2.286 2.286 2.286z'/></svg>")
@@ -1373,7 +1364,7 @@ h6 {
 }
 #wenyan p,
 #wenyan pre {
-    margin: 1em 0.8em;
+    margin: 1em 0;
 }
 #wenyan p {
     word-spacing: 0.05rem;
@@ -1785,7 +1776,7 @@ h6 {
 }
 #wenyan p,
 #wenyan pre {
-    margin: 1em 0.8em;
+    margin: 1em 0;
 }
 #wenyan h1,
 #wenyan h2,
@@ -1809,6 +1800,7 @@ h6 {
     padding-right: 1em;
     border-left: 0.5em solid var(--h-border-color);
     border-radius: 0.4em;
+    display: inline-block;
 }
 #wenyan h3 {
     font-size: 1.3em;
@@ -1927,12 +1919,7 @@ h6 {
     word-wrap: break-word;
     word-break: break-all;
 }
-`},Symbol.toStringTag,{value:"Module"})),M=Object.freeze(Object.defineProperty({__proto__:null,default:`:root {
-    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
-    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
-}
-#wenyan {
+`},Symbol.toStringTag,{value:"Module"})),_=Object.freeze(Object.defineProperty({__proto__:null,default:`#wenyan {
     font-family: var(--sans-serif-font);
     line-height: 1.75;
 }
@@ -1955,11 +1942,10 @@ h6 {
 #wenyan h4,
 #wenyan h5,
 #wenyan h6 {
-    font-size: 18px;
+    font-size: 17px;
     line-height: 30px;
     margin-top: 20px;
     margin-bottom: 12px;
-    font-weight: 700;
     position: relative;
 }
 #wenyan h1:before,
@@ -1971,13 +1957,13 @@ h6 {
     content: "";
     display: inline-block;
     vertical-align: 1px;
-    width: 16px;
-    height: 20px;
+    width: 10px;
+    height: 26px;
     margin-right: 6px;
-    background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPHN2ZyB3aWR0aD0iMTZweCIgaGVpZ2h0PSIxNnB4IiB2aWV3Qm94PSIwIDAgMTYgMTYiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayI+CiAgICA8IS0tIEdlbmVyYXRvcjogU2tldGNoIDYwLjEgKDg4MTMzKSAtIGh0dHBzOi8vc2tldGNoLmNvbSAtLT4KICAgIDx0aXRsZT7kuInop5LlvaI8L3RpdGxlPgogICAgPGRlc2M+Q3JlYXRlZCB3aXRoIFNrZXRjaC48L2Rlc2M+CiAgICA8ZyBpZD0i5LiJ6KeS5b2iIiBzdHJva2U9Im5vbmUiIHN0cm9rZS13aWR0aD0iMSIgZmlsbD0ibm9uZSIgZmlsbC1ydWxlPSJldmVub2RkIj4KICAgICAgICA8cGF0aCBkPSJNNi4zNTc0OTI5Myw0LjQyOTE1NDg4IEwxMC41OTEzMDI1LDExLjQ4NTUwNDIgQzEwLjg3NTQ1MDcsMTEuOTU5MDg0NSAxMC43MjE4ODU2LDEyLjU3MzM0NDggMTAuMjQ4MzA1NCwxMi44NTc0OTI5IEMxMC4wOTI4OSwxMi45NTA3NDIyIDkuOTE1MDUzNTcsMTMgOS43MzM4MDk2MiwxMyBMMS4yNjYxOTAzOCwxMyBDMC43MTM5MDU2MjksMTMgMC4yNjYxOTAzNzksMTIuNTUyMjg0NyAwLjI2NjE5MDM3OSwxMiBDMC4yNjYxOTAzNzksMTEuODE4NzU2MSAwLjMxNTQ0ODIxMiwxMS42NDA5MTk2IDAuNDA4Njk3NDUzLDExLjQ4NTUwNDIgTDQuNjQyNTA3MDcsNC40MjkxNTQ4OCBDNC45MjY2NTUyMywzLjk1NTU3NDYxIDUuNTQwOTE1NDksMy44MDIwMDk1NSA2LjAxNDQ5NTc2LDQuMDg2MTU3NzEgQzYuMTU1MjQ1MzYsNC4xNzA2MDc0NyA2LjI3MzA0MzE2LDQuMjg4NDA1MjcgNi4zNTc0OTI5Myw0LjQyOTE1NDg4IFoiIGZpbGw9IiNGRjVFNUUiIHRyYW5zZm9ybT0idHJhbnNsYXRlKDUuNTAwMDAwLCA4LjAwMDAwMCkgcm90YXRlKC0yNzAuMDAwMDAwKSB0cmFuc2xhdGUoLTUuNTAwMDAwLCAtOC4wMDAwMDApICI+PC9wYXRoPgogICAgPC9nPgo8L3N2Zz4=);
+    background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxMCIgaGVpZ2h0PSIyNiIgdmlld0JveD0iMCAwIDEwIDI2IiBmaWxsPSJub25lIj4KICA8cGF0aCBkPSJNOS41IDYuNTY2NTlMNC40OTk5NCAxOS40MzI2TDAgMTkuNDMyNkw1LjAwMDA2IDYuNTY2NTlMOS41IDYuNTY2NTlaIiBmaWxsPSIjRkY0MDNBIi8+Cjwvc3ZnPgo=);
     background-repeat: no-repeat;
-    background-size: 16px 16px;
-    background-position-y: 6px;
+    background-size: cover;
+    background-position-y: 8px;
 }
 #wenyan ul,
 #wenyan ol {
@@ -2074,12 +2060,7 @@ h6 {
 #wenyan .footnote {
     color: #0069c2;
 }
-`},Symbol.toStringTag,{value:"Module"})),_=Object.freeze(Object.defineProperty({__proto__:null,default:`:root {
-    --sans-serif-font: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol",
-        "Noto Color Emoji";
-    --monospace-font: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "liberation mono", "courier new", monospace;
-}
-#wenyan {
+`},Symbol.toStringTag,{value:"Module"})),M=Object.freeze(Object.defineProperty({__proto__:null,default:`#wenyan {
     font-family: var(--sans-serif-font);
     line-height: 1.75;
     font-size: 16px;
@@ -2208,14 +2189,14 @@ h6 {
 #wenyan .footnote {
     color: #0069c2;
 }
-`},Symbol.toStringTag,{value:"Module"})),T=Object.freeze(Object.defineProperty({__proto__:null,default:"pre{background:#282c34}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#abb2bf;background:#282c34}.hljs-comment,.hljs-quote{color:#5c6370;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#c678dd}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#e06c75}.hljs-literal{color:#56b6c2}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#98c379}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#d19a66}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#61aeee}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#e6c07b}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}"},Symbol.toStringTag,{value:"Module"})),I=Object.freeze(Object.defineProperty({__proto__:null,default:"pre{background:#fafafa}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#383a42;background:#fafafa}.hljs-comment,.hljs-quote{color:#a0a1a7;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#a626a4}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#e45649}.hljs-literal{color:#0184bb}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#50a14f}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#986801}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#4078f2}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#c18401}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}"},Symbol.toStringTag,{value:"Module"})),N=Object.freeze(Object.defineProperty({__proto__:null,default:`pre{background:#282936}
+`},Symbol.toStringTag,{value:"Module"})),T=Object.freeze(Object.defineProperty({__proto__:null,default:"pre{background:#282c34}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#abb2bf;background:#282c34}.hljs-comment,.hljs-quote{color:#5c6370;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#c678dd}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#e06c75}.hljs-literal{color:#56b6c2}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#98c379}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#d19a66}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#61aeee}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#e6c07b}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}"},Symbol.toStringTag,{value:"Module"})),O=Object.freeze(Object.defineProperty({__proto__:null,default:"pre{background:#fafafa}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#383a42;background:#fafafa}.hljs-comment,.hljs-quote{color:#a0a1a7;font-style:italic}.hljs-doctag,.hljs-formula,.hljs-keyword{color:#a626a4}.hljs-deletion,.hljs-name,.hljs-section,.hljs-selector-tag,.hljs-subst{color:#e45649}.hljs-literal{color:#0184bb}.hljs-addition,.hljs-attribute,.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#50a14f}.hljs-attr,.hljs-number,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-pseudo,.hljs-template-variable,.hljs-type,.hljs-variable{color:#986801}.hljs-bullet,.hljs-link,.hljs-meta,.hljs-selector-id,.hljs-symbol,.hljs-title{color:#4078f2}.hljs-built_in,.hljs-class .hljs-title,.hljs-title.class_{color:#c18401}.hljs-emphasis{font-style:italic}.hljs-strong{font-weight:700}.hljs-link{text-decoration:underline}"},Symbol.toStringTag,{value:"Module"})),S=Object.freeze(Object.defineProperty({__proto__:null,default:`pre{background:#282936}
 /*!
   Theme: Dracula
   Author: Mike Barkmin (http://github.com/mikebarkmin) based on Dracula Theme (http://github.com/dracula)
   License: ~ MIT (or more permissive) [via base16-schemes-source]
   Maintainer: @highlightjs/core-team
   Version: 2021.09.0
-*/pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#e9e9f4;background:#282936}.hljs ::selection,.hljs::selection{background-color:#4d4f68;color:#e9e9f4}.hljs-comment{color:#626483}.hljs-tag{color:#62d6e8}.hljs-operator,.hljs-punctuation,.hljs-subst{color:#e9e9f4}.hljs-operator{opacity:.7}.hljs-bullet,.hljs-deletion,.hljs-name,.hljs-selector-tag,.hljs-template-variable,.hljs-variable{color:#ea51b2}.hljs-attr,.hljs-link,.hljs-literal,.hljs-number,.hljs-symbol,.hljs-variable.constant_{color:#b45bcf}.hljs-class .hljs-title,.hljs-title,.hljs-title.class_{color:#00f769}.hljs-strong{font-weight:700;color:#00f769}.hljs-addition,.hljs-code,.hljs-string,.hljs-title.class_.inherited__{color:#ebff87}.hljs-built_in,.hljs-doctag,.hljs-keyword.hljs-atrule,.hljs-quote,.hljs-regexp{color:#a1efe4}.hljs-attribute,.hljs-function .hljs-title,.hljs-section,.hljs-title.function_,.ruby .hljs-property{color:#62d6e8}.diff .hljs-meta,.hljs-keyword,.hljs-template-tag,.hljs-type{color:#b45bcf}.hljs-emphasis{color:#b45bcf;font-style:italic}.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#00f769}.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:700}`},Symbol.toStringTag,{value:"Module"})),S=Object.freeze(Object.defineProperty({__proto__:null,default:`pre{background:#0d1117}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}/*!
+*/pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#e9e9f4;background:#282936}.hljs ::selection,.hljs::selection{background-color:#4d4f68;color:#e9e9f4}.hljs-comment{color:#626483}.hljs-tag{color:#62d6e8}.hljs-operator,.hljs-punctuation,.hljs-subst{color:#e9e9f4}.hljs-operator{opacity:.7}.hljs-bullet,.hljs-deletion,.hljs-name,.hljs-selector-tag,.hljs-template-variable,.hljs-variable{color:#ea51b2}.hljs-attr,.hljs-link,.hljs-literal,.hljs-number,.hljs-symbol,.hljs-variable.constant_{color:#b45bcf}.hljs-class .hljs-title,.hljs-title,.hljs-title.class_{color:#00f769}.hljs-strong{font-weight:700;color:#00f769}.hljs-addition,.hljs-code,.hljs-string,.hljs-title.class_.inherited__{color:#ebff87}.hljs-built_in,.hljs-doctag,.hljs-keyword.hljs-atrule,.hljs-quote,.hljs-regexp{color:#a1efe4}.hljs-attribute,.hljs-function .hljs-title,.hljs-section,.hljs-title.function_,.ruby .hljs-property{color:#62d6e8}.diff .hljs-meta,.hljs-keyword,.hljs-template-tag,.hljs-type{color:#b45bcf}.hljs-emphasis{color:#b45bcf;font-style:italic}.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#00f769}.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:700}`},Symbol.toStringTag,{value:"Module"})),I=Object.freeze(Object.defineProperty({__proto__:null,default:`pre{background:#0d1117}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}/*!
   Theme: GitHub Dark
   Description: Dark theme as seen on github.com
   Author: github.com
@@ -2224,7 +2205,7 @@ h6 {
 
   Outdated base version: https://github.com/primer/github-syntax-dark
   Current colors taken from GitHub's CSS
-*/.hljs{color:#c9d1d9;background:#0d1117}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#ff7b72}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#d2a8ff}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#79c0ff}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#a5d6ff}.hljs-built_in,.hljs-symbol{color:#ffa657}.hljs-code,.hljs-comment,.hljs-formula{color:#8b949e}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#7ee787}.hljs-subst{color:#c9d1d9}.hljs-section{color:#1f6feb;font-weight:700}.hljs-bullet{color:#f2cc60}.hljs-emphasis{color:#c9d1d9;font-style:italic}.hljs-strong{color:#c9d1d9;font-weight:700}.hljs-addition{color:#aff5b4;background-color:#033a16}.hljs-deletion{color:#ffdcd7;background-color:#67060c}`},Symbol.toStringTag,{value:"Module"})),D=Object.freeze(Object.defineProperty({__proto__:null,default:`pre{background:#fff}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}/*!
+*/.hljs{color:#c9d1d9;background:#0d1117}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#ff7b72}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#d2a8ff}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#79c0ff}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#a5d6ff}.hljs-built_in,.hljs-symbol{color:#ffa657}.hljs-code,.hljs-comment,.hljs-formula{color:#8b949e}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#7ee787}.hljs-subst{color:#c9d1d9}.hljs-section{color:#1f6feb;font-weight:700}.hljs-bullet{color:#f2cc60}.hljs-emphasis{color:#c9d1d9;font-style:italic}.hljs-strong{color:#c9d1d9;font-weight:700}.hljs-addition{color:#aff5b4;background-color:#033a16}.hljs-deletion{color:#ffdcd7;background-color:#67060c}`},Symbol.toStringTag,{value:"Module"})),P=Object.freeze(Object.defineProperty({__proto__:null,default:`pre{background:#fff}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}/*!
   Theme: GitHub
   Description: Light theme as seen on github.com
   Author: github.com
@@ -2234,18 +2215,18 @@ h6 {
   Outdated base version: https://github.com/primer/github-syntax-light
   Current colors taken from GitHub's CSS
 */.hljs{color:#24292e;background:#fff}.hljs-doctag,.hljs-keyword,.hljs-meta .hljs-keyword,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-variable.language_{color:#d73a49}.hljs-title,.hljs-title.class_,.hljs-title.class_.inherited__,.hljs-title.function_{color:#6f42c1}.hljs-attr,.hljs-attribute,.hljs-literal,.hljs-meta,.hljs-number,.hljs-operator,.hljs-selector-attr,.hljs-selector-class,.hljs-selector-id,.hljs-variable{color:#005cc5}.hljs-meta .hljs-string,.hljs-regexp,.hljs-string{color:#032f62}.hljs-built_in,.hljs-symbol{color:#e36209}.hljs-code,.hljs-comment,.hljs-formula{color:#6a737d}.hljs-name,.hljs-quote,.hljs-selector-pseudo,.hljs-selector-tag{color:#22863a}.hljs-subst{color:#24292e}.hljs-section{color:#005cc5;font-weight:700}.hljs-bullet{color:#735c0f}.hljs-emphasis{color:#24292e;font-style:italic}.hljs-strong{color:#24292e;font-weight:700}.hljs-addition{color:#22863a;background-color:#f0fff4}.hljs-deletion{color:#b31d28;background-color:#ffeef0}
-`},Symbol.toStringTag,{value:"Module"})),O=Object.freeze(Object.defineProperty({__proto__:null,default:"pre{background:#272822}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#272822;color:#ddd}.hljs-keyword,.hljs-literal,.hljs-name,.hljs-number,.hljs-selector-tag,.hljs-strong,.hljs-tag{color:#f92672}.hljs-code{color:#66d9ef}.hljs-attr,.hljs-attribute,.hljs-link,.hljs-regexp,.hljs-symbol{color:#bf79db}.hljs-addition,.hljs-built_in,.hljs-bullet,.hljs-emphasis,.hljs-section,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-string,.hljs-subst,.hljs-template-tag,.hljs-template-variable,.hljs-title,.hljs-type,.hljs-variable{color:#a6e22e}.hljs-class .hljs-title,.hljs-title.class_{color:#fff}.hljs-comment,.hljs-deletion,.hljs-meta,.hljs-quote{color:#75715e}.hljs-doctag,.hljs-keyword,.hljs-literal,.hljs-section,.hljs-selector-id,.hljs-selector-tag,.hljs-title,.hljs-type{font-weight:700}"},Symbol.toStringTag,{value:"Module"})),A=Object.freeze(Object.defineProperty({__proto__:null,default:`pre{background:#002b36}
+`},Symbol.toStringTag,{value:"Module"})),D=Object.freeze(Object.defineProperty({__proto__:null,default:"pre{background:#272822}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#272822;color:#ddd}.hljs-keyword,.hljs-literal,.hljs-name,.hljs-number,.hljs-selector-tag,.hljs-strong,.hljs-tag{color:#f92672}.hljs-code{color:#66d9ef}.hljs-attr,.hljs-attribute,.hljs-link,.hljs-regexp,.hljs-symbol{color:#bf79db}.hljs-addition,.hljs-built_in,.hljs-bullet,.hljs-emphasis,.hljs-section,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-string,.hljs-subst,.hljs-template-tag,.hljs-template-variable,.hljs-title,.hljs-type,.hljs-variable{color:#a6e22e}.hljs-class .hljs-title,.hljs-title.class_{color:#fff}.hljs-comment,.hljs-deletion,.hljs-meta,.hljs-quote{color:#75715e}.hljs-doctag,.hljs-keyword,.hljs-literal,.hljs-section,.hljs-selector-id,.hljs-selector-tag,.hljs-title,.hljs-type{font-weight:700}"},Symbol.toStringTag,{value:"Module"})),N=Object.freeze(Object.defineProperty({__proto__:null,default:`pre{background:#002b36}
 /*!
   Theme: Solarized Dark
   Author: Ethan Schoonover (modified by aramisgithub)
   License: ~ MIT (or more permissive) [via base16-schemes-source]
   Maintainer: @highlightjs/core-team
   Version: 2021.09.0
-*/pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#93a1a1;background:#002b36}.hljs ::selection,.hljs::selection{background-color:#586e75;color:#93a1a1}.hljs-comment{color:#657b83}.hljs-tag{color:#839496}.hljs-operator,.hljs-punctuation,.hljs-subst{color:#93a1a1}.hljs-operator{opacity:.7}.hljs-bullet,.hljs-deletion,.hljs-name,.hljs-selector-tag,.hljs-template-variable,.hljs-variable{color:#dc322f}.hljs-attr,.hljs-link,.hljs-literal,.hljs-number,.hljs-symbol,.hljs-variable.constant_{color:#cb4b16}.hljs-class .hljs-title,.hljs-title,.hljs-title.class_{color:#b58900}.hljs-strong{font-weight:700;color:#b58900}.hljs-addition,.hljs-code,.hljs-string,.hljs-title.class_.inherited__{color:#859900}.hljs-built_in,.hljs-doctag,.hljs-keyword.hljs-atrule,.hljs-quote,.hljs-regexp{color:#2aa198}.hljs-attribute,.hljs-function .hljs-title,.hljs-section,.hljs-title.function_,.ruby .hljs-property{color:#268bd2}.diff .hljs-meta,.hljs-keyword,.hljs-template-tag,.hljs-type{color:#6c71c4}.hljs-emphasis{color:#6c71c4;font-style:italic}.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#d33682}.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:700}`},Symbol.toStringTag,{value:"Module"})),L=Object.freeze(Object.defineProperty({__proto__:null,default:`pre{background:#fdf6e3}
+*/pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#93a1a1;background:#002b36}.hljs ::selection,.hljs::selection{background-color:#586e75;color:#93a1a1}.hljs-comment{color:#657b83}.hljs-tag{color:#839496}.hljs-operator,.hljs-punctuation,.hljs-subst{color:#93a1a1}.hljs-operator{opacity:.7}.hljs-bullet,.hljs-deletion,.hljs-name,.hljs-selector-tag,.hljs-template-variable,.hljs-variable{color:#dc322f}.hljs-attr,.hljs-link,.hljs-literal,.hljs-number,.hljs-symbol,.hljs-variable.constant_{color:#cb4b16}.hljs-class .hljs-title,.hljs-title,.hljs-title.class_{color:#b58900}.hljs-strong{font-weight:700;color:#b58900}.hljs-addition,.hljs-code,.hljs-string,.hljs-title.class_.inherited__{color:#859900}.hljs-built_in,.hljs-doctag,.hljs-keyword.hljs-atrule,.hljs-quote,.hljs-regexp{color:#2aa198}.hljs-attribute,.hljs-function .hljs-title,.hljs-section,.hljs-title.function_,.ruby .hljs-property{color:#268bd2}.diff .hljs-meta,.hljs-keyword,.hljs-template-tag,.hljs-type{color:#6c71c4}.hljs-emphasis{color:#6c71c4;font-style:italic}.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#d33682}.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:700}`},Symbol.toStringTag,{value:"Module"})),A=Object.freeze(Object.defineProperty({__proto__:null,default:`pre{background:#fdf6e3}
 /*!
   Theme: Solarized Light
   Author: Ethan Schoonover (modified by aramisgithub)
   License: ~ MIT (or more permissive) [via base16-schemes-source]
   Maintainer: @highlightjs/core-team
   Version: 2021.09.0
-*/pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#586e75;background:#fdf6e3}.hljs ::selection,.hljs::selection{background-color:#93a1a1;color:#586e75}.hljs-comment{color:#839496}.hljs-tag{color:#657b83}.hljs-operator,.hljs-punctuation,.hljs-subst{color:#586e75}.hljs-operator{opacity:.7}.hljs-bullet,.hljs-deletion,.hljs-name,.hljs-selector-tag,.hljs-template-variable,.hljs-variable{color:#dc322f}.hljs-attr,.hljs-link,.hljs-literal,.hljs-number,.hljs-symbol,.hljs-variable.constant_{color:#cb4b16}.hljs-class .hljs-title,.hljs-title,.hljs-title.class_{color:#b58900}.hljs-strong{font-weight:700;color:#b58900}.hljs-addition,.hljs-code,.hljs-string,.hljs-title.class_.inherited__{color:#859900}.hljs-built_in,.hljs-doctag,.hljs-keyword.hljs-atrule,.hljs-quote,.hljs-regexp{color:#2aa198}.hljs-attribute,.hljs-function .hljs-title,.hljs-section,.hljs-title.function_,.ruby .hljs-property{color:#268bd2}.diff .hljs-meta,.hljs-keyword,.hljs-template-tag,.hljs-type{color:#6c71c4}.hljs-emphasis{color:#6c71c4;font-style:italic}.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#d33682}.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:700}`},Symbol.toStringTag,{value:"Module"})),C=Object.freeze(Object.defineProperty({__proto__:null,default:"pre{background:#fff}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#fff;color:#000}.xml .hljs-meta{color:silver}.hljs-comment,.hljs-quote{color:#007400}.hljs-attribute,.hljs-keyword,.hljs-literal,.hljs-name,.hljs-selector-tag,.hljs-tag{color:#aa0d91}.hljs-template-variable,.hljs-variable{color:#3f6e74}.hljs-code,.hljs-meta .hljs-string,.hljs-string{color:#c41a16}.hljs-link,.hljs-regexp{color:#0e0eff}.hljs-bullet,.hljs-number,.hljs-symbol,.hljs-title{color:#1c00cf}.hljs-meta,.hljs-section{color:#643820}.hljs-built_in,.hljs-class .hljs-title,.hljs-params,.hljs-title.class_,.hljs-type{color:#5c2699}.hljs-attr{color:#836c28}.hljs-subst{color:#000}.hljs-formula{background-color:#eee;font-style:italic}.hljs-addition{background-color:#baeeba}.hljs-deletion{background-color:#ffc8bd}.hljs-selector-class,.hljs-selector-id{color:#9b703f}.hljs-doctag,.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}"},Symbol.toStringTag,{value:"Module"}));return e.getAllHlThemes=g,e.getAllThemes=h,e.hlThemes=a,e.otherThemes=c,e.themes=t,Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),e})({});
+*/pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{color:#586e75;background:#fdf6e3}.hljs ::selection,.hljs::selection{background-color:#93a1a1;color:#586e75}.hljs-comment{color:#839496}.hljs-tag{color:#657b83}.hljs-operator,.hljs-punctuation,.hljs-subst{color:#586e75}.hljs-operator{opacity:.7}.hljs-bullet,.hljs-deletion,.hljs-name,.hljs-selector-tag,.hljs-template-variable,.hljs-variable{color:#dc322f}.hljs-attr,.hljs-link,.hljs-literal,.hljs-number,.hljs-symbol,.hljs-variable.constant_{color:#cb4b16}.hljs-class .hljs-title,.hljs-title,.hljs-title.class_{color:#b58900}.hljs-strong{font-weight:700;color:#b58900}.hljs-addition,.hljs-code,.hljs-string,.hljs-title.class_.inherited__{color:#859900}.hljs-built_in,.hljs-doctag,.hljs-keyword.hljs-atrule,.hljs-quote,.hljs-regexp{color:#2aa198}.hljs-attribute,.hljs-function .hljs-title,.hljs-section,.hljs-title.function_,.ruby .hljs-property{color:#268bd2}.diff .hljs-meta,.hljs-keyword,.hljs-template-tag,.hljs-type{color:#6c71c4}.hljs-emphasis{color:#6c71c4;font-style:italic}.hljs-meta,.hljs-meta .hljs-keyword,.hljs-meta .hljs-string{color:#d33682}.hljs-meta .hljs-keyword,.hljs-meta-keyword{font-weight:700}`},Symbol.toStringTag,{value:"Module"})),L=Object.freeze(Object.defineProperty({__proto__:null,default:"pre{background:#fff}pre code.hljs{display:block;overflow-x:auto;padding:1em}code.hljs{padding:3px 5px}.hljs{background:#fff;color:#000}.xml .hljs-meta{color:silver}.hljs-comment,.hljs-quote{color:#007400}.hljs-attribute,.hljs-keyword,.hljs-literal,.hljs-name,.hljs-selector-tag,.hljs-tag{color:#aa0d91}.hljs-template-variable,.hljs-variable{color:#3f6e74}.hljs-code,.hljs-meta .hljs-string,.hljs-string{color:#c41a16}.hljs-link,.hljs-regexp{color:#0e0eff}.hljs-bullet,.hljs-number,.hljs-symbol,.hljs-title{color:#1c00cf}.hljs-meta,.hljs-section{color:#643820}.hljs-built_in,.hljs-class .hljs-title,.hljs-params,.hljs-title.class_,.hljs-type{color:#5c2699}.hljs-attr{color:#836c28}.hljs-subst{color:#000}.hljs-formula{background-color:#eee;font-style:italic}.hljs-addition{background-color:#baeeba}.hljs-deletion{background-color:#ffc8bd}.hljs-selector-class,.hljs-selector-id{color:#9b703f}.hljs-doctag,.hljs-strong{font-weight:700}.hljs-emphasis{font-style:italic}"},Symbol.toStringTag,{value:"Module"}));return e.getAllHlThemes=g,e.getAllThemes=h,e.hlThemes=a,e.otherThemes=c,e.themes=t,Object.defineProperty(e,Symbol.toStringTag,{value:"Module"}),e})({});
