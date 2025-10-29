@@ -5,13 +5,27 @@
 //  Created by Lei Cao on 2024/11/27.
 //
 
+// MARK: - User Intents
+enum UserAction {
+    case changePlatform(Platform)
+    case changeTheme(ThemeStyleWrapper)
+    case openCssEditor(Bool)
+    case deleteCustomTheme
+    case saveCustomTheme(String)
+}
+
 enum AppConstants {
     static let defaultAppName = "文颜"
 }
 
-enum PreviewMode: String {
-    case mobile = "style.css"
-    case desktop = "desktop_style.css"
+enum WebkitStatus {
+    static let loadHandler = "loadHandler"
+    static let contentChangeHandler = "contentChangeHandler"
+    static let scrollHandler = "scrollHandler"
+    static let errorHandler = "errorHandler"
+    static let uploadHandler = "uploadHandler"
+    static let loadThemesHandler = "loadThemesHandler"
+    static let copyContentHandler = "copyContentHandler"
 }
 
 enum Platform: String, CaseIterable, Identifiable {
@@ -39,6 +53,11 @@ enum Platform: String, CaseIterable, Identifiable {
 enum ThemeType {
     case builtin
     case custom
+}
+
+enum ExportType {
+    case pdf
+    case longImage
 }
 
 enum Settings: Identifiable, Hashable {

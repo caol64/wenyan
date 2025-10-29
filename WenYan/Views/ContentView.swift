@@ -8,77 +8,41 @@
 import SwiftUI
 
 struct ContentView: View {
-    
     @EnvironmentObject private var appState: AppState
     @EnvironmentObject private var markdownViewModel: MarkdownViewModel
-    @EnvironmentObject private var htmlViewModel: HtmlViewModel
-    private var screenResolution: CGSize? = {
-        guard let mainScreen = NSScreen.main else { return nil }
-        let screenSize = mainScreen.frame.size
-        let resolution = CGSize(width: screenSize.width, height: screenSize.height)
-        return resolution
-    }()
-    @State private var minWidth: CGFloat = 680
-    @State private var idealWidth: CGFloat = 680
-    @State private var minHeight: CGFloat = 800
-    @State private var idealHeight: CGFloat = 800
-    
-    init() {
-        if let screenResolution = screenResolution {
-            if screenResolution.width < 1360 {
-                minWidth = 570
-            }
-            if screenResolution.height < 940 {
-                minHeight = 645
-            }
-        }
-    }
-    
+    @State private var visibility: NavigationSplitViewVisibility = .detailOnly
+
     var body: some View {
-        HStack {
-            MarkdownView()
-                .frame(minWidth: minWidth, idealWidth: idealWidth, minHeight: minHeight, idealHeight: idealHeight)
-            HtmlView()
-                .frame(minWidth: minWidth, idealWidth: idealWidth, minHeight: minHeight, idealHeight: idealHeight)
-                .overlay(alignment: .topTrailing) {
-                    ToolButtonPopup()
+        NavigationSplitView(columnVisibility: $visibility) {
+            Rectangle()
+                .fill(Color(NSColor.windowBackgroundColor))
+                .frame(minWidth: 150)
+        } detail: {
+            HStack(spacing: 0) {
+                HStack(spacing: 0) {
+                    MarkdownView()
+                    HtmlView()
+                        .overlay(alignment: .topTrailing) {
+                            if !appState.showInspector {
+                                ToolButtonPopup()
+                            }
+                        }
                 }
-                .overlay(alignment: .topTrailing) {
-                    if appState.showThemeList {
-                        ThemeListPopup()
-                            .padding(.trailing, 24)
-                            .padding(.top, 8)
-                            .environment(\.colorScheme, .light)
-                    }
+                .layoutPriority(1)
+                .animation(.easeInOut(duration: 0.25), value: appState.showInspector)
+
+                if appState.showInspector {
+                    ThemeInspector()
+                        .frame(width: 280)
                 }
-                .onAppear() {
-                    Task {
-                        htmlViewModel.fetchCustomThemes()
-                    }
-                }
-        }
-        .background(.white)
-        .onAppear() {
-            Task {
-                markdownViewModel.loadArticle()
-                htmlViewModel.content = markdownViewModel.content
             }
         }
-        .onReceive(markdownViewModel.$content) { newContent in
-            htmlViewModel.content = newContent
-            htmlViewModel.onUpdate()
-        }
-        .onReceive(htmlViewModel.$scrollFactor) { newScrollFactor in
-            markdownViewModel.scroll(scrollFactor: newScrollFactor)
-        }
-        .onReceive(markdownViewModel.$scrollFactor) { newScrollFactor in
-            htmlViewModel.scroll(scrollFactor: newScrollFactor)
-        }
-        .toolbar() {
+        .frame(minWidth: 1140, idealWidth: .infinity, minHeight: 645, idealHeight: .infinity)
+        .toolbar {
             ToolbarItemGroup {
                 ForEach(Platform.allCases) { platform in
                     Button {
-                        htmlViewModel.changePlatform(platform)
+                        appState.dispatch(.changePlatform(platform))
                     } label: {
                         Image(platform.rawValue)
                     }
@@ -86,42 +50,35 @@ struct ContentView: View {
             }
         }
         .navigationTitle(getAppName())
+        .background(Color(NSColor.windowBackgroundColor))
+        .alert(isPresented: appState.showError, error: appState.appError) {}
+        .task {
+            markdownViewModel.loadArticle()
+        }
         .sheet(isPresented: $appState.showSheet) {
             SheetView()
         }
+
     }
-    
+
     struct SheetView: View {
         @Environment(\.dismiss) var dismiss
         @EnvironmentObject private var cssEditorViewModel: CssEditorViewModel
-        @EnvironmentObject private var themePreviewViewModel: ThemePreviewViewModel
-        @EnvironmentObject private var htmlViewModel: HtmlViewModel
         @EnvironmentObject private var appState: AppState
         @State private var showFileImporter = false
-        
+
         var body: some View {
             HStack {
+                CssPreviewView()
+                    .frame(minWidth: 500, minHeight: 580)
                 CssEditorView()
                     .frame(minWidth: 500, minHeight: 580)
-                ThemePreviewView()
-                    .frame(minWidth: 500, minHeight: 580)
-                    .onAppear() {
-                        themePreviewViewModel.content = htmlViewModel.content
-                    }
-            }
-            .onReceive(cssEditorViewModel.$content) { content in
-                themePreviewViewModel.css = content
-                themePreviewViewModel.onUpdate()
-            }
-            .onReceive(htmlViewModel.$cssEditorContent) { content in
-                cssEditorViewModel.content = content
-                cssEditorViewModel.setContent()
             }
             .toolbar {
                 ToolbarItem(placement: .automatic) {
-                    if !appState.showDeleteButton {
+                    if appState.showDeleteButton {
                         Button(action: {
-                            htmlViewModel.deleteCustomTheme()
+                            appState.dispatch(.deleteCustomTheme)
                             dismiss()
                         }) {
                             Text("删除")
@@ -129,40 +86,32 @@ struct ContentView: View {
                         }
                     }
                 }
-                
+
                 ToolbarItem(placement: .automatic) {
                     Button("导入") {
-                        appState.showHelpBubble = false
                         showFileImporter = true
                     }
                 }
                 ToolbarItem(placement: .automatic) {
-                    Button("", systemImage: "questionmark.circle") {
-                        appState.showHelpBubble.toggle()
+                    Button {
+                        if let url = URL(string: "https://babyno.top/posts/2024/11/wenyan-supports-customized-themes/") {
+                            NSWorkspace.shared.open(url)
+                        }
+                    } label: {
+                        Label("", systemImage: "questionmark.circle")
                     }
                     .buttonStyle(.borderless)
                     .font(.system(size: 13))
-                    .overlay(alignment: .bottomLeading) {
-                        if appState.showHelpBubble {
-                            HelpBubble()
-                                .padding(.bottom, 20)
-                                .environment(\.colorScheme, .light)
-                        }
-                    }
                 }
-                
+
                 ToolbarItem(placement: .cancellationAction) {
                     Button("取消") {
-                        appState.showHelpBubble = false
                         dismiss()
                     }
                 }
                 ToolbarItem(placement: .primaryAction) {
                     Button("保存") {
-                        appState.showHelpBubble = false
-                        htmlViewModel.saveCustomTheme(content: cssEditorViewModel.content)
-                        htmlViewModel.fetchCustomThemes()
-                        htmlViewModel.setTheme()
+                        appState.dispatch(.saveCustomTheme(cssEditorViewModel.content))
                         dismiss()
                     }
                 }
@@ -173,299 +122,9 @@ struct ContentView: View {
                 allowedContentTypes: [.css],
                 allowsMultipleSelection: false
             ) { result in
-                switch result {
-                case .success(let files):
-                    let file = files[0]
-                    let gotAccess = file.startAccessingSecurityScopedResource()
-                    if !gotAccess { return }
-                    do {
-                        cssEditorViewModel.loadCss(css: try String(contentsOfFile: file.path, encoding: .utf8))
-                    } catch {
-                        appState.appError = AppError.bizError(description: error.localizedDescription)
-                    }
-                    file.stopAccessingSecurityScopedResource()
-                case .failure(let error):
-                    appState.appError = AppError.bizError(description: error.localizedDescription)
-                }
+                cssEditorViewModel.loadCssFromFile(result)
             }
         }
-        
-    }
-    
-    struct ToolButtonPopup: View {
-        @EnvironmentObject private var htmlViewModel: HtmlViewModel
-        @EnvironmentObject private var appState: AppState
 
-        var body: some View {
-            VStack {
-                if htmlViewModel.platform == .gzh {
-                    Button(action: {
-                        appState.showThemeList = true
-                    }) {
-                        HStack {
-                            Image(systemName: "tshirt")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 16, height: 16)
-                            Text("主题")
-                                .font(.system(size: 14))
-                        }
-                        .frame(height: 24)
-                    }
-                    
-                }
-                Button(action: {
-                    htmlViewModel.changePreviewMode()
-                }) {
-                    HStack {
-                        Image(systemName: htmlViewModel.previewMode == .mobile ? "iphone.gen1" : "desktopcomputer")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 16, height: 16)
-                        Text("预览")
-                            .font(.system(size: 14))
-                    }
-                    .frame(height: 24)
-                }
-                Button(action: {
-                    htmlViewModel.changeFootnotes()
-                }) {
-                    HStack {
-                        Image(systemName: htmlViewModel.isFootnotes ? "link.circle.fill" : "link.circle")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 16, height: 16)
-                        Text("脚注")
-                            .font(.system(size: 14))
-                    }
-                    .frame(height: 24)
-                }
-                if htmlViewModel.platform == .gzh {
-                    Button(action: {
-                        htmlViewModel.exportLongImage()
-                    }) {
-                        HStack {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 16, height: 16)
-                            Text("长图")
-                                .font(.system(size: 14))
-                        }
-                        .frame(height: 24)
-                    }
-                    .fileExporter(
-                        isPresented: htmlViewModel.hasLongImageData,
-                        document: htmlViewModel.longImageData,
-                        contentType: .jpeg,
-                        defaultFilename: "out"
-                    ) { result in
-                        switch result {
-                        case .success(let url):
-                            print("File saved to \(url)")
-                        case .failure(let error):
-                            appState.appError = AppError.bizError(description: error.localizedDescription)
-                        }
-                    }
-                    Button(action: {
-                        htmlViewModel.exportPDF()
-                    }) {
-                        HStack {
-                            Image(systemName: "text.document")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 16, height: 16)
-                            Text("PDF")
-                                .font(.system(size: 14))
-                        }
-                        .frame(height: 24)
-                    }
-                    .fileExporter(
-                        isPresented: htmlViewModel.hasPdfData,
-                        document: htmlViewModel.pdfData,
-                        contentType: .pdf,
-                        defaultFilename: "out"
-                    ) { result in
-                        switch result {
-                        case .success(let url):
-                            print("File saved to \(url)")
-                        case .failure(let error):
-                            appState.appError = AppError.bizError(description: error.localizedDescription)
-                        }
-                    }
-                }
-                Button(action: {
-                    htmlViewModel.onCopy()
-                }) {
-                    HStack {
-                        Image(systemName: appState.isCopied ? "checkmark" : "clipboard")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 16, height: 16)
-                        Text("复制")
-                            .font(.system(size: 14))
-                    }
-                    .frame(height: 24)
-                }
-            }
-            .padding(.trailing, 32)
-            .padding(.top, 16)
-            .environment(\.colorScheme, .light)
-        }
     }
-    
-    struct ThemeListPopup: View {
-        @State private var menuWidth: CGFloat = 220
-        @State private var menuHeight: CGFloat = 240
-        @EnvironmentObject private var htmlViewModel: HtmlViewModel
-        @EnvironmentObject private var appState: AppState
-        @EnvironmentObject private var cssEditorViewModel: CssEditorViewModel
-        
-        var body: some View {
-            VStack {
-                List {
-                    ForEach(Platform.gzh.themes, id: \.self) { theme in
-                        ThemeListView(theme: ThemeStyleWrapper(themeType: .builtin, themeStyle: theme))
-                    }
-                    ForEach(htmlViewModel.customThemes, id: \.self) { theme in
-                        CustomThemeListView(theme: ThemeStyleWrapper(themeType: .custom, customTheme: theme))
-                    }
-                    if htmlViewModel.customThemes.count < 3 {
-                        HStack {
-                            Spacer()
-                            Text("创建新主题")
-                            Button {
-                                if htmlViewModel.gzhTheme.themeType == .builtin {
-                                    htmlViewModel.getThemeById()
-                                } else {
-                                    htmlViewModel.cssEditorContent = htmlViewModel.gzhTheme.customTheme?.content ?? ""
-                                }
-                                appState.showDeleteButton = true
-                                appState.showSheet = true
-                            } label: {
-                                Image(systemName: "plus.circle")
-                                    .font(.system(size: 12))
-                            }
-                            .buttonStyle(.plain)
-                            .foregroundColor(Color.accentColor)
-                        }
-                        .padding(.trailing, 5)
-                        .padding(.vertical, 2)
-                    }
-                }
-                .padding(5)
-                .listStyle(.plain)
-                .background(Color.clear)
-                .frame(width: menuWidth, height: menuHeight)
-            }
-            .frame(width: menuWidth, height: menuHeight)
-            .background(
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color.white)
-                    .shadow(radius: 5)
-            )
-            .padding(8)
-            .onReceive(htmlViewModel.$gzhTheme) { _ in
-                htmlViewModel.changeTheme()
-            }
-            .onAppear() {
-                calcHeight()
-            }
-            .onReceive(htmlViewModel.$customThemes) { _ in
-                calcHeight()
-            }
-        }
-        
-        private func calcHeight() {
-            menuHeight = 265 + CGFloat(min(htmlViewModel.customThemes.count, 2) * 28)
-        }
-        
-    }
-    
-    struct ThemeListView: View {
-        @EnvironmentObject private var htmlViewModel: HtmlViewModel
-        @EnvironmentObject private var appState: AppState
-        var theme: ThemeStyleWrapper
-        
-        var body: some View {
-            Button(action: {
-                htmlViewModel.gzhTheme = theme
-            }) {
-                HStack {
-                    Text(theme.name())
-                    Spacer()
-                    Text(theme.author())
-                }
-                .foregroundColor(htmlViewModel.gzhTheme == theme ? Color.white : Color.primary)
-                .contentShape(Rectangle())
-                .padding(.horizontal, 5)
-                .padding(.vertical, 2)
-            }
-            .buttonStyle(.borderless)
-            .background(htmlViewModel.gzhTheme == theme ? Color.accentColor : Color.clear)
-        }
-    }
-    
-    struct CustomThemeListView: View {
-        @EnvironmentObject private var appState: AppState
-        @EnvironmentObject private var htmlViewModel: HtmlViewModel
-        @EnvironmentObject private var cssEditorViewModel: CssEditorViewModel
-        let theme: ThemeStyleWrapper
-        
-        var body: some View {
-            HStack {
-                Button(action: {
-                    htmlViewModel.gzhTheme = theme
-                }) {
-                    HStack {
-                        Text(theme.name())
-                        Spacer()
-                    }
-                }
-                .buttonStyle(.borderless)
-                .padding(.leading, 5)
-                .padding(.vertical, 2)
-                .foregroundColor(htmlViewModel.gzhTheme == theme ? Color.white : Color.primary)
-                
-                HStack {
-                    Button {
-                        htmlViewModel.gzhTheme = theme
-                        htmlViewModel.cssEditorContent = theme.customTheme?.content ?? ""
-                        appState.showDeleteButton = false
-                        appState.showSheet = true
-                    } label: {
-                        Image(systemName: "square.and.pencil")
-                            .font(.system(size: 12))
-                    }
-                    .buttonStyle(.plain)
-                    .foregroundColor(htmlViewModel.gzhTheme == theme ? Color.white : Color.accentColor)
-                }
-                .padding(.vertical, 2)
-                .padding(.trailing, 5)
-            }
-            .background(htmlViewModel.gzhTheme == theme ? Color.accentColor : Color.clear)
-            .contentShape(Rectangle())
-        }
-    }
-    
-    struct HelpBubble: View {
-        var body: some View {
-            VStack(alignment: .leading) {
-                Text("欢迎使用自定义主题功能")
-                Link("使用教程", destination: URL(string: "https://babyno.top/posts/2024/11/wenyan-supports-customized-themes/")!)
-                    .pointingHandCursor()
-                Link("功能讨论", destination: URL(string: "https://github.com/caol64/wenyan/discussions/9")!)
-                    .pointingHandCursor()
-                Link("主题分享", destination: URL(string: "https://github.com/caol64/wenyan/discussions/13")!)
-                    .pointingHandCursor()
-            }
-            .frame(width: 220, height: 120)
-            .background(
-                RoundedRectangle(cornerRadius: 5)
-                    .fill(Color.white)
-                    .shadow(radius: 5)
-            )
-        }
-    }
-    
 }

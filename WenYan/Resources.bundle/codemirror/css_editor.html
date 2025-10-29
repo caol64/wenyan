@@ -84,10 +84,6 @@
 
         setTabInsertSpaces(true);
 
-        document.addEventListener('click', function (event) {
-            window.webkit.messageHandlers.clickHandler.postMessage(null);
-        });
-
         window.webkit.messageHandlers.loadHandler.postMessage(null);
 
     </script>

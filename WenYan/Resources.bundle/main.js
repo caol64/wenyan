@@ -39,20 +39,16 @@ function setStylesheet(id, href) {
 async function setContent(content) {
     document.getElementById("wenyan")?.remove();
     const container = document.createElement("section");
-    const preHandlerContent = WenyanCore.handleFrontMatter(content);
+    const preHandlerContent = await WenyanCore.handleFrontMatter(content);
     let body = preHandlerContent.body;
     if (preHandlerContent.title) {
         body = `# ${preHandlerContent.title}\n\n${body}`;
     }
-    container.innerHTML = await WenyanCore.renderMarkdown(body);
+    const result = await WenyanCore.renderMarkdown(body);
+    container.innerHTML = result;
     container.setAttribute("id", "wenyan");
     container.setAttribute("class", "preview");
     document.body.appendChild(container);
-}
-
-function setPreviewMode(mode) {
-    document.getElementById("style")?.remove();
-    setStylesheet("style", mode);
 }
 
 function setCustomTheme(css) {
@@ -195,12 +191,12 @@ function getContentForMedium() {
             if (classAttribute) {
                 // 1. 分割类名并使用 find() 查找以 'language-' 开头的类
                 const languageClass = classAttribute.split(' ').find(cls => cls.startsWith('language-'));
-                
+
                 // 2. 关键：检查 find() 的返回值是否有效（即不是 undefined）
                 if (languageClass) {
                     // 3. 只有在找到匹配项时，才执行 replace() 来提取语言名
                     const language = languageClass.replace('language-', '');
-                    
+
                     if (language) {
                         p.setAttribute("data-code-block-lang", language);
                     }
@@ -281,6 +277,11 @@ function tableToAsciiArt(table) {
     return asciiTable;
 }
 
+function addFootnotes(listStyle) {
+    const wenyan = document.getElementById("wenyan");
+    WenyanCore.addFootnotes(listStyle, wenyan);
+}
+
 // 递归处理所有嵌套的 <ul>，将其转换为 Medium 风格
 function transformUl(ulElement) {
     // 先递归处理子 <ul>
@@ -290,7 +291,7 @@ function transformUl(ulElement) {
 
     // 把 <li> 转换成 Medium-friendly 格式
     let replaceString = Array.from(ulElement.children).map(item => item.outerHTML).join(' ');
-    
+
     // 将 <li> 标签替换为 Medium 风格列表
     replaceString = replaceString.replace(/<li>/g, '<br>\n- ').replace(/<\/li>/g, '');
 
@@ -303,7 +304,7 @@ async function getContentForGzh() {
     const wenyan = document.getElementById("wenyan");
     const clonedWenyan = wenyan.cloneNode(true);
     const content = await WenyanCore.getContentForGzhCustomCss(clonedWenyan, customCss, highlightCss, codeblockSettings.isEnabled ? codeblockSettings.isMacStyle : true);
-    window.webkit.messageHandlers.copyContentHandler.postMessage(content);
+    // window.webkit.messageHandlers.copyContentHandler.postMessage(content);
 }
 
 function setMacStyle() {
@@ -362,20 +363,15 @@ window.onscroll = function() {
     }
 };
 
-document.addEventListener('click', function(event) {
-    window.webkit.messageHandlers.clickHandler.postMessage(null);
-});
-
-WenyanCore.configureMarked();
-
-const builtinGzhThemes = WenyanStyles.getAllThemes().map(obj => {
-    const { id, appName, author } = obj;
-    return { id, appName, author };
-});
-
-const builtinHighlightThemes = WenyanStyles.getAllHlThemes().map(obj => {
-    const { id } = obj;
-    return { id };
-});
-
-window.webkit.messageHandlers.loadHandler.postMessage({ gzhThemes: builtinGzhThemes, hlThemes: builtinHighlightThemes });
+(async () => {
+    await WenyanCore.configureMarked();
+    const builtinGzhThemes = WenyanStyles.getAllThemes().map(obj => {
+        const { id, appName, author } = obj;
+        return { id, appName, author };
+    });
+    const builtinHighlightThemes = WenyanStyles.getAllHlThemes().map(obj => {
+        const { id } = obj;
+        return { id };
+    });
+    window.webkit.messageHandlers.loadHandler.postMessage({ gzhThemes: builtinGzhThemes, hlThemes: builtinHighlightThemes });
+})();

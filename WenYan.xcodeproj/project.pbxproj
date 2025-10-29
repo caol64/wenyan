@@ -24,9 +24,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		ABB7F82A2C72EB290029E73E /* 文颜.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "文颜.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		ABB7F83D2C72EB2A0029E73E /* WenYanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WenYanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		ABB7F8472C72EB2A0029E73E /* WenYanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WenYanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB0B2F4E2EAEFE1A0014EBC1 /* 文颜.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "文颜.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB0B2F4F2EAEFE1A0014EBC1 /* WenYanTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WenYanTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		AB0B2F502EAEFE1A0014EBC1 /* WenYanUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WenYanUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		ABD1FC832EAB303D00FF6560 /* .swift-format */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ".swift-format"; sourceTree = "<group>"; };
+		ABD1FC842EAB414700FF6560 /* .editorconfig */ = {isa = PBXFileReference; lastKnownFileType = text; path = .editorconfig; sourceTree = "<group>"; };
 		ABE070B72C772B6A002A94AA /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		ABE070B82C772B6A002A94AA /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		ABE070B92C772B6A002A94AA /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
@@ -77,25 +79,19 @@
 		ABB7F8212C72EB290029E73E = {
 			isa = PBXGroup;
 			children = (
+				ABD1FC842EAB414700FF6560 /* .editorconfig */,
+				ABE070B92C772B6A002A94AA /* .gitignore */,
+				ABD1FC832EAB303D00FF6560 /* .swift-format */,
 				AB9E74062CCF1C10006F11AA /* Data */,
+				ABE070B72C772B6A002A94AA /* LICENSE */,
+				ABE070B82C772B6A002A94AA /* README.md */,
 				AB9E74192CCF1C15006F11AA /* WenYan */,
 				AB9E742C2CCF1C19006F11AA /* WenYanTests */,
 				AB9E74302CCF1C1C006F11AA /* WenYanUITests */,
-				ABE070B82C772B6A002A94AA /* README.md */,
-				ABE070B72C772B6A002A94AA /* LICENSE */,
-				ABE070B92C772B6A002A94AA /* .gitignore */,
-				ABB7F82B2C72EB290029E73E /* Products */,
+				AB0B2F4E2EAEFE1A0014EBC1 /* 文颜.app */,
+				AB0B2F4F2EAEFE1A0014EBC1 /* WenYanTests.xctest */,
+				AB0B2F502EAEFE1A0014EBC1 /* WenYanUITests.xctest */,
 			);
-			sourceTree = "<group>";
-		};
-		ABB7F82B2C72EB290029E73E /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				ABB7F82A2C72EB290029E73E /* 文颜.app */,
-				ABB7F83D2C72EB2A0029E73E /* WenYanTests.xctest */,
-				ABB7F8472C72EB2A0029E73E /* WenYanUITests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,7 +114,7 @@
 			);
 			name = WenYan;
 			productName = WenYan;
-			productReference = ABB7F82A2C72EB290029E73E /* 文颜.app */;
+			productReference = AB0B2F4E2EAEFE1A0014EBC1 /* 文颜.app */;
 			productType = "com.apple.product-type.application";
 		};
 		ABB7F83C2C72EB2A0029E73E /* WenYanTests */ = {
@@ -139,7 +135,7 @@
 			);
 			name = WenYanTests;
 			productName = WenYanTests;
-			productReference = ABB7F83D2C72EB2A0029E73E /* WenYanTests.xctest */;
+			productReference = AB0B2F4F2EAEFE1A0014EBC1 /* WenYanTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		ABB7F8462C72EB2A0029E73E /* WenYanUITests */ = {
@@ -160,7 +156,7 @@
 			);
 			name = WenYanUITests;
 			productName = WenYanUITests;
-			productReference = ABB7F8472C72EB2A0029E73E /* WenYanUITests.xctest */;
+			productReference = AB0B2F502EAEFE1A0014EBC1 /* WenYanUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -195,7 +191,7 @@
 				"zh-Hans",
 			);
 			mainGroup = ABB7F8212C72EB290029E73E;
-			productRefGroup = ABB7F82B2C72EB290029E73E /* Products */;
+			productRefGroup = ABB7F8212C72EB290029E73E;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -323,9 +319,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "文颜";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "2024 Lei Cao. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "2025 Lei Cao. All rights reserved.";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -384,9 +380,9 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "文颜";
-				INFOPLIST_KEY_NSHumanReadableCopyright = "2024 Lei Cao. All rights reserved.";
+				INFOPLIST_KEY_NSHumanReadableCopyright = "2025 Lei Cao. All rights reserved.";
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
@@ -429,7 +425,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 3.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYan;
 				PRODUCT_MODULE_NAME = WenYan;
@@ -478,7 +474,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 12.0;
+				MACOSX_DEPLOYMENT_TARGET = 13.5;
 				MARKETING_VERSION = 3.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yztech.WenYan;
 				PRODUCT_MODULE_NAME = WenYan;

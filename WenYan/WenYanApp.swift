@@ -9,24 +9,40 @@ import SwiftUI
 
 @main
 struct WenYanApp: App {
-    
+
     @StateObject private var appState: AppState
     @StateObject private var markdownViewModel: MarkdownViewModel
     @StateObject private var htmlViewModel: HtmlViewModel
     @StateObject private var cssEditorViewModel: CssEditorViewModel
-    @StateObject private var themePreviewViewModel: ThemePreviewViewModel
+    @StateObject private var cssPreviewViewModel: CssPreviewViewModel
+    @StateObject private var codeblockSettingsViewModel: CodeblockSettingsViewModel
+    @StateObject private var paragraphSettingsViewModel: ParagraphSettingsViewModel
     @State private var showFileImporter = false
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-    
+
     init() {
         let appState = AppState()
+        let markdownViewModel = MarkdownViewModel(appState: appState)
+        let htmlViewModel = HtmlViewModel(appState: appState)
+        let cssEditorViewModel = CssEditorViewModel(appState: appState)
+        let cssPreviewViewModel = CssPreviewViewModel(appState: appState)
+        let codeblockSettingsViewModel = CodeblockSettingsViewModel(htmlViewModel: htmlViewModel)
+        let paragraphSettingsViewModel = ParagraphSettingsViewModel(htmlViewModel: htmlViewModel)
+        markdownViewModel.bindTo(htmlViewModel)
+        htmlViewModel.bind()
+        htmlViewModel.bindTo(markdownViewModel)
+        cssPreviewViewModel.bindTo(markdownViewModel)
+        cssPreviewViewModel.bindTo(cssEditorViewModel)
+        cssEditorViewModel.bindTo(cssPreviewViewModel)
         _appState = StateObject(wrappedValue: appState)
-        _markdownViewModel = StateObject(wrappedValue: MarkdownViewModel(appState: appState))
-        _htmlViewModel = StateObject(wrappedValue: HtmlViewModel(appState: appState))
-        _cssEditorViewModel = StateObject(wrappedValue: CssEditorViewModel(appState: appState))
-        _themePreviewViewModel = StateObject(wrappedValue: ThemePreviewViewModel(appState: appState))
+        _markdownViewModel = StateObject(wrappedValue: markdownViewModel)
+        _htmlViewModel = StateObject(wrappedValue: htmlViewModel)
+        _cssEditorViewModel = StateObject(wrappedValue: cssEditorViewModel)
+        _cssPreviewViewModel = StateObject(wrappedValue: cssPreviewViewModel)
+        _codeblockSettingsViewModel = StateObject(wrappedValue: codeblockSettingsViewModel)
+        _paragraphSettingsViewModel = StateObject(wrappedValue: paragraphSettingsViewModel)
     }
-    
+
     var body: some Scene {
         WindowGroup {
             ContentView()
@@ -34,8 +50,9 @@ struct WenYanApp: App {
                 .environmentObject(markdownViewModel)
                 .environmentObject(htmlViewModel)
                 .environmentObject(cssEditorViewModel)
-                .environmentObject(themePreviewViewModel)
-                .alert(isPresented: appState.showError, error: appState.appError) {}
+                .environmentObject(cssPreviewViewModel)
+                .environmentObject(codeblockSettingsViewModel)
+                .environmentObject(paragraphSettingsViewModel)
         }
         .commands {
             CommandGroup(replacing: .appInfo) {
@@ -61,32 +78,21 @@ struct WenYanApp: App {
                     allowedContentTypes: [.md],
                     allowsMultipleSelection: false
                 ) { result in
-                    switch result {
-                    case .success(let files):
-                        let file = files[0]
-                        let gotAccess = file.startAccessingSecurityScopedResource()
-                        if !gotAccess { return }
-                        markdownViewModel.openArticle(url: file)
-                        file.stopAccessingSecurityScopedResource()
-                    case .failure(let error):
-                        appState.appError = AppError.bizError(description: error.localizedDescription)
-                    }
+                    markdownViewModel.openArticle(result)
                 }
                 Button("打开示例文本") {
-                    Task {
-                        markdownViewModel.loadDefaultArticle()
-                        markdownViewModel.setContent()
-                    }
+                    markdownViewModel.loadDefaultArticle()
                 }
             }
         }
-        
+
         SwiftUI.Settings {
             SettingsView()
-                .environmentObject(htmlViewModel)
+                .environmentObject(codeblockSettingsViewModel)
+                .environmentObject(paragraphSettingsViewModel)
         }
     }
-    
+
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
