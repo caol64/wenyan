@@ -38,11 +38,11 @@ final class HtmlViewModel: NSObject, ObservableObject {
         appState.$platform
             .receive(on: RunLoop.main)
             .sink { [weak self] platform in
-                self?.changePlatform(platform)
+                self?.setTheme()
             }
             .store(in: &cancellables)
     }
-    
+
     func bindTo(_ markdownViewModel: MarkdownViewModel) {
         markdownViewModel.$content
             .receive(on: RunLoop.main)
@@ -50,7 +50,7 @@ final class HtmlViewModel: NSObject, ObservableObject {
                 self?.setContent(newContent)
             }
             .store(in: &cancellables)
-        
+
         markdownViewModel.$scrollFactor
             .receive(on: RunLoop.main)
             .sink { [weak self] newContent in
@@ -73,24 +73,24 @@ final class HtmlViewModel: NSObject, ObservableObject {
         callJavascript(javascriptString: "setContent(\(content.toJavaScriptString()));")
     }
 
-    func getContentFromWebView(_ block: JavascriptCallback?) {
-        callJavascript(javascriptString: "getContent();", callback: block)
+    func getContentFromWebView() async throws -> String {
+        try await callAsyncJavaScript(javascriptBody: "return getContent();")
     }
 
-    func getPostprocessMarkdown(_ block: JavascriptCallback?) {
-        callJavascript(javascriptString: "getPostprocessMarkdown();", callback: block)
+    func getPostprocessMarkdown() async throws -> String {
+        try await callAsyncJavaScript(javascriptBody: "return getPostprocessMarkdown();")
     }
 
-    func getContentWithMathImg(_ block: JavascriptCallback?) {
-        callJavascript(javascriptString: "getContentWithMathImg();", callback: block)
+    func getContentWithMathImg() async throws -> String {
+        try await callAsyncJavaScript(javascriptBody: "return getContentWithMathImg();")
     }
 
-    func getContentForGzh() {
-        callJavascript(javascriptString: "getContentForGzh();")
+    func getContentForGzh() async throws -> String {
+        try await callAsyncJavaScript(javascriptBody: "return await getContentForGzh();")
     }
 
-    func getContentForMedium(_ block: JavascriptCallback?) {
-        callJavascript(javascriptString: "getContentForMedium();", callback: block)
+    func getContentForMedium() async throws -> String {
+        try await callAsyncJavaScript(javascriptBody: "return getContentForMedium();")
     }
 
     func getScrollFrame(_ block: JavascriptCallback?) {
@@ -101,21 +101,14 @@ final class HtmlViewModel: NSObject, ObservableObject {
         callJavascript(javascriptString: "scroll(\(scrollFactor));")
     }
 
+    func applySettings() {
+        callJavascript(javascriptString: "applySettings(\(appState.platform == .gzh));")
+    }
+
     // MARK: - Content Management
     func setContent(_ content: String) {
         self.content = content
         flushContent()
-    }
-    
-    func changePlatform(_ platform: Platform) {
-        if platform == .gzh {
-            setParagraphSettings(paragraphSettings: ParagraphSettingsViewModel.loadSettings() ?? ParagraphSettings())
-            setCodeblock(codeblockSettings: CodeblockSettingsViewModel.loadSettings() ?? CodeblockSettings())
-        } else {
-            callJavascript(javascriptString: "removeMacStyle();")
-            callJavascript(javascriptString: "setHighlight('github');")
-        }
-        setTheme()
     }
 
     func flushContent() {
@@ -126,7 +119,9 @@ final class HtmlViewModel: NSObject, ObservableObject {
     }
 
     func configWebView() {
-        changePlatform(.gzh)
+        setCodeblockSettings()
+        setParagraphSettings()
+        setTheme()
         setContentToWebView()
     }
 
@@ -136,7 +131,7 @@ final class HtmlViewModel: NSObject, ObservableObject {
                 let customTheme = appState.getCurrentCustomTheme(),
                 let themeContent = customTheme.content
             {
-                callJavascript(javascriptString: "setCustomTheme(\(themeContent.toJavaScriptString()));")
+                callJavascript(javascriptString: "setCustomTheme(\(themeContent.toJavaScriptString()), true);")
             } else {
                 callJavascript(javascriptString: "setThemeById(\(appState.gzhTheme.id().toJavaScriptString()), true);")
             }
@@ -158,68 +153,10 @@ final class HtmlViewModel: NSObject, ObservableObject {
         }
     }
 
-    func onCopy() {
-        if appState.platform == .gzh {
-            getContentForGzh()
-            return
-        }
-        let fetchContent: (@escaping JavascriptCallback) -> Void
-        switch appState.platform {
-        case .zhihu:
-            fetchContent = getContentWithMathImg
-        case .juejin:
-            fetchContent = getPostprocessMarkdown
-        case .medium:
-            fetchContent = getContentForMedium
-        default:
-            fetchContent = getContentFromWebView
-        }
-        fetchContent { result in
-            do {
-                let content = try result.get() as! String
-                //                print(content)
-                let pasteBoard = NSPasteboard.general
-                pasteBoard.clearContents()
-                if self.appState.platform == .juejin {
-                    pasteBoard.setString(content, forType: .string)
-                } else {
-                    pasteBoard.setString(content, forType: .html)
-                }
-                self.appState.toggleCopyIcon()
-            } catch {
-                self.appState.appError = AppError.bizError(description: error.localizedDescription)
-            }
-        }
-    }
-
-    func setCodeblock(codeblockSettings: CodeblockSettings) {
-        if appState.platform == .gzh {
-            if codeblockSettings.isEnabled {
-                callJavascript(javascriptString: "setHighlight(\(codeblockSettings.theme.toJavaScriptString()));")
-                setCodeblockSettings(codeblockSettings: codeblockSettings)
-                if codeblockSettings.isMacStyle {
-                    callJavascript(javascriptString: "setMacStyle();")
-                } else {
-                    callJavascript(javascriptString: "removeMacStyle();")
-                }
-            } else {
-                callJavascript(javascriptString: "setMacStyle();")
-                callJavascript(javascriptString: "setHighlight('github');")
-                setCodeblockSettings(codeblockSettings: CodeblockSettings())
-            }
-        }
-    }
-    
-    func setParagraph(paragraphSettings: ParagraphSettings) {
-        if appState.platform == .gzh {
-            setParagraphSettings(paragraphSettings: paragraphSettings)
-        }
-    }
-    
-    func setCodeblockSettings(codeblockSettings: CodeblockSettings) {
+    func setCodeblockSettings() {
         do {
             let encoder = JSONEncoder()
-            let jsonData = try encoder.encode(codeblockSettings)
+            let jsonData = try encoder.encode(CodeblockSettingsViewModel.loadSettings() ?? CodeblockSettings())
             let jsonString = String(data: jsonData, encoding: .utf8)
             let jsString = jsonString ?? ""
             callJavascript(javascriptString: "setCodeblockSettings(JSON.parse(\(jsString.toJavaScriptString())));")
@@ -227,11 +164,11 @@ final class HtmlViewModel: NSObject, ObservableObject {
             error.handle(in: appState)
         }
     }
-    
-    func setParagraphSettings(paragraphSettings: ParagraphSettings) {
+
+    func setParagraphSettings() {
         do {
             let encoder = JSONEncoder()
-            let jsonData = try encoder.encode(paragraphSettings)
+            let jsonData = try encoder.encode(ParagraphSettingsViewModel.loadSettings() ?? ParagraphSettings())
             let jsonString = String(data: jsonData, encoding: .utf8)
             let jsString = jsonString ?? ""
             callJavascript(javascriptString: "setParagraphSettings(JSON.parse(\(jsString.toJavaScriptString())));")
@@ -240,11 +177,13 @@ final class HtmlViewModel: NSObject, ObservableObject {
         }
     }
 
-    
-
     // MARK: - Call Javascript
     private func callJavascript(javascriptString: String, callback: JavascriptCallback? = nil) {
         WenYan.callJavascript(webView: webView, javascriptString: javascriptString, callback: callback)
+    }
+
+    private func callAsyncJavaScript(javascriptBody: String, args: [String: Any] = [:]) async throws -> String {
+        try await WenYan.callAsyncJavaScript(webView: webView, javascriptBody: javascriptBody, args: args) as? String ?? ""
     }
 }
 
@@ -267,12 +206,6 @@ extension HtmlViewModel: WKScriptMessageHandler {
         case WebkitStatus.scrollHandler:
             guard let body = message.body as? [String: CGFloat], let y = body["y0"] else { return }
             scrollFactor = y
-        case WebkitStatus.copyContentHandler:
-            guard let body = message.body as? String else { return }
-            let pasteBoard = NSPasteboard.general
-            pasteBoard.clearContents()
-            pasteBoard.setString(body, forType: .html)
-            appState.toggleCopyIcon()
         default:
             break
         }
@@ -305,21 +238,21 @@ extension HtmlViewModel {
             set: { if !$0 { self.exportPdfData = nil } }
         )
     }
-    
+
     var isImgExporting: Binding<Bool> {
         Binding(
             get: { self.exportImgData != nil },
             set: { if !$0 { self.exportImgData = nil } }
         )
     }
-    
+
     func exportContent(as type: ExportType) {
         guard let webView = self.webView else { return }
 
         getScrollFrame { result in
             do {
                 guard let body = try result.get() as? [String: CGFloat],
-                      let height = body["height"]
+                    let height = body["height"]
                 else { return }
 
                 let originalFrame = webView.frame
@@ -335,7 +268,8 @@ extension HtmlViewModel {
 
                     case .longImage:
                         if let pdf = PDFDocument(data: pdfData),
-                           let page = pdf.page(at: 0) {
+                            let page = pdf.page(at: 0)
+                        {
                             let pageSize = page.bounds(for: .mediaBox)
                             let image = page.thumbnail(
                                 of: CGSize(
@@ -346,8 +280,9 @@ extension HtmlViewModel {
                             )
 
                             if let tiffData = image.tiffRepresentation,
-                               let bitmapRep = NSBitmapImageRep(data: tiffData),
-                               let jpegData = bitmapRep.representation(using: .jpeg, properties: [.compressionFactor: 0.9]) {
+                                let bitmapRep = NSBitmapImageRep(data: tiffData),
+                                let jpegData = bitmapRep.representation(using: .jpeg, properties: [.compressionFactor: 0.9])
+                            {
                                 self.exportImgData = DataFile(data: jpegData)
                             }
                         }
@@ -367,6 +302,44 @@ extension HtmlViewModel {
             print("File saved to \(url)")
         case .failure(let error):
             error.handle(in: appState)
+        }
+    }
+}
+
+// MARK: - Copy to Pasteboard
+extension HtmlViewModel {
+    func onCopy() {
+        Task { @MainActor in
+            do {
+                let content: String
+
+                switch appState.platform {
+                case .gzh:
+                    content = try await getContentForGzh()
+                case .zhihu:
+                    content = try await getContentWithMathImg()
+                case .juejin:
+                    content = try await getPostprocessMarkdown()
+                case .medium:
+                    content = try await getContentForMedium()
+                default:
+                    content = try await getContentFromWebView()
+                }
+
+                let pasteBoard = NSPasteboard.general
+                pasteBoard.clearContents()
+
+                if appState.platform == .juejin {
+                    pasteBoard.setString(content, forType: .string)
+                } else {
+                    pasteBoard.setString(content, forType: .html)
+                }
+
+                appState.toggleCopyIcon()
+
+            } catch {
+                error.handle(in: self.appState)
+            }
         }
     }
 }

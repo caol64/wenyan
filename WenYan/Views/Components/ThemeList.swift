@@ -91,6 +91,7 @@ struct ThemeList: View {
 
                 HStack {
                     Button {
+                        appState.dispatch(.changeTheme(theme))
                         appState.dispatch(.openCssEditor(true))
                     } label: {
                         Image(systemName: "square.and.pencil")

@@ -8,7 +8,6 @@
 import Foundation
 import WebKit
 
-
 func getResourceBundle() -> URL? {
     return Bundle.main.url(forResource: "Resources", withExtension: "bundle")
 }
@@ -45,6 +44,15 @@ func callJavascript(webView: WKWebView?, javascriptString: String, callback: Jav
             callback?(.success(response))
         }
     }
+}
+
+func callAsyncJavaScript(webView: WKWebView?, javascriptBody: String, args: [String: Any] = [:]) async throws -> Any? {
+    return try await webView?.callAsyncJavaScript(
+        javascriptBody,
+        arguments: args,
+        in: nil,
+        contentWorld: .page
+    )
 }
 
 func getAppinfo(for key: String) -> String? {
@@ -90,8 +98,8 @@ func uploadImage(_ fileData: Data, name: String, type: String) async throws -> S
     }
 
     guard let savedData = UserDefaults.standard.data(forKey: "gzhImageHost"),
-          let config = try? JSONDecoder().decode(GzhImageHost.self, from: savedData),
-          let uploader = UploaderFactory.createUploader(config: config)
+        let config = try? JSONDecoder().decode(GzhImageHost.self, from: savedData),
+        let uploader = UploaderFactory.createUploader(config: config)
     else {
         throw AppError.bizError(description: "图床配置错误")
     }

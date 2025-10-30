@@ -25,7 +25,6 @@ enum WebkitStatus {
     static let errorHandler = "errorHandler"
     static let uploadHandler = "uploadHandler"
     static let loadThemesHandler = "loadThemesHandler"
-    static let copyContentHandler = "copyContentHandler"
 }
 
 enum Platform: String, CaseIterable, Identifiable {

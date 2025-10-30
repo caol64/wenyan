@@ -58,7 +58,6 @@ struct ContentView: View {
         .sheet(isPresented: $appState.showSheet) {
             SheetView()
         }
-
     }
 
     struct SheetView: View {
@@ -70,10 +69,10 @@ struct ContentView: View {
         var body: some View {
             HStack {
                 CssPreviewView()
-                    .frame(minWidth: 500, minHeight: 580)
                 CssEditorView()
-                    .frame(minWidth: 500, minHeight: 580)
             }
+            .layoutPriority(1)
+            .frame(minWidth: 1040, idealWidth: 1280, minHeight: 580, idealHeight: 680)
             .toolbar {
                 ToolbarItem(placement: .automatic) {
                     if appState.showDeleteButton {
@@ -92,6 +91,7 @@ struct ContentView: View {
                         showFileImporter = true
                     }
                 }
+                
                 ToolbarItem(placement: .automatic) {
                     Button {
                         if let url = URL(string: "https://babyno.top/posts/2024/11/wenyan-supports-customized-themes/") {
@@ -116,7 +116,6 @@ struct ContentView: View {
                     }
                 }
             }
-            .background(.white)
             .fileImporter(
                 isPresented: $showFileImporter,
                 allowedContentTypes: [.css],
@@ -124,6 +123,7 @@ struct ContentView: View {
             ) { result in
                 cssEditorViewModel.loadCssFromFile(result)
             }
+            .background(Color(NSColor.windowBackgroundColor))
         }
 
     }

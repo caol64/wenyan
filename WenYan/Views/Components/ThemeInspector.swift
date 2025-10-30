@@ -18,6 +18,9 @@ struct ThemeInspector: View {
                     Text("选择主题").font(.headline)
                     Spacer()
                     
+//                    CopyButton()
+//                        .buttonStyle(.plain)
+                    
                     Button {
                         appState.showInspector = false
                     } label: {

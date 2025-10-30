@@ -59,13 +59,11 @@ final class CssPreviewViewModel: NSObject, ObservableObject {
     }
     
     func configWebView() {
-        setParagraphSettings(paragraphSettings: ParagraphSettings())
-        setCodeblock()
         setContentToWebView()
     }
     
     func setCustomTheme(themeContent: String) {
-        callJavascript(javascriptString: "setCustomTheme(\(themeContent.toJavaScriptString()));")
+        callJavascript(javascriptString: "setCustomTheme(\(themeContent.toJavaScriptString()), false);")
     }
     
     func getThemeContent() {
@@ -73,36 +71,6 @@ final class CssPreviewViewModel: NSObject, ObservableObject {
             getThemeById()
         } else {
             themeContent = appState.gzhTheme.customTheme?.content ?? ""
-        }
-    }
-    
-    func setCodeblock() {
-        callJavascript(javascriptString: "setMacStyle();")
-        callJavascript(javascriptString: "setHighlight('github');")
-        setCodeblockSettings(codeblockSettings: CodeblockSettings())
-    }
-
-    func setCodeblockSettings(codeblockSettings: CodeblockSettings) {
-        do {
-            let encoder = JSONEncoder()
-            let jsonData = try encoder.encode(codeblockSettings)
-            let jsonString = String(data: jsonData, encoding: .utf8)
-            let jsString = jsonString ?? ""
-            callJavascript(javascriptString: "setCodeblockSettings(JSON.parse(\(jsString.toJavaScriptString())));")
-        } catch {
-            error.handle(in: appState)
-        }
-    }
-    
-    func setParagraphSettings(paragraphSettings: ParagraphSettings) {
-        do {
-            let encoder = JSONEncoder()
-            let jsonData = try encoder.encode(paragraphSettings)
-            let jsonString = String(data: jsonData, encoding: .utf8)
-            let jsString = jsonString ?? ""
-            callJavascript(javascriptString: "setParagraphSettings(JSON.parse(\(jsString.toJavaScriptString())));")
-        } catch {
-            error.handle(in: appState)
         }
     }
 

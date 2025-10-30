@@ -16,24 +16,14 @@
 
 let postprocessMarkdown = "";
 let isScrollingFromScript = false;
-let customCss = "";
-let highlightCss = "";
-let codeblockSettings;
-let paragraphSettings;
+let codeblockSettings = {};
+let paragraphSettings = {};
 
 function getScrollFrame() {
     const height = document.body.scrollHeight;
     const width = document.getElementById("wenyan").offsetWidth;
     const fullWidth = document.body.scrollWidth;
     return { width, height, fullWidth }
-}
-
-function setStylesheet(id, href) {
-    const style = document.createElement("link");
-    style.setAttribute("id", id);
-    style.setAttribute("rel", "stylesheet");
-    style.setAttribute("href", href);
-    document.head.appendChild(style);
 }
 
 async function setContent(content) {
@@ -51,23 +41,73 @@ async function setContent(content) {
     document.body.appendChild(container);
 }
 
-function setCustomTheme(css) {
+function applySettings(isGzh = true) {
+    const customCss = document.getElementById("theme")?.textContent || "";
+    setCustomTheme(customCss, isGzh);
+}
+
+function setMacStyle() {
+    document.getElementById("macStyle")?.remove();
+    const style = document.createElement("style");
+    style.setAttribute("id", "macStyle");
+    style.textContent = window.macStyleCss;
+    document.head.appendChild(style);
+}
+
+function removeMacStyle() {
+    document.getElementById("macStyle")?.remove();
+}
+
+async function setHighlight(hlThemeId) {
+    document.getElementById("hljs")?.remove();
+    if (hlThemeId) {
+        const style = document.createElement("style");
+        style.setAttribute("id", "hljs");
+        const hlTheme = WenyanStyles.hlThemes[hlThemeId];
+        style.textContent = await hlTheme.getCss();
+        document.head.appendChild(style);
+    }
+}
+
+function setCustomTheme(css, isUsingSettings) {
     document.getElementById("theme")?.remove();
     const style = document.createElement("style");
     style.setAttribute("id", "theme");
-    customCss = WenyanCore.replaceCSSVariables(css);
+    let customCss = WenyanCore.replaceCSSVariables(css);
+    const customCodeblockSettings = isUsingSettings ? codeblockSettings : {};
+    const customParagraphSettings = isUsingSettings ? paragraphSettings : {};
 
-    const codeFontFamily = codeblockSettings.isEnabled && codeblockSettings.fontFamily ? codeblockSettings.fontFamily : WenyanCore.monospace;
-    customCss = WenyanCore.modifyCss(customCss, {
-        '#wenyan pre code': [
-            {
-                property: 'font-family',
-                value: codeFontFamily,
-                append: true
-            }
-        ]
-    });
-    const codeFontSize = codeblockSettings.isEnabled ? codeblockSettings.fontSize : "12px";
+    if (customCodeblockSettings.isEnabled) {
+        const codeFontFamily = customCodeblockSettings.fontFamily ? customCodeblockSettings.fontFamily : WenyanCore.monospace;
+        customCss = WenyanCore.modifyCss(customCss, {
+            '#wenyan pre code': [
+                {
+                    property: 'font-family',
+                    value: codeFontFamily,
+                    append: true
+                }
+            ]
+        });
+        if (codeblockSettings.isMacStyle) {
+            setMacStyle();
+        } else {
+            removeMacStyle();
+        }
+        if (codeblockSettings.theme) {
+            setHighlight(codeblockSettings.theme);
+        } else {
+            setHighlight("github");
+        }
+    } else {
+        if (isUsingSettings) {
+            setMacStyle();
+        } else {
+            removeMacStyle();
+        }
+        setHighlight("github");
+    }
+
+    const codeFontSize = customCodeblockSettings.isEnabled ? customCodeblockSettings.fontSize : "12px";
     customCss = WenyanCore.modifyCss(customCss, {
         '#wenyan pre': [
             {
@@ -78,35 +118,35 @@ function setCustomTheme(css) {
         ]
     });
 
-    if (paragraphSettings && paragraphSettings.isEnabled) {
+    if (customParagraphSettings.isEnabled) {
         let classes = [];
         let fontFamilyClass = {};
-        if (paragraphSettings.fontSize) {
-            classes.push({property: 'font-size', value: paragraphSettings.fontSize, append: true});
+        if (customParagraphSettings.fontSize) {
+            classes.push({property: 'font-size', value: customParagraphSettings.fontSize, append: true});
         }
-        if (paragraphSettings.fontType) {
-            if (paragraphSettings.fontType === 'serif') {
+        if (customParagraphSettings.fontType) {
+            if (customParagraphSettings.fontType === 'serif') {
                 fontFamilyClass = {property: 'font-family', value: WenyanCore.serif, append: true};
                 classes.push(fontFamilyClass);
-            } else if (paragraphSettings.fontType === 'sans') {
+            } else if (customParagraphSettings.fontType === 'sans') {
                 fontFamilyClass = {property: 'font-family', value: WenyanCore.sansSerif, append: true};
                 classes.push(fontFamilyClass);
-            } else if (paragraphSettings.fontType === 'mono') {
+            } else if (customParagraphSettings.fontType === 'mono') {
                 fontFamilyClass = {property: 'font-family', value: WenyanCore.monospace, append: true};
                 classes.push(fontFamilyClass);
             }
         }
-        if (paragraphSettings.fontWeight) {
-            classes.push({property: 'font-weight', value: paragraphSettings.fontWeight, append: true});
+        if (customParagraphSettings.fontWeight) {
+            classes.push({property: 'font-weight', value: customParagraphSettings.fontWeight, append: true});
         }
-        if (paragraphSettings.wordSpacing) {
-            classes.push({property: 'letter-spacing', value: paragraphSettings.wordSpacing, append: true});
+        if (customParagraphSettings.wordSpacing) {
+            classes.push({property: 'letter-spacing', value: customParagraphSettings.wordSpacing, append: true});
         }
-        if (paragraphSettings.lineSpacing) {
-            classes.push({property: 'line-height', value: paragraphSettings.lineSpacing, append: true});
+        if (customParagraphSettings.lineSpacing) {
+            classes.push({property: 'line-height', value: customParagraphSettings.lineSpacing, append: true});
         }
-        if (paragraphSettings.paragraphSpacing) {
-            classes.push({property: 'margin', value: `${paragraphSettings.paragraphSpacing} 0`, append: true});
+        if (customParagraphSettings.paragraphSpacing) {
+            classes.push({property: 'margin', value: `${customParagraphSettings.paragraphSpacing} 0`, append: true});
         }
         customCss = WenyanCore.modifyCss(customCss, {
             '#wenyan p': classes,
@@ -121,20 +161,6 @@ function setCustomTheme(css) {
     }
     style.textContent = customCss;
     document.head.appendChild(style);
-}
-
-async function setHighlight(hlThemeId) {
-    document.getElementById("hljs")?.remove();
-    if (hlThemeId) {
-        const style = document.createElement("style");
-        style.setAttribute("id", "hljs");
-        const hlTheme = WenyanStyles.hlThemes[hlThemeId];
-        highlightCss = await hlTheme.getCss();
-        style.textContent = highlightCss;
-        document.head.appendChild(style);
-    } else {
-        highlightCss = "";
-    }
 }
 
 function getContent() {
@@ -303,16 +329,10 @@ function transformUl(ulElement) {
 async function getContentForGzh() {
     const wenyan = document.getElementById("wenyan");
     const clonedWenyan = wenyan.cloneNode(true);
-    const content = await WenyanCore.getContentForGzhCustomCss(clonedWenyan, customCss, highlightCss, codeblockSettings.isEnabled ? codeblockSettings.isMacStyle : true);
-    // window.webkit.messageHandlers.copyContentHandler.postMessage(content);
-}
-
-function setMacStyle() {
-    document.getElementById("macStyle")?.remove();
-    const style = document.createElement("style");
-    style.setAttribute("id", "macStyle");
-    style.textContent = window.macStyleCss;
-    document.head.appendChild(style);
+    const customCss = document.getElementById("theme")?.textContent || "";
+    const highlightCss = document.getElementById("hljs")?.textContent || "";
+    const isMacStyle = document.getElementById("macStyle") ? true : false;
+    return await WenyanCore.getContentForGzhCustomCss(clonedWenyan, customCss, highlightCss, isMacStyle);
 }
 
 function setCodeblockSettings(settingsObj) {
@@ -323,32 +343,10 @@ function setParagraphSettings(settingsObj) {
     paragraphSettings = settingsObj;
 }
 
-function removeMacStyle() {
-    document.getElementById("macStyle")?.remove();
-}
-
 async function setThemeById(themeId, isGzh) {
     const theme = isGzh ? WenyanStyles.themes[themeId] : WenyanStyles.otherThemes[themeId];
     const css = await theme.getCss();
-    if (!isGzh) {
-        document.getElementById("theme")?.remove();
-        const style = document.createElement("style");
-        style.setAttribute("id", "theme");
-        customCss = WenyanCore.replaceCSSVariables(css);
-        customCss = WenyanCore.modifyCss(customCss, {
-            '#wenyan pre': [
-                {
-                    property: 'font-size',
-                    value: "12px",
-                    append: true
-                }
-            ]
-        });
-        style.textContent = customCss;
-        document.head.appendChild(style);
-    } else {
-        setCustomTheme(css);
-    }
+    setCustomTheme(css, isGzh);
 }
 
 async function getThemeById(themeId) {

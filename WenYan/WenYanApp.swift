@@ -53,6 +53,14 @@ struct WenYanApp: App {
                 .environmentObject(cssPreviewViewModel)
                 .environmentObject(codeblockSettingsViewModel)
                 .environmentObject(paragraphSettingsViewModel)
+                .onAppear {
+                    DispatchQueue.main.async {
+                        if let window = NSApp.keyWindow ?? NSApp.windows.first,
+                           let screen = window.screen ?? NSScreen.main {
+                            window.setFrame(screen.visibleFrame, display: true, animate: true)
+                        }
+                    }
+                }
         }
         .commands {
             CommandGroup(replacing: .appInfo) {

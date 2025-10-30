@@ -13,6 +13,7 @@ struct ToolButtonPopup: View {
 
     var body: some View {
         VStack {
+            // MARK: - 主题按钮
             if appState.platform == .gzh {
                 Button(action: {
                     withAnimation { appState.showInspector.toggle() }
@@ -29,6 +30,8 @@ struct ToolButtonPopup: View {
                 }
 
             }
+            
+            // MARK: - 切换脚注按钮
             Button(action: {
                 htmlViewModel.changeFootnotes()
             }) {
@@ -43,6 +46,7 @@ struct ToolButtonPopup: View {
                 .frame(height: 24)
             }
 
+            // MARK: - 导出长图按钮
             Button(action: {
                 htmlViewModel.exportContent(as: .longImage)
             }) {
@@ -64,6 +68,8 @@ struct ToolButtonPopup: View {
             ) { result in
                 htmlViewModel.handleExportResult(result)
             }
+            
+            // MARK: - 导出PDF按钮
             Button(action: {
                 htmlViewModel.exportContent(as: .pdf)
             }) {
@@ -85,19 +91,9 @@ struct ToolButtonPopup: View {
             ) { result in
                 htmlViewModel.handleExportResult(result)
             }
-            Button(action: {
-                htmlViewModel.onCopy()
-            }) {
-                HStack {
-                    Image(systemName: appState.isCopied ? "checkmark" : "clipboard")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 16, height: 16)
-                    Text("复制")
-                        .font(.system(size: 14))
-                }
-                .frame(height: 24)
-            }
+            
+            // MARK: - 复制按钮
+            CopyButton()
         }
         .padding(.trailing, 32)
         .padding(.top, 16)

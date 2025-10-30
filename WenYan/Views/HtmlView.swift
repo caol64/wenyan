@@ -31,7 +31,6 @@ struct HtmlView: NSViewRepresentable {
         // 注册 JS 通信接口
         userController.add(context.coordinator, name: WebkitStatus.loadHandler)
         userController.add(context.coordinator, name: WebkitStatus.scrollHandler)
-        userController.add(context.coordinator, name: WebkitStatus.copyContentHandler)
 
         // 初始加载
         context.coordinator.loadInitialHTML(in: webView)

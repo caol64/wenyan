@@ -88,10 +88,6 @@ final class MarkdownViewModel: NSObject, ObservableObject {
         callJavascript(javascriptString: "setContent(\(content.toJavaScriptString()));")
     }
 
-    func getContentFromWebView(_ block: JavascriptCallback?) {
-        callJavascript(javascriptString: "getContent();", callback: block)
-    }
-
     func scroll(scrollFactor: CGFloat) {
         callJavascript(javascriptString: "scroll(\(scrollFactor));")
     }
