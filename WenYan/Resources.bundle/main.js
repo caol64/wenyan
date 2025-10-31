@@ -34,6 +34,7 @@ async function setContent(content) {
     if (preHandlerContent.title) {
         body = `# ${preHandlerContent.title}\n\n${body}`;
     }
+    postprocessMarkdown = body;
     const result = await WenyanCore.renderMarkdown(body);
     container.innerHTML = result;
     container.setAttribute("id", "wenyan");
@@ -332,7 +333,8 @@ async function getContentForGzh() {
     const customCss = document.getElementById("theme")?.textContent || "";
     const highlightCss = document.getElementById("hljs")?.textContent || "";
     const isMacStyle = document.getElementById("macStyle") ? true : false;
-    return await WenyanCore.getContentForGzhCustomCss(clonedWenyan, customCss, highlightCss, isMacStyle);
+    // const isAddFootnotes = clonedWenyan.querySelectorAll("span.footnote-num").length > 0;
+    return await WenyanCore.getContentForGzhCustomCss(clonedWenyan, customCss, highlightCss, isMacStyle, false);
 }
 
 function setCodeblockSettings(settingsObj) {

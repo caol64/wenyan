@@ -10,14 +10,15 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject private var appState: AppState
     @EnvironmentObject private var markdownViewModel: MarkdownViewModel
-    @State private var visibility: NavigationSplitViewVisibility = .detailOnly
+//    @State private var visibility: NavigationSplitViewVisibility = .detailOnly
 
     var body: some View {
-        NavigationSplitView(columnVisibility: $visibility) {
-            Rectangle()
-                .fill(Color(NSColor.windowBackgroundColor))
-                .frame(minWidth: 150)
-        } detail: {
+//        NavigationSplitView(columnVisibility: $visibility) {
+//            Rectangle()
+//                .fill(Color(NSColor.windowBackgroundColor))
+//                .frame(minWidth: 150)
+//        } detail: {
+        VStack {
             HStack(spacing: 0) {
                 HStack(spacing: 0) {
                     MarkdownView()

@@ -16,12 +16,13 @@ struct CopyButton: View {
             htmlViewModel.onCopy()
         }) {
             HStack {
-                Image(systemName: appState.isCopied ? "checkmark" : "clipboard")
-                    .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(width: 16, height: 16)
+                VStack {
+                    Image(systemName: appState.isCopied ? "checkmark" : "clipboard")
+                        .imageScale(.medium)
+                }
+                .frame(width: 24)
                 Text("复制")
-                    .font(.system(size: 14))
+                    .font(.body)
             }
             .frame(height: 24)
         }

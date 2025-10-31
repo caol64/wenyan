@@ -19,12 +19,13 @@ struct ToolButtonPopup: View {
                     withAnimation { appState.showInspector.toggle() }
                 }) {
                     HStack {
-                        Image(systemName: "tshirt")
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 16, height: 16)
+                        VStack {
+                            Image(systemName: "tshirt")
+                                .imageScale(.medium)
+                        }
+                        .frame(width: 24)
                         Text("主题")
-                            .font(.system(size: 14))
+                            .font(.body)
                     }
                     .frame(height: 24)
                 }
@@ -36,12 +37,13 @@ struct ToolButtonPopup: View {
                 htmlViewModel.changeFootnotes()
             }) {
                 HStack {
-                    Image(systemName: htmlViewModel.isFootnotes ? "link.circle.fill" : "link.circle")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 16, height: 16)
+                    VStack {
+                        Image(systemName: htmlViewModel.isFootnotes ? "link.badge.plus" : "link")
+                            .imageScale(.medium)
+                        }
+                    .frame(width: 24)
                     Text("脚注")
-                        .font(.system(size: 14))
+                        .font(.body)
                 }
                 .frame(height: 24)
             }
@@ -51,12 +53,13 @@ struct ToolButtonPopup: View {
                 htmlViewModel.exportContent(as: .longImage)
             }) {
                 HStack {
-                    Image(systemName: "photo")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 16, height: 16)
+                    VStack {
+                        Image(systemName: "photo")
+                            .imageScale(.medium)
+                    }
+                    .frame(width: 24)
                     Text("长图")
-                        .font(.system(size: 14))
+                        .font(.body)
                 }
                 .frame(height: 24)
             }
@@ -74,12 +77,13 @@ struct ToolButtonPopup: View {
                 htmlViewModel.exportContent(as: .pdf)
             }) {
                 HStack {
-                    Image(systemName: "text.document")
-                        .resizable()
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 16, height: 16)
+                    VStack {
+                        Image(systemName: "text.document")
+                            .imageScale(.medium)
+                    }
+                    .frame(width: 24)
                     Text("PDF")
-                        .font(.system(size: 14))
+                        .font(.body)
                 }
                 .frame(height: 24)
             }
