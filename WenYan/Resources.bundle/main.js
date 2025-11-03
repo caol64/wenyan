@@ -35,8 +35,7 @@ async function setContent(content) {
         body = `# ${preHandlerContent.title}\n\n${body}`;
     }
     postprocessMarkdown = body;
-    const result = await WenyanCore.renderMarkdown(body);
-    container.innerHTML = result;
+    container.innerHTML = await WenyanCore.renderMarkdown(body);
     container.setAttribute("id", "wenyan");
     container.setAttribute("class", "preview");
     document.body.appendChild(container);

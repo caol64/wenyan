@@ -4,8 +4,8 @@
 
 # 文颜
 
-[![App Store](https://img.shields.io/badge/App_Store-Download-blue?logo=apple)](https://apps.apple.com/cn/app/%E6%96%87%E9%A2%9C/id6670157335?mt=12&amp;itsct=apps_box_badge&amp;itscg=30200)
-[![Guides](https://img.shields.io/badge/Documentation-Getting_Started-fe7d37.svg?logo=gitbook&logoColor=fff)](https://yuzhi.tech/docs/wenyan)
+[![App Store](https://img.shields.io/badge/App_Store-0D96F6?logo=app-store&logoColor=white)](https://apps.apple.com/cn/app/%E6%96%87%E9%A2%9C/id6670157335?mt=12&amp;itsct=apps_box_badge&amp;itscg=30200)
+[![Guides](https://img.shields.io/badge/Getting_Started-fe7d37?logo=gitbook&logoColor=fff)](https://yuzhi.tech/docs/wenyan)
 [![License](https://img.shields.io/github/license/caol64/wenyan)](LICENSE)
 [![Stars](https://img.shields.io/github/stars/caol64/wenyan?style=social)](https://github.com/caol64/wenyan)
 
