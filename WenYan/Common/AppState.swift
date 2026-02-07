@@ -14,6 +14,7 @@ class AppState: ObservableObject {
     @Published var isCopied = false
     @Published var platform: Platform = .gzh
     @Published var showInspector = false
+    @Published var showFileExplorer = false
     @Published var showSheet = false
     @Published var gzhTheme = ThemeStyleWrapper.getDefault()
     @Published var customThemes: [CustomTheme] = []

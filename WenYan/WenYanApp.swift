@@ -17,7 +17,9 @@ struct WenYanApp: App {
     @StateObject private var cssPreviewViewModel: CssPreviewViewModel
     @StateObject private var codeblockSettingsViewModel: CodeblockSettingsViewModel
     @StateObject private var paragraphSettingsViewModel: ParagraphSettingsViewModel
+    @StateObject private var fileExplorerViewModel: FileExplorerViewModel
     @State private var showFileImporter = false
+    @State private var showFolderImporter = false
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
     init() {
@@ -28,6 +30,7 @@ struct WenYanApp: App {
         let cssPreviewViewModel = CssPreviewViewModel(appState: appState)
         let codeblockSettingsViewModel = CodeblockSettingsViewModel(htmlViewModel: htmlViewModel)
         let paragraphSettingsViewModel = ParagraphSettingsViewModel(htmlViewModel: htmlViewModel)
+        let fileExplorerViewModel = FileExplorerViewModel(appState: appState)
         markdownViewModel.bindTo(htmlViewModel)
         htmlViewModel.bind()
         htmlViewModel.bindTo(markdownViewModel)
@@ -41,6 +44,7 @@ struct WenYanApp: App {
         _cssPreviewViewModel = StateObject(wrappedValue: cssPreviewViewModel)
         _codeblockSettingsViewModel = StateObject(wrappedValue: codeblockSettingsViewModel)
         _paragraphSettingsViewModel = StateObject(wrappedValue: paragraphSettingsViewModel)
+        _fileExplorerViewModel = StateObject(wrappedValue: fileExplorerViewModel)
     }
 
     var body: some Scene {
@@ -53,6 +57,7 @@ struct WenYanApp: App {
                 .environmentObject(cssPreviewViewModel)
                 .environmentObject(codeblockSettingsViewModel)
                 .environmentObject(paragraphSettingsViewModel)
+                .environmentObject(fileExplorerViewModel)
                 .onAppear {
                     DispatchQueue.main.async {
                         if let window = NSApp.keyWindow ?? NSApp.windows.first,
@@ -87,6 +92,23 @@ struct WenYanApp: App {
                     allowsMultipleSelection: false
                 ) { result in
                     markdownViewModel.openArticle(result)
+                }
+                Button("打开文件夹") {
+                    showFolderImporter = true
+                }
+                .fileImporter(
+                    isPresented: $showFolderImporter,
+                    allowedContentTypes: [.folder],
+                    allowsMultipleSelection: false
+                ) { result in
+                    switch result {
+                    case .success(let urls):
+                        if let url = urls.first {
+                            fileExplorerViewModel.openFolder(url)
+                        }
+                    case .failure:
+                        break
+                    }
                 }
                 Button("打开示例文本") {
                     markdownViewModel.loadDefaultArticle()

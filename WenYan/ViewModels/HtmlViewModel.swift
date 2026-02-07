@@ -20,7 +20,9 @@ final class HtmlViewModel: NSObject, ObservableObject {
     @Published var exportPdfData: DataFile?
 
     weak var webView: WKWebView?
+    weak var markdownViewModel: MarkdownViewModel?
     private var cancellables = Set<AnyCancellable>()
+    private var isWebViewReady = false
 
     init(appState: AppState) {
         self.appState = appState
@@ -44,6 +46,7 @@ final class HtmlViewModel: NSObject, ObservableObject {
     }
 
     func bindTo(_ markdownViewModel: MarkdownViewModel) {
+        self.markdownViewModel = markdownViewModel
         markdownViewModel.$content
             .receive(on: RunLoop.main)
             .sink { [weak self] newContent in
@@ -70,6 +73,7 @@ final class HtmlViewModel: NSObject, ObservableObject {
     }
 
     func setContentToWebView() {
+        guard webView != nil, isWebViewReady else { return }
         callJavascript(javascriptString: "setContent(\(content.toJavaScriptString()));")
     }
 
@@ -107,8 +111,93 @@ final class HtmlViewModel: NSObject, ObservableObject {
 
     // MARK: - Content Management
     func setContent(_ content: String) {
-        self.content = content
+        let processedContent = processImagePaths(in: content)
+        self.content = processedContent
         flushContent()
+    }
+    
+    private func processImagePaths(in markdown: String) -> String {
+        guard let currentURL = markdownViewModel?.currentFileURL else { return markdown }
+        
+        let pattern = #"!\[(.*?)\]\((.*?)\)"#
+        guard let regex = try? NSRegularExpression(pattern: pattern, options: []) else { return markdown }
+        
+        let range = NSRange(markdown.startIndex..., in: markdown)
+        let matches = regex.matches(in: markdown, options: [], range: range)
+        
+        var result = markdown
+        
+        for match in matches.reversed() {
+            guard let altTextRange = Range(match.range(at: 1), in: markdown),
+                  let urlRange = Range(match.range(at: 2), in: markdown) else { continue }
+            
+            let imagePath = String(markdown[urlRange])
+            
+            if imagePath.hasPrefix("http://") || imagePath.hasPrefix("https://") || imagePath.hasPrefix("data:") {
+                continue
+            }
+            
+            let dataURL = convertImageToDataURL(imagePath, relativeTo: currentURL)
+            
+            if dataURL != nil {
+                let altText = String(markdown[altTextRange])
+                let replacement = "![\(altText)](\(dataURL!))"
+                let matchRange = Range(match.range, in: markdown)!
+                result.replaceSubrange(matchRange, with: replacement)
+            }
+        }
+        
+        return result
+    }
+    
+    private func convertImageToDataURL(_ relativePath: String, relativeTo baseURL: URL) -> String? {
+        let baseURLDirectory = baseURL.deletingLastPathComponent()
+        
+        var resolvedURL: URL
+        
+        if relativePath.hasPrefix("/") {
+            resolvedURL = URL(fileURLWithPath: relativePath)
+        } else if relativePath.hasPrefix("../") {
+            resolvedURL = baseURLDirectory.appendingPathComponent(relativePath)
+        } else if relativePath.hasPrefix("./") {
+            let cleanPath = String(relativePath.dropFirst(2))
+            resolvedURL = baseURLDirectory.appendingPathComponent(cleanPath)
+        } else {
+            resolvedURL = baseURLDirectory.appendingPathComponent(relativePath)
+        }
+        
+        resolvedURL = resolvedURL.standardized
+        
+        var isDirectory: ObjCBool = false
+        guard FileManager.default.fileExists(atPath: resolvedURL.path, isDirectory: &isDirectory) else { return nil }
+        guard !isDirectory.boolValue else { return nil }
+        
+        let gotAccess = resolvedURL.startAccessingSecurityScopedResource()
+        defer {
+            if gotAccess {
+                resolvedURL.stopAccessingSecurityScopedResource()
+            }
+        }
+        
+        guard let imageData = try? Data(contentsOf: resolvedURL) else { return nil }
+        
+        let mimeType = mimeTypeForPath(resolvedURL.path)
+        let base64String = imageData.base64EncodedString()
+        return "data:\(mimeType);base64,\(base64String)"
+    }
+    
+    private func mimeTypeForPath(_ path: String) -> String {
+        let ext = (path as NSString).pathExtension.lowercased()
+        switch ext {
+        case "png": return "image/png"
+        case "jpg", "jpeg": return "image/jpeg"
+        case "gif": return "image/gif"
+        case "webp": return "image/webp"
+        case "svg": return "image/svg+xml"
+        case "bmp": return "image/bmp"
+        case "ico": return "image/x-icon"
+        default: return "image/png"
+        }
     }
 
     func flushContent() {
@@ -193,11 +282,13 @@ extension HtmlViewModel: WKScriptMessageHandler {
         switch message.name {
         // 处理来自 JavaScript 的消息
         case WebkitStatus.loadHandler:  // wenyan-core.js 初始化完毕
-            if let body = message.body as? [String: [[String: String]]] {
-                if let gzhThemes = body["gzhThemes"] {
+            isWebViewReady = true
+            if let body = message.body as? [String: Any] {
+                if let gzhThemes = body["gzhThemes"] as? [[String: String]] {
                     PlatformConfig.setThemes(body: gzhThemes)
                 }
-                if let hlThemes = body["hlThemes"] {
+
+                if let hlThemes = body["hlThemes"] as? [[String: String]] {
                     HlThemeConfig.setThemes(body: hlThemes)
                 }
             }

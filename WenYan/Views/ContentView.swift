@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject private var appState: AppState
     @EnvironmentObject private var markdownViewModel: MarkdownViewModel
+    @EnvironmentObject private var fileExplorerViewModel: FileExplorerViewModel
 //    @State private var visibility: NavigationSplitViewVisibility = .detailOnly
 
     var body: some View {
@@ -20,6 +21,11 @@ struct ContentView: View {
 //        } detail: {
         VStack {
             HStack(spacing: 0) {
+                if appState.showFileExplorer {
+                    FileExplorerView(viewModel: fileExplorerViewModel)
+                        .frame(width: 250)
+                }
+                
                 HStack(spacing: 0) {
                     MarkdownView()
                     HtmlView()
@@ -40,6 +46,15 @@ struct ContentView: View {
         }
         .frame(minWidth: 1140, idealWidth: .infinity, minHeight: 645, idealHeight: .infinity)
         .toolbar {
+            ToolbarItemGroup(placement: .navigation) {
+                Button {
+                    fileExplorerViewModel.toggleFileExplorer()
+                } label: {
+                    Image(systemName: "sidebar.left")
+                }
+                .help("显示/隐藏文件资源管理器 (Cmd+Shift+E)")
+            }
+            
             ToolbarItemGroup {
                 ForEach(Platform.allCases) { platform in
                     Button {
@@ -48,6 +63,12 @@ struct ContentView: View {
                         Image(platform.rawValue)
                     }
                 }
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("OpenFileFromExplorer"))) { notification in
+            if let content = notification.userInfo?["content"] as? String,
+               let url = notification.userInfo?["url"] as? URL {
+                markdownViewModel.openFileFromExplorer(content: content, url: url)
             }
         }
         .navigationTitle(getAppName())

@@ -13,8 +13,11 @@ final class MarkdownViewModel: NSObject, ObservableObject {
     private let appState: AppState
     @Published var content: String = ""
     @Published var scrollFactor: CGFloat = 0
+    @Published var currentFileURL: URL?
     weak var webView: WKWebView?
     private var cancellables = Set<AnyCancellable>()
+    private var isWebViewReady = false
+    private var isSettingContentFromExplorer = false
     
     init(appState: AppState) {
         self.appState = appState
@@ -56,7 +59,10 @@ final class MarkdownViewModel: NSObject, ObservableObject {
             let fileExtension = file.pathExtension.lowercased()
             if fileExtension == "md" || fileExtension == "markdown" {
                 do {
-                    content = try String(contentsOfFile: file.path, encoding: .utf8)
+                    let fileContent = try String(contentsOfFile: file.path, encoding: .utf8)
+                    currentFileURL = file
+                    content = fileContent
+                    setContentToWebView()
                 } catch {
                     error.handle(in: appState)
                 }
@@ -69,6 +75,21 @@ final class MarkdownViewModel: NSObject, ObservableObject {
     
     func setContent(_ content: String) {
         self.content = content
+        setContentToWebView()
+        Task.detached(priority: .background) {
+            UserDefaults.standard.set(content, forKey: "lastArticle")
+        }
+    }
+    
+    func openFileFromExplorer(content: String, url: URL) {
+        isSettingContentFromExplorer = true
+        currentFileURL = url
+        self.content = content
+        setContentToWebView()
+        Task {
+            try? await Task.sleep(nanoseconds: 200_000_000)
+            isSettingContentFromExplorer = false
+        }
         Task.detached(priority: .background) {
             UserDefaults.standard.set(content, forKey: "lastArticle")
         }
@@ -85,6 +106,7 @@ final class MarkdownViewModel: NSObject, ObservableObject {
     }
 
     func setContentToWebView() {
+        guard webView != nil, isWebViewReady else { return }
         callJavascript(javascriptString: "setContent(\(content.toJavaScriptString()));")
     }
 
@@ -112,10 +134,15 @@ extension MarkdownViewModel: WKScriptMessageHandler {
         switch message.name {
         // 处理来自 JavaScript 的消息
         case WebkitStatus.loadHandler:  // codemirror初始化完毕
+            isWebViewReady = true
             setContentToWebView()
         case WebkitStatus.contentChangeHandler:  // codemirror内容变化
+            guard !isSettingContentFromExplorer else { return }
             let content = (message.body as? String) ?? ""
-            setContent(content)
+            self.content = content
+            Task.detached(priority: .background) {
+                UserDefaults.standard.set(content, forKey: "lastArticle")
+            }
         case WebkitStatus.scrollHandler:
             guard let body = message.body as? [String: CGFloat], let y = body["y0"] else { return }
             scrollFactor = y
