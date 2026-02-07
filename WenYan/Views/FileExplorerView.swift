@@ -126,15 +126,10 @@ struct FileNodeRow: View {
         .padding(.vertical, 4)
         .contentShape(Rectangle())
         .help(Text(node.path.path))
-        .onTapGesture(count: 2) {
+        .onTapGesture {
             if node.type == .folder {
                 viewModel.toggleExpand(node)
             } else if node.type == .markdown {
-                viewModel.openFile(node)
-            }
-        }
-        .onTapGesture {
-            if node.type == .markdown {
                 viewModel.openFile(node)
             }
         }
