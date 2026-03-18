@@ -24,19 +24,15 @@ struct MainUI: NSViewRepresentable {
         configuration.setURLSchemeHandler(schemeHandler, forURLScheme: "app")
         
         let webView = WKWebView(frame: .zero, configuration: configuration)
-        //        if #available(macOS 13.3, *) {
-        //            webView.isInspectable = true
-        //        }
+                if #available(macOS 13.3, *) {
+                    webView.isInspectable = true
+                }
         webView.uiDelegate = context.coordinator
         webView.setValue(true, forKey: "drawsTransparentBackground")
         webView.allowsMagnification = false
 
         // 注册 JS 通信接口
-//        userController.add(context.coordinator, name: WebkitStatus.loadHandler)
-//        userController.add(context.coordinator, name: WebkitStatus.contentChangeHandler)
-//        userController.add(context.coordinator, name: WebkitStatus.scrollHandler)
-//        userController.add(context.coordinator, name: WebkitStatus.errorHandler)
-//        userController.add(context.coordinator, name: WebkitStatus.uploadHandler)
+        userController.add(context.coordinator, name: "wenyanBridge")
         
         // 初始加载
         if let url = URL(string: "app://index.html") {

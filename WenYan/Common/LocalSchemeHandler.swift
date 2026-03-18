@@ -21,7 +21,7 @@ class LocalSchemeHandler: NSObject, WKURLSchemeHandler {
             path = "/index.html" // 默认访问 index.html
         }
         
-        // 去掉开头的 "/" 以便在 Bundle 中查找
+        // 去掉开头的 "/"
         if path.hasPrefix("/") {
             path.removeFirst()
         }
@@ -52,7 +52,7 @@ class LocalSchemeHandler: NSObject, WKURLSchemeHandler {
     }
     
     func webView(_ webView: WKWebView, stop urlSchemeTask: WKURLSchemeTask) {
-        // 请求被取消时的处理（通常不需要写逻辑）
+        // 请求被取消时的处理
     }
     
     private func getMimeType(for extension: String) -> String {

@@ -93,7 +93,7 @@ struct WenYanApp: App {
                     markdownViewModel.openArticle(result)
                 }
                 Button("打开示例文本") {
-                    markdownViewModel.loadDefaultArticle()
+                    mainViewModel.loadDefaultArticle()
                 }
             }
         }

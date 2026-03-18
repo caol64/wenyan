@@ -109,3 +109,9 @@ struct HlThemeConfig {
         _themes
     }
 }
+
+struct JsCustomTheme: Codable {
+    var id: String
+    var name: String
+    var css: String
+}

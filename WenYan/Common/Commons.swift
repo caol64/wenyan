@@ -37,11 +37,13 @@ func loadFileFromResource(forResource: String, withExtension: String) throws -> 
 typealias JavascriptCallback = (Result<Any?, Error>) -> Void
 
 func callJavascript(webView: WKWebView?, javascriptString: String, callback: JavascriptCallback? = nil) {
-    webView?.evaluateJavaScript(javascriptString) { (response, error) in
-        if let error = error {
-            callback?(.failure(error))
-        } else {
-            callback?(.success(response))
+    DispatchQueue.main.async {
+        webView?.evaluateJavaScript(javascriptString) { (response, error) in
+            if let error = error {
+                callback?(.failure(error))
+            } else {
+                callback?(.success(response))
+            }
         }
     }
 }
@@ -61,31 +63,6 @@ func getAppinfo(for key: String) -> String? {
 
 func getAppName() -> String {
     return getAppinfo(for: "CFBundleDisplayName") ?? AppConstants.defaultAppName
-}
-
-func fetchCustomThemes() throws -> [CustomTheme] {
-    let context = CoreDataStack.shared.persistentContainer.viewContext
-    let fetchRequest: NSFetchRequest<CustomTheme> = CustomTheme.fetchRequest()
-    return try context.fetch(fetchRequest)
-}
-
-func deleteCustomTheme(_ customTheme: CustomTheme) throws {
-    try CoreDataStack.shared.delete(item: customTheme)
-}
-
-func saveCustomTheme(content: String) throws -> CustomTheme {
-    let context = CoreDataStack.shared.persistentContainer.viewContext
-    let customTheme = CustomTheme(context: context)
-    customTheme.name = "自定义主题"
-    customTheme.content = content
-    customTheme.createdAt = Date()
-    try CoreDataStack.shared.save()
-    return customTheme
-}
-
-func updateCustomTheme(customTheme: CustomTheme, content: String) throws {
-    customTheme.content = content
-    try CoreDataStack.shared.save()
 }
 
 // MARK: - Upload
@@ -108,4 +85,40 @@ func uploadImage(_ fileData: Data, name: String, type: String) async throws -> S
         throw AppError.bizError(description: "上传失败")
     }
     return url.replacingOccurrences(of: "http://", with: "https://")
+}
+
+func serializeToJSONString(_ object: Any?) -> String {
+    guard let obj = object else {
+        return "null" // 对应 JS 的 null
+    }
+    
+    if let stringObj = obj as? String {
+        // String 必须被包裹在双引号中，并转义内部的特殊字符
+        // 使用 JSONSerialization 包装成数组，再剥离外壳，这是处理纯字符串最安全的黑科技
+        if let data = try? JSONSerialization.data(withJSONObject: [stringObj], options:[]),
+           let jsonStr = String(data: data, encoding: .utf8) {
+            // jsonStr 此时是["你的字符串"]
+            let start = jsonStr.index(jsonStr.startIndex, offsetBy: 1)
+            let end = jsonStr.index(jsonStr.endIndex, offsetBy: -1)
+            return String(jsonStr[start..<end]) // 剥去头尾的中括号，返回安全的 "你的字符串"
+        }
+        return "null" // 极端失败情况
+    }
+    
+    if let boolObj = obj as? Bool {
+        return boolObj ? "true" : "false"
+    }
+    
+    if let numberObj = obj as? NSNumber {
+        return numberObj.stringValue
+    }
+    
+    if JSONSerialization.isValidJSONObject(obj),
+       let data = try? JSONSerialization.data(withJSONObject: obj, options:[]),
+       let jsonStr = String(data: data, encoding: .utf8) {
+        return jsonStr
+    }
+    
+    print("[JSBridge Warning] 无法序列化该类型的数据: \(type(of: obj))")
+    return "null"
 }

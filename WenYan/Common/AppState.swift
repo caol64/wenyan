@@ -103,8 +103,8 @@ class AppState: ObservableObject {
                 try WenYan.updateCustomTheme(customTheme: customTheme, content: content)
                 changeTheme(ThemeStyleWrapper(themeType: .custom, customTheme: customTheme))
             } else {
-                let customTheme = try WenYan.saveCustomTheme(content: content)
-                changeTheme(ThemeStyleWrapper(themeType: .custom, customTheme: customTheme))
+//                let customTheme = try WenYan.saveCustomTheme(content: content)
+//                changeTheme(ThemeStyleWrapper(themeType: .custom, customTheme: customTheme))
             }
         } catch {
             error.handle(in: self)
