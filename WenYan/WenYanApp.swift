@@ -11,6 +11,7 @@ import SwiftUI
 struct WenYanApp: App {
 
     @StateObject private var appState: AppState
+    @StateObject private var mainViewModel: MainViewModel
     @StateObject private var markdownViewModel: MarkdownViewModel
     @StateObject private var htmlViewModel: HtmlViewModel
     @StateObject private var cssEditorViewModel: CssEditorViewModel
@@ -22,6 +23,7 @@ struct WenYanApp: App {
 
     init() {
         let appState = AppState()
+        let mainViewModel = MainViewModel(appState: appState)
         let markdownViewModel = MarkdownViewModel(appState: appState)
         let htmlViewModel = HtmlViewModel(appState: appState)
         let cssEditorViewModel = CssEditorViewModel(appState: appState)
@@ -35,6 +37,7 @@ struct WenYanApp: App {
         cssPreviewViewModel.bindTo(cssEditorViewModel)
         cssEditorViewModel.bindTo(cssPreviewViewModel)
         _appState = StateObject(wrappedValue: appState)
+        _mainViewModel = StateObject(wrappedValue: mainViewModel)
         _markdownViewModel = StateObject(wrappedValue: markdownViewModel)
         _htmlViewModel = StateObject(wrappedValue: htmlViewModel)
         _cssEditorViewModel = StateObject(wrappedValue: cssEditorViewModel)
@@ -47,6 +50,7 @@ struct WenYanApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(appState)
+                .environmentObject(mainViewModel)
                 .environmentObject(markdownViewModel)
                 .environmentObject(htmlViewModel)
                 .environmentObject(cssEditorViewModel)

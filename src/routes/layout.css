@@ -1,0 +1,23 @@
+@import "tailwindcss";
+@source "../../node_modules/@wenyan-md/ui";
+
+:root {
+    color-scheme: light dark;
+    @apply font-sans;
+}
+
+body {
+    @apply bg-white dark:bg-[#1e1e1e] text-gray-900 dark:text-gray-100 overflow-hidden text-sm;
+}
+
+.dark-container {
+    @apply bg-white dark:bg-[#1e1e1e];
+}
+
+.smooth-border {
+    @apply border border-gray-300 dark:border-gray-600;
+}
+
+.overlay-button {
+    @apply bg-white dark:bg-[#1e1e1e] inline-flex flex-row items-center gap-2 text-center cursor-pointer text-xs px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-sm;
+}

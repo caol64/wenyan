@@ -1,5 +1,5 @@
 <div align="center">
-    <img alt = "logo" src="Data/256-mac.png" />
+    <img alt = "logo" src="Data/256-mac.png" width="128" />
 </div>
 
 # 文颜
@@ -28,7 +28,8 @@
 -   [跨平台桌面版](https://github.com/caol64/wenyan-pc) - Windows/Linux
 -   [CLI 版本](https://github.com/caol64/wenyan-cli) - 命令行 / CI 自动化发布
 -   [MCP 版本](https://github.com/caol64/wenyan-mcp) - AI 自动发文
--   [核心库](https://github.com/caol64/wenyan-core) - 嵌入 Node / Web 项目
+-   [UI 库](https://github.com/caol64/wenyan-ui) - 桌面应用和 Web App 共用的 UI 层封装
+-   [核心库](https://github.com/caol64/wenyan-core) - 渲染、排版等核心能力
 
 ## 功能特性
 

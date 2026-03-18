@@ -19,24 +19,7 @@ struct ContentView: View {
 //                .frame(minWidth: 150)
 //        } detail: {
         VStack {
-            HStack(spacing: 0) {
-                HStack(spacing: 0) {
-                    MarkdownView()
-                    HtmlView()
-                        .overlay(alignment: .topTrailing) {
-                            if !appState.showInspector {
-                                ToolButtonPopup()
-                            }
-                        }
-                }
-                .layoutPriority(1)
-                .animation(.easeInOut(duration: 0.25), value: appState.showInspector)
-
-                if appState.showInspector {
-                    ThemeInspector()
-                        .frame(width: 280)
-                }
-            }
+            MainUI()
         }
         .frame(minWidth: 1140, idealWidth: .infinity, minHeight: 645, idealHeight: .infinity)
         .toolbar {

@@ -1,0 +1,3 @@
+[submodule "wenyan-ui"]
+	path = wenyan-ui
+	url = https://github.com/caol64/wenyan-ui
