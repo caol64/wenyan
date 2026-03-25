@@ -9,20 +9,31 @@
         SettingsModal,
         ConfirmModal,
         CreateThemeModal,
+        SimpleLoader,
+        FileSidebar,
     } from "@wenyan-md/ui";
-    import SimpleLoader from "$lib/components/SimpleLoader.svelte";
-    import { invokeSwift } from "$lib/bridge";
     import { registerStore } from "$lib/storeRegister";
+    import { loadArticle } from "$lib/action";
+    import { setHooks } from "$lib/setHooks";
+    import { useSwiftListeners } from "$lib/listeners.svelte";
+    import { swiftFsAdapter } from "$lib/adapters/swiftFsAdapter";
+
+    setHooks();
 
     onMount(async () => {
         await registerStore();
-        globalState.setMarkdownText(await invokeSwift<string>("loadArticle", null, true));
+        globalState.setMarkdownText(await loadArticle());
         globalState.setPlatform("wechat");
     });
+
+    useSwiftListeners();
 </script>
 
 <div class="flex h-screen w-full flex-col overflow-hidden relative">
     <div class="flex h-full w-full flex-col overflow-hidden md:flex-row relative">
+        {#if globalState.isShowFileSidebar}
+            <FileSidebar fsAdapter={swiftFsAdapter} />
+        {/if}
         <MainPage />
 
         {#if globalState.judgeSidebarOpen()}

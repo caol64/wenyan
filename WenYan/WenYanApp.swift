@@ -9,54 +9,24 @@ import SwiftUI
 
 @main
 struct WenYanApp: App {
-
+    
     @StateObject private var appState: AppState
     @StateObject private var mainViewModel: MainViewModel
-    @StateObject private var markdownViewModel: MarkdownViewModel
-    @StateObject private var htmlViewModel: HtmlViewModel
-    @StateObject private var cssEditorViewModel: CssEditorViewModel
-    @StateObject private var cssPreviewViewModel: CssPreviewViewModel
-    @StateObject private var codeblockSettingsViewModel: CodeblockSettingsViewModel
-    @StateObject private var paragraphSettingsViewModel: ParagraphSettingsViewModel
     @State private var showFileImporter = false
     @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-
+    
     init() {
         let appState = AppState()
         let mainViewModel = MainViewModel(appState: appState)
-        let markdownViewModel = MarkdownViewModel(appState: appState)
-        let htmlViewModel = HtmlViewModel(appState: appState)
-        let cssEditorViewModel = CssEditorViewModel(appState: appState)
-        let cssPreviewViewModel = CssPreviewViewModel(appState: appState)
-        let codeblockSettingsViewModel = CodeblockSettingsViewModel(htmlViewModel: htmlViewModel)
-        let paragraphSettingsViewModel = ParagraphSettingsViewModel(htmlViewModel: htmlViewModel)
-        markdownViewModel.bindTo(htmlViewModel)
-        htmlViewModel.bind()
-        htmlViewModel.bindTo(markdownViewModel)
-        cssPreviewViewModel.bindTo(markdownViewModel)
-        cssPreviewViewModel.bindTo(cssEditorViewModel)
-        cssEditorViewModel.bindTo(cssPreviewViewModel)
         _appState = StateObject(wrappedValue: appState)
         _mainViewModel = StateObject(wrappedValue: mainViewModel)
-        _markdownViewModel = StateObject(wrappedValue: markdownViewModel)
-        _htmlViewModel = StateObject(wrappedValue: htmlViewModel)
-        _cssEditorViewModel = StateObject(wrappedValue: cssEditorViewModel)
-        _cssPreviewViewModel = StateObject(wrappedValue: cssPreviewViewModel)
-        _codeblockSettingsViewModel = StateObject(wrappedValue: codeblockSettingsViewModel)
-        _paragraphSettingsViewModel = StateObject(wrappedValue: paragraphSettingsViewModel)
     }
-
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(appState)
                 .environmentObject(mainViewModel)
-                .environmentObject(markdownViewModel)
-                .environmentObject(htmlViewModel)
-                .environmentObject(cssEditorViewModel)
-                .environmentObject(cssPreviewViewModel)
-                .environmentObject(codeblockSettingsViewModel)
-                .environmentObject(paragraphSettingsViewModel)
                 .onAppear {
                     DispatchQueue.main.async {
                         if let window = NSApp.keyWindow ?? NSApp.windows.first,
@@ -90,21 +60,42 @@ struct WenYanApp: App {
                     allowedContentTypes: [.md],
                     allowsMultipleSelection: false
                 ) { result in
-                    markdownViewModel.openArticle(result)
+                    switch result {
+                    case .success(let files):
+                        let file = files[0]
+                        let gotAccess = file.startAccessingSecurityScopedResource()
+                        if !gotAccess { return }
+                        let fileExtension = file.pathExtension.lowercased()
+                        if fileExtension == "md" || fileExtension == "markdown" {
+                            do {
+                                let content = try String(contentsOfFile: file.path, encoding: .utf8)
+                                mainViewModel.dispatch(.setContent(content))
+                            } catch {
+                                error.handle(in: appState)
+                            }
+                        }
+                        file.stopAccessingSecurityScopedResource()
+                    case .failure(let error):
+                        error.handle(in: appState)
+                    }
                 }
                 Button("打开示例文本") {
-                    mainViewModel.loadDefaultArticle()
+                    do {
+                        let content = try loadFileFromResource(forResource: "example", withExtension: "md")
+                        mainViewModel.dispatch(.setContent(content))
+                    } catch {
+                        error.handle(in: appState)
+                    }
                 }
             }
-        }
-
-        SwiftUI.Settings {
-            SettingsView()
-                .environmentObject(codeblockSettingsViewModel)
-                .environmentObject(paragraphSettingsViewModel)
+            CommandGroup(replacing: .appSettings) {
+                Button("设置...") {
+                    mainViewModel.dispatch(.openSettings)
+                }
+                .keyboardShortcut(",", modifiers: .command)
+            }
         }
     }
-
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
@@ -113,7 +104,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, NSWindowDelegate {
             window.delegate = self
         }
     }
-
+    
     func windowWillClose(_ notification: Notification) {
         NSApplication.shared.terminate(nil)
     }

@@ -1,9 +1,9 @@
 import type { ArticleStorageAdapter, Article } from "@wenyan-md/ui";
-import { invokeSwift } from "../bridge";
+import { loadArticles, saveArticle } from "../action";
 
-export const userDefaultsArticleStorageAdapter: ArticleStorageAdapter = {
+export const articleStorageAdapter: ArticleStorageAdapter = {
     async load(): Promise<Article[]> {
-        const content = await invokeSwift<string>("loadArticles", null, true);
+        const content = await loadArticles();
         return content ? [{
             id: "last-article",
             title: "Last Article",
@@ -12,7 +12,7 @@ export const userDefaultsArticleStorageAdapter: ArticleStorageAdapter = {
         }] : [];
     },
     async save(article: Article): Promise<void> {
-        return invokeSwift<void>("saveArticle", article.content);
+        await saveArticle(article.content);
     },
     async remove(id: string): Promise<void> {
 

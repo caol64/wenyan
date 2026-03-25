@@ -1,11 +1,11 @@
 import { themeStore, settingsStore, localStorageSettingsAdapter, articleStore, credentialStore } from "@wenyan-md/ui";
-import { userDefaultsArticleStorageAdapter } from "./stores/userDefaultsArticleStore";
-import { coreDataThemeStorageAdapter } from "./stores/coreDataThemeStore";
+import { articleStorageAdapter } from "./adapters/articleStorageAdapter";
+import { themeStorageAdapter } from "./adapters/themeStorageAdapter";
 // import { sqliteCredentialStoreAdapter } from "./stores/sqliteCredentialStore";
 
 export async function registerStore() {
-    await themeStore.register(coreDataThemeStorageAdapter);
+    await themeStore.register(themeStorageAdapter);
     // await settingsStore.register(localStorageSettingsAdapter);
-    await articleStore.register(userDefaultsArticleStorageAdapter);
+    await articleStore.register(articleStorageAdapter);
     // await credentialStore.register(sqliteCredentialStoreAdapter);
 }

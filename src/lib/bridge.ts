@@ -11,36 +11,46 @@ declare global {
         };
         // 供 Swift 调用的全局回调管家
         __WENYAN_BRIDGE__: {
-            callbacks: Record<string, { resolve: Function; reject: Function }>;
+            callbacks: Map<string, { resolve: Function; reject: Function }>;
+            listeners: Map<string, Set<Function>>;
             invokeCallback: (callbackId: string, data: any, error: string | null) => void;
-            setContent: (content: string) => void;
+            emit: (event: string, payload: any) => void;
         };
     }
 }
 
 if (typeof window !== "undefined" && !window.__WENYAN_BRIDGE__) {
     window.__WENYAN_BRIDGE__ = {
-        callbacks: {},
+        callbacks: new Map(),
+        listeners: new Map(),
         invokeCallback: (callbackId: string, data: any, error: string | null) => {
-            const cb = window.__WENYAN_BRIDGE__.callbacks[callbackId];
+            const cb = window.__WENYAN_BRIDGE__.callbacks.get(callbackId);
             if (!cb) return;
             if (error) {
+                globalState.setAlertMessage({
+                    type: "error",
+                    message: `Error: ${error}`,
+                });
                 cb.reject(new Error(error));
             } else {
                 cb.resolve(data);
             }
             // 响应结束后清理内存
-            delete window.__WENYAN_BRIDGE__.callbacks[callbackId];
+            window.__WENYAN_BRIDGE__.callbacks.delete(callbackId);
         },
-        setContent: (content: string) => {
-            globalState.setMarkdownText(content);
+        emit: (event: string, payload: any) => {
+            const handlers = window.__WENYAN_BRIDGE__.listeners.get(event);
+            if (!handlers) return;
+
+            handlers.forEach((fn) => fn(payload));
         },
     };
 }
 
-export function invokeSwift<T>(action: string, payload?: any, isCallback: boolean = false): Promise<T> {
+export function invokeSwift<T, R>(action: string, payload?: T | null, isCallback?: boolean): Promise<R> {
     return new Promise((resolve, reject) => {
         if (!window.webkit?.messageHandlers?.wenyanBridge) {
+            resolve(undefined as unknown as R);
             return;
         }
 
@@ -49,7 +59,7 @@ export function invokeSwift<T>(action: string, payload?: any, isCallback: boolea
             const callbackId = Math.random().toString(36).substring(2, 15) + Date.now().toString(36);
 
             // 登记回调
-            window.__WENYAN_BRIDGE__.callbacks[callbackId] = { resolve, reject };
+            window.__WENYAN_BRIDGE__.callbacks.set(callbackId, { resolve, reject });
 
             // 发送消息给 Swift
             window.webkit.messageHandlers.wenyanBridge.postMessage({
@@ -63,6 +73,21 @@ export function invokeSwift<T>(action: string, payload?: any, isCallback: boolea
                 callbackId: "",
                 payload,
             });
+            resolve(undefined as unknown as R);
         }
     });
+}
+
+export function onSwift(event: string, handler: (data: any) => void) {
+    const bridge = window.__WENYAN_BRIDGE__;
+
+    if (!bridge.listeners.has(event)) {
+        bridge.listeners.set(event, new Set());
+    }
+
+    bridge.listeners.get(event)!.add(handler);
+
+    return () => {
+        bridge.listeners.get(event)?.delete(handler);
+    };
 }

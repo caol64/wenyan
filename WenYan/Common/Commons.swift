@@ -7,6 +7,7 @@
 
 import Foundation
 import WebKit
+import UniformTypeIdentifiers
 
 func getResourceBundle() -> URL? {
     return Bundle.main.url(forResource: "Resources", withExtension: "bundle")
@@ -65,28 +66,6 @@ func getAppName() -> String {
     return getAppinfo(for: "CFBundleDisplayName") ?? AppConstants.defaultAppName
 }
 
-// MARK: - Upload
-func uploadImage(_ fileData: Data, name: String, type: String) async throws -> String {
-    guard let hostID = UserDefaults.standard.string(forKey: "ebabledImageHost"), !hostID.isEmpty else {
-        throw AppError.bizError(description: "未启用图床")
-    }
-    guard hostID == Settings.ImageHosts.gzh.id else {
-        throw AppError.bizError(description: "暂不支持该图床")
-    }
-
-    guard let savedData = UserDefaults.standard.data(forKey: "gzhImageHost"),
-        let config = try? JSONDecoder().decode(GzhImageHost.self, from: savedData),
-        let uploader = UploaderFactory.createUploader(config: config)
-    else {
-        throw AppError.bizError(description: "图床配置错误")
-    }
-
-    guard let url = try await uploader.upload(fileData: fileData, fileName: name, mimeType: type) else {
-        throw AppError.bizError(description: "上传失败")
-    }
-    return url.replacingOccurrences(of: "http://", with: "https://")
-}
-
 func serializeToJSONString(_ object: Any?) -> String {
     guard let obj = object else {
         return "null" // 对应 JS 的 null
@@ -121,4 +100,83 @@ func serializeToJSONString(_ object: Any?) -> String {
     
     print("[JSBridge Warning] 无法序列化该类型的数据: \(type(of: obj))")
     return "null"
+}
+
+// 返回带 data:image/png;base64 前缀的 base64
+func getDataURIFromFile(at url: URL) throws -> String? {
+    let savedPaths = getAllSavedScopedURLs()
+    if let matchedPath = url.findBestSecurityScopedPrefix(in: savedPaths) {
+        // 从 path 找回原始的 Security Scoped URL
+        let key = "Bookmark_\(matchedPath)"
+        var isStale = false
+        if let bookmarkData = UserDefaults.standard.data(forKey: key) {
+            let workspaceURL = try URL(resolvingBookmarkData: bookmarkData,
+                                       options: .withSecurityScope,
+                                       relativeTo: nil,
+                                       bookmarkDataIsStale: &isStale)
+            if isStale {
+                try saveSecurityScopedBookmark(for: workspaceURL)
+            }
+            if workspaceURL.startAccessingSecurityScopedResource() {
+                defer { workspaceURL.stopAccessingSecurityScopedResource() }
+                let data = try Data(contentsOf: url)
+                let base64String = data.base64EncodedString()
+                
+                // 获取文件的 MIME 类型 (例如 image/png)
+                let mimeType = UTType(filenameExtension: url.pathExtension)?.preferredMIMEType ?? "application/octet-stream"
+                
+                return "data:\(mimeType);base64,\(base64String)"
+            }
+        }
+    }
+    throw AppError.bizError(description: "无文件访问权限：\(url.absoluteString)")
+}
+
+func saveSecurityScopedBookmark(for url: URL) throws {
+    // 1. 生成 Bookmark 数据
+    let bookmarkData = try url.bookmarkData(options: .withSecurityScope,
+                                            includingResourceValuesForKeys: nil,
+                                            relativeTo: nil)
+    
+    let path = url.path
+    let bookmarkKey = "Bookmark_\(path)"
+    let indexKey = "SavedBookmarkPaths"
+    
+    // 2. 存储具体的 Bookmark 数据
+    UserDefaults.standard.set(bookmarkData, forKey: bookmarkKey)
+    
+    // 3. 更新目录索引集合
+    var savedPaths = UserDefaults.standard.stringArray(forKey: indexKey) ?? []
+    
+    if !savedPaths.contains(path) {
+        savedPaths.append(path)
+        UserDefaults.standard.set(savedPaths, forKey: indexKey)
+    }
+}
+
+func getAllSavedScopedURLs() -> [String] {
+    let indexKey = "SavedBookmarkPaths"
+    guard let savedPaths = UserDefaults.standard.stringArray(forKey: indexKey) else {
+        return []
+    }
+    
+    return savedPaths
+}
+
+func getFileExtension(from mimeType: String) -> String {
+    if let utType = UTType(mimeType: mimeType),
+       let ext = utType.preferredFilenameExtension {
+        return ext
+    }
+    return "png"
+}
+
+func getMimeType(from extension: String) -> String {
+    let ext = `extension`.lowercased()
+    
+    if let utType = UTType(filenameExtension: ext),
+       let mimeType = utType.preferredMIMEType {
+        return mimeType
+    }
+    return "application/octet-stream"
 }

@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@codemirror/view": "^6.39.12",
-    "@wenyan-md/core": "^2.0.6",
+    "@wenyan-md/core": "^3.0.1",
     "@wenyan-md/ui": "file:./wenyan-ui",
     "modern-screenshot": "^4.6.8"
   },
