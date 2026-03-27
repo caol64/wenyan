@@ -21,3 +21,12 @@ body {
 .overlay-button {
     @apply bg-white dark:bg-[#1e1e1e] inline-flex flex-row items-center gap-2 text-center cursor-pointer text-xs px-2 py-1 border border-gray-300 dark:border-gray-600 rounded-sm;
 }
+
+.inline-equation {
+    display: inline-block;
+}
+
+.inline-equation mjx-container {
+    display: inline-block !important;
+    margin: 0 !important;
+}

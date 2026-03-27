@@ -23,8 +23,13 @@ func uploadImageToWechat(from source: String) async throws -> UploadResponse {
         }
         let (data, response) = try await URLSession.shared.data(from: url)
         fileData = data
-        fileName = url.lastPathComponent
         mimetype = response.mimeType ?? WenYan.getMimeType(from: url.pathExtension)
+        let ext = WenYan.getFileExtension(from: mimetype)
+        var cleanFileName = url.lastPathComponent.components(separatedBy: "?").first ?? "upload"
+        if !cleanFileName.lowercased().hasSuffix(".\(ext)") {
+            cleanFileName = "\(cleanFileName).\(ext)"
+        }
+        fileName = cleanFileName
         
     } else if source.hasPrefix("data:") {
         // 2. 处理 Base64 (Data URI)
