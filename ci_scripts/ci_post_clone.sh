@@ -2,7 +2,7 @@
 
 set -e
 
-git submodule update --init --recursive
+# git submodule update --init --recursive
 
 brew install node
 npm install -g pnpm
