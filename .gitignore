@@ -1,2 +1,16 @@
 .DS_Store
 **/xcuserdata/
+node_modules
+dist
+/.svelte-kit
+/build
+.env
+.env.*
+!.env.example
+!.env.test
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+WenYan/Resources.bundle/*
+!WenYan/Resources.bundle/.keep
+src-bak/
+target/

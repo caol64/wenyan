@@ -1,0 +1,36 @@
+{
+  "name": "@wenyan-md/mac",
+  "private": true,
+  "type": "module",
+  "version": "4.0.0",
+  "scripts": {
+    "ui:sync": "git submodule update --remote --merge && pnpm ui:init",
+    "ui:init": "cd wenyan-ui && pnpm install && pnpm svelte-kit sync",
+    "web:install": "pnpm install && pnpm svelte-kit sync",
+    "web:dev": "vite dev",
+    "web:build": "vite build && pnpm copy-assets",
+    "copy-assets": "bash scripts/copy_web_assets.sh",
+    "build": "xcodebuild -scheme WenYan -configuration Release -destination 'platform=macOS,arch=arm64' SYMROOT=target build",
+    "prerun": "pnpm build",
+    "run": "open target/Release/文颜.app"
+  },
+  "devDependencies": {
+    "@sveltejs/adapter-static": "^3.0.10",
+    "@sveltejs/kit": "^2.49.1",
+    "@sveltejs/vite-plugin-svelte": "^6.2.1",
+    "@tailwindcss/vite": "^4.1.17",
+    "@types/node": "^24.3.0",
+    "svelte": "^5.45.6",
+    "svelte-check": "^4.3.4",
+    "tailwindcss": "^4.1.17",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.6"
+  },
+  "dependencies": {
+    "@codemirror/view": "^6.39.12",
+    "@wenyan-md/core": "^3.0.1",
+    "@wenyan-md/ui": "file:./wenyan-ui",
+    "modern-screenshot": "^4.6.8"
+  },
+  "packageManager": "pnpm@10.7.1"
+}

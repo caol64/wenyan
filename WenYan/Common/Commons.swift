@@ -7,6 +7,7 @@
 
 import Foundation
 import WebKit
+import UniformTypeIdentifiers
 
 func getResourceBundle() -> URL? {
     return Bundle.main.url(forResource: "Resources", withExtension: "bundle")
@@ -37,11 +38,13 @@ func loadFileFromResource(forResource: String, withExtension: String) throws -> 
 typealias JavascriptCallback = (Result<Any?, Error>) -> Void
 
 func callJavascript(webView: WKWebView?, javascriptString: String, callback: JavascriptCallback? = nil) {
-    webView?.evaluateJavaScript(javascriptString) { (response, error) in
-        if let error = error {
-            callback?(.failure(error))
-        } else {
-            callback?(.success(response))
+    DispatchQueue.main.async {
+        webView?.evaluateJavaScript(javascriptString) { (response, error) in
+            if let error = error {
+                callback?(.failure(error))
+            } else {
+                callback?(.success(response))
+            }
         }
     }
 }
@@ -63,49 +66,123 @@ func getAppName() -> String {
     return getAppinfo(for: "CFBundleDisplayName") ?? AppConstants.defaultAppName
 }
 
-func fetchCustomThemes() throws -> [CustomTheme] {
-    let context = CoreDataStack.shared.persistentContainer.viewContext
-    let fetchRequest: NSFetchRequest<CustomTheme> = CustomTheme.fetchRequest()
-    return try context.fetch(fetchRequest)
+func serializeToJSONString(_ object: Any?) -> String {
+    guard let obj = object else {
+        return "null" // 对应 JS 的 null
+    }
+    
+    // 1. 处理基础类型 (String, Bool, Number)
+    if let stringObj = obj as? String {
+        if let data = try? JSONSerialization.data(withJSONObject:[stringObj], options:[]),
+           let jsonStr = String(data: data, encoding: .utf8) {
+            let start = jsonStr.index(jsonStr.startIndex, offsetBy: 1)
+            let end = jsonStr.index(jsonStr.endIndex, offsetBy: -1)
+            return String(jsonStr[start..<end])
+        }
+        return "null"
+    }
+    
+    if let boolObj = obj as? Bool {
+        return boolObj ? "true" : "false"
+    }
+    
+    if let numberObj = obj as? NSNumber {
+        return numberObj.stringValue
+    }
+    
+    // 2. 处理原生 Swift 的 Codable/Encodable 结构体
+    if let encodableObj = obj as? any Encodable {
+        if let data = try? JSONEncoder().encode(encodableObj),
+           let jsonStr = String(data: data, encoding: .utf8) {
+            return jsonStr
+        }
+    }
+    
+    // 3. 兜底处理 Objective-C 时代的动态集合 (如 [String: Any])
+    // 因为[String: Any] 里的 Any 不遵循 Encodable，所以它会跳过第 2 步，在这里被正确处理
+    if JSONSerialization.isValidJSONObject(obj),
+       let data = try? JSONSerialization.data(withJSONObject: obj, options:[]),
+       let jsonStr = String(data: data, encoding: .utf8) {
+        return jsonStr
+    }
+    
+    print("[JSBridge Warning] 无法序列化该类型的数据: \(type(of: obj))")
+    return "null"
 }
 
-func deleteCustomTheme(_ customTheme: CustomTheme) throws {
-    try CoreDataStack.shared.delete(item: customTheme)
+// 返回带 data:image/png;base64 前缀的 base64
+func getDataURIFromFile(at url: URL) throws -> String {
+    // 1. 调用通用方法安全地获取文件数据
+    let data = try readDataWithSecurityScope(from: url)
+    
+    // 2. 将二进制数据编码为 Base64
+    let base64String = data.base64EncodedString()
+    
+    // 3. 获取文件的 MIME 类型
+    let mimeType = UTType(filenameExtension: url.pathExtension)?.preferredMIMEType ?? "image/png"
+    
+    // 4. 拼接 Data URI 格式并返回
+    return "data:\(mimeType);base64,\(base64String)"
 }
 
-func saveCustomTheme(content: String) throws -> CustomTheme {
-    let context = CoreDataStack.shared.persistentContainer.viewContext
-    let customTheme = CustomTheme(context: context)
-    customTheme.name = "自定义主题"
-    customTheme.content = content
-    customTheme.createdAt = Date()
-    try CoreDataStack.shared.save()
-    return customTheme
+func getFileExtension(from mimeType: String) -> String {
+    if let utType = UTType(mimeType: mimeType),
+       let ext = utType.preferredFilenameExtension {
+        return ext
+    }
+    return "png"
 }
 
-func updateCustomTheme(customTheme: CustomTheme, content: String) throws {
-    customTheme.content = content
-    try CoreDataStack.shared.save()
+func getMimeType(from extension: String) -> String {
+    let ext = `extension`.lowercased()
+    
+    if let utType = UTType(filenameExtension: ext),
+       let mimeType = utType.preferredMIMEType {
+        return mimeType
+    }
+    return "application/octet-stream"
 }
 
-// MARK: - Upload
-func uploadImage(_ fileData: Data, name: String, type: String) async throws -> String {
-    guard let hostID = UserDefaults.standard.string(forKey: "ebabledImageHost"), !hostID.isEmpty else {
-        throw AppError.bizError(description: "未启用图床")
-    }
-    guard hostID == Settings.ImageHosts.gzh.id else {
-        throw AppError.bizError(description: "暂不支持该图床")
-    }
+// MARK: - 通用文件读取 (沙盒权限)
 
-    guard let savedData = UserDefaults.standard.data(forKey: "gzhImageHost"),
-        let config = try? JSONDecoder().decode(GzhImageHost.self, from: savedData),
-        let uploader = UploaderFactory.createUploader(config: config)
-    else {
-        throw AppError.bizError(description: "图床配置错误")
+/// 尝试使用已保存的安全作用域书签（Security-Scoped Bookmark）读取本地文件
+/// - Parameter url: 要读取的目标文件 URL
+/// - Returns: 文件的二进制数据 (Data)
+/// - Throws: 如果没有权限、书签解析失败或文件读取失败，则抛出错误
+func readDataWithSecurityScope(from url: URL) throws -> Data {
+    // 1. 查找是否有匹配的已授权目录前缀
+    let savedPaths = getAllSavedScopedURLs()
+    guard let matchedPath = url.findBestSecurityScopedPrefix(in: savedPaths) else {
+        throw AppError.bizError(description: "未找到该文件所在目录的访问权限：\(url.path)")
     }
-
-    guard let url = try await uploader.upload(fileData: fileData, fileName: name, mimeType: type) else {
-        throw AppError.bizError(description: "上传失败")
+    
+    // 2. 从 UserDefaults 中读取该目录的书签数据
+    guard let bookmarkData = getBookmark(path: matchedPath) else {
+        throw AppError.bizError(description: "书签数据丢失，请重新授权目录：\(matchedPath)")
     }
-    return url.replacingOccurrences(of: "http://", with: "https://")
+    
+    var isStale = false
+    // 3. 解析书签还原出受保护的目录 URL
+    let workspaceURL = try URL(resolvingBookmarkData: bookmarkData,
+                               options: .withSecurityScope,
+                               relativeTo: nil,
+                               bookmarkDataIsStale: &isStale)
+    
+    // 如果书签数据陈旧（例如文件被移动过），重新保存一次以更新状态
+    if isStale {
+        try saveSecurityScopedBookmark(for: workspaceURL)
+    }
+    
+    // 4. 声明开始访问该安全资源
+    guard workspaceURL.startAccessingSecurityScopedResource() else {
+        throw AppError.bizError(description: "系统拒绝了对该目录的安全访问：\(workspaceURL.path)")
+    }
+    
+    // 5. 离开作用域时，必须停止访问，防止内核资源泄漏
+    defer {
+        workspaceURL.stopAccessingSecurityScopedResource()
+    }
+    
+    // 6. 在已授权的上下文中，安全地读取目标文件的数据
+    return try Data(contentsOf: url)
 }

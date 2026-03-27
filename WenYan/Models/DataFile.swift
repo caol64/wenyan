@@ -10,7 +10,7 @@ import SwiftUI
 import UniformTypeIdentifiers
 
 struct DataFile: FileDocument {
-    static var readableContentTypes: [UTType] { [.jpeg, .pdf] }
+    static var readableContentTypes: [UTType] { [.data] }
     var data: Data
     
     init(data: Data) {

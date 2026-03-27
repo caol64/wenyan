@@ -9,6 +9,7 @@ import Foundation
 import UniformTypeIdentifiers
 import SwiftUI
 import WebKit
+import CryptoKit
 
 
 // Helper to convert Swift string to JavaScript string literal
@@ -74,5 +75,26 @@ extension Error {
                 appState.appError = .bizError(description: fallback ?? message)
             }
         }
+    }
+}
+
+extension URL {
+    func findBestSecurityScopedPrefix(in savedPaths: [String]) -> String? {
+        let filePath = self.standardized.path
+        
+        return savedPaths.first { savedPath in
+            let folderPath = savedPath.hasSuffix("/") ? savedPath : "\(savedPath)/"
+            // 情况1：完全相等（就是目录本身）
+            // 情况2：文件在目录下（前缀匹配且带斜杠）
+            return filePath == savedPath || filePath.hasPrefix(folderPath)
+        }
+    }
+}
+
+extension Data {
+    var md5: String {
+        Insecure.MD5.hash(data: self)
+            .map { String(format: "%02x", $0) }
+            .joined()
     }
 }
