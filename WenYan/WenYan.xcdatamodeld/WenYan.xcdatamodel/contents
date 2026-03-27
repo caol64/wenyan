@@ -5,10 +5,13 @@
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="name" optional="YES" attributeType="String"/>
     </entity>
-    <entity name="UploadCache" representedClassName="UploadCache" syncable="YES" codeGenerationType="class">
+    <entity name="UploadCache" representedClassName="UploadCache" syncable="YES">
         <attribute name="createdAt" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="md5" optional="YES" attributeType="String"/>
+        <attribute name="md5" attributeType="String"/>
         <attribute name="mediaId" optional="YES" attributeType="String"/>
         <attribute name="url" optional="YES" attributeType="String"/>
+        <fetchIndex name="md5_index">
+            <fetchIndexElement property="md5" type="Binary" order="ascending"/>
+        </fetchIndex>
     </entity>
 </model>

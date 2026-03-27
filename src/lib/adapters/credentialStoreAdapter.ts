@@ -1,34 +1,23 @@
+import { getCredential, saveCredential } from "$lib/action";
 import type { CredentialStoreAdapter, CredentialType, GenericCredential } from "@wenyan-md/ui";
-
-interface CredentialDO {
-    id: number;
-    type: CredentialType;
-    name: string;
-    appId: string;
-    appSecret: string;
-    accessToken: string;
-    refreshToken: string;
-    expireTime: number;
-    updatedAt: number;
-    createdAt: string;
-}
-
-interface oldGzhImageHost {
-    type: string;
-    appId: string;
-    appSecret: string;
-    accessToken: string;
-    expireTime: number;
-    isEnabled: boolean;
-}
 
 export const credentialStoreAdapter: CredentialStoreAdapter = {
     async load(): Promise<GenericCredential[]> {
-
+        const credential = await getCredential();
+        if (credential) {
+            return [{
+                type: "wechat" as CredentialType,
+                appId: credential.appId,
+                appSecret: credential.appSecret,
+            }];
+        }
         return [];
     },
     async save(credential: GenericCredential): Promise<void> {
-
+        await saveCredential({
+            appId: credential.appId || "",
+            appSecret: credential.appSecret || "",
+        });
     },
     async remove(type: string): Promise<void> {
         throw new Error("Function not implemented.");

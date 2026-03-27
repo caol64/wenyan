@@ -3,7 +3,7 @@ import type { WechatUploadResponse } from "@wenyan-md/core/wechat";
 
 export async function uploadPathImage(imageUrl: string): Promise<WechatUploadResponse> {
     const resp = await uploadImage(imageUrl);
-    return { url: resp, media_id: "" };
+    return { url: resp.url, media_id: resp.mediaId };
 }
 
 export async function uploadBlobImage(file: File): Promise<WechatUploadResponse> {

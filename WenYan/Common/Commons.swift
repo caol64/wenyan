@@ -71,17 +71,15 @@ func serializeToJSONString(_ object: Any?) -> String {
         return "null" // 对应 JS 的 null
     }
     
+    // 1. 处理基础类型 (String, Bool, Number)
     if let stringObj = obj as? String {
-        // String 必须被包裹在双引号中，并转义内部的特殊字符
-        // 使用 JSONSerialization 包装成数组，再剥离外壳，这是处理纯字符串最安全的黑科技
-        if let data = try? JSONSerialization.data(withJSONObject: [stringObj], options:[]),
+        if let data = try? JSONSerialization.data(withJSONObject:[stringObj], options:[]),
            let jsonStr = String(data: data, encoding: .utf8) {
-            // jsonStr 此时是["你的字符串"]
             let start = jsonStr.index(jsonStr.startIndex, offsetBy: 1)
             let end = jsonStr.index(jsonStr.endIndex, offsetBy: -1)
-            return String(jsonStr[start..<end]) // 剥去头尾的中括号，返回安全的 "你的字符串"
+            return String(jsonStr[start..<end])
         }
-        return "null" // 极端失败情况
+        return "null"
     }
     
     if let boolObj = obj as? Bool {
@@ -92,6 +90,16 @@ func serializeToJSONString(_ object: Any?) -> String {
         return numberObj.stringValue
     }
     
+    // 2. 处理原生 Swift 的 Codable/Encodable 结构体
+    if let encodableObj = obj as? any Encodable {
+        if let data = try? JSONEncoder().encode(encodableObj),
+           let jsonStr = String(data: data, encoding: .utf8) {
+            return jsonStr
+        }
+    }
+    
+    // 3. 兜底处理 Objective-C 时代的动态集合 (如 [String: Any])
+    // 因为[String: Any] 里的 Any 不遵循 Encodable，所以它会跳过第 2 步，在这里被正确处理
     if JSONSerialization.isValidJSONObject(obj),
        let data = try? JSONSerialization.data(withJSONObject: obj, options:[]),
        let jsonStr = String(data: data, encoding: .utf8) {
@@ -103,64 +111,18 @@ func serializeToJSONString(_ object: Any?) -> String {
 }
 
 // 返回带 data:image/png;base64 前缀的 base64
-func getDataURIFromFile(at url: URL) throws -> String? {
-    let savedPaths = getAllSavedScopedURLs()
-    if let matchedPath = url.findBestSecurityScopedPrefix(in: savedPaths) {
-        // 从 path 找回原始的 Security Scoped URL
-        let key = "Bookmark_\(matchedPath)"
-        var isStale = false
-        if let bookmarkData = UserDefaults.standard.data(forKey: key) {
-            let workspaceURL = try URL(resolvingBookmarkData: bookmarkData,
-                                       options: .withSecurityScope,
-                                       relativeTo: nil,
-                                       bookmarkDataIsStale: &isStale)
-            if isStale {
-                try saveSecurityScopedBookmark(for: workspaceURL)
-            }
-            if workspaceURL.startAccessingSecurityScopedResource() {
-                defer { workspaceURL.stopAccessingSecurityScopedResource() }
-                let data = try Data(contentsOf: url)
-                let base64String = data.base64EncodedString()
-                
-                // 获取文件的 MIME 类型 (例如 image/png)
-                let mimeType = UTType(filenameExtension: url.pathExtension)?.preferredMIMEType ?? "application/octet-stream"
-                
-                return "data:\(mimeType);base64,\(base64String)"
-            }
-        }
-    }
-    throw AppError.bizError(description: "无文件访问权限：\(url.absoluteString)")
-}
-
-func saveSecurityScopedBookmark(for url: URL) throws {
-    // 1. 生成 Bookmark 数据
-    let bookmarkData = try url.bookmarkData(options: .withSecurityScope,
-                                            includingResourceValuesForKeys: nil,
-                                            relativeTo: nil)
+func getDataURIFromFile(at url: URL) throws -> String {
+    // 1. 调用通用方法安全地获取文件数据
+    let data = try readDataWithSecurityScope(from: url)
     
-    let path = url.path
-    let bookmarkKey = "Bookmark_\(path)"
-    let indexKey = "SavedBookmarkPaths"
+    // 2. 将二进制数据编码为 Base64
+    let base64String = data.base64EncodedString()
     
-    // 2. 存储具体的 Bookmark 数据
-    UserDefaults.standard.set(bookmarkData, forKey: bookmarkKey)
+    // 3. 获取文件的 MIME 类型
+    let mimeType = UTType(filenameExtension: url.pathExtension)?.preferredMIMEType ?? "image/png"
     
-    // 3. 更新目录索引集合
-    var savedPaths = UserDefaults.standard.stringArray(forKey: indexKey) ?? []
-    
-    if !savedPaths.contains(path) {
-        savedPaths.append(path)
-        UserDefaults.standard.set(savedPaths, forKey: indexKey)
-    }
-}
-
-func getAllSavedScopedURLs() -> [String] {
-    let indexKey = "SavedBookmarkPaths"
-    guard let savedPaths = UserDefaults.standard.stringArray(forKey: indexKey) else {
-        return []
-    }
-    
-    return savedPaths
+    // 4. 拼接 Data URI 格式并返回
+    return "data:\(mimeType);base64,\(base64String)"
 }
 
 func getFileExtension(from mimeType: String) -> String {
@@ -179,4 +141,48 @@ func getMimeType(from extension: String) -> String {
         return mimeType
     }
     return "application/octet-stream"
+}
+
+// MARK: - 通用文件读取 (沙盒权限)
+
+/// 尝试使用已保存的安全作用域书签（Security-Scoped Bookmark）读取本地文件
+/// - Parameter url: 要读取的目标文件 URL
+/// - Returns: 文件的二进制数据 (Data)
+/// - Throws: 如果没有权限、书签解析失败或文件读取失败，则抛出错误
+func readDataWithSecurityScope(from url: URL) throws -> Data {
+    // 1. 查找是否有匹配的已授权目录前缀
+    let savedPaths = getAllSavedScopedURLs()
+    guard let matchedPath = url.findBestSecurityScopedPrefix(in: savedPaths) else {
+        throw AppError.bizError(description: "未找到该文件所在目录的访问权限：\(url.path)")
+    }
+    
+    // 2. 从 UserDefaults 中读取该目录的书签数据
+    guard let bookmarkData = getBookmark(path: matchedPath) else {
+        throw AppError.bizError(description: "书签数据丢失，请重新授权目录：\(matchedPath)")
+    }
+    
+    var isStale = false
+    // 3. 解析书签还原出受保护的目录 URL
+    let workspaceURL = try URL(resolvingBookmarkData: bookmarkData,
+                               options: .withSecurityScope,
+                               relativeTo: nil,
+                               bookmarkDataIsStale: &isStale)
+    
+    // 如果书签数据陈旧（例如文件被移动过），重新保存一次以更新状态
+    if isStale {
+        try saveSecurityScopedBookmark(for: workspaceURL)
+    }
+    
+    // 4. 声明开始访问该安全资源
+    guard workspaceURL.startAccessingSecurityScopedResource() else {
+        throw AppError.bizError(description: "系统拒绝了对该目录的安全访问：\(workspaceURL.path)")
+    }
+    
+    // 5. 离开作用域时，必须停止访问，防止内核资源泄漏
+    defer {
+        workspaceURL.stopAccessingSecurityScopedResource()
+    }
+    
+    // 6. 在已授权的上下文中，安全地读取目标文件的数据
+    return try Data(contentsOf: url)
 }

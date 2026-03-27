@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @EnvironmentObject private var appState: AppState
-    @EnvironmentObject private var mainViewModel: MainViewModel
+    @EnvironmentObject private var viewModel: MainViewModel
     
     var body: some View {
         MainUI()
@@ -17,7 +17,7 @@ struct ContentView: View {
             .toolbar {
                 ToolbarItem(placement: .navigation) {
                     Button {
-                        mainViewModel.dispatch(.toggleFileSidebar)
+                        viewModel.dispatch(.toggleFileSidebar)
                     } label: {
                         Image(systemName: "sidebar.left")
                     }
@@ -25,7 +25,7 @@ struct ContentView: View {
                 ToolbarItemGroup(placement: .primaryAction) {
                     ForEach(Platform.allCases) { platform in
                         Button {
-                            mainViewModel.dispatch(.changePlatform(platform))
+                            viewModel.dispatch(.changePlatform(platform))
                         } label: {
                             Image(platform.rawValue)
                         }
@@ -35,5 +35,19 @@ struct ContentView: View {
             .navigationTitle(getAppName())
             .background(Color(NSColor.windowBackgroundColor))
             .alert(isPresented: appState.showError, error: appState.appError) {}
+            .fileExporter(
+                isPresented: $viewModel.isFileExporting,
+                document: viewModel.exportFileData,
+                contentType: viewModel.exportContentType,
+                defaultFilename: viewModel.exportDefaultFilename
+            ) { result in
+                // 处理保存成功或失败的结果
+                switch result {
+                case .success(let url):
+                    print("文件成功保存到: \(url)")
+                case .failure(let error):
+                    print("文件保存失败: \(error.localizedDescription)")
+                }
+            }
     }
 }

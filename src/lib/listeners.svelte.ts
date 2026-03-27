@@ -20,11 +20,19 @@ export function useSwiftListeners() {
             globalState.isShowFileSidebar = !globalState.isShowFileSidebar;
         });
 
+        const unsubscribeError = onSwift("onError", (error: string) => {
+            globalState.setAlertMessage({
+                type: "error",
+                message: `Error: ${error}`,
+            });
+        });
+
         return () => {
             unsubscribeSetContent();
             unsubscribeSetPlatform();
             unsubscribeOpenSettings();
             unsubscribeToggleFileSidebar();
+            unsubscribeError();
         };
     });
 }

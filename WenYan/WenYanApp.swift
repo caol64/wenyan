@@ -52,39 +52,12 @@ struct WenYanApp: App {
                 }
             }
             CommandGroup(after: .newItem) {
-                Button("打开文件") {
-                    showFileImporter = true
-                }
-                .fileImporter(
-                    isPresented: $showFileImporter,
-                    allowedContentTypes: [.md],
-                    allowsMultipleSelection: false
-                ) { result in
-                    switch result {
-                    case .success(let files):
-                        let file = files[0]
-                        let gotAccess = file.startAccessingSecurityScopedResource()
-                        if !gotAccess { return }
-                        let fileExtension = file.pathExtension.lowercased()
-                        if fileExtension == "md" || fileExtension == "markdown" {
-                            do {
-                                let content = try String(contentsOfFile: file.path, encoding: .utf8)
-                                mainViewModel.dispatch(.setContent(content))
-                            } catch {
-                                error.handle(in: appState)
-                            }
-                        }
-                        file.stopAccessingSecurityScopedResource()
-                    case .failure(let error):
-                        error.handle(in: appState)
-                    }
-                }
                 Button("打开示例文本") {
                     do {
                         let content = try loadFileFromResource(forResource: "example", withExtension: "md")
                         mainViewModel.dispatch(.setContent(content))
                     } catch {
-                        error.handle(in: appState)
+                        mainViewModel.dispatch(.onError(error.localizedDescription))
                     }
                 }
             }

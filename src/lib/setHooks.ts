@@ -1,7 +1,4 @@
 import {
-    setPreviewClick,
-    setCopyClick,
-    setEditorClick,
     setEditorDrop,
     setEditorPaste,
     setUploadHelpClick,
@@ -27,41 +24,38 @@ import {
 } from "@wenyan-md/ui";
 import { handleFileOpen } from "./services/fileOpenHandler";
 import { imageProcessorAction } from "./imageProcessor.svelte";
-import { getWenyanElement } from "../utils";
+import { getWenyanElement } from "./utils";
 import { uploadBlobImage, uploadPathImage } from "./services/imageUploadService";
-import { handleMarkdownContent } from "./action";
+import { autoCacheChange, handleMarkdownContent, openLink, publishArticleToDraft, resetLastArticlePath, resetWechatAccessToken } from "./action";
+import { exportImage } from "./services/exportHandler";
 
 export function setHooks() {
     setEditorPaste(defaultEditorPasteHandler);
     setEditorDrop(defaultEditorDropHandler);
-    // setUploadHelpClick(uploadHelpClick);
-    // setResetTokenClick(resetWechatAccessToken);
-    // setExportImageClick(exportImage);
+    setUploadHelpClick(uploadHelpClick);
+    setResetTokenClick(resetWechatAccessToken);
+    setExportImageClick(exportImage);
     setImageProcessorAction(imageProcessorAction);
     setPublishArticleClick(defaultPublishHandler);
-    // setAutoCacheChangeClick(autoCacheChangeHandler);
+    setAutoCacheChangeClick(autoCacheChange);
     setImportCssClick(importCssHandler);
     setHandleFileOpen(handleFileOpen);
     setGetWenyanElement(getWenyanElement);
-    // setPublishArticleToDraft(publishArticleToDraft);
+    setPublishArticleToDraft(publishArticleToDraft);
     setUploadImage(uploadPathImage);
-    // setPublishHelpClick(publishHelpClick);
+    setPublishHelpClick(publishHelpClick);
     setHandleMarkdownContent(handleMarkdownContent);
-    setMarkdownFileDrop(onMarkdownFileDrop);
+    setMarkdownFileDrop(resetLastArticlePath);
     setUploadBlobImage(uploadBlobImage);
 }
 
-// async function uploadHelpClick() {
-//     await open("https://yuzhi.tech/docs/wenyan/upload");
-// }
+async function uploadHelpClick() {
+    await openLink("https://yuzhi.tech/docs/wenyan/upload");
+}
 
-// function closeMoreMenu() {
-//     appState.isShowMoreMenu = false;
-// }
-
-// function autoCacheChangeHandler() {
-//     sqliteUploadCacheStore.clear();
-// }
+async function publishHelpClick() {
+    await openLink("https://yuzhi.tech/docs/wenyan/publish");
+}
 
 async function importCssHandler(url: string, name: string) {
     const resp = await fetch(url);
@@ -81,8 +75,4 @@ async function importCssHandler(url: string, name: string) {
     currentTheme.css = cssText;
     currentTheme.id = `0:${themeId}`;
     globalState.customThemeName = name;
-}
-
-async function onMarkdownFileDrop(): Promise<void> {
-    
 }

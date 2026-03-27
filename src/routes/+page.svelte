@@ -13,7 +13,7 @@
         FileSidebar,
     } from "@wenyan-md/ui";
     import { registerStore } from "$lib/storeRegister";
-    import { loadArticle } from "$lib/action";
+    import { pageInit } from "$lib/action";
     import { setHooks } from "$lib/setHooks";
     import { useSwiftListeners } from "$lib/listeners.svelte";
     import { swiftFsAdapter } from "$lib/adapters/swiftFsAdapter";
@@ -22,7 +22,7 @@
 
     onMount(async () => {
         await registerStore();
-        globalState.setMarkdownText(await loadArticle());
+        await pageInit();
         globalState.setPlatform("wechat");
     });
 

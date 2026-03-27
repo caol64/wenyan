@@ -32,8 +32,8 @@ func getCredential() -> GenericCredential? {
             data.appSecret = appSecret
         }
         UserDefaults.standard.removeObject(forKey: "gzhImageHost")
+        saveCredential(credential: data)
     }
-    saveCredential(credential: data)
     return data
 }
 
@@ -41,4 +41,8 @@ func saveCredential(credential: GenericCredential) {
     if let encoded = try? JSONEncoder().encode(credential) {
         UserDefaults.standard.set(encoded, forKey: "wenyanCredential")
     }
+}
+
+func clearCredential() {
+    UserDefaults.standard.removeObject(forKey: "wenyanCredential")
 }

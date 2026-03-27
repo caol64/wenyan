@@ -78,6 +78,10 @@ func saveSettings(settings: Settings) {
     }
 }
 
+func clearSettings() {
+    UserDefaults.standard.removeObject(forKey: "wenyanSettings")
+}
+
 // MARK: 老数据
 private struct _CodeblockSettings: Codable {
     var isEnabled = false

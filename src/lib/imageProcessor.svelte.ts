@@ -1,4 +1,4 @@
-import { localPathToBase64 } from "$lib/action";
+import { pathToBase64 } from "$lib/action";
 import type { ImageProcessorAction } from "@wenyan-md/ui";
 
 export const imageProcessorAction: ImageProcessorAction = (node) => {
@@ -9,11 +9,11 @@ export const imageProcessorAction: ImageProcessorAction = (node) => {
         for (const img of images) {
             const dataSrc = img.getAttribute("src");
 
-            if (!dataSrc || dataSrc.startsWith("data:")) {
+            if (!dataSrc || dataSrc.startsWith("data:") || dataSrc.startsWith("http")) {
                 continue;
             }
 
-            const resolvedSrc = await localPathToBase64(dataSrc);
+            const resolvedSrc = await pathToBase64(dataSrc);
             if (resolvedSrc && resolvedSrc.startsWith("data:")) {
                 img.setAttribute("data-src", dataSrc);
                 img.src = resolvedSrc;

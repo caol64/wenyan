@@ -24,9 +24,9 @@ struct MainUI: NSViewRepresentable {
         configuration.setURLSchemeHandler(schemeHandler, forURLScheme: "app")
         
         let webView = WKWebView(frame: .zero, configuration: configuration)
-        if #available(macOS 13.3, *) {
-            webView.isInspectable = true
-        }
+//        if #available(macOS 13.3, *) {
+//            webView.isInspectable = true
+//        }
         webView.uiDelegate = context.coordinator
         webView.setValue(true, forKey: "drawsTransparentBackground")
         webView.allowsMagnification = false

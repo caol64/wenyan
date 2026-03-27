@@ -8,7 +8,7 @@
 import Foundation
 
 // MARK: - 核心上传逻辑
-/// 将任意格式的图片来源（URL/本地/Base64）解析并上传至微信公众号
+/// 将任意格式的图片来源（URL/本地/Base64）解析并上传至微信公众号，注意：本地路径必须已处理为绝对路径
 /// - Parameter source: 图片的来源字符串（可以是 http 链接、file 路径或 data:base64 字符串）
 /// - Returns: 微信 API 返回的上传响应对象
 func uploadImageToWechat(from source: String) async throws -> UploadResponse {
@@ -49,21 +49,20 @@ func uploadImageToWechat(from source: String) async throws -> UploadResponse {
         
         let ext = WenYan.getFileExtension(from: mimetype)
         fileName = "upload_image_\(Int(Date().timeIntervalSince1970)).\(ext)"
-        
     } else {
         // 3. 处理本地图片绝对路径
         let url = URL(fileURLWithPath: source)
-        // 这里如果是沙盒模式读取外部文件，需要提前处理 Bookmark 权限
-        fileData = try Data(contentsOf: url)
+        // 这里是沙盒模式读取外部文件，需要提前处理 Bookmark 权限
+        fileData = try readDataWithSecurityScope(from: url)
         fileName = url.lastPathComponent
         mimetype = WenYan.getMimeType(from: url.pathExtension)
     }
-    
-    return try await uploadImage(fileData: fileData, fileName: fileName, mimeType: mimetype)
+    return try await uploadImageWithCache(fileData: fileData, fileName: fileName, mimeType: mimetype)
 }
 
-func uploadAndReplaceImagesInMarkdown(markdown: String, predicate: (String) -> Bool) async -> String {
+func uploadAndReplaceImagesInMarkdown(markdown: String, predicate: (String) -> Bool) async -> (text: String, errors: [String]) {
     var processingText = markdown
+    var uploadErrors: [String] = []
     
     // ==========================================
     // 1. 保护特殊区域 (Frontmatter, 代码块, 行内代码)
@@ -74,7 +73,7 @@ func uploadAndReplaceImagesInMarkdown(markdown: String, predicate: (String) -> B
     // `[^`]+`                  : 匹配行内代码
     let protectedPattern = "^(?:---[\\s\\S]*?\\n---)|```[\\s\\S]*?```|`[^`]+`"
     guard let protectedRegex = try? NSRegularExpression(pattern: protectedPattern, options: []) else {
-        return markdown
+        return (markdown, uploadErrors)
     }
     
     var protectedMap: [String: String] = [:]
@@ -103,7 +102,7 @@ func uploadAndReplaceImagesInMarkdown(markdown: String, predicate: (String) -> B
     // Group 1: alt text  Group 2: url  Group 3: 空格和title
     let imagePattern = "!\\[([^\\]]*)\\]\\(\\s*([^\"\\s)]+)([^)]*)\\)"
     guard let imageRegex = try? NSRegularExpression(pattern: imagePattern, options:[]) else {
-        return restoreProtectedBlocks(text: processingText, map: protectedMap)
+        return (restoreProtectedBlocks(text: processingText, map: protectedMap), uploadErrors)
     }
     
     let nsSafeText = processingText as NSString
@@ -123,13 +122,13 @@ func uploadAndReplaceImagesInMarkdown(markdown: String, predicate: (String) -> B
     
     if urlsToUpload.isEmpty {
         // 没有需要处理的图片，直接还原保护区返回
-        return restoreProtectedBlocks(text: processingText, map: protectedMap)
+        return (restoreProtectedBlocks(text: processingText, map: protectedMap), uploadErrors)
     }
     
     // ==========================================
     // 3. 遍历并执行异步上传
     // ==========================================
-    let relativePath = getLastArticleRelativePath() // 假定这个函数外部存在
+    let relativePath = getLastArticleRelativePath()
     var uploadedUrlsMap: [String: String] = [:]
     
     for oldSrc in urlsToUpload {
@@ -139,8 +138,9 @@ func uploadAndReplaceImagesInMarkdown(markdown: String, predicate: (String) -> B
             let resp = try await uploadImageToWechat(from: resolvedSrc)
             uploadedUrlsMap[oldSrc] = resp.url
         } catch {
-            print("Image upload failed: \(oldSrc), error: \(error.localizedDescription)")
-            // 失败时跳过，保留原本的图片路径
+            let errorMsg = "图片 [\(oldSrc)] 上传失败: \(error.localizedDescription)"
+            print(errorMsg)
+            uploadErrors.append(errorMsg)
         }
     }
     
@@ -164,7 +164,8 @@ func uploadAndReplaceImagesInMarkdown(markdown: String, predicate: (String) -> B
     // ==========================================
     // 5. 还原保护区并返回最终结果
     // ==========================================
-    return restoreProtectedBlocks(text: processingText, map: protectedMap)
+    let finalText = restoreProtectedBlocks(text: processingText, map: protectedMap)
+    return (finalText, uploadErrors)
 }
 
 /// 辅助方法：将保护占位符替换回原始文本
@@ -210,9 +211,6 @@ func resolveRelativePath(path: String, relative: String? = nil) -> String {
 /// - Returns: 标准化后的完整绝对路径
 func getAbsoluteImagePath(basePath: String, relativePath: String) -> String {
     let baseURL = URL(fileURLWithPath: basePath)
-    
-    // 如果 basePath 传入的是一个文件（例如 /Users/lei/doc.md），我们需要获取它的父目录
-    // 如果 basePath 本身就是目录（如 /Users/lei/），则直接使用
     let directoryURL = baseURL.hasDirectoryPath ? baseURL : baseURL.deletingLastPathComponent()
     
     // 拼接相对路径，并标准化（去除多余的斜杠、./、../ 等）
