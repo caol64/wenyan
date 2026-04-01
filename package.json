@@ -2,7 +2,7 @@
   "name": "@wenyan-md/mac",
   "private": true,
   "type": "module",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "scripts": {
     "ui:sync": "git submodule update --remote --merge && pnpm ui:init",
     "ui:init": "cd wenyan-ui && pnpm install && pnpm svelte-kit sync",
@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@codemirror/view": "^6.39.12",
-    "@wenyan-md/core": "^3.0.1",
+    "@wenyan-md/core": "^3.0.2",
     "@wenyan-md/ui": "file:./wenyan-ui",
     "modern-screenshot": "^4.6.8"
   },
