@@ -10,7 +10,7 @@ import UniformTypeIdentifiers
 
 @MainActor
 final class MainViewModel: NSObject, ObservableObject {
-    
+
     private let appState: AppState
     weak var webView: WKWebView?
     private let imageLocalCache = FIFOCache<String, String>(max: 50)
@@ -18,11 +18,11 @@ final class MainViewModel: NSObject, ObservableObject {
     @Published var exportFileData: DataFile?
     @Published var exportContentType: UTType = .png
     @Published var exportDefaultFilename: String = "out.png"
-    
+
     init(appState: AppState) {
         self.appState = appState
     }
-    
+
     // MARK: - Call Javascript
     private func callbackJavascript(callbackId: String, data: Any? = nil, error: String? = nil) {
         let dataJsonString = serializeToJSONString(data)
@@ -30,7 +30,7 @@ final class MainViewModel: NSObject, ObservableObject {
         let jsScript = "if(window.__WENYAN_BRIDGE__.invokeCallback) { window.__WENYAN_BRIDGE__.invokeCallback('\(callbackId)', \(dataJsonString), \(errorJsonString)); }"
         WenYan.callJavascript(webView: webView, javascriptString: jsScript)
     }
-    
+
     private func emitJavascript(event: String, data: Any? = nil) {
         let dataJsonString = serializeToJSONString(data)
         let jsScript = "if(window.__WENYAN_BRIDGE__.emit) { window.__WENYAN_BRIDGE__.emit('\(event)', \(dataJsonString)); }"
@@ -47,7 +47,7 @@ extension MainViewModel: WKScriptMessageHandler {
               let callbackId = body["callbackId"] as? String else {
             return
         }
-        
+
         let payload = body["payload"]
         switch action {
         case "loadArticles":
@@ -96,6 +96,8 @@ extension MainViewModel: WKScriptMessageHandler {
             resolvePublishArticleToDraft(callbackId: callbackId, payload: payload)
         case "saveExportedFile":
             handleSaveExportedFile(payload: payload)
+        case "copyToClipboard":
+            handleCopyToClipboard(payload: payload as? String)
         default:
             break
         }
@@ -108,11 +110,19 @@ extension MainViewModel {
         let article = loadArticle()
         callbackJavascript(callbackId: callbackId, data: article)
     }
-    
+
     func handleSaveArticle(payload: String?) {
         saveArticle(payload)
     }
-    
+
+    func handleCopyToClipboard(payload: String?) {
+        if let html = payload {
+            let pasteBoard = NSPasteboard.general
+            pasteBoard.clearContents()
+            pasteBoard.setString(html, forType: .html)
+        }
+    }
+
     func handlePageInit() {
         if let article = loadArticle() {
             dispatch(.setContent(article))
@@ -137,7 +147,7 @@ extension MainViewModel {
             callbackJavascript(callbackId: callbackId, error: error.localizedDescription)
         }
     }
-    
+
     func handleSaveTheme(callbackId: String, payload: Any?) {
         guard let dict = payload as? [String: Any] else {
             callbackJavascript(callbackId: callbackId, error: "不能保存自定义主题")
@@ -146,7 +156,7 @@ extension MainViewModel {
         do {
             let data = try JSONSerialization.data(withJSONObject: dict, options: [])
             let themeToSave = try JSONDecoder().decode(JsCustomTheme.self, from: data)
-            
+
             if let theme = try getCustomThemeById(id: themeToSave.id) {
                 try updateCustomTheme(customTheme: theme, name: themeToSave.name, content: themeToSave.css)
                 callbackJavascript(callbackId: callbackId, data: themeToSave.id)
@@ -158,7 +168,7 @@ extension MainViewModel {
             callbackJavascript(callbackId: callbackId, error: error.localizedDescription)
         }
     }
-    
+
     func handleRemoveTheme(payload: String?) {
         guard let idToDelete = payload, let theme = try? getCustomThemeById(id: idToDelete) else {
             dispatch(.onError("不能删除主题"))
@@ -178,7 +188,7 @@ extension MainViewModel {
         let credential = getCredential()
         callbackJavascript(callbackId: callbackId, data: credential)
     }
-    
+
     func handleSaveCredential(payload: Any?) {
         if let dict = payload as? [String: Any], let appId = dict["appId"] as? String, let appSecret = dict["appSecret"] as? String {
             saveCredential(credential: GenericCredential(appId: appId, appSecret: appSecret))
@@ -192,7 +202,7 @@ extension MainViewModel {
         let settings = getSettings()
         callbackJavascript(callbackId: callbackId, data: settings)
     }
-    
+
     func handleSaveSettings(payload: Any?) {
         if let dict = payload as? [String: Any] {
             do {
@@ -217,7 +227,7 @@ extension MainViewModel {
             panel.canChooseFiles = false         // 不允许选择单文件
             panel.allowsMultipleSelection = false // 不允许多选
             panel.canCreateDirectories = true    // 允许新建文件夹
-            
+
             // 弹出模态窗口
             if panel.runModal() == .OK {
                 // 用户点击了“打开”或“确定”
@@ -239,7 +249,7 @@ extension MainViewModel {
             }
         }
     }
-    
+
     func handleReadDir(callbackId: String, payload: String?) {
         guard let path = payload else {
             callbackJavascript(callbackId: callbackId, error: "不能读取目录")
@@ -256,7 +266,7 @@ extension MainViewModel {
                     // 检查是否是文件夹
                     let resourceValues = try fileUrl.resourceValues(forKeys: [.isDirectoryKey])
                     let isDirectory = resourceValues.isDirectory ?? false
-                    
+
                     // 构造前端需要的 FileEntry 结构字典
                     let entryDict: [String: Any] = [
                         "name": fileUrl.lastPathComponent,
@@ -271,7 +281,7 @@ extension MainViewModel {
             }
         }
     }
-    
+
     /// open file
     func handleMarkdownFile(callbackId: String, payload: String?) {
         guard let path = payload else {
@@ -289,7 +299,7 @@ extension MainViewModel {
             callbackJavascript(callbackId: callbackId, error: error.localizedDescription)
         }
     }
-    
+
     /// editor paste and drop
     func handleMarkdownContent(callbackId: String, payload: String?) {
         guard let content = payload else {
@@ -330,11 +340,11 @@ extension MainViewModel {
             callbackJavascript(callbackId: callbackId, error: "图片路径为空")
             return
         }
-        
+
         let isNetwork = path.lowercased().hasPrefix("http://") || path.lowercased().hasPrefix("https://")
         let cacheKey: String
         var localFileURL: URL? = nil
-        
+
         if isNetwork {
             // 1. 网络图片：直接以 URL 字符串作为缓存的 Key
             cacheKey = path
@@ -359,37 +369,37 @@ extension MainViewModel {
             // 本地图片以绝对路径作为缓存的 Key
             cacheKey = localFileURL!.path
         }
-        
+
         // 统一查询缓存
         if let cached = imageLocalCache.get(cacheKey), !cached.isEmpty {
             callbackJavascript(callbackId: callbackId, data: cached)
             return
         }
-        
+
         // 缓存未命中：启动后台任务异步下载或读取文件
         Task { [weak self] in
             guard let self = self else { return }
             do {
                 let base64URI: String
-                
+
                 if isNetwork {
                     // --- 处理网络图片 ---
                     guard let url = URL(string: path) else {
                         throw AppError.bizError(description: "无效的网络图片链接")
                     }
-                    
+
                     // 异步下载图片数据
                     let (data, response) = try await URLSession.shared.data(from: url)
-                    
+
                     // 校验 HTTP 状态码
                     guard let httpResponse = response as? HTTPURLResponse, (200...299).contains(httpResponse.statusCode) else {
                         throw AppError.bizError(description: "网络图片下载失败")
                     }
-                    
+
                     // 优先使用服务器返回的 MIME Type，获取不到则兜底
                     let mimeType = response.mimeType ?? "image/png"
                     base64URI = "data:\(mimeType);base64,\(data.base64EncodedString())"
-                    
+
                 } else {
                     // --- 处理本地图片 ---
                     guard let targetURL = localFileURL else {
@@ -397,7 +407,7 @@ extension MainViewModel {
                     }
                     base64URI = try getDataURIFromFile(at: targetURL)
                 }
-                
+
                 // 写入缓存
                 self.imageLocalCache.set(cacheKey, value: base64URI)
                 self.callbackJavascript(callbackId: callbackId, data: base64URI)
@@ -406,7 +416,7 @@ extension MainViewModel {
             }
         }
     }
-    
+
     /// 前端送来的图片已转成 base64 字符串
     func resolveUploadBase64Image(callbackId: String, payload: Any?) {
         guard let dict = payload as? [String: Any], let data = dict["file"] as? String, let fileData = Data(base64Encoded: data) else {
@@ -425,7 +435,7 @@ extension MainViewModel {
             }
         }
     }
-    
+
     /// 前端送来的是 src 后面的图片路径
     func resolveUploadImage(callbackId: String, payload: String?) {
         guard let dataString = payload else {
@@ -444,7 +454,7 @@ extension MainViewModel {
             }
         }
     }
-    
+
     func resolvePublishArticleToDraft(callbackId: String, payload: Any?) {
         guard let dict = payload as? [String: Any] else {
             callbackJavascript(callbackId: callbackId, error: "不能发布文章")
@@ -472,7 +482,7 @@ extension MainViewModel {
     func handleResetLastArticlePath() {
         resetLastArticlePath()
     }
-    
+
     func handleOpenLink(payload: String?) {
         guard let urlString = payload, let url = URL(string: urlString) else {
             return
@@ -481,7 +491,7 @@ extension MainViewModel {
             NSWorkspace.shared.open(url)
         }
     }
-    
+
     func handleAutoCacheChange() {
         do {
             try clearUploadCache()
@@ -489,11 +499,11 @@ extension MainViewModel {
             dispatch(.onError(error.localizedDescription))
         }
     }
-    
+
     func handleResetWechatAccessToken() {
         clearAllCachedTokens()
     }
-    
+
     func handleSaveExportedFile(payload: Any?) {
         guard let dict = payload as? [String: Any],
               let fileType = dict["fileType"] as? String,

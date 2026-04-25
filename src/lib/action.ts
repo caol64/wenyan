@@ -114,3 +114,7 @@ export async function publishArticleToDraft(publishOption: WechatPublishOptions)
 export async function saveExportedFile(payload: ExportedFilePayload): Promise<void> {
     return await invokeSwift<ExportedFilePayload, void>("saveExportedFile", payload, false);
 }
+
+export async function copyToClipboard(html: string): Promise<void> {
+    return await invokeSwift<string, void>("copyToClipboard", html, false);
+}

@@ -21,6 +21,7 @@ import {
     setHandleMarkdownContent,
     setMarkdownFileDrop,
     setUploadBlobImage,
+    setCopyClick,
 } from "@wenyan-md/ui";
 import { handleFileOpen } from "./services/fileOpenHandler";
 import { imageProcessorAction } from "./imageProcessor.svelte";
@@ -28,8 +29,10 @@ import { getWenyanElement } from "./utils";
 import { uploadBlobImage, uploadPathImage } from "./services/imageUploadService";
 import { autoCacheChange, handleMarkdownContent, openLink, publishArticleToDraft, resetLastArticlePath, resetWechatAccessToken } from "./action";
 import { exportImage } from "./services/exportHandler";
+import { copyHandler } from "./services/copyHandler";
 
 export function setHooks() {
+    setCopyClick(copyHandler);
     setEditorPaste(defaultEditorPasteHandler);
     setEditorDrop(defaultEditorDropHandler);
     setUploadHelpClick(uploadHelpClick);
