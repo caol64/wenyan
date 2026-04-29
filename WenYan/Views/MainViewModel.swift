@@ -135,6 +135,29 @@ extension MainViewModel {
             }
         }
     }
+    
+    // 如果配置了自动回写，在打开新文件的同时把内容保存到老文件中
+    func saveContentToLocalFile() {
+        guard let otherSettings = getSettings()?.otherSettings, otherSettings.autoSave == true else {
+            return
+        }
+        guard let fileURL = getLastArticleFilePath() else {
+            return
+        }
+        if !FileManager.default.fileExists(atPath: fileURL.path) {
+            return
+        }
+        guard let lastArticle = loadArticle() else {
+            return
+        }
+        do {
+            try performWithSecurityScope(for: fileURL) {
+                try lastArticle.write(to: fileURL, atomically: true, encoding: .utf8)
+            }
+        } catch {
+            dispatch(.onError(error.localizedDescription))
+        }
+    }
 }
 
 // MARK: - Theme Handlers
@@ -289,6 +312,7 @@ extension MainViewModel {
             return
         }
         do {
+            saveContentToLocalFile()
             let content = try String(contentsOfFile: path, encoding: .utf8)
             let fileUrl = URL(fileURLWithPath: path)
             let fileName = fileUrl.lastPathComponent

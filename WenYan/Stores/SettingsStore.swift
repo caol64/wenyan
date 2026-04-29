@@ -34,6 +34,11 @@ struct UploadSettings: Codable {
     var autoCache: Bool = false
 }
 
+// MARK: - OtherSettings
+struct OtherSettings: Codable {
+    var autoSave: Bool = false
+}
+
 // MARK: - Settings
 struct Settings: Codable {
     var wechatTheme: String = "default"
@@ -41,6 +46,7 @@ struct Settings: Codable {
     var paragraphSettings: ParagraphSettings = ParagraphSettings()
     var codeblockSettings: CodeblockSettings = CodeblockSettings()
     var uploadSettings: UploadSettings = UploadSettings()
+    var otherSettings: OtherSettings?
 }
 
 func getSettings() -> Settings? {

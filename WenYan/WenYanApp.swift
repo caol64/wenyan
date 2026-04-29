@@ -35,6 +35,9 @@ struct WenYanApp: App {
                         }
                     }
                 }
+                .onReceive(NotificationCenter.default.publisher(for: NSApplication.willTerminateNotification)) { _ in
+                    mainViewModel.saveContentToLocalFile()
+                }
         }
         .commands {
             CommandGroup(replacing: .appInfo) {

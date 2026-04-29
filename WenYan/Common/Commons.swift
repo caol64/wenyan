@@ -145,44 +145,9 @@ func getMimeType(from extension: String) -> String {
 
 // MARK: - 通用文件读取 (沙盒权限)
 
-/// 尝试使用已保存的安全作用域书签（Security-Scoped Bookmark）读取本地文件
-/// - Parameter url: 要读取的目标文件 URL
-/// - Returns: 文件的二进制数据 (Data)
-/// - Throws: 如果没有权限、书签解析失败或文件读取失败，则抛出错误
+/// 尝试使用已保存的安全作用域书签读取本地文件
 func readDataWithSecurityScope(from url: URL) throws -> Data {
-    // 1. 查找是否有匹配的已授权目录前缀
-    let savedPaths = getAllSavedScopedURLs()
-    guard let matchedPath = url.findBestSecurityScopedPrefix(in: savedPaths) else {
-        throw AppError.bizError(description: "未找到该文件所在目录的访问权限：\(url.path)")
+    return try performWithSecurityScope(for: url) {
+        return try Data(contentsOf: url)
     }
-    
-    // 2. 从 UserDefaults 中读取该目录的书签数据
-    guard let bookmarkData = getBookmark(path: matchedPath) else {
-        throw AppError.bizError(description: "书签数据丢失，请重新授权目录：\(matchedPath)")
-    }
-    
-    var isStale = false
-    // 3. 解析书签还原出受保护的目录 URL
-    let workspaceURL = try URL(resolvingBookmarkData: bookmarkData,
-                               options: .withSecurityScope,
-                               relativeTo: nil,
-                               bookmarkDataIsStale: &isStale)
-    
-    // 如果书签数据陈旧（例如文件被移动过），重新保存一次以更新状态
-    if isStale {
-        try saveSecurityScopedBookmark(for: workspaceURL)
-    }
-    
-    // 4. 声明开始访问该安全资源
-    guard workspaceURL.startAccessingSecurityScopedResource() else {
-        throw AppError.bizError(description: "系统拒绝了对该目录的安全访问：\(workspaceURL.path)")
-    }
-    
-    // 5. 离开作用域时，必须停止访问，防止内核资源泄漏
-    defer {
-        workspaceURL.stopAccessingSecurityScopedResource()
-    }
-    
-    // 6. 在已授权的上下文中，安全地读取目标文件的数据
-    return try Data(contentsOf: url)
 }

@@ -36,3 +36,13 @@ func getLastArticleRelativePath() -> String? {
     }
     return info.relativePath
 }
+
+func getLastArticleFilePath() -> URL? {
+    guard let savedData = UserDefaults.standard.data(forKey: "lastArticlePath") else {
+        return nil
+    }
+    guard let info = try? JSONDecoder().decode(ArticlePathInfo.self, from: savedData) else {
+        return nil
+    }
+    return URL(fileURLWithPath: info.filePath)
+}
