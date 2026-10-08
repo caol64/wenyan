@@ -16,7 +16,8 @@ permissions:
 jobs:
   package:
     name: Build and upload macOS DMG
-    runs-on: macos-14
+    # The project uses Xcode 16's project format (objectVersion 70).
+    runs-on: macos-15
 
     steps:
       - name: Check out release source
