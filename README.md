@@ -79,9 +79,25 @@
 
 ## 下载
 
-本项目已上架`App Store`，你可以直接点击下方链接或搜索“文颜”下载：
+可从 [GitHub Releases](https://github.com/caol64/wenyan/releases) 下载 macOS DMG 安装包；也可从 App Store 下载：
 
 <a href="https://apps.apple.com/cn/app/%E6%96%87%E9%A2%9C/id6670157335?mt=12&amp;itsct=apps_box_badge&amp;itscg=30200" style="display: inline-block; overflow: hidden; border-radius: 13px; width: 250px; height: 83px;"><img src="Data/black.svg" alt="Download on the Mac App Store" style="border-radius: 13px; width: 250px; height: 83px;"></a>
+
+> [!NOTE]
+> **首次运行提示**
+>
+> 首次打开从互联网下载且未公证的软件时，macOS 会弹出“无法验证开发者”的提示。**这是正常现象**，请按以下步骤解锁（仅需操作一次）：
+>
+> 1. **推荐（右键打开）**：先将“文颜.app”拖入**应用程序（Applications）** 文件夹。按下 `Control` 键并单击图标（或右键点击），选择 **“打开”**。在弹出的警告框中再次点击 **“打开”** 即可。
+>    * *若仍被拦截*：请前往 **系统设置 $\rightarrow$ 隐私与安全性**，滑动到底部点击 **“仍要打开”**。
+> 2. **终极方案（命令行）**：将 App 拖入“应用程序”文件夹后，打开终端运行：
+>    ```bash
+>    xattr -cr "/Applications/文颜.app"
+>    ```
+
+### 本地打包
+
+运行 `pnpm package:dmg` 会构建未使用 Apple Developer 证书签名的通用 macOS 应用（Apple Silicon 与 Intel），并生成 `dist/WenYan-<版本号>-macOS.dmg`。
 
 ## 如何贡献
 

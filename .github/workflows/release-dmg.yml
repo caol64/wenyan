@@ -1,0 +1,59 @@
+name: Release DMG
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: '发布 Tag 名称（如 v1.0.0，手动触发时填入）'
+        required: false
+        type: string
+
+permissions:
+  contents: write
+
+jobs:
+  package:
+    name: Build and upload macOS DMG
+    runs-on: macos-14
+
+    steps:
+      - name: Check out release source
+        uses: actions/checkout@v6
+        with:
+          submodules: recursive
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v3
+        with:
+          version: 10.7.1
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: 'pnpm'
+
+      - name: Install web dependencies
+        run: |
+          pnpm ui:init
+          pnpm web:install
+
+      - name: Build DMG
+        run: pnpm package:dmg
+
+      - name: Upload DMG to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          # 自动兼容 Release 触发和手动 workflow_dispatch 触发
+          TAG="${{ github.event.release.tag_name || inputs.tag_name }}"
+
+          if [ -z "$TAG" ]; then
+            echo "错误: 未找到 Tag 名称！如果手动触发，请在输入框填入 Tag 名称。"
+            exit 1
+          fi
+
+          echo "正在上传 DMG 到 Release: $TAG"
+          gh release upload "$TAG" dist/*.dmg --clobber
